@@ -1,0 +1,104 @@
+<ion-view id="report_view" view-title="{{'REPORT' | translate}}">
+    <ion-content class="" delegate-handle="report">
+
+        <!--NO CONTENT CONTAINER-->
+        <div class="no_content_container align-center transform-align-middle" ng-if="credential === 'advisor' && clientSelected === false">
+            <div class="login_logo_container" >
+                <img src="img/select_client.svg" />
+            </div>
+            <p class="new-line">{{"CLIENT_NOT_SELECTED" | translate}}</p>
+            <div class="login_button" ng-controller="NoClientCtrl" ng-click="goToSelectClient()">{{"SELECT_CLIENT_CAPS" | translate}}</div>
+        </div>
+
+        <div ng-if="(credential === 'advisor' && clientSelected === true) || (credential === 'client')">
+            <!--TABLE-->
+            <div class="table_wrapper">
+                <p class="protections_table_title">{{"KEY_PROTECTION_TITLE" | translate}}</p>
+                <!--<canvas id="protectionsChart" width="360" height="520"></canvas>-->
+                <table class="protections_table">
+                    <tr>
+                        <th>{{"CATEGORY" | translate}}</th>
+                        <th>{{"CURRENT" | translate}}<br>({{currency}})</th>
+                        <th>{{"SUGGESTED" | translate}}<br>({{currency}})</th>
+                        <th>{{"SHORTFALL" | translate}}<br>({{currency}})</th>
+                    </tr>
+                    <tr id="{{cat.title}}_ROW" ng-repeat="cat in viewObj.cat">
+                        <td width="20%" class="new-line protections_table_category">{{cat.label | translate}}</td>
+                        <td width="26%">
+                            <p class="amt inline-block align-middle">{{cat.amt | number}}</p>
+                        </td>
+                        <td width="26%">
+                            <suggest-amt-editor ng-bind-data="cat.suggested">
+                            </suggest-amt-editor>
+                        </td>
+                        <td width="26%">
+                            <p class="amt inline-block align-middle" ng-class="{'excess' : cat.diff_type === 'Excess', 'shortfall' : cat.diff_type === 'Shortfall'}">{{cat.diff | number}}</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!--DOUGHNUT-->
+            <div class="doughnut_wrapper" ng-repeat="cat in viewObj.cat">
+                <div>
+                    <p class="inline-block align-middle header" style="padding-right: 1%;">{{cat.title | translate}}</p>
+                    <i class="inline-block align-middle ion-information-circled doughnut-tooltip" ng-click="showDoughnutTooltip(cat.title)"></i>
+                </div>
+                <p class="desc_header new-line" style="font-weight: normal;">{{cat.desc | translate}}</p>
+                <div class="doughnut_container">
+                    <canvas id="doughnut-{{$index}}"></canvas>
+                    <img ng-src="img/icons/{{cat.title}}.png" />
+                </div>
+
+
+                <table class="doughnut_table">
+                    <tr class="doughnut_text_container">
+                        <td style="width: 10%;">
+                            <div style="background-color: rgba(130,124,111,1); width: 15px; height: 15px;"></div>
+                        </td>
+                        <td style="width: 55%;">
+                            {{"CURRENT_COVERAGE" | translate}}
+                        </td>
+                        <td style="width: 10%;">
+                            {{currency}}
+                        </td>
+                        <td class="value" style="width: 21%;">
+                            {{cat.amt | number}}
+                        </td>
+                    </tr>
+                    <tr class="doughnut_text_container">
+                        <td style="width: 10%;">
+                            <div style="width: 15px; height: 15px;" ng-style="{{cat.color}}"></div>
+                        </td>
+                        <td style="width: 55%;">
+                            {{cat.diff_type}}
+                        </td>
+                        <td style="width: 10%;">
+                            {{currency}}
+                        </td>
+                        <td class="value" style="width: 21%;">
+                            {{cat.diff | number}}
+                        </td>
+                    </tr>
+                    <tr class="doughnut_text_container">
+                        <td style="width: 10%;">
+                            <div style="background-color: transparent; width: 15px; height: 15px;"></div>
+                        </td>
+                        <td style="width: 55%;">
+                            <div class="inline-block align-middle" style="">{{"SUGGESTED_COVERAGE" | translate}}</div>
+                            <i class="inline-block align-middle ion-information-circled suggest-tooltip" ng-click="showSuggestTooltip(cat.title)"></i>
+                        </td>
+                        <td style="width: 10%;">
+                            {{currency}}
+                        </td>
+                        <td class="value" style="width: 21%;">
+                            {{cat.suggested | number}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>
+

@@ -1,0 +1,50 @@
+<ion-view id="preview_profile_view" view-title="{{'PROFILE' | translate}}">
+    <ion-content class="">
+
+        <!--NO CONTENT CONTAINER-->
+        <div class="no_content_container align-center transform-align-middle" ng-if="credential === 'advisor' && clientSelected === false">
+            <div class="login_logo_container" >
+                <img src="img/select_client.svg" />
+            </div>
+            <p class="new-line">{{"CLIENT_NOT_SELECTED" | translate}}</p>
+            <div class="login_button" ng-controller="NoClientCtrl" ng-click="goToSelectClient()">{{"SELECT_CLIENT_CAPS" | translate}}</div>
+        </div>
+
+        <div id="preview_profile" ng-if="(credential === 'advisor' && clientSelected === true) || (credential === 'client')">
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"NAME" | translate}}</div>
+                <p class="inline-block align-middle align-center bg_color">{{personal.name}}</p>
+            </div>
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"GENDER" | translate}}</div>
+                <p class="inline-block align-middle align-center bg_color">{{personal.genderDisplayed}}</p>
+            </div>
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"BIRTHDAY" | translate}}</div>
+                <p class="inline-block align-middle align-center bg_color">{{personal.birthday.format("LL")}}</p>
+            </div>
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"SMOKER" | translate}}</div>
+                <p class="inline-block align-middle align-center bg_color">{{personal.smokerDisplayed}}</p>
+            </div>
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"INCOME" | translate}}</div>
+                <p class="inline-block align-middle align-center bg_color">{{personal.income | currency:currency:0}}</p>
+            </div>
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"EXPENDITURE" | translate}}</div>
+                <p class="inline-block align-middle align-center bg_color">{{personal.expenditure | currency:currency:0}}</p>
+            </div>
+            <div class="two_cols_item" ng-if="credential === 'advisor'">
+                <div class="inline-block align-middle">{{"CASE_NOTES" | translate}}</div>
+                <p class="inline-block align-middle align-center bg_color" ng-click="goToCaseNotes()">{{"VIEW_CASE_NOTES" | translate}}</p>
+            </div>
+
+            <div class="login_button" ng-click="editProfile()">{{"EDIT_PROFILE_CAPS" | translate}}</div>
+        </div>
+
+
+    </ion-content>
+</ion-view>
+
+

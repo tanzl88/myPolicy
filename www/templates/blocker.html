@@ -1,0 +1,50 @@
+<!--LOADING-->
+<div id="global_blocker" class="global_blocker has-header">
+    <ion-spinner class="spinner-energized"></ion-spinner>
+    <p id="loading_text" class="new-line"></p>
+</div>
+
+<!--&lt;!&ndash;VERSION&ndash;&gt;-->
+<!--<div id="version_blocker" class="global_blocker">-->
+    <!--<div class="blocker_text_container transform-align-middle">-->
+        <!--<p>-->
+            <!--A newer version is required to continue.<br>-->
+            <!--New features includes:<br>-->
+            <!-&#45;&#45;Improved calendar performance.<br>-->
+            <!-&#45;&#45;Redesigned user interface.<br>-->
+            <!-&#45;&#45;More product options.<br>-->
+            <!-&#45;&#45;Better delivery rates.<br>-->
+        <!--</p>-->
+        <!--<div id="update_button" class="align-center">{{"UPDATE" | translate}}</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+
+
+<!--TUTORIAL-->
+<div id="tutorial_blocker" class="global_blocker" ng-controller="TutorialCtrl">
+    <div class="transform-align-middle align-center">
+        <img id="tut_pic" ng-src="pic" style="width: 80%; left: 10%;">
+        <p class="login_button" ng-click="close()">{{"GOT_IT" | translate}}</p>
+    </div>
+
+</div>
+
+
+
+<!--NETWORK-->
+<div id="network_blocker" style="display: block;" class="global_blocker" ng-controller="NetworkStatusCtrl" ng-if="isOffline">
+    <div class="blocker_text_container transform-align-middle align-center">
+        <img ng-src="img/no_network.svg" />
+        <p class="new-line" style="font-size: 0.9em;">{{"NO_NETWORK" | translate}}</p>
+        <!--<div id="network_retry_button" class="login_button" ng-click="networkRetry()">{{"RETRY" | translate}}</div>-->
+    </div>
+</div>
+<!--VERSION-->
+<div id="version_blocker" style="display: block;" class="global_blocker" ng-controller="AppStatusCtrl" ng-show="needUpdate">
+    <div class="blocker_text_container transform-align-middle align-center">
+        <img ng-src="img/update.svg" />
+        <p class="new-line" style="font-size: 0.9em;">{{"UPDATE_REQUIRED" | translate}}</p>
+        <div id="update_button" class="login_button align-center">{{"UPDATE" | translate}}</div>
+    </div>
+</div>

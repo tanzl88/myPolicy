@@ -1,0 +1,317 @@
+var full_table_g = [
+    {
+        title   : "NUMBER",
+        type    : "index",
+        width  : "50px",
+    },
+    {
+        title   : "POLICY_NUMBER",
+        varName : "policyNumber",
+        width   : "100px",
+        type    : "text",
+    },
+    {
+        title   : "COMPANY",
+        varName : "company",
+        width   : "100px",
+        type    : "text",
+    },
+    {
+        title   : "PLAN_TYPE",
+        varName : "planTypeDisplayed",
+        width   : "100px",
+        type    : "text",
+    },
+    {
+        title   : "PLAN_NAME",
+        varName : "planName",
+        width   : "100px",
+        type    : "text",
+    },
+    {
+        title   : "START_DATE",
+        varName : "startDate",
+        width   : "120px",
+        type    : "date",
+    },
+    {
+        title   : "MATURITY_DATE",
+        varName : "maturityDate",
+        width   : "120px",
+        type    : "date",
+    },
+    {
+        title   : "PREMIUM",
+        varName : "premium",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "PREMIUM_MODE",
+        varName : "premiumModeDisplayed",
+        width   : "100px",
+        type    : "text",
+    },
+    {
+        title   : "PAYMENT_MODE",
+        varName : "paymentModeDisplayed",
+        width   : "100px",
+        type    : "text",
+    },
+    {
+        title   : "PREMIUM_TERM",
+        varName : "premiumTermDisplayed",
+        width   : "100px",
+        type    : "text",
+    },
+    {
+        title   : "COVERAGE_TERM",
+        varName : "coverageTermDisplayed",
+        width   : "100px",
+        type    : "text",
+    },
+    //{
+    //    title   : "SUM_ASSURED",
+    //    varName : "sumAssured",
+    //    width   : "100px",
+    //    type    : "currency",
+    //},
+    {
+        title   : "DEATH_SA",
+        varName : "deathSA",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "TPD_SA_SHORT",
+        varName : "tpdSA",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "CRIT_SA",
+        varName : "critSA",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "EARLY_SA",
+        varName : "earlySA",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "DISABLED_SA",
+        varName : "disabledSA",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "HOSPITAL_SA",
+        varName : "hospitalSA",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "HOSPITAL_INCOME",
+        varName : "hospitalIncome",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "ACCIDENT_DEATH",
+        varName : "accidentDeath",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "ACCIDENT_REIMB",
+        varName : "accidentReimb",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "CASH_VALUE",
+        varName : "currentValue",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "SURRENDER_CASH_VALUE",
+        varName : "surrenderValue",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "REMARKS",
+        varName : "remarks",
+        width   : "200px",
+        type    : "text",
+    },
+];
+
+var full_table_g_1 = [
+    {
+        title   : "NUMBER",
+        type    : "index",
+        width  : "50px",
+    },
+    {
+        title   : "POLICY_NUMBER",
+        varName : "policyNumber",
+        width   : "100px",
+        type    : "text",
+    },
+    {
+        title   : "COMPANY",
+        varName : "company",
+        width   : "100px",
+        type    : "text",
+    },
+    {
+        title   : "PLAN_TYPE",
+        varName : "planTypeDisplayed",
+        width   : "100px",
+        type    : "text",
+    },
+    {
+        title   : "PLAN_NAME",
+        varName : "planName",
+        width   : "100px",
+        type    : "text",
+    },
+    {
+        title   : "START_DATE",
+        varName : "startDate",
+        width   : "120px",
+        type    : "date",
+    },
+    {
+        title   : "MATURITY_DATE",
+        varName : "maturityDate",
+        width   : "120px",
+        type    : "date",
+    },
+    {
+        title   : "PREMIUM",
+        varName : "premium",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "PREMIUM_MODE",
+        varName : "premiumModeDisplayed",
+        width   : "100px",
+        type    : "text",
+    },
+    {
+        title   : "PAYMENT_MODE",
+        varName : "paymentModeDisplayed",
+        width   : "100px",
+        type    : "text",
+    },
+    {
+        title   : "PREMIUM_TERM",
+        varName : "premiumTermDisplayed",
+        width   : "100px",
+        type    : "text",
+    },
+    {
+        title   : "COVERAGE_TERM",
+        varName : "coverageTermDisplayed",
+        width   : "100px",
+        type    : "text",
+    },
+    {
+        title   : "REMARKS",
+        varName : "remarks",
+        width   : "200px",
+        type    : "text",
+    }
+];
+
+var full_table_g_2 = [
+    {
+        title   : "NUMBER",
+        type    : "index",
+        width  : "50px",
+    },
+    {
+        title   : "PLAN_NAME",
+        varName : "planName",
+        width   : "140px",
+        type    : "text",
+    },
+    //{
+    //    title   : "SUM_ASSURED",
+    //    varName : "sumAssured",
+    //    width   : "100px",
+    //    type    : "currency",
+    //},
+    {
+        title   : "DEATH_SA",
+        varName : "deathSA",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "TPD_SA_SHORT",
+        varName : "tpdSA",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "CRIT_SA",
+        varName : "critSA",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "EARLY_SA",
+        varName : "earlySA",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "DISABLED_SA",
+        varName : "disabledSA",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "HOSPITAL_SA",
+        varName : "hospitalSA",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "HOSPITAL_INCOME",
+        varName : "hospitalIncome",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "ACCIDENT_DEATH",
+        varName : "accidentDeath",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "ACCIDENT_REIMB",
+        varName : "accidentReimb",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "CASH_VALUE",
+        varName : "currentValue",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "SURRENDER_CASH_VALUE",
+        varName : "surrenderValue",
+        width   : "100px",
+        type    : "currency",
+    }
+];

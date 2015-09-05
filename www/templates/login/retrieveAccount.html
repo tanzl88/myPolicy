@@ -1,0 +1,94 @@
+<ion-view id="signup_view" view-title="{{'RETRIEVE_ACCOUNT' | translate}}" cache-view="false">
+    <ion-content class="login_view">
+        <div class="absolute_login_container">
+            <div class="transform-align-middle" style="top: 47%;">
+                <form id="retrieveForm" name="retrieveForm" novalidate="" ng-submit="signUp(retrieveForm)">
+                    <p class="heading">Login Information</p>
+                    <!--EMAIL-->
+                    <div class="input_container form-group" ng-class="{ 'has-error' : retrieveForm.email.$invalid && !retrieveForm.email.$pristine }">
+                        <div class="icon_container">
+                            <i class="policy-user"></i>
+                        </div>
+                        <input id="testEmail"name="email" type="email" placeholder="{{'EMAIL' | translate}}" ng-change="checkEmailExist()"
+                               class="signUpEmailInput" ng-model="viewObj.email" ng-model-options="{ debounce: {'default': 500, 'blur': 0} }" required>
+                    </div>
+                    <!--MESSAGE-->
+                    <div class="form-message" ng-messages="retrieveForm.email.$error" ng-show="!retrieveForm.email.$pristine" style="" role="alert">
+                        <div ng-message="required">{{"REQUIRED_ERROR" | translate}}</div>
+                        <div ng-message="email">{{"EMAIL_ERROR" | translate}}</div>
+                    </div>
+                    <div class="form-message" ng-show="emailExist">
+                        <div>{{"EMAIL_EXIST_ERROR" | translate}}</div>
+                    </div>
+
+
+                    <!--PASSWORD-->
+                    <div class="input_container form-group" ng-class="{ 'has-error' : retrieveForm.password.$invalid && !retrieveForm.password.$pristine }">
+                        <div class="icon_container">
+                            <i class="policy-lock"></i>
+                        </div>
+                        <input name="password" type="password" placeholder="{{'PASSWORD' | translate}}"
+                               class="" ng-model="viewObj.password" ng-minlength="8" ng-maxlength="20" ng-pattern="/^(?=.*?[a-zA-Z])(?=.*?[0-9])[a-zA-Z0-9]{8,20}$/" required>
+                    </div>
+                    <!--MESSAGE-->
+                    <div class="form-message" ng-messages="retrieveForm.password.$error" ng-show="!retrieveForm.password.$pristine" style="" role="alert">
+                        <div ng-message="required">{{"REQUIRED_ERROR" | translate}}</div>
+                        <div ng-message="minlength">{{"PASSWORD_MIN" | translate}}</div>
+                        <div ng-message="maxlength">{{"PASSWORD_MAX" | translate}}</div>
+                        <div ng-message="pattern">{{"PASSWORD_PATTERN" | translate}}</div>
+                    </div>
+
+
+
+                    <!--PASSWORD CONFIRM-->
+                    <div class="input_container form-group" ng-class="{ 'has-error' : retrieveForm.confirm_password.$invalid && !retrieveForm.confirm_password.$pristine }">
+                        <div class="icon_container">
+                            <i class="policy-lock"></i>
+                        </div>
+                        <input name="confirm_password" type="password" placeholder="{{'CONFIRM_PASSWORD' | translate}}"
+                               ng-model="viewObj.confirm_password" match="viewObj.password" required>
+                    </div>
+                    <!--MESSAGE-->
+                    <div class="form-message" ng-messages="retrieveForm.confirm_password.$error" ng-show="!retrieveForm.confirm_password.$pristine" style="" role="alert">
+                        <div ng-message="required">{{"REQUIRED_ERROR" | translate}}</div>
+                        <div ng-message="match">{{"PASSWORD_MATCH" | translate}}</div>
+                    </div>
+
+                    <p class="heading">Retrieval Information</p>
+                    <!--ADVISOR EMAIL-->
+                    <div class="input_container form-group" ng-class="{ 'has-error' : retrieveForm.advisorEmail.$invalid && !retrieveForm.advisorEmail.$pristine }">
+                        <div class="icon_container">
+                            <i class="policy-user"></i>
+                        </div>
+                        <input name="advisorEmail" type="email" placeholder="{{'ADVISOR_EMAIL' | translate}}" class="signUpEmailInput" ng-model="viewObj.advisorEmail" required>
+                    </div>
+                    <!--MESSAGE-->
+                    <div class="form-message" ng-messages="retrieveForm.advisorEmail.$error" ng-show="!retrieveForm.advisorEmail.$pristine" style="" role="alert">
+                        <div ng-message="required">{{"REQUIRED_ERROR" | translate}}</div>
+                        <div ng-message="email">{{"EMAIL_ERROR" | translate}}</div>
+                    </div>
+
+                    <!--CODE-->
+                    <div class="input_container form-group" ng-class="{ 'has-error' : retrieveForm.code.$invalid && !retrieveForm.code.$pristine }">
+                        <div class="icon_container">
+                            <i class="policy-code"></i>
+                        </div>
+                        <input name="code" type="number" pattern="[0-9]*" placeholder="{{'CODE' | translate}}" class="signUpEmailInput" ng-model="viewObj.code" required>
+                    </div>
+                    <!--MESSAGE-->
+                    <div class="form-message" ng-messages="retrieveForm.code.$error" ng-show="!retrieveForm.code.$pristine" style="" role="alert">
+                        <div ng-message="required">{{"REQUIRED_ERROR" | translate}}</div>
+                        <div ng-message="email">{{"EMAIL_ERROR" | translate}}</div>
+                    </div>
+
+
+                    <!--SUBMIT-->
+                    <input class="login_button" type="submit" value="{{'RETRIEVE_ACCOUNT_CAPS' | translate}}" />
+                </form>
+                <p class="message">{{"ACTIVATION_EMAIL_NOTE" | translate}}</p>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>
+

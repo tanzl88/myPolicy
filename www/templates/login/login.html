@@ -1,0 +1,59 @@
+<ion-view id="login_view" view-title="{{'LOGIN' | translate}}">
+    <ion-content class="login_view" scroll="false">
+
+        <!--<p id="version_tag">Beta 0.0.3</p>-->
+
+        <div class="absolute_login_container">
+            <div class="transform-align-middle" style="top: 46%;">
+                <div class="login_logo_container" >
+                    <img src="img/logo.svg" />
+                </div>
+
+                <form name="loginForm" novalidate="" ng-submit="login(loginForm)">
+                    <div class="input_container">
+                        <div class="icon_container">
+                            <i class="policy-user"></i>
+                        </div>
+                        <input id="loginEmail" type="email" placeholder="{{'EMAIL' | translate}}"
+                               name="email" ng-model="email" required>
+                    </div>
+                    <div class="input_container">
+                        <div class="icon_container">
+                            <i class="policy-lock"></i>
+                        </div>
+                        <input id="loginPassword" type="password" placeholder="{{'PASSWORD' | translate}}"
+                               name="password" ng-model="password" required>
+                    </div>
+                    <div id="remember_me_container">
+                        <checkbox class="btn-warning inline-block align-middle" ng-model="rememberMe" ></checkbox>
+                        <p class="inline-block align-middle" ng-click="toggleCheckbox()">{{"REMEMBER_ME" | translate}}</p>
+                    </div>
+
+                    <input class="login_button" type="submit" value="{{'LOGIN_CAPS' | translate}}" />
+                    <!--<input class="login_button" type="submit" value="LOGIN ADVISOR" ng-click="setCredential('advisor')"/>-->
+                    <!--<div class="login_button" ng-click="login()" style="margin-bottom: 1%;">{{//"LOGIN_CAPS" | translate}}</div>-->
+                </form>
+
+
+                <div id="signup_button_container" class="row">
+                    <p class="col-33" ng-click="goToState('forgot')">{{"FORGOT_PASSWORD" | translate}}</p>
+                    <p class="col-33 new-line align-center" ng-click="goToState('signup')">{{"SIGN_UP_NEW_LINE" | translate}}</p>
+                    <p class="col-33 align-center" ng-click="goToState('retrieveAccount')">{{"RETRIEVE_ACCOUNT" | translate}}</p>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div id="terms_link" class="align-center">
+            <p class="">
+                {{"TERMS_PREFIX" | translate}}<br>
+                <a ng-click="termsOfUse()">{{"TERMS_OF_SERVICE" | translate}}</a>{{"AND" | translate}}
+                <a ng-click="privacyPolicy()">{{"PRIVACY_POLICY" | translate}}</a>.
+                <!--<a ng-click="privacyPolicy()">{{"PDPA" | translate}}</a>.-->
+            </p>
+        </div>
+
+    </ion-content>
+</ion-view>
+

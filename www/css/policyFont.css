@@ -1,0 +1,97 @@
+@font-face {
+	font-family: 'myPolicy';
+	src:url('fonts/myPolicy.eot?-yo32zz');
+	src:url('fonts/myPolicy.eot?#iefix-yo32zz') format('embedded-opentype'),
+	url('fonts/myPolicy.ttf?-yo32zz') format('truetype'),
+	url('fonts/myPolicy.woff?-yo32zz') format('woff'),
+	url('fonts/myPolicy.svg?-yo32zz#myPolicy') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+i {
+	font-family: 'myPolicy';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.policy-case-notes:before {
+	content: "\e608";
+}
+.policy-gear:before {
+	content: "\e618";
+}
+.policy-mail:before {
+	content: "\e61d";
+}
+.policy-transfer-arrow:before {
+	content: "\e619";
+}
+.policy-chart:before {
+	content: "\e613";
+}
+.policy-link:before {
+	content: "\e614";
+}
+.policy-transfer:before {
+	content: "\e615";
+}
+.policy-briefcase:before {
+	content: "\e60d";
+}
+.policy-user-transfer:before {
+	content: "\e612";
+}
+.policy-code:before {
+	content: "\e611";
+}
+.policy-user-add:before {
+	content: "\e610";
+}
+.policy-survey:before {
+	content: "\e60f";
+}
+.policy-user-edit:before {
+	content: "\e60e";
+}
+.policy-home:before {
+	content: "\e600";
+}
+.policy-profile:before {
+	content: "\e60b";
+}
+.policy-bell:before {
+	content: "\e609";
+}
+.policy-pencil:before {
+	content: "\e607";
+}
+.policy-phone:before {
+	content: "\e606";
+}
+.policy-logout:before {
+	content: "\e60c";
+}
+.policy-pie:before {
+	content: "\e605";
+}
+.policy-lock:before {
+	content: "\e603";
+}
+.policy-user:before {
+	content: "\e604";
+}
+.policy-report:before {
+	content: "\e601";
+}
+.policy-policy:before {
+	content: "\e602";
+}

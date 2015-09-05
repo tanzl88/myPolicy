@@ -1,0 +1,74 @@
+<ion-view id="signup_view" view-title="{{'SIGN_UP' | translate}}" cache-view="false">
+    <ion-content class="login_view">
+        <div class="absolute_login_container">
+            <div class="transform-align-middle">
+                <div class="login_logo_container" >
+                    <img src="img/logo.svg" />
+                </div>
+                <form name="signupForm" novalidate="" ng-submit="signUp(signupForm)">
+                    <!--INPUT-->
+                    <div class="input_container form-group" ng-class="{ 'has-error' : signupForm.email.$invalid && !signupForm.email.$pristine }">
+                        <div class="icon_container">
+                            <i class="policy-user"></i>
+                        </div>
+                        <input name="email" type="email" placeholder="{{'EMAIL' | translate}}" ng-change="checkEmailExist()"
+                               class="signUpEmailInput" ng-model="signup.email" ng-model-options="{ debounce: {'default': 500, 'blur': 0} }" required>
+                    </div>
+                    <!--MESSAGE-->
+                    <div class="form-message" ng-messages="signupForm.email.$error" ng-show="!signupForm.email.$pristine" style="" role="alert">
+                        <div ng-message="required">{{"REQUIRED_ERROR" | translate}}</div>
+                        <div ng-message="email">{{"EMAIL_ERROR" | translate}}</div>
+                    </div>
+                    <div class="form-message" ng-show="emailExist">
+                        <div>{{"EMAIL_EXIST_ERROR" | translate}}</div>
+                    </div>
+
+
+                    <!--INPUT-->
+                    <div class="input_container form-group" ng-class="{ 'has-error' : signupForm.password.$invalid && !signupForm.password.$pristine }">
+                        <div class="icon_container">
+                            <i class="policy-lock"></i>
+                        </div>
+                        <input name="password" type="password" placeholder="{{'PASSWORD' | translate}}"
+                               class="" ng-model="signup.password" ng-minlength="8" ng-maxlength="20" ng-pattern="/^(?=.*?[a-zA-Z])(?=.*?[0-9])[a-zA-Z0-9]{8,20}$/" required>
+                    </div>
+                    <!--MESSAGE-->
+                    <div class="form-message" ng-messages="signupForm.password.$error" ng-show="!signupForm.password.$pristine" style="" role="alert">
+                        <div ng-message="required">{{"REQUIRED_ERROR" | translate}}</div>
+                        <div ng-message="minlength">{{"PASSWORD_MIN" | translate}}</div>
+                        <div ng-message="maxlength">{{"PASSWORD_MAX" | translate}}</div>
+                        <div ng-message="pattern">{{"PASSWORD_PATTERN" | translate}}</div>
+                    </div>
+
+
+
+                    <!--INPUT-->
+                    <div class="input_container form-group" ng-class="{ 'has-error' : signupForm.confirm_password.$invalid && !signupForm.confirm_password.$pristine }">
+                        <div class="icon_container">
+                            <i class="policy-lock"></i>
+                        </div>
+                        <input name="confirm_password" type="password" placeholder="{{'CONFIRM_PASSWORD' | translate}}"
+                               ng-model="signup.confirm_password" match="signup.password" required>
+                    </div>
+                    <!--MESSAGE-->
+                    <div class="form-message" ng-messages="signupForm.confirm_password.$error" ng-show="!signupForm.confirm_password.$pristine" style="" role="alert">
+                        <div ng-message="required">{{"REQUIRED_ERROR" | translate}}</div>
+                        <div ng-message="match">{{"PASSWORD_MATCH" | translate}}</div>
+                    </div>
+
+                    <!--REGISTER AS ADVISOR-->
+                    <!--<div id="advisor_register_container">-->
+                        <!--<checkbox class="btn-warning inline-block align-middle" ng-model="advisorRegister" ></checkbox>-->
+                        <!--<p class="inline-block align-middle" ng-click="toggleCheckbox()">{{"ADVISOR_REGISTER" | translate}}</p>-->
+                    <!--</div>-->
+
+
+                    <!--SUBMIT-->
+                    <input class="login_button" type="submit" value="{{'SIGN_UP_CAPS' | translate}}" />
+                </form>
+                <p class="message">{{"ACTIVATION_EMAIL_NOTE" | translate}}</p>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
+

@@ -1,0 +1,103 @@
+<ion-view id="profile_view" view-title="{{'EDIT_PROFILE' | translate}}">
+    <ion-nav-buttons side="primary">
+        <button class="button button-clear" ng-click="goToPrev()" ng-style="backStyle()">
+            <i class="ion-chevron-left"></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear" ng-click="goToNext()" ng-style="forwardStyle()">
+            <i class="ion-chevron-right"></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="">
+        <div id="personal-settings-swiper" class="swiper-container">
+            <div class="swiper-wrapper">
+
+                <!--NAME-->
+                <section class="pad-to-middle swiper-slide align-center" style="padding-top: 50%;">
+                    <p style="font-size: 1.5em;">{{"WHAT_NAME" | translate}}</p>
+                    <input class="name_input align-center" type="text" name="name" ng-model="personal.name">
+                </section>
+
+                <!--GENDER-->
+                <section class="pad-to-middle swiper-slide">
+                    <div class="img_container" ng-click="setGender(0)">
+                        <div class="img_wrapper">
+                            <img src="img/profile_icons/male.png" />
+                        </div>
+                    </div>
+                    <p>{{"MALE" | translate}}</p>
+                    <div style="height: 11%;"></div>
+                    <div class="img_container" ng-click="setGender(1)">
+                        <div class="img_wrapper">
+                            <img src="img/profile_icons/female.png" />
+                        </div>
+                    </div>
+                    <p>{{"FEMALE" | translate}}</p>
+                </section>
+
+                <!--BIRTHDAY-->
+                <section class="swiper-slide">
+                    <div style="height: 10%;"></div>
+                    <div class="img_container">
+                        <div class="img_wrapper">
+                            <img ng-src="{{horoscopeImg}}" />
+                        </div>
+                        <div class="img_wrapper">
+                            <img ng-src="{{ageImg}}" />
+                        </div>
+                    </div>
+                    <div style="height: 5%;"></div>
+                    <slider id="yearPicker" class="slider_ele" ng-model="personal.year"
+                            min="1900" step="1" max="maxYear" ng-change="updateAge()"></slider>
+                    <slider id="monthPicker" class="slider_ele" ng-model="personal.month"
+                            min="1" step="1" max="12" value="1" formatter="monthFormatter" ng-change="updateMaxDay();"></slider>
+                    <slider id="dayPicker" class="slider_ele" ng-model="personal.day"
+                            min="1" step="1" max="maxDay" value="1" ng-change=""></slider>
+                </section>
+
+                <!--SMOKER-->
+                <section class="pad-to-middle swiper-slide">
+                    <div class="img_container" ng-click="setSmoker(1)">
+                        <div class="img_wrapper">
+                            <img src="img/profile_icons/smoker.png" />
+                        </div>
+                    </div>
+                    <p>Smoker</p>
+                    <div style="height: 11%;"></div>
+                    <div class="img_container" ng-click="setSmoker(0)">
+                        <div class="img_wrapper">
+                            <img src="img/profile_icons/non_smoker.png" />
+                        </div>
+                    </div>
+                    <p>Non Smoker</p>
+                </section>
+
+                <!--INCOME-->
+                <section class="swiper-slide">
+                    <div style="height: 10%;"></div>
+                    <div class="img_container">
+                        <div class="img_wrapper">
+                            <img src="img/profile_icons/money.png" />
+                        </div>
+                    </div>
+                    <div style="height: 5%;"></div>
+                    <div class="income_wrapper">
+                        <p class="income_title">{{"INCOME" | translate}}</p>
+                        <currency-input ng-model-name="personal.income"></currency-input>
+                        <!--<input type="text" ng-model="personal.income" model-format="currency" formatter="formatter($modelValue,$filter);">-->
+                    </div>
+                    <div class="income_wrapper">
+                        <p class="income_title">{{"EXPENDITURE" | translate}}</p>
+                        <currency-input ng-model-name="personal.expenditure"></currency-input>
+                        <!--<input type="text" ng-model="personal.exp" model-format="currency" formatter="formatter($modelValue,$filter);">-->
+                    </div>
+                    <div class="login_button" ng-click="submit()">{{"SUBMIT" | translate}}</div>
+                </section>
+
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
+
+

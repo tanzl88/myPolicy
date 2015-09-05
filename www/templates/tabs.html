@@ -1,0 +1,21 @@
+<ion-tabs id="main-tab" class="footer tabs-stable tabs-icon-only" ng-controller="TabsCtrl">
+    <ion-tab icon="policy-home" href="#/home" ng-click="homeClick()">
+        <ion-nav-view name="home-tab"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab icon="policy-profile" href="#/profile">
+        <ion-nav-view name="profile-tab"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab icon="policy-policy" href="#/list">
+        <ion-nav-view name="list-tab"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab icon="policy-report" href="#/overview">
+        <ion-nav-view name="overview-tab"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab icon="policy-pie" href="#/report">
+        <ion-nav-view id="report-tab" name="report-tab"></ion-nav-view>
+    </ion-tab>
+</ion-tabs>

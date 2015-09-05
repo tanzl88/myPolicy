@@ -1,0 +1,28 @@
+<ion-view id="create_client_account_view" view-title="{{'TRANSFER_ACCOUNT' | translate}}">
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear" ng-click="showTempAccountModal()">
+            <i class="ion-plus"></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="">
+        <ion-list>
+            <ion-item class="temp_account_item" ng-repeat="account in tempAccounts" ng-click="selectAccount($index)">
+                <div class="temp_account_item_content" ng-class="{'selected' : selectedId === account.id}">
+                    <p>{{"ACCOUNT_NAME" | translate}} : {{account.accountName}}</p>
+                    <p>{{"CREATED_ON" | translate}} : {{account.accountCreated}}</p>
+                    <i class="swipe-left-icon transform-align-middle ion-chevron-left"></i>
+                </div>
+                <ion-option-button class="button gray" ng-click="generateToken($index)">
+                    <i class="policy-user-transfer"></i>
+                </ion-option-button>
+                <ion-option-button class="button yellow" ng-click="remove($index)">
+                    <i class="ion-ios-trash-outline"></i>
+                </ion-option-button>
+            </ion-item>
+        </ion-list>
+
+
+    </ion-content>
+</ion-view>
+
+

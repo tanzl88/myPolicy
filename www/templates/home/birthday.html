@@ -1,0 +1,48 @@
+<ion-view id="profile_view" view-title="{{'REMINDER' | translate}}" >
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear" ng-click="toggleReminderMenu()">
+            <i class="ion-plus"></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="">
+        <!--PICKER-->
+        <div date-time-picker name="oneTime" type="review" max-year="125"></div>
+        <div date-time-picker name="annual" type="birthday" year-scroll="false" repeat-mode="false"></div>
+
+
+        <ion-list id="reminder_menu" ng-animate="'animate'"  ng-if="reminderMenu">
+            <ion-item class="reminder_menu_item" ng-click="openBirthday()">{{"BIRTHDAY_REMINDER" | translate}}</ion-item>
+            <ion-item class="reminder_menu_item" ng-click="showDateTimePicker['oneTime'](); toggleReminderMenu();">{{"REVIEW_REMINDER" | translate}}</ion-item>
+            <!--<ion-item class="reminder_menu_item">Payment reminder</ion-item>-->
+        </ion-list>
+
+        <ion-scroll style="height: 100%;" has-bouncing="true">
+            <ion-list>
+                <ion-item class="reminder_item" ng-repeat="reminder in reminders" ng-click="editReminder($index)">
+
+                    <div>
+                        <div class="inline-block align-middle reminder_info" style="width: 73%;">
+                            <p class="name" style="font-weight: bold;">{{reminder.name}}</p>
+                            <p class="type">{{reminder.type.toUpperCase() + "_REMINDER" | translate}}</p>
+                            <p ng-if="reminder.type === 'review'" class="time">{{reminder.dateTime.format("LL, hh:mma")}}</p>
+                            <p ng-if="reminder.type === 'birthday'" class="time">{{reminder.dateTime.format("DD MMM, hh:mma")}}</p>
+                        </div>
+                        <div class="inline-block align-middle align-center" style="width: 30%;">
+                            <p ng-if="reminder.countdown > 1" class="countdown" style="font-size: 2.0em;">{{reminder.countdown}}</p>
+                            <p ng-class="{'countdown_today' : reminder.countdown <= 1, 'countdown_text' : reminder.countdown > 1}" >
+                                {{"DAY" | translate:{ day : reminder.countdown }:'messageformat'}}
+                            </p>
+                        </div>
+                    </div>
+                    <ion-option-button class="button yellow" ng-click="remove(reminder.id)">
+                        <i class="ion-ios-trash-outline"></i>
+                    </ion-option-button>
+
+                </ion-item>
+            </ion-list>
+        </ion-scroll>
+
+    </ion-content>
+</ion-view>
+
+

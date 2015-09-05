@@ -1,0 +1,206 @@
+<ion-view id="add_policy_view" view-title="{{'EDIT_POLICY' | translate}}">
+    <!--<ion-nav-buttons side="primary">-->
+        <!--<button class="button button-clear" ng-click="submit()">-->
+            <!--<i class="ion-chevron-right"></i>-->
+        <!--</button>-->
+    <!--</ion-nav-buttons>-->
+    <ion-content class="policy_form" delegate-handle="policyForm" has-bouncing="true">
+        <form id="policyForm" name="policyForm" novalidate="" ng-submit="submit(policyForm)" style="padding-bottom: 3%;">
+            <!------------------------BASIC INFO-------------------------->
+            <section>
+                <p class="section_header">{{"BASIC_INFO" | translate}}</p>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{"POLICY_NUMBER" | translate}}</div>
+                    <input class="inline-block align-middle align-center bg_color"
+                           type="text"
+                           name="policyNumber"
+                           ng-click="selectAll($event)"
+                           ng-model="policyObj.policyNumber"
+                           ng-keydown="goToNext($event)">
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{"COMPANY" | translate}}</div>
+                    <mac-autocomplete class="inline-block align-middle align-center bg_color"
+                                      name="company"
+                                      mac-autocomplete-delay="0"
+                                      mac-autocomplete-source="{{company_enum}}"
+                                      mac-placeholder="Autocomplete"
+                                      ng-click="selectAll($event)"
+                                      ng-model="policyObj.company"
+                                      ng-keydown="goToNext($event)"
+                                      required>
+                        <span> {{item.label}} </span>
+                    </mac-autocomplete>
+                </div>
+                <!--<div class="two_cols_item">-->
+                    <!--<div class="inline-block align-middle">{{"PLAN_TYPE" | translate}}</div>-->
+                    <!--<mac-autocomplete class="inline-block align-middle align-center bg_color"-->
+                                      <!--name="planType"-->
+                                      <!--mac-autocomplete-delay="0"-->
+                                      <!--mac-autocomplete-source="{{plan_type_enum}}"-->
+                                      <!--mac-placeholder="Autocomplete"-->
+                                      <!--ng-click="selectAll($event)"-->
+                                      <!--ng-model="policyObj.planType"-->
+                                      <!--ng-keydown="goToNext($event)">-->
+                        <!--<span> {{item.label}} </span>-->
+                    <!--</mac-autocomplete>-->
+                <!--</div>-->
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{"PLAN_TYPE" | translate}}</div>
+                    <plan-type-picker class="inline-block align-middle" ng-model-name="policyObj.planType"></plan-type-picker>
+                    <!--<input class="inline-block align-middle align-center bg_color" type="text"-->
+                           <!--ng-model="policyObj.planTypeDisplayed" ng-click="changePlanType()" readonly>-->
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{"PLAN_NAME" | translate}}</div>
+                    <input class="inline-block align-middle align-center bg_color"
+                           type="text"
+                           name="planName"
+                           ng-click="selectAll($event)"
+                           ng-model="policyObj.planName"
+                           ng-keydown="goToNext($event)">
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{"START_DATE" | translate}}</div>
+                    <date-picker class="inline-block align-middle align-center bg_color"
+                                 ng-model-name="policyObj.startDate"
+                                 name="startDate"
+                                 min-year = "1965"
+                                 max-year = "126"
+                                 date-format="LL">
+                    </date-picker>
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{"MATURITY_DATE" | translate}}</div>
+                    <date-picker class="inline-block align-middle align-center bg_color"
+                                 ng-model-name="policyObj.maturityDate"
+                                 name="maturityDate"
+                                 max-year = "126"
+                                 date-format="LL">
+                    </date-picker>
+                </div>
+            </section>
+
+            <div class="policyForm_divider"></div>
+
+            <!------------------------PREMIUM & TERM-------------------------->
+            <section>
+                <p class="section_header">{{"PREMIUM_AND_TERM" | translate}}</p>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{"PREMIUM" | translate}}</div>
+                    <currency-input ng-model-name="policyObj.premium" decimal="2"></currency-input>
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{"PREMIUM_MODE" | translate}}</div>
+                    <input class="inline-block align-middle align-center bg_color" type="text"
+                           ng-model="policyObj.premiumModeDisplayed" ng-click="changePremiumMode()" readonly>
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{"PAYMENT_MODE" | translate}}</div>
+                    <input class="inline-block align-middle align-center bg_color" type="text"
+                           ng-model="policyObj.paymentModeDisplayed" ng-click="changePaymentMode()" readonly>
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{"PREMIUM_TERM" | translate}}</div>
+                    <term-picker class="inline-block align-middle align-center bg_color"
+                                 ng-model-name="policyObj.premiumTerm"
+                                 name="premiumTerm"
+                                 min-year = "2"
+                                 max-year = "99"
+                                 date-format="LL">
+                    </term-picker>
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{"COVERAGE_TERM" | translate}}</div>
+                    <term-picker class="inline-block align-middle align-center bg_color"
+                                 ng-model-name="policyObj.coverageTerm"
+                                 name="coverageTerm"
+                                 min-year = "1"
+                                 max-year = "165"
+                                 date-format="LL">
+                    </term-picker>
+                </div>
+                <!--<div class="two_cols_item">-->
+                    <!--<div class="inline-block align-middle new-line">{{"SUM_ASSURED" | translate}}</div>-->
+                    <!--<currency-input ng-model-name="policyObj.sumAssured"></currency-input>-->
+                <!--</div>-->
+            </section>
+
+            <div class="policyForm_divider"></div>
+
+            <!------------------------SUM ASSURED-------------------------->
+            <section>
+                <p class="section_header">{{"SUM_ASSURED_HEADER" | translate}}</p>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle new-line">{{"DEATH_SA" | translate}}</div>
+                    <currency-input ng-model-name="policyObj.deathSA"></currency-input>
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle new-line">{{"TPD_SA" | translate}}</div>
+                    <currency-input ng-model-name="policyObj.tpdSA"></currency-input>
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle new-line">{{"CRIT_SA" | translate}}</div>
+                    <currency-input ng-model-name="policyObj.critSA"></currency-input>
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle new-line">{{"EARLY_SA" | translate}}</div>
+                    <currency-input ng-model-name="policyObj.earlySA"></currency-input>
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle new-line">{{"HOSPITAL_SA" | translate}}</div>
+                    <currency-input ng-model-name="policyObj.hospitalSA"></currency-input>
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle new-line">{{"ACCIDENT_DEATH" | translate}}</div>
+                    <currency-input ng-model-name="policyObj.accidentDeath"></currency-input>
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle new-line">{{"ACCIDENT_REIMB" | translate}}</div>
+                    <currency-input ng-model-name="policyObj.accidentReimb"></currency-input>
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle new-line">{{"DISABLED_SA" | translate}}</div>
+                    <currency-input ng-model-name="policyObj.disabledSA"></currency-input>
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle new-line">{{"HOSPITAL_INCOME" | translate}}</div>
+                    <currency-input ng-model-name="policyObj.hospitalIncome"></currency-input>
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle new-line">{{"CASH_VALUE" | translate}}</div>
+                    <currency-input ng-model-name="policyObj.currentCash"></currency-input>
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle new-line">{{"SURRENDER_CASH_VALUE" | translate}}</div>
+                    <currency-input ng-model-name="policyObj.surrenderCash"></currency-input>
+                </div>
+
+            </section>
+
+            <div class="policyForm_divider"></div>
+
+            <!------------------------REMARKS AND NOTES-------------------------->
+            <section>
+                <!--<p class="section_header">{{"REMARKS_NOTES" | translate}}</p>-->
+                <p>{{"REMARKS" | translate}}</p>
+                <textarea class="remarks_textarea" rows="10" cols="10"
+                          ng-model="policyObj.remarks" name="remarks"
+                          style="margin-bottom: 4%;"></textarea>
+
+                <!--<p>{{"CASE_NOTES" | translate}}</p>-->
+                <!--<textarea class="remarks_textarea" rows="10" cols="10"-->
+                          <!--ng-model="policyObj.notes" name="notes"></textarea>-->
+            </section>
+
+
+
+            <!--SUBMIT-->
+            <input class="login_button" type="submit" value="{{'SUBMIT_CAPS' | translate}}"
+                   style="margin-top: 4%;"/>
+        </form>
+
+    </ion-content>
+</ion-view>
+
+

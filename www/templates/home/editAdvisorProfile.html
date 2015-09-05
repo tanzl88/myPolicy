@@ -1,0 +1,88 @@
+<ion-view id="edit_advisor_profile_view" view-title="{{'MY_PROFILE' | translate}}">
+    <ion-content class="">
+        <form id="advisorProfile" name="advisorProfileForm" novalidate="" ng-submit="submit(advisorProfileForm)">
+            <!--NAME-->
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"NAME" | translate}}</div>
+                <input class="inline-block align-middle align-center bg_color form-group" type="text" name="name" ng-model="dataObj.name" required
+                       ng-class="{ 'has-error' : advisorProfileForm.name.$invalid && !advisorProfileForm.name.$pristine }">
+            </div>
+            <!--MESSAGE-->
+            <div class="form-message" ng-messages="advisorProfileForm.name.$error" ng-show="!advisorProfileForm.name.$pristine" style="" role="alert">
+                <div ng-message="required">{{"REQUIRED_ERROR" | translate}}</div>
+            </div>
+
+            <!--TITLE-->
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"TITLE" | translate}}</div>
+                <input class="inline-block align-middle align-center bg_color form-group" type="text" name="title" ng-model="dataObj.title" required
+                       ng-class="{ 'has-error' : advisorProfileForm.title.$invalid && !advisorProfileForm.title.$pristine }">
+            </div>
+
+            <!--COMPANY-->
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"COMPANY" | translate}}</div>
+                <input class="inline-block align-middle align-center bg_color form-group" type="text" name="company" ng-model="dataObj.company" required
+                       ng-class="{ 'has-error' : advisorProfileForm.company.$invalid && !advisorProfileForm.company.$pristine }">
+            </div>
+            <!--MESSAGE-->
+            <div class="form-message" ng-messages="advisorProfileForm.company.$error" ng-show="!advisorProfileForm.company.$pristine" style="" role="alert">
+                <div ng-message="required">{{"REQUIRED_ERROR" | translate}}</div>
+            </div>
+
+            <!--REP NO-->
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"REP_NO" | translate}}</div>
+                <input class="inline-block align-middle align-center bg_color form-group" type="text" name="repNo" ng-model="dataObj.repNo"
+                       ng-class="{ 'has-error' : advisorProfileForm.repNo.$invalid && !advisorProfileForm.repNo.$pristine }">
+            </div>
+
+            <!--ADDRESS-->
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"ADDRESS" | translate}}</div>
+                <!--<input class="inline-block align-middle align-center bg_color form-group" type="text" name="address" ng-model="dataObj.address"-->
+                       <!--ng-class="{ 'has-error' : advisorProfileForm.address.$invalid && !advisorProfileForm.address.$pristine }">-->
+                <textarea class="inline-block align-middle align-center bg_color form-group"
+                          rows="2" cols="2" type="text" name="address" ng-model="dataObj.address"
+                          style="text-align: left; padding: 3%"
+                          ng-class="{ 'has-error' : advisorProfileForm.address.$invalid && !advisorProfileForm.address.$pristine }">
+                </textarea>
+            </div>
+
+            <!--PHONE-->
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"PHONE" | translate}}</div>
+                <input class="inline-block align-middle align-center bg_color form-group" type="text" name="phone" ng-model="dataObj.phone"
+                       ng-class="{ 'has-error' : advisorProfileForm.phone.$invalid && !advisorProfileForm.phone.$pristine }">
+            </div>
+
+            <!--FAX-->
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"EMAIL" | translate}}</div>
+                <input class="inline-block align-middle align-center bg_color form-group" type="text" name="email" ng-model="dataObj.email"
+                       ng-class="{ 'has-error' : advisorProfileForm.email.$invalid && !advisorProfileForm.email.$pristine }">
+            </div>
+
+            <!--WEBSITE-->
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"WEBSITE" | translate}}</div>
+                <input class="inline-block align-middle align-center bg_color form-group" type="text" name="website" ng-model="dataObj.website"
+                       ng-class="{ 'has-error' : advisorProfileForm.website.$invalid && !advisorProfileForm.website.$pristine }">
+            </div>
+
+            <!--EDUCATION-->
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"EDUCATION" | translate}}</div>
+                <textarea class="inline-block align-middle align-center bg_color form-group"
+                          rows="8" cols="2" type="text" name="education" ng-model="dataObj.education"
+                          style="text-align: left; padding: 3%"
+                          ng-class="{ 'has-error' : advisorProfileForm.education.$invalid && !advisorProfileForm.education.$pristine }">
+                </textarea>
+            </div>
+
+            <input class="login_button" type="submit" value="{{'SUBMIT_CAPS' | translate}}" style="padding: 0;"/>
+        </form>
+    </ion-content>
+</ion-view>
+
+

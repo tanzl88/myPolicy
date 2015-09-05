@@ -1,0 +1,244 @@
+<script id="login_msg.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(255,255,255,0.95)">
+        <ion-content class="login_view">
+            <div style="position: absolute; height: 100%;">
+                <div class="transform-align-middle">
+                    <div ng-show="type === 'signup'">
+                        <p class="heading">{{'ACTIVATION_SENT' | translate}}</p>
+                        <p class="message">{{"ACTIVATION_MSG" | translate : {email : email} }}</p>
+                    </div>
+                    <div ng-show="type === 'forgot'">
+                        <p class="heading">{{'RESET_PASSWORD_SENT' | translate}}</p>
+                        <p class="message">{{"FORGOT_PASSWORD_MSG" | translate : {email : email} }}</p>
+                    </div>
+                    <div ng-show="type === 'resetSuccess'">
+                        <p class="message">{{"RESET_PASSWORD_MSG" | translate}}</p>
+                    </div>
+                    <div ng-show="type === 'notActivated'">
+                        <p class="message">{{"SEND_AGAIN_MSG" | translate : {email : email} }}</p>
+                    </div>
+
+                    <p class="login_button" ng-click="goToLogin()">{{"GOT_IT" | translate}}</p>
+                </div>
+            </div>
+        </ion-content>
+    </div>
+</script>
+
+<script id="create_temp_account.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(0,0,0,0.5)">
+        <ion-content class="temp_account_view">
+            <form class="transform-align-middle" name="accountNameForm" novalidate="" ng-submit="createTempAccount(accountNameForm)">
+                <p>{{"ACCOUNT_NAME_MSG" | translate}}</p>
+                <input id="accountNameInput" class="bg_color form-group align-center" type="text" name="accountName" ng-model="account.name" required
+                       ng-class="{ 'has-error' : accountNameForm.accountName.$invalid && !accountNameForm.accountName.$pristine }">
+                <div class="row">
+                    <input class="col login_button" type="text" value="{{'CANCEL_CAPS' | translate}}" ng-click="tempAccountModal.hide();" style="margin-right: 5%;" readonly />
+                    <input class="col login_button" type="submit" value="{{'CREATE_ACCOUNT' | translate}}" />
+                </div>
+            </form>
+        </ion-content>
+    </div>
+</script>
+
+<script id="link_account.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(0,0,0,0.5)">
+        <ion-content class="temp_account_view">
+            <form class="transform-align-middle" name="linkAccountForm" novalidate="" ng-submit="requestLinkAccount(linkAccountForm)">
+                <p>{{"LINK_ACCOUNT_MSG" | translate}}</p>
+                <input id="linkAccountInput" class="bg_color form-group align-center" type="text" name="clientEmail" ng-model="account.name" required
+                       ng-class="{ 'has-error' : linkAccountForm.clientEmail.$invalid && !linkAccountForm.clientEmail.$pristine }">
+                <div class="row">
+                    <input class="col login_button" type="text" value="{{'CANCEL_CAPS' | translate}}" ng-click="closeLinkModal()" style="margin-right: 5%;" readonly />
+                    <input class="col login_button" type="submit" value="{{'LINK_CAPS' | translate}}" />
+                </div>
+            </form>
+        </ion-content>
+    </div>
+</script>
+
+<script id="generate_report.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(0,0,0,0.5)">
+        <ion-content class="temp_account_view">
+            <form class="transform-align-middle" name="reportNameForm" novalidate="" ng-submit="export(reportNameForm)">
+                <p>{{"GENERATE_REPORT_MSG" | translate}}</p>
+                <!--REPORT NAME-->
+                <input class="bg_color form-group" type="text" name="reportName" ng-model="report.name" ng-pattern="/^[a-zA-Z0-9]*$/" required
+                       ng-class="{ 'has-error' : reportNameForm.reportName.$invalid && !reportNameForm.reportName.$pristine }">
+                <!--MESSAGE-->
+                <div class="form-message" ng-messages="reportNameForm.reportName.$error" ng-show="!reportNameForm.reportName.$pristine" style="" role="alert">
+                    <div ng-message="required" style="padding: 0; padding-top: 3%;">{{"REQUIRED_ERROR" | translate}}</div>
+                    <div ng-message="pattern" style="padding: 0; padding-top: 3%;">{{"REPORT_NAME_PATTERN_ERROR" | translate}}</div>
+                </div>
+
+                <div class="row">
+                    <input class="col login_button" type="text" value="{{'CANCEL_CAPS' | translate}}" ng-click="closeModal()" style="margin-right: 5%;" readonly />
+                    <input class="col login_button" type="submit" value="{{'GENERATE_CAPS' | translate}}" />
+                </div>
+            </form>
+        </ion-content>
+    </div>
+</script>
+
+<script id="generate_token.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(0,0,0,0.5)">
+        <ion-content class="generate_token_view">
+            <form class="transform-align-middle" name="accountNameForm" novalidate="" ng-submit="createTempAccount(accountNameForm)">
+                <p class="heading">{{"TRANSFER_INSTRUCTION_HEADING" | translate}}</p>
+                <p class="new-line">{{"TRANSFER_INSTRUCTION" | translate}}</p>
+                <p class="code align-center">{{token}}</p>
+                <p class="login_button" ng-click="generateTokenModal.hide()">{{"GOT_IT" | translate}}</p>
+
+            </form>
+        </ion-content>
+    </div>
+</script>
+
+<script id="remove_modal.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(0,0,0,0.5)">
+        <ion-content class="temp_account_view">
+            <form class="transform-align-middle">
+                <p>{{removeMessage}}</p>
+                <div class="row" style="padding-bottom: 0;">
+                    <input class="col login_button" type="text" value="{{'CANCEL_CAPS' | translate}}" ng-click="removeModal.hide()" style="margin-right: 5%;" readonly />
+                    <input class="col login_button" type="submit" value="{{'YES_CAPS' | translate}}" ng-click="confirmRemove()"/>
+                </div>
+            </form>
+        </ion-content>
+    </div>
+</script>
+
+<script id="unlink_account.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(0,0,0,0.5)">
+        <ion-content class="temp_account_view">
+            <form class="transform-align-middle">
+                <p>{{"UNLINK_ACCOUNT_MSG" | translate:{name : advisorInfo.name} }}</p>
+                <div class="row" style="padding-bottom: 0;">
+                    <input class="col login_button" type="text" value="{{'CANCEL_CAPS' | translate}}" ng-click="unlinkAccountModal.hide()" style="margin-right: 5%;" readonly />
+                    <input class="col login_button" type="submit" value="{{'YES_CAPS' | translate}}" ng-click="confirmUnlinkAccount()"/>
+                </div>
+            </form>
+        </ion-content>
+    </div>
+</script>
+
+<script id="thanks_mail.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(0,0,0,0.5)">
+        <ion-content class="temp_account_view">
+            <form class="transform-align-middle align-center">
+                <img src="img/message_sent.svg" style="width: 45%; margin: 3%;">
+                <p class="new-line" style="font-size: 0.9em;">{{"THANKS_MAIL" | translate}}</p>
+                <p class="login_button" ng-click="thanksMail.hide()">{{"GOT_IT" | translate}}</p>
+            </form>
+        </ion-content>
+    </div>
+</script>
+
+
+
+
+<!--BIRTHDAY COUNTDOWN-->
+<script id="birthday.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(255,255,255,1)">
+        <ion-header-bar style="background-color: #fed82f">
+            <a ng-click="closeBirthday()" class="button button-icon icon ion-ios-close-empty" style="position: absolute; right: 0%;"></a>
+        </ion-header-bar>
+        <ion-content>
+            <ion-list>
+                <ion-item class="birthday_item" ng-repeat="birthday in birthdays" ng-click="birthdayClick($index)">
+                    <div class="inline-block align-middle" style="width: 70%;">
+                        <strong class="name">{{birthday.name}}</strong>
+                        <p>{{birthday.birthday.format("LL")}}</p>
+                    </div>
+                    <div class="inline-block align-middle align-center" style="width: 30%;">
+                        <p ng-if="birthday.countdown > 1" class="countdown">{{birthday.countdown}}</p>
+                        <p ng-class="{'countdown_today' : birthday.countdown <= 1, 'countdown_text' : birthday.countdown > 1}" >
+                            {{"DAY" | translate:{ day : birthday.countdown }:'messageformat'}}
+                        </p>
+                    </div>
+                </ion-item>
+            </ion-list>
+        </ion-content>
+    </div>
+</script>
+
+<!--LIGHTBOX-->
+<script id="lightbox.html" type="text/ng-template">
+    <div class="ios-header"></div>
+    <div style="position: absolute; height: 100%; width: 100%; background-color: white">
+        <i class="modalCloseButton ion-close-circled" ng-click="lightbox.hide();"></i>
+        <ion-scroll zooming="true" direction="xy" min-zoom="0.25" has-bouncing="true" style="width: 100%; height: 100%;">
+            <img ng-src="{{selectedImage}}">
+        </ion-scroll>
+    </div>
+</script>
+
+<!--TOOLTIP-->
+<script id="dashboardDoughnutTooltip.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(0,0,0,0.5)">
+        <ion-content class="temp_account_view">
+            <div class="transform-align-middle" style="background-color: white; padding: 6%; border-radius: 5px; font-size: 0.9em;">
+                <div class="align-center" style="font-weight: bold; font-size: 1.2em;">{{"YOUR_PROTECTION_SCORE" | translate}}</div>
+                <br>
+                <p>{{dashboardDoughnutTooltip}}</p>
+                <p class="login_button inline-block align-middle" ng-click="doughnutTooltip.hide()" style="width: 40%;">{{"GOT_IT" | translate}}</p>
+                <p class="login_button inline-block align-middle" ng-click="goToReport()" style="width: 58%;">{{"FIND_OUT_MORE" | translate}}</p>
+            </div>
+        </ion-content>
+    </div>
+</script>
+<script id="coverageStatusTooltip.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(0,0,0,0.5)">
+        <ion-content class="temp_account_view">
+            <div class="transform-align-middle" style="background-color: white; padding: 6%; border-radius: 5px; font-size: 0.9em;">
+                <div class="align-center" style="font-weight: bold; font-size: 1.2em;">{{"YOUR_PROTECTION_STATUS" | translate}}</div>
+                <br>
+                <p style="padding-bottom: 2%;">{{coverageStatus}}</p>
+                <div ng-repeat="need in coverageStatusNeeds" style="padding-left: 3%; padding-top: 1%;">- {{need | translate}}</div>
+                <p class="login_button inline-block align-middle" ng-click="coverageStatusTooltip.hide()" style="width: 40%;">{{"GOT_IT" | translate}}</p>
+                <p class="login_button inline-block align-middle" ng-click="goToReport(highlightType)" style="width: 58%;">{{"FIND_OUT_MORE" | translate}}</p>
+            </div>
+        </ion-content>
+    </div>
+</script>
+<script id="doughnutTooltip.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(0,0,0,0.5)">
+        <ion-content class="temp_account_view">
+            <div class="transform-align-middle" style="background-color: white; padding: 6%; border-radius: 5px; font-size: 0.9em;">
+                <div class="align-center" style="font-weight: bold; font-size: 1.2em;">{{category}}</div>
+                <br>
+                <b>{{"WHY_IMPORTANT" | translate}}</b>
+                <p class="new-line">{{importanceContent}}</p>
+                <br>
+                <b>{{"GENERALLY_COVERS" | translate}}</b>
+                <p class="new-line">{{coverageContent}}</p>
+                <p class="login_button" ng-click="doughnutTooltip.hide()">{{"GOT_IT" | translate}}</p>
+            </div>
+        </ion-content>
+    </div>
+</script>
+<script id="suggestTooltip.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(0,0,0,0.5)">
+        <ion-content class="temp_account_view">
+            <div class="transform-align-middle" style="background-color: white; padding: 6%; border-radius: 5px; font-size: 0.9em;">
+                <div class="align-center" style="font-weight: bold; font-size: 1.2em;">{{category}}</div>
+                <br>
+                <b>{{"SUGGESTED_COVERAGE" | translate}}</b>
+                <p class="new-line">{{suggestedCoverage}}</p>
+                <p class="login_button" ng-click="suggestTooltip.hide()">{{"GOT_IT" | translate}}</p>
+            </div>
+        </ion-content>
+    </div>
+</script>
+
+<!--TOAST-->
+<script id="toast.html" type="text/ng-template">
+    <md-toast id="toast" style="" ng-click="closeToast()">
+        <span flex>{{content}}</span>
+    </md-toast>
+</script>
+<script id="warning-toast.html" type="text/ng-template">
+    <md-toast style="background-color: red;">
+        <span flex>{{"NO_CLIENT_SELECTED_ERROR" | translate}}</span>
+    </md-toast>
+</script>

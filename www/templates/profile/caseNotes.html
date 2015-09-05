@@ -1,0 +1,28 @@
+<ion-view id="case_notes_view" view-title="{{'CASE_NOTES' | translate}}">
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear" ng-click="addNotes()">
+            <i class="ion-plus"></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="">
+        <div class="no_content_container align-center" ng-if="caseNotes.length === 0">
+            <p class="new-line">{{"NO_CASE_NOTES_MSG" | translate}}</p>
+        </div>
+
+        <ion-scroll style="height: 100%;" has-bouncing="true" ng-if="caseNotes.length > 0">
+            <ion-list id="case_notes_list">
+                <ion-item class="case_notes_item" ng-repeat="note in caseNotes" ng-click="editNotes($index)">
+                    <div>
+                        <div class="inline-block align-top" style="width: 25%; padding-top: 3%;">{{note.date}}</div>
+                        <div class="inline-block align-middle notes" style="width: 70%;">{{note.notes}}</div>
+                    </div>
+                    <ion-option-button class="button yellow" ng-click="remove(note.id)">
+                        <i class="ion-ios-trash-outline"></i>
+                    </ion-option-button>
+                    <!--<p>{{note.date.format("LL")}}</p>-->
+                    <!--<p>{{note.notes}}</p>-->
+                </ion-item>
+            </ion-list>
+        </ion-scroll>
+    </ion-content>
+</ion-view>

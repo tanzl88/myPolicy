@@ -1,0 +1,13 @@
+<ion-view id="profile_view" view-title="{{'CUSTOMIZE_FIELD_NAMES' | translate}}">
+    <ion-content class="">
+        <div id="field_name_list">
+            <div class="field_name_item" ng-repeat="fieldName in fieldNamesArray">
+                <p>{{fieldName.name + "_DEFAULT" | translate}}</p>
+                <input class="field_name_input bg_color" type="text" value="{{fieldName.name | translate}}">
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>
+
+

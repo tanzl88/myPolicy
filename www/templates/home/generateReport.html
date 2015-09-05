@@ -1,0 +1,26 @@
+<ion-view id="report_list_view" view-title="{{'GENERATE_REPORT' | translate}}">
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear" ng-click="generateReport()">
+            <i class="ion-plus"></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="">
+        <ion-list>
+            <ion-item class="reportItem" ng-repeat="file in fileList" ng-click="openFile($index)">
+                <div class="">
+                    <p style="font-weight: bold;">{{file.name}}</p>
+                    <p>{{"CREATED_ON" | translate}}: {{file.lastModified.format("DD MMM YYYY, hh:mma")}}</p>
+                    <i class="swipe-left-icon transform-align-middle ion-chevron-left"></i>
+                </div>
+                <ion-option-button class="button gray" ng-click="email($index)">
+                    <i class="policy-mail"></i>
+                </ion-option-button>
+                <ion-option-button class="button yellow" ng-click="remove($index)">
+                    <i class="ion-ios-trash-outline"></i>
+                </ion-option-button>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
+
+

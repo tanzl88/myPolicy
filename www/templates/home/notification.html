@@ -1,0 +1,21 @@
+<ion-view id="profile_view" view-title="{{'INBOX' | translate}}">
+    <ion-content class="">
+        <div class="no_content_container align-center" ng-if="notifications.length === 0">
+            <p class="new-line">{{"NO_NOTIFICATION" | translate}}</p>
+        </div>
+        <ion-list>
+            <ion-item class="notification_item" ng-repeat="notification in notifications">
+                <div ng-if="notification.type === 'link'">
+                    <p>{{"LINK_REQUEST" | translate : {'name' : notification.requestor} }}</p>
+                    <div class="notification_button">
+                        <div class="inline-block align-middle accept" ng-click="respondToRequest($index,'accept')">{{"PICKER_ACCEPT" | translate}}</div>
+                        <div class="inline-block align-middle ignore" ng-click="respondToRequest($index,'ignore')">{{"PICKER_IGNORE" | translate}}</div>
+                    </div>
+
+                </div>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
+
+

@@ -1,0 +1,191 @@
+<ion-view id="export_view" view-title="{{'GENERATE_REPORT' | translate}}" cache-view="false">
+    <ion-content class="">
+        <canvas id="overviewChart-export"></canvas>
+
+        <!--OVERVIEW TABLE-->
+        <div id="overviewTable-export" class="overviewTable-export">
+            <table class="overview_table">
+                <tr ng-repeat="index in [0,1]">
+                    <td width="57%" class="new-line">{{"PROTECTIONS" | translate}}</td>
+                    <td width="43%">{{"SUM_ASSURED" | translate}}</td>
+                </tr>
+                <tr ng-repeat="cat in viewObj.protectionsData">
+                    <td class="new-line">{{cat.label | translate}}</td>
+                    <td class="align-middle">{{cat.amt | currency:"S$ ":0}}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!--FINANCIAL INFO TABLE-->
+        <div id="financialInfoTable-export" class="overviewTable-export">
+            <table class="overview_table">
+                <tr ng-repeat="index in [0,1]">
+                    <td width="57%" class="new-line">{{"FINANCIAL" | translate}}</td>
+                    <td width="43%">{{"AMOUNT" | translate}}</td>
+                </tr>
+                <tr ng-repeat="cat in viewObj.financialData">
+                    <td class="new-line">{{cat.label | translate}}</td>
+                    <td ng-if="$index !== 1" class="align-middle">{{cat.amt | currency:"S$ ":0}}</td>
+                    <td ng-if="$index === 1" class="align-middle">{{cat.amt}}</td>
+                </tr>
+            </table>
+        </div>
+
+
+        <!--FULL TABLE 1-->
+        <div id="fullTable1-export" class="full_table fullTable-export">
+            <table>
+                <tbody>
+                    <tr ng-repeat="index in [0,1]">
+                        <td ng-repeat="col in fullTableColumns1" style="min-width : {{col.width}};">{{col.title | translate}}</td>
+                    </tr>
+                    <tr ng-repeat="policyObj in policies">
+                        <td ng-repeat="col in fullTableColumns1">
+                            <p ng-if="col.type === 'index'">{{$parent.$parent.$index + 1}}</p>
+                            <p ng-if="col.type === 'text' || col.type === 'date'">{{policyObj[col.varName]}}</p>
+                            <p ng-if="col.type === 'currency'">{{policyObj[col.varName] | number}}</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--FULL TABLE 2-->
+        <div id="fullTable2-export" class="full_table fullTable-export">
+            <table>
+                <tbody>
+                    <tr ng-repeat="index in [0,1]">
+                        <td ng-repeat="col in fullTableColumns2" style="min-width : {{col.width}};">{{col.title | translate}}</td>
+                    </tr>
+                    <tr ng-repeat="policyObj in policies">
+                        <td ng-repeat="col in fullTableColumns2">
+                            <p ng-if="col.type === 'index'">{{$parent.$parent.$index + 1}}</p>
+                            <p ng-if="col.type === 'text' || col.type === 'date'">{{policyObj[col.varName]}}</p>
+                            <p ng-if="col.type === 'currency'">{{policyObj[col.varName] | number}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style=""></td>
+                        <td style="border-left-width: 0; text-align: right;">{{"TOTAL" | translate}}:</td>
+                        <td ng-repeat="sum in viewObj.sums track by $index" style="">
+                            <p ng-if="sum !== ''">{{sum | number}}</p>
+                            <p ng-if="sum === ''">{{sum}}</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--PROTECTION TABLE-->
+        <div id="protectionsTable-export">
+            <table class="protections_table">
+                <tr ng-repeat="index in [0,1]">
+                    <td style="width: 22%;">{{"CATEGORY" | translate}}</td>
+                    <td style="width: 26%;">{{"CURRENT" | translate}}({{currency}})</td>
+                    <td style="width: 26%;">{{"SUGGESTED" | translate}}({{currency}})</td>
+                    <td style="width: 26%;">{{"SHORTFALL" | translate}}({{currency}})</td>
+                </tr>
+                <tr ng-repeat="cat in viewObj.cat">
+                    <td class="new-line protections_table_category">{{cat.label | translate}}</td>
+                    <td>
+                        <!--<p class="currency inline-block align-middle">{{"CURRENCY" | translate}}</p>-->
+                        <p class="amt inline-block align-middle">{{cat.amt | number}}</p>
+                    </td>
+                    <td>
+                        <!--<p class="currency inline-block align-middle">{{"CURRENCY" | translate}}</p>-->
+                        <!--<p class="amt inline-block align-middle">{{cat.suggested | number}}</p>-->
+                        <suggest-amt-editor ng-bind-data="cat.suggested">
+                        </suggest-amt-editor>
+                    </td>
+                    <td>
+                        <!--<p class="currency inline-block align-middle">{{"CURRENCY" | translate}}</p>-->
+                        <p class="amt inline-block align-middle" ng-class="{'excess' : cat.diff_type === 'Excess', 'shortfall' : cat.diff_type === 'Shortfall'}">{{cat.diff | number}}</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!--DOUGNUT-->
+        <div ng-repeat="cat in viewObj.cat">
+            <canvas id="doughnut-export{{$index}}" class="doughnutChart-export"></canvas>
+            <div id="doughnut-exportTable{{$index}}">
+                <table class="doughnut_table doughnutTable-export">
+                    <tr ng-repeat="index in [0,1]" class="doughnut_text_container">
+                        <td style="width: 10%;">
+                            <div style="background-color: rgba(130,124,111,1); width: 15px; height: 15px;"></div>
+                        </td>
+                        <td style="width: 45%;">
+                            {{"CURRENT_COVERAGE" | translate}}
+                        </td>
+                        <td style="width: 10%;">
+                            {{currency}}
+                        </td>
+                        <td class="value" style="width: 31%;">
+                            {{cat.amt | number}}
+                        </td>
+                    </tr>
+                    <tr class="doughnut_text_container">
+                        <td>
+                            <div style="width: 15px; height: 15px;" ng-style="{{cat.color}}"></div>
+                        </td>
+                        <td>
+                            {{cat.diff_type}}
+                        </td>
+                        <td>
+                            {{currency}}
+                        </td>
+                        <td class="value">
+                            {{cat.diff | number}}
+                        </td>
+                    </tr>
+                    <tr class="doughnut_text_container">
+                        <td>
+                            <div style="background-color: transparent; width: 15px; height: 15px;"></div>
+                        </td>
+                        <td>
+                            {{"SUGGESTED_COVERAGE" | translate}}
+                        </td>
+                        <td>
+                            {{currency}}
+                        </td>
+                        <td class="value">
+                            {{cat.suggested | number}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+        <!--CHART LEGEND TABLE-->
+        <div id="chartLegendTable-export">
+            <table class="protections_table">
+                <tr ng-repeat="index in [0,1]">
+                    <td style="width: 13%;">{{"CATEGORY" | translate}}</td>
+                    <td style="width: 29%;">{{"WHY_IMPORTANT" | translate}}</td>
+                    <td style="width: 29%;">{{"GENERALLY_COVERS" | translate}}</td>
+                    <td style="width: 29%;">{{"SUGGESTED_COVERAGE" | translate}}</td>
+                </tr>
+                <tr ng-repeat="cat in viewObj.cat">
+                    <td>{{"REPORT_" + cat.title | translate}}</td>
+                    <td>{{"REPORT_" + cat.title + "_IMPT" | translate}}</td>
+                    <td>{{"REPORT_" + cat.title + "_DESC" | translate}}</td>
+                    <td>{{"REPORT_" + cat.title + "_SUGG" | translate}}</td>
+                </tr>
+            </table>
+        </div>
+
+
+        <!--CHART LEGEND TABLE-->
+        <div id="disclaimerTable-export">
+            <table class="protections_table">
+                <tr ng-repeat="index in [0,1]">
+                    <td style="width: 100%;">{{"DISCLAIMER_CONTENT" | translate}}</td>
+                </tr>
+            </table>
+        </div>
+
+    </ion-content>
+</ion-view>
+
+

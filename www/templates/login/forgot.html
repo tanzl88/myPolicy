@@ -1,0 +1,32 @@
+<ion-view id="forgotpassword_view" view-title="{{'FORGOT_PASSWORD' | translate}}" cache-view="false">
+    <ion-content class="login_view">
+        <div class="absolute_login_container">
+            <div class="transform-align-middle">
+                <div class="login_logo_container" >
+                    <img src="img/logo.svg" />
+                </div>
+                <form name="forgotForm" novalidate="" ng-submit="resetPassword(forgotForm)">
+                    <!--INPUT-->
+                    <p class="message">{{"FORGOT_PASSWORD_NOTE" | translate}}</p>
+                    <div class="input_container form-group" ng-class="{ 'has-error' : forgotForm.email.$invalid && !forgotForm.email.$pristine }">
+                        <div class="icon_container">
+                            <i class="policy-user"></i>
+                        </div>
+                        <input name="email" type="email" placeholder="{{'EMAIL' | translate}}"
+                               class="" ng-model="signup.email" required>
+                    </div>
+                    <!--MESSAGE-->
+                    <div class="form-message" ng-messages="forgotForm.email.$error" ng-show="!forgotForm.email.$pristine" style="" role="alert">
+                        <div ng-message="required">{{"REQUIRED_ERROR" | translate}}</div>
+                        <div ng-message="email">{{"EMAIL_ERROR" | translate}}</div>
+                    </div>
+
+                    <!--SUBMIT-->
+                    <input class="login_button" type="submit" value="{{'RESET_PASSWORD' | translate}}" />
+                </form>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>
+

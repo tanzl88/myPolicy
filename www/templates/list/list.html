@@ -1,0 +1,81 @@
+<ion-view id="list_view" view-title="{{'POLICY' | translate}}">
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear" ng-click="addPolicy()" ng-hide="credential === 'advisor' && clientSelected === false">
+            <i class="ion-plus"></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="" >
+
+        <!--NO CONTENT CONTAINER-->
+        <div class="no_content_container align-center transform-align-middle" ng-if="credential === 'advisor' && clientSelected === false">
+            <div class="login_logo_container" >
+                <img src="img/select_client.svg" />
+            </div>
+            <p class="new-line">{{"CLIENT_NOT_SELECTED" | translate}}</p>
+            <div class="login_button" ng-controller="NoClientCtrl" ng-click="goToSelectClient()">{{"SELECT_CLIENT_CAPS" | translate}}</div>
+        </div>
+
+        <div class="no_content_container align-center" ng-if="(credential === 'advisor' && clientSelected === true && policies.length === 0) || (credential === 'client' && policies.length === 0) ">
+            <p class="new-line">{{"NO_POLICY_MSG" | translate}}</p>
+        </div>
+        <ion-scroll style="height: 100%;" has-bouncing="true" ng-if="policies.length > 0">
+            <ion-list>
+                <ion-item ng-repeat="policy in policies" class="policy_item item-remove-animate" ng-click="editPolicy($index)">
+                    <div class="policy_summary">
+                        <p>{{$index + 1}}. {{policy.company}} - {{policy.planName}}</p>
+                        <div>
+                            <p class="inline-block align-middle" style="width: 35%;">{{"POLICY_NUMBER" | translate}}:</p>
+                            <p class="inline-block align-middle" style="width: 62%;">{{policy.policyNumber}}</p>
+                        </div>
+                        <div>
+                            <p class="inline-block align-middle" style="width: 35%;">{{"PLAN_TYPE" | translate}}:</p>
+                            <p class="inline-block align-middle" style="width: 62%;">{{policy.planTypeDisplayed}}</p>
+                        </div>
+                        <i class="swipe-left-icon transform-align-middle ion-chevron-left"></i>
+                    </div>
+                    <ion-option-button class="button gray" ng-click="goToGallery($index)">
+                        <i class="ion-ios-camera-outline"></i>
+                    </ion-option-button>
+                    <ion-option-button class="button yellow" ng-click="remove($index,policy.id)">
+                        <i class="ion-ios-trash-outline"></i>
+                    </ion-option-button>
+
+                </ion-item>
+            </ion-list>
+        </ion-scroll>
+
+    </ion-content>
+
+    <!--FULL TABLE -> TRIGGERED IN LANDSCAPE-->
+    <div class="ios-header"></div>
+    <div ng-if="showRotate" id="full_table_rotate" class="">
+        <p>Rotate to go back</p>
+    </div>
+    <div class="full_table">
+        <ion-scroll zooming="true" direction="xy" has-bouncing="true" style="height: 100%; width: 100%;" on-touch="touch()" on-release="release()">
+            <table>
+                <thead>
+                <tr>
+                    <th ng-repeat="col in fullTableColumns" style="min-width : {{col.width}};">{{col.title | translate}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="policyObj in policies">
+                    <td ng-repeat="col in fullTableColumns">
+                        <p ng-if="col.type === 'index'">{{$parent.$parent.$index + 1}}</p>
+                        <p ng-if="col.type === 'text' || col.type === 'date'">{{policyObj[col.varName]}}</p>
+                        <p ng-if="col.type === 'currency'">{{policyObj[col.varName] | number}}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="12" class="align-right">{{"TOTAL" | translate}}:</td>
+                    <td ng-repeat="sum in sums track by $index" class="sum">{{sum | number}}</td>
+                    <td ></td>
+                </tr>
+                </tbody>
+            </table>
+        </ion-scroll>
+    </div>
+</ion-view>
+
+
