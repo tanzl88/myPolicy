@@ -5,7 +5,7 @@ angular.module('$termPicker', []).directive('termPicker', function () {
         require: [],
         //require: ['ngModel', 'ngData', 'ngSelectedId', 'ngSelectedValue', '?ngTitle', 'ngiItemName', 'ngItemId'],
         template: '<input class="align-center bg_color datepicker" type="text" ng-click="showTermPicker()" style="cursor:inherit; width: 100%;" readonly/>',
-        controller: function ($scope, $element, $attrs, $ionicModal, $timeout, $interval, $parse, $state, $translate, findParentService, $ionicSlideBoxDelegate, $cordovaKeyboard) {
+        controller: function ($scope, $element, $attrs, $ionicModal, $timeout, $interval, $parse, $state, $translate, findParentService, $ionicSlideBoxDelegate, utilityService) {
             var parentScope = findParentService.findByFunctionName($scope,"initVar");
             $scope.termPicker = {};
             $scope.pickerMode = true;
@@ -65,13 +65,8 @@ angular.module('$termPicker', []).directive('termPicker', function () {
                 //DISABLE USER SLIDES
                 $ionicSlideBoxDelegate.$getByHandle("termPicker" + $attrs.name).enableSlide(false);
 
-                //HIDE KEYBOARD
-                var delay_time = 0;
-                if (isMobile() && $cordovaKeyboard.isVisible()) {
-                    $cordovaKeyboard.close();
-                    delay_time = 400;
-                }
-
+                //HIDE KEYBOARD BEFORE MODAL SHOWN
+                var delay_time = utilityService.getKeyboardDelay();
                 var model = $parse($attrs.ngModelName)(parentScope);
                 var initValueYear = validity_test(model) ? model : 25;
                 var initValueAge  = validity_test(model) ? model : 99;

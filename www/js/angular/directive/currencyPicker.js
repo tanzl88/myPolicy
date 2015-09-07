@@ -5,18 +5,15 @@ angular.module('$currencyPicker', []).directive('currencyPicker', function () {
         require: [],
         //require: ['ngModel', 'ngData', 'ngSelectedId', 'ngSelectedValue', '?ngTitle', 'ngiItemName', 'ngItemId'],
         template: '<input class="align-center bg_color datepicker" type="text" ng-click="showCurrencyPicker()" style="cursor:inherit;" readonly required/>',
-        controller: function ($scope, $element, $attrs, $ionicModal, $timeout, $parse, $state, findParentService, currencyService, $cordovaKeyboard) {
+        controller: function ($scope, $element, $attrs, $ionicModal, $timeout, $parse, $state, findParentService, currencyService, utilityService) {
             var parentScope = findParentService.findByFunctionName($scope,"initVar");
             $scope.currencyPicker = {};
             
             $scope.data = currency_list_g;
             // ---------------- MODAL FUNCTION ----------------
             $scope.showCurrencyPicker = function () {
-                var delay_time = 0;
-                if (isMobile() && $cordovaKeyboard.isVisible()) {
-                    $cordovaKeyboard.close();
-                    delay_time = 400;
-                }
+                //HIDE KEYBOARD BEFORE MODAL SHOWN
+                var delay_time = utilityService.getKeyboardDelay();
                 $timeout(function(){
                     $scope.currencyPicker.show();
                 },delay_time);

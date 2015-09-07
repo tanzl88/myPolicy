@@ -1,5 +1,5 @@
 app.controller('AdvisorInfoCtrl', function($scope,$http,$toast,$ionicScrollDelegate,
-                                           $cordovaEmailComposer,$translate,$timeout,$ionicHistory,$cordovaKeyboard,
+                                           $cordovaEmailComposer,$translate,$timeout,$ionicHistory,utilityService,
                                            advisorDataDbService,loadingService,modalService,errorHandler) {
     $scope.initVar = function() {
         $scope.accountLinked = advisorDataDbService.profileFound();
@@ -77,12 +77,8 @@ app.controller('AdvisorInfoCtrl', function($scope,$http,$toast,$ionicScrollDeleg
     ];
 
     $scope.sendFeedback = function(form) {
-        var delay_time = 0;
-        if (isMobile() && $cordovaKeyboard.isVisible()) {
-            $cordovaKeyboard.close();
-            delay_time = 400;
-        }
-
+        //HIDE KEYBOARD UPON SUBMIT
+        var delay_time = utilityService.getKeyboardDelay();
         $timeout(function(){
             if (form.$invalid) {
                 form.contact.$setDirty();

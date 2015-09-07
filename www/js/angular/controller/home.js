@@ -1,6 +1,6 @@
-app.controller('HomeCtrl', function($rootScope,$scope,$http,$timeout,$interval,$state,$ionicViewSwitcher,$ionicHistory,$translate,$filter,$toast,$ionicModal,loadingService,modalService,
+app.controller('HomeCtrl', function($scope,$http,$timeout,$state,$translate,$toast,loadingService,modalService,
                                     loadDataDbService,personalDataDbService,advisorDataDbService,policyDataService,clientListDbService,pushNotificationService,
-                                    credentialManager,doughnutChartService,notificationDbService,errorHandler) {
+                                    credentialManager,doughnutChartService,notificationDbService,utilityService,errorHandler) {
 
     //---------------------SWIPER---------------------
     $scope.profileMenuSwiper = new Swiper('#profile_menu', {
@@ -13,14 +13,7 @@ app.controller('HomeCtrl', function($rootScope,$scope,$http,$timeout,$interval,$
         $state.go("tabs.home." + state);
     };
 
-    $scope.editAdvisorProfile = function() {
-        $state.go("tabs.home.editAdvisorProfile");
-    };
-
-
-
     // -------------------- CLIENT LIST --------------------
-    //var clientList = name_list_g;
     $scope.refreshClientName = function() {
         $scope.selectedClientName = credentialManager.getClientProperty("name");
     };
@@ -65,27 +58,6 @@ app.controller('HomeCtrl', function($rootScope,$scope,$http,$timeout,$interval,$
         });
     };
 
-    // -------------------- DASHBOARD --------------------
-    $scope.dashboardAnimate = function() {
-        var greetEl = $("#dashboard_section .greet");
-        var selectEl = $("#dashboard_section .client_select");
-        var fadeInTime = 666;
-        $(greetEl).fadeIn(fadeInTime);
-
-        TweenLite.to(greetEl, fadeInTime/1000, {
-            x: 0,
-            ease : Power1.easeIn
-        });
-
-        $timeout(function(){
-            $(selectEl).fadeIn(fadeInTime);
-            TweenLite.to(selectEl, fadeInTime/1000, {
-                x: 0,
-                ease : Power1.easeIn
-            });
-        },fadeInTime);
-    }
-
     // -------------------- INIT VAR --------------------
     $scope.refreshClientList = function() {
         var clientList = clientListDbService.getClients();
@@ -113,91 +85,23 @@ app.controller('HomeCtrl', function($rootScope,$scope,$http,$timeout,$interval,$
             }
         } else {
             $scope.updateInboxCount();
-            $scope.meterData = policyDataService.getMeterData();
-            drawDoughnuts();
-
-            $scope.percentAnimate = 0;
-            var percentAnimateTimer = $interval(function(){
-                if ($scope.percentAnimate < $scope.meterData.percent) {
-                    $scope.percentAnimate += 1;
-                } else {
-                    $interval.cancel(percentAnimateTimer);
-                    animateInflate($("#percent_container"),1.2);
-                    animateInflate($("#client-doughnut"),1.1);
-                }
-            },5);
+            $scope.meterAnimate();
         }
     };
     $scope.updateInboxCount = function() {
         $scope.inboxCount = notificationDbService.getCount();
     };
 
-    // -------------------- LOGOUT --------------------
-    $scope.logout = function() {
-        loadingService.show("LOGGING_OUT");
-        localStorage.removeItem("autologin");
-        $http.post(register_url + "logout")
-            .success(function(){
-                $ionicViewSwitcher.nextDirection('back');
-                $state.go("login");
-                $timeout(function(){
-                    $rootScope.$broadcast("LOGOUT");
-                    $ionicHistory.clearHistory();
-                    //$ionicHistory.clearCache();
-                    loadingService.hide();
-                },333);
-            });
-    };
 
 
-    // -------------------- TOOLTIP MODAL --------------------
-    $scope.showDoughnutTooltip = function() {
-        $scope.highlightType = undefined
-        var varReplace = {
-            percent     : $scope.meterData.percent,
-            current     : $filter('currency')($scope.meterData.cover,$scope.currency,0),
-            suggested   : $filter('currency')($scope.meterData.suggest,$scope.currency,0)
-        };
-        $scope.dashboardDoughnutTooltip = $translate.instant("YOUR_PROTECTION_TOOLTIP",varReplace);
-        $scope.doughnutTooltip.show();
-    };
-    modalService.init("doughnutTooltip","dashboardDoughnutTooltip",$scope).then(function(modal){
-        $scope.doughnutTooltip = modal;
-    });
-    $scope.showCoverageStatusTooltip = function(type) {
-        $scope.highlightType = type;
-        $scope.coverageStatus = $translate.instant(type.toUpperCase() + "_TOOLTIP");
-        $scope.coverageStatusNeeds = $scope.meterData[type + "P"];
-        $scope.coverageStatusTooltip.show();
-    };
-    modalService.init("coverageStatusTooltip","coverageStatusTooltip",$scope).then(function(modal){
-        $scope.coverageStatusTooltip = modal;
-    });
-    $scope.goToReport = function(type) {
-        $scope.doughnutTooltip.hide();
-        $scope.coverageStatusTooltip.hide();
-        $timeout(function(){
-            $state.go("tabs.report");
-            $timeout(function(){
-                angular.forEach($scope.meterData[type + "P"],function(cat,index){
-                    var DOM = $("#" + cat.toUpperCase() + "_ROW td");
-                    $(DOM).css("background-color","#FED82F");
-                    $timeout(function(){
-                        TweenLite.to(DOM, 0.2, {
-                            css: { "backgroundColor" : "#FFFFFF" },
-                            //ease: Power1.easeInOut
-                        });
-                    },2500);
-                });
-            },333);
-        },333);
-    };
+
+
 
     // -------------------- MODAL AND ADD CLIENT --------------------
     function hideEverything() {
         loadingService.hide();
         $scope.tempAccountModal.hide();
-        $scope.closeLinkModal();
+        $scope.linkAccountModal.hide();
     }
 
     $scope.createTempAccount = function(form) {
@@ -270,65 +174,20 @@ app.controller('HomeCtrl', function($rootScope,$scope,$http,$timeout,$interval,$
     modalService.init("create_temp_account","create_temp_account",$scope).then(function(modal){
         $scope.tempAccountModal = modal;
     });
-
-    $ionicModal.fromTemplateUrl('link_account.html', {
-        scope: $scope,
-        animation: 'slide-in-up'
-    }).then(function(modal) {
-        $scope.linkModal = modal;
+    $scope.openTempModal = function() {
+        $scope.tempAccountModal.show();
+        utilityService.resetForm("accountNameForm",{
+            accountName : undefined
+        });
+    };
+    modalService.init("link_account","link_account",$scope).then(function(modal){
+        $scope.linkAccountModal = modal;
     });
     $scope.openLinkModal = function() {
-        $timeout(function(){
-            $("#linkAccountInput").val("").focus();
-        },400);
-        $scope.linkModal.show();
-    };
-    $scope.closeLinkModal = function() {
-        $scope.linkModal.hide();
-    };
-    $scope.$on('$destroy', function() {
-        $scope.linkModal.remove();
-    });
-
-    //---------------------- DOUGHNUT CHART ----------------------------------
-    function animateInflate(DOM,scale) {
-        TweenLite.to(DOM, 0.3, {
-            scale: scale,
-            ease: Power1.easeInOut,
-            onComplete: function() {
-                TweenLite.to(DOM, 0.2, {
-                    scale: 1,
-                    ease: Power1.easeInOut
-                });
-            }
+        $scope.linkAccountModal.show();
+        utilityService.resetForm("linkAccountForm",{
+            accountName : undefined
         });
-    }
-    function drawDoughnuts() {
-        var initTimer;
-        initTimer = $interval(function(){
-            var ele_to_check = $("#dashboard_section .doughnut_container canvas");
-            if (ele_to_check.length > 0) {
-                //STYLING
-                var view_height = $("#home_view ion-content").height();
-                var coverage_number_height = $("#dashboard_coverage_number").height();
-                var chart_width = (view_height * 0.6 - coverage_number_height) * 0.9;
-
-                console.log(view_height + " vs " + chart_width);
-
-                //var chart_width = Math.floor(window_width_g * 0.7);
-                $("#dashboard_section .doughnut_container").width(chart_width).height(chart_width);
-                $(ele_to_check).attr("width",chart_width).attr("height",chart_width);
-                doughnutChartService.drawChart("client-doughnut", $scope.meterData.chartData, doughnutChartService.getChartOptions({
-                    percentageInnerCutout: 60,
-                    spaceTop: 1,
-                    spaceBottom: 1,
-                    spaceLeft: 1,
-                    spaceRight: 1,
-                    animationSteps: 50,
-                }));
-                $interval.cancel(initTimer);
-            }
-        },100);
     };
 });
 

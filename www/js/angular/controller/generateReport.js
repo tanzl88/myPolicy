@@ -1,5 +1,6 @@
-app.controller('GenerateReportCtrl', function($scope,$rootScope,$q,$state,$translate,$ionicModal,$toast,credentialManager,
-                                              $cordovaFile,$cordovaFileOpener2,$cordovaEmailComposer,loadingService) {
+app.controller('GenerateReportCtrl', function($scope,$rootScope,$q,$state,$translate,$toast,credentialManager,
+                                              $cordovaFile,$cordovaFileOpener2,$cordovaEmailComposer,
+                                              loadingService,modalService,utilityService) {
 
     // ------------ FILE UTILITY ------------
     function listDir(dirInput) {
@@ -106,7 +107,8 @@ app.controller('GenerateReportCtrl', function($scope,$rootScope,$q,$state,$trans
         });
     };
     $scope.remove = function(index) {
-        $scope.openRemoveModal();
+        //$scope.openRemoveModal();
+        $scope.removeModal.show();
         $scope.removeIndex = index;
     };
     $scope.confirmRemove = function() {
@@ -117,15 +119,30 @@ app.controller('GenerateReportCtrl', function($scope,$rootScope,$q,$state,$trans
     };
 
     // ------------ NEW REPORT ------------
+
     $scope.generateReport = function() {
-
-        //$scope.openModal();
-
-        if ($scope.clientSelected) {
-            $scope.openModal();
-        } else {
+        if (ionic.Platform.isWebView() && !$scope.clientSelected) {
             $toast.showClientNotSelected();
+        } else {
+            $scope.generateReportModal.show();
+            utilityService.resetForm("reportNameForm",{
+                reportName : undefined
+            });
         }
+        //    if ($scope.clientSelected) {
+        //        $scope.generateReportModal.show();
+        //        utilityService.resetForm("reportNameForm",{
+        //            reportName : undefined
+        //        });
+        //    } else {
+        //        $toast.showClientNotSelected();
+        //    }
+        //} else {
+        //    $scope.generateReportModal.show();
+        //    utilityService.resetForm("reportNameForm",{
+        //        reportName : undefined
+        //    });
+        //}
     };
     $scope.export = function(form) {
         if (form.$invalid) {
@@ -147,7 +164,8 @@ app.controller('GenerateReportCtrl', function($scope,$rootScope,$q,$state,$trans
                 }, function (error) {
                     if (error.code === 1) {
                         //EXPORT
-                        $scope.closeModal();
+                        //$scope.closeModal();
+                        $scope.generateReportModal.hide();
                         loadingService.show("GENERATING_REPORT",1);
                         $rootScope.reportName = filename;
                         $state.go("tabs.home.generateReport.export");
@@ -178,35 +196,11 @@ app.controller('GenerateReportCtrl', function($scope,$rootScope,$q,$state,$trans
 
 
     // ------------- MODAL -------------
-    $ionicModal.fromTemplateUrl('generate_report.html', {
-        scope: $scope,
-        animation: 'slide-in-up'
-    }).then(function(modal) {
-        $scope.modal = modal;
+    modalService.init("generate_report","generate_report",$scope).then(function(modal){
+        $scope.generateReportModal = modal;
     });
-    $scope.openModal = function() {
-        $scope.modal.show();
-    };
-    $scope.closeModal = function() {
-        $scope.modal.hide();
-    };
-    $scope.$on('$destroy', function() {
-        $scope.modal.remove();
-    });
-    $ionicModal.fromTemplateUrl('remove_modal.html', {
-        scope: $scope,
-        animation: 'slide-in-up'
-    }).then(function(modal) {
+    modalService.init("remove_modal","remove_modal",$scope).then(function(modal){
         $scope.removeModal = modal;
-        $scope.removeMessage = $translate.instant("PDF_REMOVE_MSG");
     });
-    $scope.openRemoveModal = function() {
-        $scope.removeModal.show()
-    };
-    $scope.closeRemoveModal = function() {
-        $scope.removeModal.hide();
-    };
-    $scope.$on('$destroy', function() {
-        $scope.removeModal.remove();
-    });
+    $scope.removeMessage = $translate.instant("PDF_REMOVE_MSG");
 });

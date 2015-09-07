@@ -137,30 +137,6 @@ app.run(function ($rootScope,$ionicPlatform,$state,$cordovaNetwork,currencyServi
         //LOCK SCREEN IMMEDIATELY ONCE READY
         screen.lockOrientation("portrait-primary");
 
-        //LIST TAB ORIENTATION CHANGE EVENT LISTENER
-        window.addEventListener("orientationchange", function() {
-            if ($state.current.name === "tabs.list") {
-                var orientation = (typeof screen.orientation === "object") ? (screen.orientation.type.split("-"))[0] : (screen.orientation.split("-"))[0];
-                console.info("ORIENTATION: " + orientation);
-                if (orientation === "landscape") {
-                    $("body").addClass("landscape");
-                    screen.lockOrientation("landscape-primary");
-                    screen.unlockOrientation();
-                } else {
-                    //TO PREVENT AFTER PAUSE PORTRAIT MODE
-                    if (!ionic.Platform.isIOS() && ($(window).width() < $(window).height())) {
-                        $("body").addClass("landscape");
-                        screen.lockOrientation("landscape-primary");
-                        screen.unlockOrientation();
-                    } else {
-                        $("body").removeClass("landscape");
-                        screen.lockOrientation("portrait-primary");
-                        screen.unlockOrientation();
-                    }
-                }
-            }
-        }, false);
-
         //CURRENCY
         var currencyIndex = localStorage.getItem("currency");
         if (validity_test(currencyIndex)) currencyService.setCurrency(currencyIndex);

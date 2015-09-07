@@ -47,35 +47,37 @@
     </ion-content>
 
     <!--FULL TABLE -> TRIGGERED IN LANDSCAPE-->
-    <div class="ios-header"></div>
-    <div ng-if="showRotate" id="full_table_rotate" class="">
-        <p>Rotate to go back</p>
-    </div>
-    <div class="full_table">
-        <ion-scroll zooming="true" direction="xy" has-bouncing="true" style="height: 100%; width: 100%;" on-touch="touch()" on-release="release()">
-            <table>
-                <thead>
-                <tr>
-                    <th ng-repeat="col in fullTableColumns" style="min-width : {{col.width}};">{{col.title | translate}}</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="policyObj in policies">
-                    <td ng-repeat="col in fullTableColumns">
-                        <p ng-if="col.type === 'index'">{{$parent.$parent.$index + 1}}</p>
-                        <p ng-if="col.type === 'text' || col.type === 'date'">{{policyObj[col.varName]}}</p>
-                        <p ng-if="col.type === 'currency'">{{policyObj[col.varName] | number}}</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="12" class="align-right">{{"TOTAL" | translate}}:</td>
-                    <td ng-repeat="sum in sums track by $index" class="sum">{{sum | number}}</td>
-                    <td ></td>
-                </tr>
-                </tbody>
-            </table>
-        </ion-scroll>
-    </div>
+    <!--<div>-->
+        <div class="ios-header"></div>
+        <div ng-if="showRotate" id="full_table_rotate" class="">
+            <p>{{"ROTATE_TO_GO_BACK" | translate}}</p>
+        </div>
+        <div class="full_table">
+            <ion-scroll zooming="true" direction="xy" has-bouncing="true" style="height: 100%; width: 100%;" on-touch="touch()" on-release="release()">
+                <table>
+                    <thead>
+                    <tr>
+                        <th ng-repeat="col in fullTableColumns" style="min-width : {{col.width}};">{{col.title | translate}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="policyObj in policies">
+                        <td ng-repeat="col in fullTableColumns">
+                            <p ng-if="col.type === 'index'">{{$parent.$parent.$index + 1}}</p>
+                            <p ng-if="col.type === 'text' || col.type === 'date'">{{policyObj[col.varName]}}</p>
+                            <p ng-if="col.type === 'currency'">{{policyObj[col.varName] | number}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="12" class="align-right">{{"TOTAL" | translate}}:</td>
+                        <td ng-repeat="sum in sums track by $index" class="sum">{{sum | number}}</td>
+                        <td ></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </ion-scroll>
+        </div>
+    <!--</div>-->
 </ion-view>
 
 

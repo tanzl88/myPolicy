@@ -1,7 +1,7 @@
 <ion-view id="home_view" view-title="{{'HOME' | translate}}">
     <ion-content class="" overflow-scroll="true">
         <!--ADVISOR DASHBOARD-->
-        <section id="dashboard_section" style="height: 40%; background-image: url('img/dashboard_bg.jpg'); background-size: cover;"  ng-show="credential === 'advisor'" ng-click="detriggerClientSearch();">
+        <section id="dashboard_section" ng-controller="AdvisorDashboardCtrl" style="height: 40%; background-image: url('img/dashboard_bg.jpg'); background-size: cover;"  ng-show="credential === 'advisor'" ng-click="detriggerClientSearch();">
             <div ng-show="advisorProfileFound === true" class="transform-align-middle">
                 <p class="greet">Hi {{advisorData.name}},<br><br>Who would you like<br>to advise today?</p>
                 <div class="client_select" ng-click="triggerClientSearch($event); $event.stopPropagation();">
@@ -35,7 +35,7 @@
                                 <i class="inline-block align-middle ion-android-arrow-back" style="width: 12%;"></i>
                                 <p class="inline-block align-middle" style="width: 88%;">{{"BACK" | translate}}</p>
                             </ion-item>
-                            <ion-item class="client_list_item extra-padded" ng-click="tempAccountModal.show();">
+                            <ion-item class="client_list_item extra-padded" ng-click="openTempModal()">
                                 <i class="inline-block align-middle policy-transfer-arrow" style="width: 12%;"></i>
                                 <p class="inline-block align-middle" style="width: 88%;">{{"CREATE_CLIENT_ACCOUNT" | translate}}</p>
                             </ion-item>
@@ -65,7 +65,7 @@
 
 
         <!--USER DASHBOARD-->
-        <section id="dashboard_section" style="height: 60%;" ng-show="credential === 'client'">
+        <section id="dashboard_section" ng-controller="ClientDashboardCtrl" style="height: 60%;" ng-show="credential === 'client'">
             <div class="transform-align-middle">
                 <div class="doughnut_container" ng-click="showDoughnutTooltip()">
                     <canvas id="client-doughnut"></canvas>
@@ -96,7 +96,7 @@
         <section id="menu_list" ng-class="{'client' : credential === 'client'}">
             <!--ADVISOR ONLY-->
             <div ng-show="credential === 'advisor'">
-                <div id="advisorProfileClick" class="menu_list_item" ng-click="editAdvisorProfile()">
+                <div id="advisorProfileClick" class="menu_list_item" ng-click="goTo('editAdvisorProfile')">
                     <i class="policy-briefcase inline-block align-middle"></i>
                     <p class="inline-block align-middle">{{"MY_PROFILE" | translate}}</p>
                 </div>
@@ -112,10 +112,6 @@
                     <i class="policy-chart inline-block align-middle"></i>
                     <p class="inline-block align-middle">{{"GENERATE_REPORT" | translate}}</p>
                 </div>
-                <!--<div class="menu_list_item" ng-click="goTo('dataCollection')">-->
-                    <!--<i class="policy-survey inline-block align-middle"></i>-->
-                    <!--<p class="inline-block align-middle">Data Collection</p>-->
-                <!--</div>-->
             </div>
 
 
@@ -143,15 +139,10 @@
                 <i class="policy-gear inline-block align-middle"></i>
                 <p class="inline-block align-middle">{{"SETTINGS" | translate}}</p>
             </div>
-            <div class="menu_list_item" ng-click="logout()">
+            <div class="menu_list_item" ng-controller="LogoutCtrl" ng-click="logout()">
                 <i class="policy-logout inline-block align-middle"></i>
                 <p class="inline-block align-middle">{{"LOGOUT" | translate}}</p>
             </div>
-            <!--<div class="menu_list_item" ng-click="goTo('generateReport')">-->
-                <!--<i class="policy-chart inline-block align-middle"></i>-->
-                <!--<p class="inline-block align-middle">{{"GENERATE_REPORT" | translate}}</p>-->
-            <!--</div>-->
-
         </section>
     </ion-content>
 </ion-view>

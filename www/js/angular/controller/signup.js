@@ -1,4 +1,4 @@
-app.controller('SignUpCtrl', function($scope,$http,$ionicModal,$ionicHistory,$toast,modalService) {
+app.controller('SignUpCtrl', function($scope,$http,$ionicHistory,$toast,modalService) {
     $scope.initVar = function() {
         $scope.advisorRegister = true;
     };
@@ -46,7 +46,6 @@ app.controller('SignUpCtrl', function($scope,$http,$ionicModal,$ionicHistory,$to
 
     $scope.goToLogin = function() {
         $ionicHistory.goBack(-2);
-        //$scope.closeModal();
         $scope.loginMsg.hide();
     };
 
@@ -54,32 +53,16 @@ app.controller('SignUpCtrl', function($scope,$http,$ionicModal,$ionicHistory,$to
     modalService.init("login_msg","login_msg",$scope).then(function(modal){
         $scope.loginMsg = modal;
     });
-    //$ionicModal.fromTemplateUrl('login_msg.html', {
-    //    scope: $scope,
-    //    animation: 'slide-in-up'
-    //}).then(function(modal) {
-    //    $scope.modal = modal
-    //});
-    //$scope.openModal = function() {
-    //    $scope.modal.show()
-    //};
-    //$scope.closeModal = function() {
-    //    $scope.modal.hide();
-    //};
-    //$scope.$on('$destroy', function() {
-    //    $scope.modal.remove();
-    //});
 
     // ------------- CHECKBOX -------------
     $scope.toggleCheckbox = function() {
-
         //$("#advisor_register_container i").click();
         $scope.advisorRegister = !$scope.advisorRegister;
         console.log($scope.advisorRegister);
     };
 });
 
-app.controller('RetrieveAccountCtrl', function($scope,$http,$toast,$ionicModal,$ionicHistory,modalService) {
+app.controller('RetrieveAccountCtrl', function($scope,$http,$toast,$ionicHistory,modalService) {
     $scope.initVar = function() {
         //NO CACHE
     };
@@ -131,26 +114,10 @@ app.controller('RetrieveAccountCtrl', function($scope,$http,$toast,$ionicModal,$
     $scope.goToLogin = function() {
         $ionicHistory.goBack();
         $scope.loginMsg.hide();
-        //$scope.closeModal();
     };
 
     //MODAL
     modalService.init("login_msg","login_msg",$scope).then(function(modal){
         $scope.loginMsg = modal;
     });
-    //$ionicModal.fromTemplateUrl('login_msg.html', {
-    //    scope: $scope,
-    //    animation: 'slide-in-up'
-    //}).then(function(modal) {
-    //    $scope.modal = modal
-    //});
-    //$scope.openModal = function() {
-    //    $scope.modal.show()
-    //};
-    //$scope.closeModal = function() {
-    //    $scope.modal.hide();
-    //};
-    //$scope.$on('$destroy', function() {
-    //    $scope.modal.remove();
-    //});
 });

@@ -1,4 +1,4 @@
-app.controller('CreateClientAccountCtrl', function($scope,$http,$ionicHistory,$ionicModal,$translate,$toast,$timeout,loadingService,modalService,
+app.controller('CreateClientAccountCtrl', function($scope,$http,$ionicHistory,$translate,$toast,$timeout,loadingService,modalService,
                                                    loadDataDbService,credentialManager,clientListDbService,errorHandler) {
     function getTempAccount(callback) {
         $http.post(ctrl_url + "get_temp_account")

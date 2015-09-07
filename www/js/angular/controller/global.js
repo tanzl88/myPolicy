@@ -1,4 +1,4 @@
-app.controller('GlobalCtrl', function($scope,$rootScope,$timeout,$state,tutorialManager) {
+app.controller('GlobalCtrl', function($scope,$rootScope,$timeout,$state,tutorialManager,loadingService) {
     //ORIENTATION LOCK CONTROL
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         var stateNameSplit = toState.name.split(".");
@@ -46,13 +46,17 @@ app.controller('GlobalCtrl', function($scope,$rootScope,$timeout,$state,tutorial
         "createClientAccount",
         "report",
         "export",
-        "dataCollection"
     ];
 
     $rootScope.$on("$ionicView.beforeEnter", function(scopes, states) {
         if (states.stateName !== undefined) {
             var stateNameSplit = states.stateName.split(".");
             var stateName = stateNameSplit[stateNameSplit.length - 1];
+
+            //LOADING SCREEN WHILE WAITING FOR VIEW TO RENDER
+            if (stateName === "list" && !states.fromCache) {
+                loadingService.show("LOADING");
+            }
 
             //LOGIN
             if (stateName === "login") {

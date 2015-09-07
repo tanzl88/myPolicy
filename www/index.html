@@ -83,14 +83,24 @@
     <script src="lib/angular-macgyver/lib/macgyver.js"></script>
     <script src="js/angular/states.js"></script>
 
+    <!----------CONTROLLER---------->
+    <!--GLOBAL-->
     <script src="js/angular/controller/global.js"></script>
     <script src="js/angular/controller/tabs.js"></script>
+    <script src="js/angular/controller/tutorial.js"></script>
+    <script src="js/angular/controller/toast.js"></script>
+    <!--LOGIN-->
     <script src="js/angular/controller/login.js"></script>
     <script src="js/angular/controller/login-forgot.js"></script>
     <script src="js/angular/controller/signup.js"></script>
-    <script src="js/angular/controller/tutorial.js"></script>
-    <script src="js/angular/controller/toast.js"></script>
-    <script src="js/angular/controller/profile.js"></script>
+    <script src="js/angular/controller/logout.js"></script>
+    <!--HOME-->
+    <script src="js/angular/controller/home.js"></script>
+    <script src="js/angular/controller/dashboard.js"></script>
+    <script src="js/angular/controller/generateReport.js"></script>
+    <script src="js/angular/controller/export.js"></script>
+
+
     <script src="js/angular/controller/editProfile.js"></script>
     <script src="js/angular/controller/settings.js"></script>
     <script src="js/angular/controller/birthday.js"></script>
@@ -100,12 +110,12 @@
     <script src="js/angular/controller/overview.js"></script>
     <script src="js/angular/controller/customizeFieldNames.js"></script>
     <script src="js/angular/controller/report.js"></script>
-    <script src="js/angular/controller/export.js"></script>
+
     <script src="js/angular/controller/caseNotes.js"></script>
     <script src="js/angular/controller/advisorInfo.js"></script>
     <script src="js/angular/controller/advisorProfile.js"></script>
     <script src="js/angular/controller/createClientAccount.js"></script>
-    <script src="js/angular/controller/generateReport.js"></script>
+
 
     <script src="js/angular/directive/angular-bootstrap-checkbox.js"></script>
     <script src="js/angular/directive/datePicker.js"></script>
@@ -141,7 +151,8 @@
     <script src="js/angular/services/reminderService.js"></script>
     <script src="js/angular/services/picNotesService.js"></script>
     <script src="js/angular/services/exportUtility.js"></script>
-    <!--<script src="js/angular/services/logoutUtility.js"></script>-->
+    <script src="js/angular/services/utilityService.js"></script>
+    <script src="js/angular/services/userService.js"></script>
 
 </head>
 <body ng-app="myPolicy" ng-controller="GlobalCtrl">

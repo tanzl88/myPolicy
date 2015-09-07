@@ -161,14 +161,14 @@ input.login_button {
   margin: auto;
   font-size: 1.2em;
   line-height: 1;
-  display: none;
+  opacity: 0.01;
   transform: translateX(-5%);
   -webkit-transform: translateX(-5%); }
 
 #dashboard_section .client_select {
   width: 80%;
   margin: auto 10%;
-  display: none;
+  opacity: 0.01;
   transform: translateX(-5%);
   -webkit-transform: translateX(-5%);
   border-top: 3px solid rgba(0, 0, 0, 0.6);

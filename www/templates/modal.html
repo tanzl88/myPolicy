@@ -28,9 +28,9 @@
 <script id="create_temp_account.html" type="text/ng-template">
     <div class="modal" style="background-color: rgba(0,0,0,0.5)">
         <ion-content class="temp_account_view">
-            <form class="transform-align-middle" name="accountNameForm" novalidate="" ng-submit="createTempAccount(accountNameForm)">
+            <form class="transform-align-middle" id="accountNameForm" name="accountNameForm" novalidate="" ng-submit="createTempAccount(accountNameForm)">
                 <p>{{"ACCOUNT_NAME_MSG" | translate}}</p>
-                <input id="accountNameInput" class="bg_color form-group align-center" type="text" name="accountName" ng-model="account.name" required
+                <input id="accountNameInput" class="bg_color form-group align-center" type="text" name="accountName" ng-model="accountName" required
                        ng-class="{ 'has-error' : accountNameForm.accountName.$invalid && !accountNameForm.accountName.$pristine }">
                 <div class="row">
                     <input class="col login_button" type="text" value="{{'CANCEL_CAPS' | translate}}" ng-click="tempAccountModal.hide();" style="margin-right: 5%;" readonly />
@@ -44,12 +44,12 @@
 <script id="link_account.html" type="text/ng-template">
     <div class="modal" style="background-color: rgba(0,0,0,0.5)">
         <ion-content class="temp_account_view">
-            <form class="transform-align-middle" name="linkAccountForm" novalidate="" ng-submit="requestLinkAccount(linkAccountForm)">
+            <form class="transform-align-middle" id="linkAccountForm" name="linkAccountForm" novalidate="" ng-submit="requestLinkAccount(linkAccountForm)">
                 <p>{{"LINK_ACCOUNT_MSG" | translate}}</p>
-                <input id="linkAccountInput" class="bg_color form-group align-center" type="text" name="clientEmail" ng-model="account.name" required
+                <input id="linkAccountInput" class="bg_color form-group align-center" type="text" name="clientEmail" ng-model="accountName" required
                        ng-class="{ 'has-error' : linkAccountForm.clientEmail.$invalid && !linkAccountForm.clientEmail.$pristine }">
                 <div class="row">
-                    <input class="col login_button" type="text" value="{{'CANCEL_CAPS' | translate}}" ng-click="closeLinkModal()" style="margin-right: 5%;" readonly />
+                    <input class="col login_button" type="text" value="{{'CANCEL_CAPS' | translate}}" ng-click="linkAccountModal.hide()" style="margin-right: 5%;" readonly />
                     <input class="col login_button" type="submit" value="{{'LINK_CAPS' | translate}}" />
                 </div>
             </form>
@@ -60,10 +60,10 @@
 <script id="generate_report.html" type="text/ng-template">
     <div class="modal" style="background-color: rgba(0,0,0,0.5)">
         <ion-content class="temp_account_view">
-            <form class="transform-align-middle" name="reportNameForm" novalidate="" ng-submit="export(reportNameForm)">
+            <form id="reportNameForm" class="transform-align-middle" name="reportNameForm" novalidate="" ng-submit="export(reportNameForm)">
                 <p>{{"GENERATE_REPORT_MSG" | translate}}</p>
                 <!--REPORT NAME-->
-                <input class="bg_color form-group" type="text" name="reportName" ng-model="report.name" ng-pattern="/^[a-zA-Z0-9]*$/" required
+                <input class="bg_color form-group" type="text" name="reportName" ng-model="reportName" ng-pattern="/^[a-zA-Z0-9]*$/" required
                        ng-class="{ 'has-error' : reportNameForm.reportName.$invalid && !reportNameForm.reportName.$pristine }">
                 <!--MESSAGE-->
                 <div class="form-message" ng-messages="reportNameForm.reportName.$error" ng-show="!reportNameForm.reportName.$pristine" style="" role="alert">
@@ -72,7 +72,7 @@
                 </div>
 
                 <div class="row">
-                    <input class="col login_button" type="text" value="{{'CANCEL_CAPS' | translate}}" ng-click="closeModal()" style="margin-right: 5%;" readonly />
+                    <input class="col login_button" type="text" value="{{'CANCEL_CAPS' | translate}}" ng-click="generateReportModal.hide()" style="margin-right: 5%;" readonly />
                     <input class="col login_button" type="submit" value="{{'GENERATE_CAPS' | translate}}" />
                 </div>
             </form>

@@ -7,7 +7,7 @@ angular.module('$dateTimePicker', []).directive('dateTimePicker', function () {
         //template: '<input class="align-center bg_color datepicker" type="text" ng-click="showDateTimePicker()" style="cursor:inherit; width: 100%;" readonly/>',
         //template: '<ion-item class="reminder_menu_item" ng-click="showDateTimePicker()">Review reminder</ion-item>',
         template: '',
-        controller: function ($scope, $element, $attrs, $ionicModal, $timeout, $parse, $state, $toast, findParentService, reminderService, $cordovaKeyboard) {
+        controller: function ($scope, $element, $attrs, $ionicModal, $timeout, $parse, $state, $toast, findParentService, reminderService, utilityService) {
 
             console.log("INITIATING DATE TIME PICKER");
 
@@ -49,12 +49,8 @@ angular.module('$dateTimePicker', []).directive('dateTimePicker', function () {
             // ---------------- MODAL FUNCTION ----------------
             parentScope.showDateTimePicker[$attrs.name] = $scope.showDateTimePicker = function (init_name_input,init_date_input,id,init_freq_input) {
                 $scope.editId = validity_test(id) ? id : undefined;
-                var delay_time = 0;
-                if (isMobile() && $cordovaKeyboard.isVisible()) {
-                    $cordovaKeyboard.close();
-                    delay_time = 400;
-                }
-
+                //HIDE KEYBOARD BEFORE MODAL SHOWN
+                var delay_time = utilityService.getKeyboardDelay();
                 var init_date = validity_test(init_date_input) ? init_date_input  : moment();
                 var init_name = validity_test(init_name_input) ? init_name_input  : undefined;
                 var init_hour = validity_test(init_date_input) ? init_date.hour() : 9;

@@ -1,4 +1,4 @@
-app.controller('ForgotCtrl', function($scope,$http,$toast,$ionicModal,$ionicHistory,modalService) {
+app.controller('ForgotCtrl', function($scope,$http,$toast,$ionicHistory,modalService) {
     $scope.resetPassword = function(form) {
         if (form.$invalid) {
             form.email.$setDirty();
@@ -51,24 +51,9 @@ app.controller('ForgotCtrl', function($scope,$http,$toast,$ionicModal,$ionicHist
     modalService.init("login_msg","login_msg",$scope).then(function(modal){
         $scope.loginMsg = modal;
     });
-    //$ionicModal.fromTemplateUrl('login_msg.html', {
-    //    scope: $scope,
-    //    animation: 'slide-in-up'
-    //}).then(function(modal) {
-    //    $scope.modal = modal
-    //});
-    //$scope.openModal = function() {
-    //    $scope.modal.show()
-    //};
-    //$scope.closeModal = function() {
-    //    $scope.modal.hide();
-    //};
-    //$scope.$on('$destroy', function() {
-    //    $scope.modal.remove();
-    //});
 });
 
-app.controller('ResetPasswordCtrl', function($scope,$rootScope,$http,$toast,$ionicModal,$ionicHistory,modalService) {
+app.controller('ResetPasswordCtrl', function($scope,$rootScope,$http,$toast,$ionicHistory,modalService) {
     $scope.initVar = function() {
         $scope.args = $rootScope.args;
         delete $rootScope.args;
@@ -109,7 +94,6 @@ app.controller('ResetPasswordCtrl', function($scope,$rootScope,$http,$toast,$ion
 
     $scope.goToLogin = function() {
         $ionicHistory.goBack();
-        //$scope.closeModal();
         $scope.loginMsg.hide();
     };
 
@@ -117,20 +101,4 @@ app.controller('ResetPasswordCtrl', function($scope,$rootScope,$http,$toast,$ion
     modalService.init("login_msg","login_msg",$scope).then(function(modal){
         $scope.loginMsg = modal;
     });
-    //$ionicModal.fromTemplateUrl('login_msg.html', {
-    //    scope: $scope,
-    //    animation: 'slide-in-up'
-    //}).then(function(modal) {
-    //    $scope.modal = modal
-    //});
-    //$scope.openModal = function() {
-    //    console.log("SHOW MODAL");
-    //    $scope.modal.show()
-    //};
-    //$scope.closeModal = function() {
-    //    $scope.modal.hide();
-    //};
-    //$scope.$on('$destroy', function() {
-    //    $scope.modal.remove();
-    //});
 });

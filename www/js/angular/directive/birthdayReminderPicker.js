@@ -4,7 +4,7 @@ angular.module('$birthdayReminderPicker', []).directive('birthdayReminderPicker'
         restrict: 'A',
         require: [],
         template: '',
-        controller: function ($scope, $element, $attrs, $ionicModal, $timeout, $parse, $state, $toast, findParentService, reminderService, $cordovaKeyboard) {
+        controller: function ($scope, $element, $attrs, $ionicModal, $timeout, $parse, $state, $toast, findParentService, reminderService, utilityService) {
             var parentScope = findParentService.findByFunctionName($scope,"initVar");
             var container = ".modal .date_picker." + $attrs.name;
             $scope.dateTimePicker = {};
@@ -17,12 +17,8 @@ angular.module('$birthdayReminderPicker', []).directive('birthdayReminderPicker'
             // ---------------- MODAL FUNCTION ----------------
             parentScope.showDateTimePicker[$attrs.name] = $scope.showDateTimePicker[$attrs.name] = function (id) {
                 $scope.editId = validity_test(id) ? id : undefined;
-                var delay_time = 0;
-                if (isMobile() && $cordovaKeyboard.isVisible()) {
-                    $cordovaKeyboard.close();
-                    delay_time = 400;
-                }
-
+                //HIDE KEYBOARD BEFORE MODAL SHOWN
+                var delay_time = utilityService.getKeyboardDelay();
                 var init_time = validity_test(init_date_input) ? init_date_input  : moment();
                 var init_name = validity_test(init_name_input) ? init_name_input  : undefined;
                 var init_hour = validity_test(init_date_input) ? init_date.hour() : 9;

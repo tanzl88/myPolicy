@@ -5,7 +5,7 @@ angular.module('$datePicker', []).directive('datePicker', function () {
         require: [],
         //require: ['ngModel', 'ngData', 'ngSelectedId', 'ngSelectedValue', '?ngTitle', 'ngiItemName', 'ngItemId'],
         template: '<input class="align-center bg_color datepicker" type="text" ng-click="showDatePicker()" style="cursor:inherit; width: 100%;" readonly/>',
-        controller: function ($scope, $element, $attrs, $ionicModal, $timeout, $parse, $state, findParentService, $cordovaKeyboard) {
+        controller: function ($scope, $element, $attrs, $ionicModal, $timeout, $parse, $state, findParentService, utilityService) {
             var parentScope = findParentService.findByFunctionName($scope,"initVar");
             var container = ".modal .date_picker." + $attrs.name;
             $scope.datePicker = {};
@@ -20,11 +20,8 @@ angular.module('$datePicker', []).directive('datePicker', function () {
 
             // ---------------- MODAL FUNCTION ----------------
             $scope.showDatePicker = function () {
-                var delay_time = 0;
-                if (isMobile() && $cordovaKeyboard.isVisible()) {
-                    $cordovaKeyboard.close();
-                    delay_time = 400;
-                }
+                //HIDE KEYBOARD BEFORE MODAL SHOWN
+                var delay_time = utilityService.getKeyboardDelay();
 
                 var model = $parse($attrs.ngModelName)(parentScope);
                 var init_date = validity_test(model) ? moment(model,$attrs.dateFormat) : moment();

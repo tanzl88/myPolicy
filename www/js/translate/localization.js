@@ -114,6 +114,7 @@ var translations_en = {
     SELECT_CLIENT_CAPS : "SELECT CLIENT",
     PIC_NOTES : "Picture Notes",
     DROP_MAIL : "Drop us a mail",
+    ROTATE_TO_GO_BACK : "Rotate to go back",
 
     //MESSAGE
     NO_NOTIFICATION : "You do not have any message.",

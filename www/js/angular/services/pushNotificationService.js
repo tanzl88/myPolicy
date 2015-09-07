@@ -1,27 +1,30 @@
 app.service('pushNotificationService', function ($http,$cordovaDevice) {
     return {
         init : function() {
-            console.log("INIT PUSH");
-            console.log(parsePlugin);
-            var appId = "ypj1dTwLw4pQKOJfR4sUVnXseHTd9YiJEwCInIiI";
-            var key = "BsbeM6bIj4g856Z6ZBZkGk7MGzhjV3tT4G7FxmIn";
-            parsePlugin.initialize(appId,key,function(success){
-                console.log("PUSH INIT SUCCESS");
-                //console.log(success);
-                parsePlugin.getInstallationId(function(id) {
-                    console.info("PARSE ID", id);
-                    if (ionic.Platform.isWebView()) {
-                        var input = {
-                            parseId : id,
-                        };
-                        $http.post(register_url + "set_user_parse",input);
-                    }
-                }, function(error) {
+            if (ionic.Platform.isWebView()) {
+                console.log("INIT PUSH");
+                console.log(parsePlugin);
+                var appId = "ypj1dTwLw4pQKOJfR4sUVnXseHTd9YiJEwCInIiI";
+                var key = "BsbeM6bIj4g856Z6ZBZkGk7MGzhjV3tT4G7FxmIn";
+                parsePlugin.initialize(appId,key,function(success){
+                    console.log("PUSH INIT SUCCESS");
+                    //console.log(success);
+                    parsePlugin.getInstallationId(function(id) {
+                        console.info("PARSE ID", id);
+                        if (ionic.Platform.isWebView()) {
+                            var input = {
+                                parseId : id,
+                            };
+                            $http.post(register_url + "set_user_parse",input);
+                        }
+                    }, function(error) {
+                        console.log(error);
+                    });
+                }, function(error){
                     console.log(error);
                 });
-            }, function(error){
-                console.log(error);
-            });
+            }
+
 
             //var pushNotification = cordova.require("com.pushwoosh.plugins.pushwoosh.PushNotification");
             //if (ionic.Platform.isAndroid()) {
@@ -98,6 +101,28 @@ app.service('pushNotificationService', function ($http,$cordovaDevice) {
             //        pushNotification.setApplicationIconBadgeNumber(0);
             //    });
             //}
+
+
+
+            //IONIC PUSH
+            //if (ionic.Platform.isWebView()) {
+                //$ionicPush.register({
+                //    canShowAlert: true, //Can pushes show an alert on your screen?
+                //    canSetBadge: true, //Can pushes update app icon badges?
+                //    canPlaySound: true, //Can notifications play a sound?
+                //    canRunActionsOnWake: true, //Can run actions outside the app,
+                //    onNotification: function(notification) {
+                //        // Handle new push notifications here
+                //        console.log(notification);
+                //        return true;
+                //    }
+                //});
+            //}
+
+            //$rootScope.$on('$cordovaPush:tokenReceived', function(event, data) {
+            //    console.log('Got token', data.token, data.platform);
+            //    // Do something with the token
+            //});
 
         },
         push : function(userIdArray) {

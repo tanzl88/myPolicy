@@ -62,6 +62,7 @@ app.controller('ListCtrl', function($rootScope,$scope,$state,$http,$translate,$t
         $scope.clientSelected   = credentialManager.getClientSelected();
         $scope.policies         = policyDataDbService.getPolicies();
         $scope.sums             = policyDataDbService.getAllSum();
+        loadingService.hide();
         //if ($scope.credential === "advisor" && !$scope.clientSelected) $toast.showClientNotSelected();
     };
 
@@ -91,5 +92,41 @@ app.controller('ListCtrl', function($rootScope,$scope,$state,$http,$translate,$t
     $scope.release = function() {
         $scope.showRotate = true;
     };
+
+
+
+    //LIST TAB ORIENTATION CHANGE EVENT LISTENER
+    window.addEventListener("orientationchange", function() {
+        if ($state.current.name === "tabs.list") {
+            var orientation = (typeof screen.orientation === "object") ? (screen.orientation.type.split("-"))[0] : (screen.orientation.split("-"))[0];
+            console.info("ORIENTATION: " + orientation);
+            if (orientation === "landscape") {
+                $timeout(function(){
+                    $scope.showFullTable = true;
+                });
+                $("body").addClass("landscape");
+                screen.lockOrientation("landscape-primary");
+                screen.unlockOrientation();
+            } else {
+                //TO PREVENT AFTER PAUSE PORTRAIT MODE
+                if (!ionic.Platform.isIOS() && ($(window).width() < $(window).height())) {
+                    $timeout(function(){
+                        $scope.showFullTable = true;
+                    });
+
+                    $("body").addClass("landscape");
+                    screen.lockOrientation("landscape-primary");
+                    screen.unlockOrientation();
+                } else {
+                    $timeout(function(){
+                        $scope.showFullTable = false;
+                    });
+                    $("body").removeClass("landscape");
+                    screen.lockOrientation("portrait-primary");
+                    screen.unlockOrientation();
+                }
+            }
+        }
+    }, false);
 });
 

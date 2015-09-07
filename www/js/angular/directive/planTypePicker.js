@@ -4,19 +4,16 @@ angular.module('$planTypePicker', []).directive('planTypePicker', function () {
         restrict: 'E',
         require: [],
         //require: ['ngModel', 'ngData', 'ngSelectedId', 'ngSelectedValue', '?ngTitle', 'ngiItemName', 'ngItemId'],
-        template: '<input class="inline-block align-middle align-center bg_color" type="text" ng-click="showPlanTypePicker()" style="cursor:inherit; width: 100%;" readonly required/>',
-        controller: function ($scope, $element, $attrs, $ionicModal, $timeout, $parse, $state, findParentService, $cordovaKeyboard) {
+        template: '<input class="inline-block align-middle align-center bg_color" type="text" ng-click="showPlanTypePicker()" style="cursor:inherit; width: 100%;" readonly/>',
+        controller: function ($scope, $element, $attrs, $ionicModal, $timeout, $parse, $state, findParentService, utilityService) {
             var parentScope = findParentService.findByFunctionName($scope,"initVar");
             $scope.planTypePicker = {};
             
             $scope.planType = plan_type_enum_g;
             // ---------------- MODAL FUNCTION ----------------
             $scope.showPlanTypePicker = function () {
-                var delay_time = 0;
-                if (isMobile() && $cordovaKeyboard.isVisible()) {
-                    $cordovaKeyboard.close();
-                    delay_time = 400;
-                }
+                //HIDE KEYBOARD BEFORE MODAL SHOWN
+                var delay_time = utilityService.getKeyboardDelay();
                 $timeout(function(){
                     $scope.planTypePicker.show();
                 },delay_time);

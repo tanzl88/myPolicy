@@ -1,4 +1,4 @@
-app.controller('AddPolicyCtrl', function($rootScope,$scope,$timeout,$state,$translate,$http,$toast,loadingService,$cordovaKeyboard,
+app.controller('AddPolicyCtrl', function($rootScope,$scope,$timeout,$state,$translate,$http,$toast,loadingService,utilityService,
                                          $ionicNavBarDelegate,$ionicHistory,$ionicScrollDelegate,errorHandler) {
     $scope.company_enum = company_enum_g;
     $scope.plan_type_enum = plan_type_enum_g;
@@ -35,33 +35,29 @@ app.controller('AddPolicyCtrl', function($rootScope,$scope,$timeout,$state,$tran
     };
 
     // -------------------- INPUT FUNCTION --------------------
-    $scope.changePlanType = function() {
-        var currentTypeIndex = validity_test($scope.policyObj.planType) ? parseInt($scope.policyObj.planType) : -1;
-        var nextTypeIndex = (currentTypeIndex + 1) % plan_type_enum_g.length;
-        $scope.updatePlanType(nextTypeIndex);
+    function getModeEnum(mode) {
+        if (mode === "planType") {
+            return plan_type_enum_g;
+        } else if (mode === "premiumMode") {
+            return premium_mode_enum_g;
+        } else if (mode === "paymentMode") {
+            return payment_mode_enum_g;
+        } else {
+            return undefined;
+        }
+    }
+    $scope.changeMode = function(mode) {
+        var enum_g = getModeEnum(mode);
+        var currentModeIndex = validity_test($scope.policyObj[mode]) ? parseInt($scope.policyObj[mode]) : -1;
+        var nextModeIndex = (currentModeIndex + 1) % enum_g.length;
+        $scope.updateMode(mode,nextModeIndex);
     };
-    $scope.updatePlanType = function(index) {
-        $scope.policyObj.planType = index;
-        $scope.policyObj.planTypeDisplayed = plan_type_enum_g[index];
+    $scope.updateMode = function(mode,index) {
+        var enum_g = getModeEnum(mode);
+        $scope.policyObj[mode] = index;
+        $scope.policyObj[mode + "Displayed"] = enum_g[index];
     };
-    $scope.changePremiumMode = function() {
-        var currentModeIndex = validity_test($scope.policyObj.premiumMode) ? parseInt($scope.policyObj.premiumMode) : 2;
-        var nextModeIndex = (currentModeIndex + 1) % premium_mode_enum_g.length;
-        $scope.updatePremiumMode(nextModeIndex);
-    };
-    $scope.updatePremiumMode = function(index) {
-        $scope.policyObj.premiumMode = index;
-        $scope.policyObj.premiumModeDisplayed = premium_mode_enum_g[index];
-    };
-    $scope.changePaymentMode = function() {
-        var currentModeIndex = validity_test($scope.policyObj.paymentMode) ? parseInt($scope.policyObj.paymentMode) : -1;
-        var nextModeIndex = (currentModeIndex + 1) % payment_mode_enum_g.length;
-        $scope.updatePaymentMode(nextModeIndex);
-    };
-    $scope.updatePaymentMode = function(index) {
-        $scope.policyObj.paymentMode = index;
-        $scope.policyObj.paymentModeDisplayed = payment_mode_enum_g[index];
-    };
+
     $scope.selectAll = function(event) {
         var target = event.currentTarget;
         target.setSelectionRange(0, target.value.length);
@@ -116,18 +112,16 @@ app.controller('AddPolicyCtrl', function($rootScope,$scope,$timeout,$state,$tran
         //SCROLL TO TOP
         $ionicScrollDelegate.$getByHandle('policyForm').scrollTop();
         //RESTORE PRISTINE
+        //utilityService.resetForm
         $("#policyForm").scope().policyForm.$setPristine();
     };
 
     // -------------------- VALIDATION --------------------
     $scope.submit = function(policyForm) {
-        var delay_time = 0;
-        if (isMobile() && $cordovaKeyboard.isVisible()) {
-            $cordovaKeyboard.close();
-            delay_time = 400;
-        }
-
+        //HIDE KEYBOARD UPON SUBMIT
+        var delay_time = utilityService.getKeyboardDelay();
         $timeout(function(){
+            console.log(policyForm);
             if (policyForm.$invalid) {
                 policyForm.company.$setDirty();
                 $ionicScrollDelegate.$getByHandle('policyForm').scrollTop(true);

@@ -112,7 +112,6 @@ app.service('policyDataService', function($rootScope,$q,$http,policyDataDbServic
                 percent         : percent,
                 chartData       : chartData
             };
-            console.log(result);
             return result;
         },
         calcProtectionsChartData : function(data_array) {
