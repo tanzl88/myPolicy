@@ -1,14 +1,8 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-var app = angular.module('myPolicy', ['ionic', 'ionic.service.core', 'ionic.service.push',
-    'ngCordova', 'ngMessages', 'ngAnimate' , 'pascalprecht.translate', "Mac",
-    'validation.match', "ngmodel.format",'ngMaterial', 'ngDropdowns',
-    '$datePicker', '$dateTimePicker', '$termPicker', "$currencyPicker", "$currencyInput", "$planTypePicker", "$suggestAmtEditor",
-    'ui.bootstrap-slider', 'ui.checkbox', 'toggle-switch']);
-
+var app = angular.module('myPolicy',['ionic','ionic.service.core','ionic.service.push',
+    'ngCordova','ngMessages','ngAnimate','pascalprecht.translate','Mac',
+    'validation.match','ngmodel.format','ngMaterial','ngDropdowns',
+    '$datePicker','$dateTimePicker','$countdownTimePicker','$termPicker','$currencyPicker','$currencyInput','$planTypePicker','$suggestAmtEditor','popupPicker',
+    'ui.bootstrap-slider','ui.checkbox','toggle-switch']);
 
 //CHANGE ANDROID DEFAULT UI
 app.config(function ($ionicConfigProvider) {
@@ -37,21 +31,11 @@ app.factory('customLoader', function ($http, $q, $timeout) {
 app.factory('currencyLoader', function ($http,$q,$timeout) {
     // return loaderFn
     return function (options) {
-        //console.log(options);
         var deferred = $q.defer();
-        //if (typeof currency !== "object") {
-
-            var data = {
-                'CURRENCY': currency_g,
-            };
-
-            // resolve with translation data
-            deferred.resolve(data);
-            //$timeout(function () {
-            //    deferred.resolve(data);
-            //}, 1000);
-        //}
-
+        var data = {
+            'CURRENCY': currency_g,
+        };
+        deferred.resolve(data);
 
         return deferred.promise;
     };
@@ -59,7 +43,7 @@ app.factory('currencyLoader', function ($http,$q,$timeout) {
 app.factory('timeoutHttpIntercept', function ($rootScope, $q) {
     return {
         'request': function(config) {
-            config.timeout = 7000;
+            config.timeout = 10000;
             return config;
         },
         //'requestError': function(rejection) {
@@ -89,7 +73,7 @@ app.config(['$translateProvider', function ($translateProvider) {
     $translateProvider.useLoader('currencyLoader');
     $translateProvider.preferredLanguage('en');
     $translateProvider.forceAsyncReload(true);
-
+    $translateProvider.useSanitizeValueStrategy('escaped');
     //var lang = window.localStorage["language"];
     //if (lang === undefined) {
     //  $translateProvider.determinePreferredLanguage();
@@ -122,7 +106,8 @@ app.config(function ($ionicConfigProvider) {
 });
 
 
-app.run(function ($rootScope,$ionicPlatform,$state,$cordovaNetwork,currencyService,pushNotificationService) {
+app.run(function ($rootScope,$ionicPlatform,$state,$cordovaNetwork,currencyService,
+                  localNotificationService,pushNotificationService) {
     $ionicPlatform.ready(function () {
         //KEYBOARD
         if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -149,27 +134,17 @@ app.run(function ($rootScope,$ionicPlatform,$state,$cordovaNetwork,currencyServi
 
         // MODIFY FILE PATH
         if (ionic.Platform.isAndroid()) {
-            //console.log('cordova.file.externalDataDirectory: ' + cordova.file.externalDataDirectory);
             myFsRootDirectory1 = 'file:///storage/emulated/0/'; // path for tablet
             myFsRootDirectory2 = 'file:///storage/sdcard0/'; // path for phone
             fileTransferDir = cordova.file.externalDataDirectory;
             fileCacheDir    = cordova.file.externalCacheDirectory;
-            if (fileTransferDir.indexOf(myFsRootDirectory1) === 0) {
-                fileDir = fileTransferDir.replace(myFsRootDirectory1, '');
-            }
-            if (fileTransferDir.indexOf(myFsRootDirectory2) === 0) {
-                fileDir = fileTransferDir.replace(myFsRootDirectory2, '');
-            }
-            //console.log('Android FILETRANSFERDIR: ' + fileTransferDir);
-            //console.log('Android FILEDIR: ' + fileDir);
+            if (fileTransferDir.indexOf(myFsRootDirectory1) === 0) fileDir = fileTransferDir.replace(myFsRootDirectory1, '');
+            if (fileTransferDir.indexOf(myFsRootDirectory2) === 0) fileDir = fileTransferDir.replace(myFsRootDirectory2, '');
         }
         if (ionic.Platform.isIOS()) {
-            //console.log('cordova.file.documentsDirectory: ' + cordova.file.documentsDirectory);
             fileTransferDir = cordova.file.documentsDirectory;
             fileCacheDir    = cordova.file.cacheDirectory;
             fileDir = '';
-            //console.log('IOS FILETRANSFERDIR: ' + fileTransferDir);
-            //console.log('IOS FILEDIR: ' + fileDir);
         }
 
         //NETWORK STATUS
@@ -182,7 +157,5 @@ app.run(function ($rootScope,$ionicPlatform,$state,$cordovaNetwork,currencyServi
             $rootScope.isOffline = true;
         });
         $rootScope.isOffline = $cordovaNetwork.isOffline();
-
-        //pushNotificationService.init();
     });
-})
+});

@@ -107,7 +107,6 @@ app.service('picNotesService', function($q,$http,$toast,$cordovaFile,$cordovaFil
                                 // success
                                 console.log(success);
                                 if (validity_test(callback)) callback();
-                                loadingService.hide();
                             }, function (error) {
                                 // error
                                 console.log(error);

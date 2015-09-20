@@ -9,6 +9,7 @@ function get_moment_last_day(moment_date) {
 var swiperYear = {};
 var swiperMonth = {};
 var swiperDay = {};
+var swiperCountdown = {};
 var swiperHour = {};
 var swiperMinute = {};
 var swiperFormat = {};
@@ -115,7 +116,6 @@ function adjust_day_scroll(container) {
         }
     }
 }
-
 function hour_scroll(container,initialValueInput) {
     var swiper_wrapper = $(".hour .swiper-wrapper",container);
     if ($(swiper_wrapper).html() === "") {
@@ -132,7 +132,39 @@ function hour_scroll(container,initialValueInput) {
         swiperHour[container].slideTo(initialSlideIndex,0);
     }
 }
-
+//function countdown_scroll(container,initialValueInput) {
+//    var swiper_wrapper = $(".countdown .swiper-wrapper",container);
+//    var countdown_array = [0,1,3,5,15,30];
+//    if ($(swiper_wrapper).html() === "") {
+//        var template = "";
+//        angular.forEach(countdown_array,function(day,index){
+//            template += '<div class="swiper-slide align-center ' + day + '">' + day + '</div>';
+//        });
+//        console.log(template);
+//        $(swiper_wrapper).append(template);
+//    }
+//
+//    var initialSlideIndex = initialValueInput !== undefined ? parseInt(initialValueInput) : 1;
+//    if ($scope.datePickerSwiper === undefined) {
+//        $scope.datePickerSwiper = new Swiper('.swiper-container.collection_date', {
+//            direction: "vertical",
+//            slidesPerView: 3,
+//            initialSlide: 0,
+//            centeredSlides: true,
+//            spaceBetween: 10,
+//            freeMode: true,
+//            freeModeMomentumRatio: 0.4,
+//            onTransitionEnd: function (swiper, event) {
+//                swiper.slideTo(swiper.snapIndex, 100);
+//            },
+//            onTouchEnd: function (swiper, event) {
+//                swiper.slideTo(swiper.snapIndex, 100);
+//            }
+//        });
+//    } else {
+//        $scope.datePickerSwiper.update();
+//    }
+//}
 function minute_scroll(container,initialValueInput) {
     var swiper_wrapper = $(".minute .swiper-wrapper",container);
     if ($(swiper_wrapper).html() === "") {

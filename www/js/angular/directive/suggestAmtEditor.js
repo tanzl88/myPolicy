@@ -69,8 +69,8 @@ angular.module('$suggestAmtEditor', []).directive('suggestAmtEditor', function (
                                             '</div>' +
                                             '<div class="birthday_divider"></div>' +
                                             '<div class="row picker_buttons">' +
-                                                '<div class="col align-center" ng-click="closeSuggestAmtEditor()">{{"PICKER_CANCEL" | translate}}</div>' +
-                                                '<div class="col align-center" ng-click="clickDone()">{{"PICKER_DONE" | translate}}</div>' +
+                                                '<md-button class="col align-center bg_gray_color" ng-click="closeSuggestAmtEditor()">{{"PICKER_CANCEL" | translate}}</md-button>' +
+                                                '<md-button class="col align-center bg_theme_color" ng-click="clickDone()">{{"PICKER_DONE" | translate}}</md-button>' +
                                             '</div>' +
                                         '</div>' +
                                     '</div>' +

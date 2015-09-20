@@ -127,7 +127,7 @@ var overview_cat_g = [
     "accidentReimb",
     "hospitalSA",
     "hospitalIncome",
-    "disabledIncome", //8
+    "disabledSA", //8
     "currentValue"
 ];
 
@@ -187,3 +187,5 @@ var exps_factor_g = [
     4,
     20
 ];
+
+var countdown_array_g = [0,1,3,5,15,30];

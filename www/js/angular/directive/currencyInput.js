@@ -3,7 +3,7 @@ angular.module('$currencyInput', []).directive('currencyInput', function () {
         scope: true,
         restrict: 'E',
         require: [],
-        template:   '<input class="align-middle align-center bg_color number" type="number" pattern="[0-9]*" ng-class="{\'front\' : state === \'input\'}" ng-keydown="goToNext($event)" ng-blur="inputNumberBlur($event)">' +
+        template:   '<input class="align-middle align-center bg_color number" type="number" pattern="[0-9]+([\.|,][0-9]+)?" step="0.01" ng-class="{\'front\' : state === \'input\'}" ng-keydown="goToNext($event)" ng-blur="inputNumberBlur($event)">' +
                     '<input class="align-middle align-center bg_color text" type="text"  ng-class="{\'front\' : state !== \'input\'}"' +
                     'model-format="currency" formatter="formatter($modelValue,$filter);" readonly ng-click="triggerNumpad()">',
         controller: function ($scope, $element, $attrs, $ionicModal, $timeout, $interval, $parse, $state, findParentService) {

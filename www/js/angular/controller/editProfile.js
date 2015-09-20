@@ -102,7 +102,7 @@ app.controller('EditProfileCtrl', function($scope,$translate,$timeout,$http,
         $scope.personalSettingSwiper.slideTo(0,0);
         $scope.maxYear = moment().year();
         if (personalDataDbService.profileFound()) {
-            $scope.personal = personalDataDbService.getData();
+            $scope.personal = angular.copy(personalDataDbService.getData());
         } else {
             $scope.personal = {
                 id          : undefined,
@@ -132,14 +132,16 @@ app.controller('EditProfileCtrl', function($scope,$translate,$timeout,$http,
         for (var key in input) {
             if (key === "id" && input[key] === undefined) {
                 delete input[key];
-            } else if (input[key] == "NaN") {
-                delete input[key];
+            } else if (isNaN_test(input[key])) {
+                input[key] = 0;
             }
         }
         $http.post(ctrl_url + "set_personal_settings", input)
             .success(function(result){
                 if (result.status === "success") {
                     personalDataDbService.init().then(function(result){
+                        $scope.$broadcast('CLIENTS PROFILE UPDATED');
+
                         $scope.activeIndex = 0;
 
                         //NAVIGATE BACK
@@ -179,6 +181,9 @@ app.controller('ProfileCtrl', function($scope,$state,$translate,$toast,$ionicHis
         $scope.currency = $translate.instant("CURRENCY");
         $scope.personal = personalDataDbService.getData();
     };
+    $scope.$on('CLIENTS PROFILE UPDATED',function(){
+        $scope.personal = personalDataDbService.getData();
+    });
     $scope.editProfile = function() {
         $state.go("tabs.profile.editProfile");
     };

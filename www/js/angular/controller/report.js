@@ -47,13 +47,13 @@ app.controller('ReportCtrl', function($scope,$translate,$timeout,$interval,$stat
         //CHECK CLIENT SELECTED
         $scope.credential       = credentialManager.getCredential();
         $scope.clientSelected   = credentialManager.getClientSelected();
-        //if ($scope.credential === "advisor" && !$scope.clientSelected) $toast.showClientNotSelected();
 
-
-        $scope.currency = $translate.instant("CURRENCY").trim();
-        $scope.viewObj = {};
-        $scope.viewObj.cat = policyDataService.getProtectionsData();
-        drawDoughnuts();
+        if (($scope.credential === "advisor" && $scope.clientSelected) || $scope.credential === "client") {
+            $scope.currency = $translate.instant("CURRENCY").trim();
+            $scope.viewObj = {};
+            $scope.viewObj.cat = policyDataService.getProtectionsData();
+            drawDoughnuts();
+        }
     };
 
     //TOOLTIP

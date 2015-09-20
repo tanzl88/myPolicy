@@ -1,6 +1,6 @@
-app.service('loadDataDbService', function($q,$http,$state,$ionicViewSwitcher,$ionicHistory,$toast,credentialManager,
+app.service('loadDataDbService', function($q,$http,$toast,credentialManager,
                                           policyDataDbService,personalDataDbService,advisorDataDbService,clientListDbService,notificationDbService,customSuggestedDbService,
-                                          policyDataService,barChartService,reminderService,userService,pushNotificationService,loadingService) {
+                                          policyDataService,reminderService,userService,pushNotificationService,loadingService) {
 
     function initIonicService() {
         //IONIC USER INIT
@@ -48,7 +48,6 @@ app.service('loadDataDbService', function($q,$http,$state,$ionicViewSwitcher,$io
             return dfd.promise;
         },
         setAdvisorData : function(advisorData,clientList,tempAccountList,reminders) {
-            console.log(tempAccountList);
             advisorDataDbService.set(advisorData);
             clientListDbService.set(clientList, tempAccountList);
             reminderService.set(reminders);

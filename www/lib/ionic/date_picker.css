@@ -1,7 +1,9 @@
 date-picker input {
   padding-right: 0 !important; }
 
-.date_picker, .term_picker, .suggestAmtEditor {
+.date_picker,
+.term_picker,
+.suggestAmtEditor {
   position: absolute;
   background-color: white;
   width: 90%;
@@ -13,28 +15,53 @@ date-picker input {
   -webkit-box-shadow: -10px -10px 10px 0px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(0, 0, 0, 0.5); }
 
-.date_picker .picker_header, .term_picker .picker_header, .suggestAmtEditor .picker_header {
+.date_picker .picker_header,
+.term_picker .picker_header,
+.suggestAmtEditor .picker_header {
   font-weight: bold;
   margin-bottom: 5%; }
 
-.date_picker .pickerScroll, .term_picker .pickerScroll {
-  margin: 3% 0% 8% 0%;
+.date_picker .pickerScroll,
+.term_picker .pickerScroll {
+  margin: 3% 0% 2% 0%;
   position: relative; }
 
-.date_picker .swiper-container, .term_picker .swiper-container {
+.date_picker .swiper-container,
+.term_picker .swiper-container {
   color: #c0bcbc;
   border-width: 0; }
 
-.date_picker .swiper-container .swiper-slide-active, .term_picker .swiper-container .swiper-slide-active {
+.date_picker .swiper-container .swiper-slide-active,
+.term_picker .swiper-container .swiper-slide-active {
   color: black; }
 
-.date_picker .picker_buttons, .term_picker .picker_buttons, .suggestAmtEditor .picker_buttons {
-  padding: 3% 0% 1% 0%; }
+.date_picker .picker_buttons,
+.term_picker .picker_buttons,
+.suggestAmtEditor .picker_buttons {
+  padding: 3% 4%;
+  padding-bottom: 1%; }
 
-.modal .date_picker .swiper-container, .modal .term_picker .swiper-container {
+.date_picker button,
+.term_picker button,
+.suggestAmtEditor button {
+  border-radius: 5px; }
+
+.date_picker button.bg_theme_color,
+.term_picker button.bg_theme_color,
+.suggestAmtEditor button.bg_theme_color {
+  background-color: #fed82f; }
+
+.date_picker button.bg_gray_color,
+.term_picker button.bg_gray_color,
+.suggestAmtEditor button.bg_gray_color {
+  background-color: rgba(158, 158, 158, 0.2); }
+
+.modal .date_picker .swiper-container,
+.modal .term_picker .swiper-container {
   height: 98px; }
 
-.modal .date_picker .selector_box, .modal .term_picker .selector_box {
+.modal .date_picker .selector_box,
+.modal .term_picker .selector_box {
   width: 92%;
   left: 4%;
   height: 38px;
@@ -69,8 +96,9 @@ term-picker input {
   border-radius: 5px;
   background-color: #fed82f;
   text-align: center;
-  padding: 1.5% 5%;
-  margin-right: 3%; }
+  padding: 2% 8%;
+  margin-right: 3%;
+  margin-top: 5%; }
 
 .repeat-container {
   width: 45%;

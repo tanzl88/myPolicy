@@ -1,4 +1,4 @@
-app.controller('GalleryCtrl', function($scope,$rootScope,$http,$toast,$translate,
+app.controller('GalleryCtrl', function($scope,$rootScope,$http,$toast,$translate,$timeout,
                                        $cordovaCamera,$cordovaFile,$cordovaFileTransfer,
                                        picNotesService,loadingService,modalService) {
     $scope.initVar = function() {
@@ -13,8 +13,8 @@ app.controller('GalleryCtrl', function($scope,$rootScope,$http,$toast,$translate
     $scope.refreshPicNotes = function() {
         picNotesService.getPicNotes($scope.policyId).then(function(picId){
             $scope.picNotes = picId;
-            loadingService.hide();
             $scope.removeModal.hide();
+            loadingService.hide();
         });
     };
 
@@ -83,25 +83,27 @@ app.controller('GalleryCtrl', function($scope,$rootScope,$http,$toast,$translate
                 policyId : $scope.policyId,
                 picId    : picId
             };
-            picNotesService.upload(imageURI,input).then(function(status){
-                if (status === "OK") {
-                    $cordovaFile.moveFile(path, filename, fileCacheDir, identifier + picId + ".jpg")
-                        .then(function (fileEntry) {
-                            console.log(fileEntry);
-                            $scope.picNotes.push({
-                                id  : picId,
-                                src : fileEntry.nativeURL
+            $timeout(function(){
+                picNotesService.upload(imageURI,input).then(function(status){
+                    if (status === "OK") {
+                        $cordovaFile.moveFile(path, filename, fileCacheDir, identifier + picId + ".jpg")
+                            .then(function (fileEntry) {
+                                $scope.picNotes.push({
+                                    id  : picId,
+                                    src : fileEntry.nativeURL
+                                });
+                                loadingService.hide();
+                            }, function (error) {
+                                console.log(error);
+                                // error
                             });
+                    } else {
+                        $toast.show("UNKNOWN_ERROR");
+                        loadingService.hide();
+                    }
+                });
+            },50);
 
-                        }, function (error) {
-                            console.log(error);
-                            // error
-                        });
-                } else {
-                    $toast.show("UNKNOWN_ERROR");
-                }
-                loadingService.hide();
-            });
         }, function(err) {
             console.log(err);
             // error
@@ -128,7 +130,9 @@ app.controller('GalleryCtrl', function($scope,$rootScope,$http,$toast,$translate
     };
     $scope.confirmRemove = function() {
         loadingService.show("REMOVING_NOTE");
-        picNotesService.remove($scope.policyId,$scope.removeId,$scope.refreshPicNotes);
+        $timeout(function(){
+            picNotesService.remove($scope.policyId,$scope.removeId,$scope.refreshPicNotes);
+        },50);
 
         //reminderService.removeReminderById($scope.removeId).then(function(status){
         //    if (status === "OK") {

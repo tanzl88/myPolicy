@@ -3,6 +3,7 @@ var translations_en = {
     YEAR : "{year, plural, one {# year} other {# years}}",
     YEAR_OLD : "{year, plural, one {# year old} other {# years old}}",
     DAY : "{day, plural, zero {Today} one {Tmr} other {days later}}",
+    COUNTDOWN_DAY : "{day, plural, zero {On the day} one {# day before} other {# days before}}",
 
     //PICKER
     PICKER_YEAR : "Year",
@@ -36,6 +37,7 @@ var translations_en = {
     REVIEW_REMINDER : "Review Reminder",
     BIRTHDAY_REMINDER : "Birthday Reminder",
     PAYMENT_REMINDER : "Payment Due Reminder",
+    MATURITY_REMINDER : "Maturity Reminder",
     LINK_REQUEST : "{{name}} requested to link to your account.",
 
     //PLACEHOLDER
@@ -78,8 +80,11 @@ var translations_en = {
     RESET_PASSWORD_FAILED_LOG_IN : "Account is currently logged in.",
 
     REMINDER_NAME : "Reminder name",
+    REMINDER_SET : "Reminder set",
     CREATE_NEW_REMINDER : "Create new reminder",
     ONE_BIRTHDAY : "{{name}}'s birthday",
+    ONE_MATURITY : "{{name}}'s policy maturing",
+    ONE_REVIEW : "{{name}}'s next review",
     RESET_PASSWORD : "Reset Password",
     PROFILE : "Profile",
     MY_PROFILE : "My Profile",

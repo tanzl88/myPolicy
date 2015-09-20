@@ -129,20 +129,6 @@ app.controller('GenerateReportCtrl', function($scope,$rootScope,$q,$state,$trans
                 reportName : undefined
             });
         }
-        //    if ($scope.clientSelected) {
-        //        $scope.generateReportModal.show();
-        //        utilityService.resetForm("reportNameForm",{
-        //            reportName : undefined
-        //        });
-        //    } else {
-        //        $toast.showClientNotSelected();
-        //    }
-        //} else {
-        //    $scope.generateReportModal.show();
-        //    utilityService.resetForm("reportNameForm",{
-        //        reportName : undefined
-        //    });
-        //}
     };
     $scope.export = function(form) {
         if (form.$invalid) {

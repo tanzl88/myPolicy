@@ -22,19 +22,17 @@ app.controller('OverviewCtrl', function($scope,$translate,$timeout,$interval,$to
         //CHECK CLIENT SELECTED
         $scope.credential       = credentialManager.getCredential();
         $scope.clientSelected   = credentialManager.getClientSelected();
-        //if ($scope.credential === "advisor" && !$scope.clientSelected) $toast.showClientNotSelected();
 
-        $scope.currency = $translate.instant("CURRENCY");
-        $scope.viewObj = {};
-        $scope.viewObj.cat = policyDataService.getOverviewData();
-        var chartData = barChartService.getOverviewChartData($scope.viewObj.cat);
-        var chartOptions = barChartService.getChartOptions({
+        if (($scope.credential === "advisor" && $scope.clientSelected) || $scope.credential === "client") {
+            $scope.currency = $translate.instant("CURRENCY");
+            $scope.viewObj = {};
+            $scope.viewObj.cat = policyDataService.getOverviewData();
+            var chartData = barChartService.getOverviewChartData($scope.viewObj.cat);
+            var chartOptions = barChartService.getChartOptions({
 
-        });
-
-        drawChart(chartData,chartOptions);
-        //var overviewChart = barChartService.drawChart("overviewChart", chartData, chartOptions);
-
+            });
+            drawChart(chartData,chartOptions);
+        }
     }
 });
 

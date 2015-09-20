@@ -68,7 +68,6 @@ angular.module('$datePicker', []).directive('datePicker', function () {
 
 
             var modal_template = '<div class="modal" style="background-color: rgba(0,0,0,0.6)">' +
-                                    //'<ion-header-bar class="align-center"><h1 class="title">{{"SELECT_DATE" | translate}}</h1></ion-header-bar>' +
                                     '<div>' +
                                         '<div class="date_picker  transform-align-middle ' + $attrs.name + '">' +
                                             '<div class="row picker_header">' +
@@ -84,7 +83,10 @@ angular.module('$datePicker', []).directive('datePicker', function () {
                                                 '<div class="swiper-container year col" ng-if="yearScroll"><div class="swiper-wrapper"></div></div>' +
                                             '</div>' +
                                             '<div class="birthday_divider"></div>' +
-                                            '<div class="row picker_buttons"><div class="col align-center" ng-click="closeDatePicker()">{{"PICKER_CANCEL" | translate}}</div><div class="col align-center" ng-click="clickDone()">{{"PICKER_DONE" | translate}}</div></div>' +
+                                            '<div class="row picker_buttons">' +
+                                                '<md-button class="col align-center bg_gray_color" ng-click="closeDatePicker()">{{"PICKER_CANCEL" | translate}}</md-button>' +
+                                                '<md-button class="col align-center bg_theme_color" ng-click="clickDone()">{{"PICKER_DONE" | translate}}</md-button>' +
+                                            '</div>' +
                                         '</div>' +
                                     '</div>' +
                                  '</div>';

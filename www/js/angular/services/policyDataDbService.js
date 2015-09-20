@@ -26,13 +26,6 @@ app.service('policyDataDbService', function($rootScope,$q,$http,$translate) {
             return moment(dateString,"YYYY-MM-DD").format("LL")
         }
     };
-    function parseDbInt(input) {
-        if (!validity_test(input)) {
-            return undefined;
-        } else {
-            return parseInt(input);
-        }
-    };
     function parseUndefinedToZero(input) {
         if (input === undefined) {
             return 0;

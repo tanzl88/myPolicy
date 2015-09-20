@@ -64,6 +64,7 @@ app.controller('HomeCtrl', function($scope,$http,$timeout,$state,$translate,$toa
         $scope.clientList = _.sortBy(clientList, function(client){ return client.name; });
     }
     $scope.initVar = function() {
+        $scope.detriggerClientSearch();
         $scope.currency = $translate.instant("CURRENCY").trim();
         $scope.credential = credentialManager.getCredential();
         if ($scope.credential === "advisor") {

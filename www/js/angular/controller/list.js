@@ -32,12 +32,12 @@ app.controller('ListCtrl', function($rootScope,$scope,$state,$http,$translate,$t
         $scope.removeModal.show();
     };
     $scope.confirmRemove = function() {
-        loadingService.show("REMOVING_REMINDER");
+        loadingService.show("REMOVING_POLICY");
         policyDataDbService.removePolicyById($scope.removeId).then(function(status){
             if (status === "OK") {
 
             } else if (status === "failed") {
-                $toast.show("REMOVE_REMINDER_NOT_FOUND");
+                $toast.show("REMOVE_POLICY_NOT_FOUND");
             } else {
                 errorHandler.handleOthers(status);
             }
@@ -81,11 +81,6 @@ app.controller('ListCtrl', function($rootScope,$scope,$state,$http,$translate,$t
     };
 
     //// ------------ ROTATE PORTRAIT ------------
-    //$scope.toPortrait = function() {
-    //    $rootScope.lockOrientation = true;
-    //    $("body").removeClass("landscape");
-    //    screen.lockOrientation("portrait-primary");
-    //};
     $scope.touch = function() {
         $scope.showRotate = false;
     };
@@ -94,36 +89,34 @@ app.controller('ListCtrl', function($rootScope,$scope,$state,$http,$translate,$t
     };
 
 
-
+    function switchTo(orientation) {
+        if (orientation === "landscape") {
+            $("body").addClass("landscape");
+        } else {
+            $("body").removeClass("landscape");
+        }
+        //TABLE DISPLAY SWITCH
+        $timeout(function(){
+            $scope.showFullTable = orientation === "landscape" ? true : false;
+        },200);
+        screen.lockOrientation(orientation + "-primary");
+        screen.unlockOrientation();
+    }
     //LIST TAB ORIENTATION CHANGE EVENT LISTENER
     window.addEventListener("orientationchange", function() {
         if ($state.current.name === "tabs.list") {
             var orientation = (typeof screen.orientation === "object") ? (screen.orientation.type.split("-"))[0] : (screen.orientation.split("-"))[0];
-            console.info("ORIENTATION: " + orientation);
+            console.log(orientation);
+            console.log($scope.clientSelected);
             if (orientation === "landscape") {
-                $timeout(function(){
-                    $scope.showFullTable = true;
-                });
-                $("body").addClass("landscape");
-                screen.lockOrientation("landscape-primary");
-                screen.unlockOrientation();
+                switchTo("landscape");
+                //if ($scope.clientSelected) switchTo("landscape");
             } else {
                 //TO PREVENT AFTER PAUSE PORTRAIT MODE
                 if (!ionic.Platform.isIOS() && ($(window).width() < $(window).height())) {
-                    $timeout(function(){
-                        $scope.showFullTable = true;
-                    });
-
-                    $("body").addClass("landscape");
-                    screen.lockOrientation("landscape-primary");
-                    screen.unlockOrientation();
+                    switchTo("landscape");
                 } else {
-                    $timeout(function(){
-                        $scope.showFullTable = false;
-                    });
-                    $("body").removeClass("landscape");
-                    screen.lockOrientation("portrait-primary");
-                    screen.unlockOrientation();
+                    switchTo("portrait");
                 }
             }
         }

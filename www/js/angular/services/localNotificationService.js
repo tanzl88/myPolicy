@@ -1,4 +1,9 @@
-app.service('localNotificationService', function ($rootScope, $state, $ionicHistory, $cordovaLocalNotification, $translate) {
+app.service('localNotificationService', function ($rootScope, $q, $state, $ionicHistory, $cordovaLocalNotification, $translate) {
+    var check_id_g = [];
+    $rootScope.$on("LOGOUT", function(){
+        check_id_g = [];
+    });
+
     function calculate_offset(time, offset_days) {
         return new Date(time - offset_days * 24 * 3600 * 1000);
     }
@@ -28,56 +33,47 @@ app.service('localNotificationService', function ($rootScope, $state, $ionicHist
     }
 
 
-    function add_notifi(id,type,notifi_time,content,frequency) {
-        var property = getNotifiProperty(type);
-        var title = $translate.instant(property.title);
-
-        //var notifi_time = Date.now() + 3000;
-
-        $cordovaLocalNotification.schedule({
-            id: sdbmHash(id),
-            title: title,
-            text: content,
-            at: notifi_time,
-            every: frequency,
-            //sound: "file://sounds/reminder.mp3",
-            icon: "img/icon.png",
-            smallIcon: "img/icon.png",
-            led: "fed82f",
-            //data: JSON.stringify({contactId: contact.id})
-        }).then(function () {
-            console.log('callback for adding background notification');
-        });
-    }
-
 
     return {
         init: function () {
-            //$rootScope.$on('$cordovaLocalNotification:click', function (event, notification, state) {
-            //    //GO TO BIRTHDAY DETAILS PAGE OF PERSON CLICKED
-            //    var data_obj = JSON.parse(notification.data);
-            //    var contact_id = data_obj.contactId;
-            //    $rootScope.contact_id = contact_id;
-            //
-            //    var stateNameSplit = $state.current.name.split(".");
-            //    var stateName = stateNameSplit[stateNameSplit.length - 1];
-            //    //IF VIEW IS DETAILS -> INIT VAR ELSE GO TO STATE
-            //    if (stateName === "bd_details") {
-            //        $("#birthday_details_view").scope().initVar();
-            //    } else if (stateName === "bd_edit") {
-            //        $ionicHistory.goBack();
-            //        $("#birthday_details_view").scope().initVar();
-            //    } else {
-            //        $state.go("tabs.birthday.bd_details");
-            //    }
-            //
-            //});
-            //$rootScope.$on('$cordovaLocalNotification:trigger', function (event, notification, state) {
-            //    console.log(notification);
-            //});
+            $cordovaLocalNotification.getAll().then(function (notifications) {
+                var checkIdArray = [];
+                angular.forEach(notifications,function(notification,index){
+                    if (notification.data !== undefined) {
+                        var data = JSON.parse(notification.data);
+                        if (data.checkId !== undefined && data.checkId.substr(4) !== "undefined") checkIdArray.push(data.checkId);
+                    }
+                });
+                check_id_g = checkIdArray;
+            });
         },
-        add: function (id,type,notifi_time,content) {
-            add_notifi(id,type,notifi_time,content);
+        add: function (reminderInputObj) {
+            var property = getNotifiProperty(reminderInputObj.type);
+            var title = $translate.instant(property.title);
+            var notifiId = reminderInputObj.mode === "new" ? sdbmHash(reminderInputObj.notifiId) : reminderInputObj.notifiId;
+            var thisService = this;
+
+            //UNIT TEST
+            //var notifi_time = Date.now() + 3000;
+            //var frequency = "0";
+
+            var params = {
+                id: sdbmHash(reminderInputObj.notifiId),
+                title: title,
+                text: reminderInputObj.name,
+                at: reminderInputObj.notifiTime,
+                every: reminderInputObj.frequency,
+                //sound: "file://sounds/reminder.mp3",
+                icon: "img/icon.png",
+                smallIcon: "img/icon.png",
+                led: "fed82f",
+                data: JSON.stringify(reminderInputObj.data)
+            };
+
+            $cordovaLocalNotification.schedule(params).then(function () {
+                console.log('callback for adding background notification');
+                thisService.init();
+            });
         },
         //addIfNotExist: function (id,type,notifi_time,content) {
         //    var hash = sdbmHash(id);
@@ -99,9 +95,10 @@ app.service('localNotificationService', function ($rootScope, $state, $ionicHist
         //},
         cancel: function (id) {
             var hash = sdbmHash(id);
+            var thisService = this;
             $cordovaLocalNotification.cancel(hash).then(function (status) {
                 console.log('callback for cancellation background notification');
-                console.log(status);
+                thisService.init();
             });
         },
         //cancelAllById: function (id) {
@@ -122,5 +119,8 @@ app.service('localNotificationService', function ($rootScope, $state, $ionicHist
         //        console.log(isScheduled);
         //    });
         //}
+        getExistingCheckIds : function() {
+            return check_id_g;
+        }
     }
 });

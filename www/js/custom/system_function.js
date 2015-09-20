@@ -1,7 +1,4 @@
 // UTILITIES ------------------------------------------------------------------------
-function analytics(type){
-	$.get(base_url + "index.php/main/write_analytics/" + type);
-}
 function s4() {
     return Math.floor((1 + Math.random()) * 0x10000)
                .toString(16)
@@ -18,26 +15,18 @@ function sdbmHash(str) {
     }
     return hash;
 }
-function chunk(arr, size) {
-    var newArr = [];
-    for (var i=0; i<arr.length; i+=size) {
-        newArr.push(arr.slice(i, i+size));
-    }
-    return newArr;
-}
-function chunk_array_to_size(array,column_size) {
-    var chunk_array = chunk(array, column_size);
-    if (array.length%2 === 1 && array.length > 0) {
-        chunk_array[chunk_array.length - 1][1] = {};
-    }
-    return chunk_array;
-}
 function validity_test(test_subject) {
     if (test_subject !== undefined && test_subject !== null && test_subject !== "") {
         return true;
     } else {
         return false;
     }
+}
+function isNaN_test(test_subject) {
+    if (typeof test_subject === 'number' && isNaN(test_subject)) {
+        return true;
+    }
+    return false;
 }
 function booleanToInt(test_subject) {
     if (test_subject === true) {
@@ -124,5 +113,15 @@ function breakRGBA(colorString) {
         return rgb;
     } else {
         return undefined;
+    }
+}
+
+
+//PARSE DATA
+function parseDbInt(input) {
+    if (!validity_test(input)) {
+        return undefined;
+    } else {
+        return parseInt(input);
     }
 }

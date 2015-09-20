@@ -22,14 +22,19 @@
                                       mac-placeholder="Autocomplete"
                                       ng-click="selectAll($event)"
                                       ng-model="policyObj.company"
-                                      ng-keydown="goToNext($event)">
-                                      <!--required>-->
+                                      ng-keydown="goToNext($event)"
+                                      required>
                         <span> {{item.label}} </span>
                     </mac-autocomplete>
                 </div>
                 <div class="two_cols_item">
                     <div class="inline-block align-middle">{{"PLAN_TYPE" | translate}}</div>
-                    <plan-type-picker class="inline-block align-middle" ng-model-name="policyObj.planType"></plan-type-picker>
+                    <!--<plan-type-picker class="inline-block align-middle" ng-model-name="policyObj.planType"></plan-type-picker>-->
+                    <popup-picker class="inline-block align-middle"
+                                  ng-model-name="policyObj.planTypeDisplayed"
+                                  ng-selected-id="policyObj.planType"
+                                  ng-selected-value="policyObj.planTypeDisplayed"
+                                  ng-data="plan_type_enum"></popup-picker>
                 </div>
                 <div class="two_cols_item">
                     <div class="inline-block align-middle">{{"PLAN_NAME" | translate}}</div>
@@ -149,11 +154,11 @@
                 </div>
                 <div class="two_cols_item">
                     <div class="inline-block align-middle new-line">{{"CASH_VALUE" | translate}}</div>
-                    <currency-input ng-model-name="policyObj.currentCash"></currency-input>
+                    <currency-input ng-model-name="policyObj.currentValue"></currency-input>
                 </div>
                 <div class="two_cols_item">
                     <div class="inline-block align-middle new-line">{{"SURRENDER_CASH_VALUE" | translate}}</div>
-                    <currency-input ng-model-name="policyObj.surrenderCash"></currency-input>
+                    <currency-input ng-model-name="policyObj.surrenderValue"></currency-input>
                 </div>
 
             </section>

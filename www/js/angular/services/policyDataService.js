@@ -25,7 +25,6 @@ app.service('policyDataService', function($rootScope,$q,$http,policyDataDbServic
                 } else {
                     var amt = policyDataDbService.getSumByColName(overview_cat_g[index]);
                 }
-
                 overview_obj = {
                     title : title,
                     label : "TITLE_" + title,

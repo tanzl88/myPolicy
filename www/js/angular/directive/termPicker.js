@@ -133,7 +133,6 @@ angular.module('$termPicker', []).directive('termPicker', function () {
                                         '<div class="term_picker  transform-align-middle ' + $attrs.name + '">' +
                                             '<div class="row picker_header">' +
                                                 '<toggle-switch ng-model="$parent.$parent.pickerMode" ng-change="pickerModeChange()" on-label="{{\'BY_YEAR\' | translate}}" off-label="{{\'BY_AGE\' | translate}}"><toggle-switch>' +
-                                                //'<div class="col align-center">{{"PICKER_YEAR" | translate}}</div>' +
                                             '</div>' +
                                             '<div class="birthday_divider"></div>' +
                                             '<div class="row pickerScroll">' +
@@ -148,7 +147,10 @@ angular.module('$termPicker', []).directive('termPicker', function () {
                                                 '</ion-slide-box>' +
                                             '</div>' +
                                             '<div class="birthday_divider"></div>' +
-                                            '<div class="row picker_buttons"><div class="col align-center" ng-click="closeTermPicker()">{{"PICKER_CANCEL" | translate}}</div><div class="col align-center" ng-click="clickDone()">{{"PICKER_DONE" | translate}}</div></div>' +
+                                            '<div class="row picker_buttons">' +
+                                                '<md-button class="col align-center bg_gray_color" ng-click="closeTermPicker()">{{"PICKER_CANCEL" | translate}}</md-button>' +
+                                                '<md-button class="col align-center bg_theme_color" ng-click="clickDone()">{{"PICKER_DONE" | translate}}</md-button>' +
+                '                           </div>' +
                                         '</div>' +
                                     '</div>' +
                                  '</div>';

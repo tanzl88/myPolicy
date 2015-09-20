@@ -353,8 +353,8 @@ input.login_button {
 
 .birthday_item {
   padding: 3% 0% 3% 3%;
-  margin: auto;
-  width: 100%; }
+  width: 100%;
+  font-size: 0.9em; }
 
 .birthday_item .countdown, .reminder_item .countdown {
   font-size: 2.0em;

@@ -1,6 +1,6 @@
 <ion-view id="list_view" view-title="{{'POLICY' | translate}}">
     <ion-nav-buttons side="secondary">
-        <button class="button button-clear" ng-click="addPolicy()" ng-hide="credential === 'advisor' && clientSelected === false">
+        <button class="button button-clear" ng-click="addPolicy()" ng-if="credential !== 'advisor' || clientSelected === true">
             <i class="ion-plus"></i>
         </button>
     </ion-nav-buttons>
@@ -20,7 +20,7 @@
         </div>
         <ion-scroll style="height: 100%;" has-bouncing="true" ng-if="policies.length > 0">
             <ion-list>
-                <ion-item ng-repeat="policy in policies" class="policy_item item-remove-animate" ng-click="editPolicy($index)">
+                <ion-item collection-repeat="policy in policies" class="policy_item item-remove-animate" ng-click="editPolicy($index)">
                     <div class="policy_summary">
                         <p>{{$index + 1}}. {{policy.company}} - {{policy.planName}}</p>
                         <div>

@@ -47,7 +47,6 @@ app.service('clientListDbService', function($rootScope,$q,$http,$translate,error
         },
         set : function(clientList,tempAccountList) {
             clients_g = this.processClientsArray(clientList,tempAccountList);
-            console.log(clients_g);
         },
         processClientsArray : function(clientArray,tempAccountList) {
             var output = [];
@@ -84,19 +83,6 @@ app.service('clientListDbService', function($rootScope,$q,$http,$translate,error
                     break;
                 }
             }
-        },
-        getClientsBirthday : function() {
-            var input = [];
-            for (var i = 0 ; i < clients_g.length ; i++) {
-                if (clients_g[i].birthday !== undefined) {
-                    clients_g[i].countdown = calcNextBirthday(clients_g[i].birthday);
-                    input.push(clients_g[i]);
-                }
-            }
-            input = _.sortBy(input, function(birthday){
-                return birthday.countdown
-            });
-            return input;
         }
     }
 });

@@ -1,9 +1,9 @@
-app.controller('GlobalCtrl', function($scope,$rootScope,$timeout,$state,tutorialManager,loadingService) {
+app.controller('GlobalCtrl', function($scope,$rootScope,$timeout,$state,tutorialManager,credentialManager,loadingService) {
     //ORIENTATION LOCK CONTROL
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         var stateNameSplit = toState.name.split(".");
         var stateName = stateNameSplit[stateNameSplit.length - 1];
-        if (stateName === "list") {
+        if (stateName === "list" && (credentialManager.getCredential() === "client" || credentialManager.getClientSelected())) {
             screen.unlockOrientation();
         } else {
             if (validity_test(screen.lockOrientation)) screen.lockOrientation("portrait-primary");
@@ -22,32 +22,6 @@ app.controller('GlobalCtrl', function($scope,$rootScope,$timeout,$state,tutorial
         "caseNotes"
     ];
 
-    var stateArray = [
-        //"login",
-        "retrieveAccount",
-        "activation",
-        "resetPassword",
-        "home",
-        "birthday",
-        "notification",
-        "settings",
-        "profile",
-        "editProfile",
-        "caseNotes",
-        "addCaseNotes",
-        "list",
-        "gallery",
-        "overview",
-        "editPolicy",
-        "addPolicy",
-        "editAdvisorProfile",
-        "advisorInfo",
-        "generateReport",
-        "createClientAccount",
-        "report",
-        "export",
-    ];
-
     $rootScope.$on("$ionicView.beforeEnter", function(scopes, states) {
         if (states.stateName !== undefined) {
             var stateNameSplit = states.stateName.split(".");
@@ -58,12 +32,6 @@ app.controller('GlobalCtrl', function($scope,$rootScope,$timeout,$state,tutorial
                 loadingService.show("LOADING");
             }
 
-            //LOGIN
-            if (stateName === "login") {
-                $timeout(function(){
-                    scopes.targetScope.initVar();
-                },1);
-            }
 
             //TUTORIAL
             if (localStorage.getItem("swipe-left-tutorial") != "true" && tutorialArray.indexOf(stateName) >= 0) {
@@ -78,9 +46,13 @@ app.controller('GlobalCtrl', function($scope,$rootScope,$timeout,$state,tutorial
             }
 
             //INIT VAR
-            if (validity_test(states.stateName) && (states.direction === "forward" || states.direction === "swap")) {
+            if (stateName === "login") {
+                $timeout(function(){
+                    scopes.targetScope.initVar();
+                },1);
+            } else if (validity_test(states.stateName) && (states.direction === "forward" || states.direction === "swap")) {
                 //INITIATION TRIGGER
-                if (stateArray.indexOf(stateName) >= 0) {
+                if (scopes.targetScope.initVar !== undefined) {
                     $timeout(function(){
                         scopes.targetScope.initVar();
                     },1);

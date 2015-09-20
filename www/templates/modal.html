@@ -63,7 +63,7 @@
             <form id="reportNameForm" class="transform-align-middle" name="reportNameForm" novalidate="" ng-submit="export(reportNameForm)">
                 <p>{{"GENERATE_REPORT_MSG" | translate}}</p>
                 <!--REPORT NAME-->
-                <input class="bg_color form-group" type="text" name="reportName" ng-model="reportName" ng-pattern="/^[a-zA-Z0-9]*$/" required
+                <input class="bg_color form-group" type="text" name="reportName" ng-model="reportName" ng-pattern="/^[ a-zA-Z0-9]*$/" required
                        ng-class="{ 'has-error' : reportNameForm.reportName.$invalid && !reportNameForm.reportName.$pristine }">
                 <!--MESSAGE-->
                 <div class="form-message" ng-messages="reportNameForm.reportName.$error" ng-show="!reportNameForm.reportName.$pristine" style="" role="alert">
@@ -130,34 +130,6 @@
                 <p class="new-line" style="font-size: 0.9em;">{{"THANKS_MAIL" | translate}}</p>
                 <p class="login_button" ng-click="thanksMail.hide()">{{"GOT_IT" | translate}}</p>
             </form>
-        </ion-content>
-    </div>
-</script>
-
-
-
-
-<!--BIRTHDAY COUNTDOWN-->
-<script id="birthday.html" type="text/ng-template">
-    <div class="modal" style="background-color: rgba(255,255,255,1)">
-        <ion-header-bar style="background-color: #fed82f">
-            <a ng-click="closeBirthday()" class="button button-icon icon ion-ios-close-empty" style="position: absolute; right: 0%;"></a>
-        </ion-header-bar>
-        <ion-content>
-            <ion-list>
-                <ion-item class="birthday_item" ng-repeat="birthday in birthdays" ng-click="birthdayClick($index)">
-                    <div class="inline-block align-middle" style="width: 70%;">
-                        <strong class="name">{{birthday.name}}</strong>
-                        <p>{{birthday.birthday.format("LL")}}</p>
-                    </div>
-                    <div class="inline-block align-middle align-center" style="width: 30%;">
-                        <p ng-if="birthday.countdown > 1" class="countdown">{{birthday.countdown}}</p>
-                        <p ng-class="{'countdown_today' : birthday.countdown <= 1, 'countdown_text' : birthday.countdown > 1}" >
-                            {{"DAY" | translate:{ day : birthday.countdown }:'messageformat'}}
-                        </p>
-                    </div>
-                </ion-item>
-            </ion-list>
         </ion-content>
     </div>
 </script>
