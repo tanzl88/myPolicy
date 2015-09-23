@@ -1,4 +1,4 @@
-app.controller('GalleryCtrl', function($scope,$rootScope,$http,$toast,$translate,$timeout,
+app.controller('GalleryCtrl', function($scope,$rootScope,$http,$toast,$translate,$timeout,$interval,$ionicScrollDelegate,
                                        $cordovaCamera,$cordovaFile,$cordovaFileTransfer,
                                        picNotesService,loadingService,modalService) {
     $scope.initVar = function() {
@@ -10,6 +10,8 @@ app.controller('GalleryCtrl', function($scope,$rootScope,$http,$toast,$translate
         loadingService.show("LOADING_IMAGES");
         $scope.refreshPicNotes();
     };
+    var lightboxOnLoadListener = false;
+
     $scope.refreshPicNotes = function() {
         picNotesService.getPicNotes($scope.policyId).then(function(picId){
             $scope.picNotes = picId;
@@ -19,11 +21,12 @@ app.controller('GalleryCtrl', function($scope,$rootScope,$http,$toast,$translate
     };
 
     $scope.cellStyle = function() {
-        var container_width = window_width_g * 0.94;
-        var row_width       = container_width * 0.97;
-        var cell_width      = (row_width / 2) - 2;
+        var division = 2;
+        var container_width = window_width_g - 2;
+        var cell_width = (container_width / division) - 2;
+
         return {
-            width  : cell_width + "px",
+            //width  : cell_width + "px",
             height : cell_width + "px"
         }
     };
@@ -48,37 +51,6 @@ app.controller('GalleryCtrl', function($scope,$rootScope,$http,$toast,$translate
             var identifier        = sdbmHash($scope.policyId + $scope.userId);
             var picId             = unique_id();
 
-            //var canvas = document.createElement("canvas");
-            //Caman(canvas,imageURI, function(){
-            //    this.exposure(40);
-            //    this.gamma(1.5);
-            //    this.contrast(25);
-            //    this.render(function(){
-            //        //console.log("SAVING");
-            //        console.log(fileCacheDir + identifier + picId + 'CAMAN.jpg');
-            //        //console.log(this.save(fileCacheDir + identifier + picId + 'CAMAN.jpg'));
-            //        //console.log(this);
-            //        this.canvas.toBlob(function(blob){
-            //            $cordovaFile.writeFile(fileCacheDir, identifier + picId + 'CAMAN.jpg', blob, true)
-            //                .then(function (success) {
-            //                    // success
-            //                    console.log(success);
-            //                    //reportComplete(true);
-            //                }, function (error) {
-            //                    console.log(error);
-            //                    //$toast.show("GENERATE_REPORT_FAILED");
-            //                    //reportComplete(false);
-            //                    // error
-            //                });
-            //        }, "image/jpeg", 0.5);
-            //    });
-                //console.log(this);
-                //console.log(this.toImage("jpg"));
-                //console.log(identifier + picId + '.jpg');
-                //this.save(fileCacheDir + identifier + picId + '.jpg');
-            //});
-
-
             var input = {
                 policyId : $scope.policyId,
                 picId    : picId
@@ -90,6 +62,7 @@ app.controller('GalleryCtrl', function($scope,$rootScope,$http,$toast,$translate
                             .then(function (fileEntry) {
                                 $scope.picNotes.push({
                                     id  : picId,
+                                    policyId : $scope.policyId,
                                     src : fileEntry.nativeURL
                                 });
                                 loadingService.hide();
@@ -114,9 +87,46 @@ app.controller('GalleryCtrl', function($scope,$rootScope,$http,$toast,$translate
     modalService.init("lightbox","lightbox",$scope).then(function(modal){
         $scope.lightbox = modal;
     });
+    function zoomToMin(assignMin) {
+        var scrollDelegate = $ionicScrollDelegate.$getByHandle('lightboxScroll');
+        if (assignMin) scrollDelegate.getScrollView().options.minZoom = $scope.minZoom;
+        scrollDelegate.zoomTo($scope.minZoom,false);
+        $timeout(function(){
+            loadingService.hide();
+        },200);
+    }
     $scope.expand = function(index) {
-        $scope.selectedImage = $scope.picNotes[index].src;
-        $scope.lightbox.show();
+        loadingService.show("LOADING_FULL_IMAGE");
+        var selectedObj = $scope.picNotes[index];
+        picNotesService.getFullPic(selectedObj.policyId,selectedObj.id).then(function(imageObj){
+            $scope.lightbox.show();
+
+            if (lightboxOnLoadListener === false) {
+                var lightbox_timer = $interval(function(){
+                    if ($("#lightbox_image").length > 0) {
+                        $("#lightbox_image").on("load",function(){
+                            lightboxOnLoadListener = true;
+                            var width = this.clientWidth;
+                            var height = this.clientHeight;
+                            //var zoomLevel = width < height ? window_height_g / height : window_width_g / width;
+                            $scope.minZoom = window_height_g / height;
+                            zoomToMin(true);
+                        });
+                        $scope.selectedImage = imageObj.src;
+                        $interval.cancel(lightbox_timer);
+                    }
+                },100);
+            } else {
+                $scope.selectedImage = imageObj.src;
+                zoomToMin(false);
+            }
+        });
+    };
+    $scope.lightboxDoubleTap = function() {
+        var scrollDelegate = $ionicScrollDelegate.$getByHandle('lightboxScroll');
+        var currentZoom = scrollDelegate.getScrollView().__zoomLevel;
+        var zoomLevel = currentZoom > 0.9 ? $scope.minZoom : 1;
+        scrollDelegate.zoomTo(zoomLevel,true);
     };
     //REMOVE
     modalService.init("remove_modal","remove_modal",$scope).then(function(modal){
@@ -133,15 +143,6 @@ app.controller('GalleryCtrl', function($scope,$rootScope,$http,$toast,$translate
         $timeout(function(){
             picNotesService.remove($scope.policyId,$scope.removeId,$scope.refreshPicNotes);
         },50);
-
-        //reminderService.removeReminderById($scope.removeId).then(function(status){
-        //    if (status === "OK") {
-        //        $scope.reminders = reminderService.get();
-        //    } else if (status === "failed") {
-        //        $toast.show("REMOVE_POLICY_NOT_FOUND");
-        //    }
-        //    hideEverything();
-        //});
     };
 });
 

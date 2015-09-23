@@ -108,6 +108,7 @@ var overview_title_g = [
     "DEATH_SUM",
     "TPD_SUM",
     "CRIT_ILL_SUM",
+    "TERMINAL_ILL_SUM",
     "EARLY_ILL_SUM",
     "ACCIDENT_LUMP_SUM",
     "ACCIDENT_REIMB",
@@ -122,13 +123,14 @@ var overview_cat_g = [
     "deathSA",
     "tpdSA",
     "critSA",
+    "terminalSA",
     "earlySA",
-    "accidentDeath", //4
+    "accidentDeath", //5
     "accidentReimb",
     "hospitalSA",
     "hospitalIncome",
-    "disabledSA", //8
-    "currentValue"
+    "disabledSA", //9
+    "retireIncome"
 ];
 
 
@@ -161,12 +163,12 @@ var doughnut_cat_g = [
 ];
 
 var overview_to_dougnut_mapping_g = [
-    4,
-    6,
+    5,
+    7,
     2,
     1,
-    8,
-    3,
+    9,
+    4,
     0,
 ];
 var income_factor_g = [
@@ -189,3 +191,32 @@ var exps_factor_g = [
 ];
 
 var countdown_array_g = [0,1,3,5,15,30];
+
+var reminder_display_g = [
+    {
+        name    : "SHOW_ALL",
+        filter  : {}
+    },
+    {
+        name    : "SHOW_BIRTHDAY",
+        filter  : {type : 'birthday'}
+    },
+    {
+        name    : "SHOW_REVIEW",
+        filter  : {type : 'review'}
+    },
+    {
+        name    : "SHOW_MATURITY",
+        filter  : {type : 'maturity'}
+    }
+];
+var reminder_sort_g = [
+    {
+        name    : "SORT_COUNTDOWN",
+        sortCol : "countdown"
+    },
+    {
+        name    : "SORT_NAME",
+        sortCol : "name"
+    }
+];

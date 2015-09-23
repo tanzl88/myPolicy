@@ -25,7 +25,9 @@
   right: 3%;
   color: #c0bcbc; }
 
-#signup_view input[type=password], #signup_view input[type=email], #signup_view input[type=number] {
+#signup_view input[type=password],
+#signup_view input[type=email],
+#signup_view input[type=number] {
   padding-left: 13%; }
 
 #signup_view .heading {
@@ -33,13 +35,15 @@
   font-size: 0.9em;
   margin-top: 5%; }
 
-#remember_me_container, #advisor_register_container {
+#remember_me_container,
+#advisor_register_container {
   width: 60%;
   margin: auto;
   color: #c0bcbc;
   font-size: 0.9em; }
 
-#remember_me_container button, #advisor_register_container button {
+#remember_me_container button,
+#advisor_register_container button {
   height: 19px;
   width: 19px;
   padding: 0;
@@ -49,10 +53,12 @@
   border: 1px solid rgba(0, 0, 0, 0.3);
   margin-right: 2%; }
 
-#remember_me_container button i, #advisor_register_container button i {
+#remember_me_container button i,
+#advisor_register_container button i {
   display: none; }
 
-#remember_me_container button i.checked, #advisor_register_container button i.checked {
+#remember_me_container button i.checked,
+#advisor_register_container button i.checked {
   display: block;
   height: 17px;
   width: 17px;
@@ -384,6 +390,21 @@ input.login_button {
 .reminder_item .reminder_info p.time {
   color: #777; }
 
+#reminder_filter {
+  font-size: 0.8em;
+  padding: 0% 4%;
+  border-bottom: 1px solid #DDD;
+  z-index: 99;
+  position: relative; }
+
+#reminder_filter > div {
+  height: 100%; }
+
+#reminder_filter .filter_button {
+  padding: 6px 0;
+  border-radius: 5px;
+  background-color: #fed82f; }
+
 .notification_item .notification_button > div {
   padding: 1% 5%;
   margin: 5% 2% 0% 2%;
@@ -490,12 +511,8 @@ input.login_button {
   padding: 0% 31%;
   font-size: 0.9em; }
 
-.tutorial_blocker {
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.5);
-  width: 100%;
-  z-index: 99;
-  display: none; }
+#tutorial_blocker {
+  top: 0; }
 
 .temp_account_view, .generate_token_view {
   position: absolute;
@@ -579,11 +596,14 @@ input.login_button {
 .full_table tr:nth-child(odd) td {
   background-color: #EEE; }
 
-.full_table th:last-child, .full_table td:last-child {
+.full_table th:last-child,
+.full_table td:last-child {
   border-right: 1px solid #c0bcbc; }
 
 .full_table tr:last-child td {
-  border-bottom: 1px solid #c0bcbc;
+  border-bottom: 1px solid #c0bcbc; }
+
+#list_view .full_table tr:last-child td {
   background-color: #827c6f;
   color: white; }
 
@@ -600,7 +620,8 @@ input.login_button {
 .landscape .full_table {
   display: block; }
 
-.landscape ion-nav-bar, .landscape .tab-nav.tabs {
+.landscape ion-nav-bar,
+.landscape .tab-nav.tabs {
   display: none; }
 
 .policy_item {
@@ -631,7 +652,7 @@ input.login_button {
 #pic_notes {
   width: 100%;
   height: 100%;
-  padding: 0% 3%; }
+  padding: 0; }
 
 #take_pic_container {
   border-top: 1px solid #c0bcbc;
@@ -641,24 +662,22 @@ input.login_button {
 
 .pic_notes_item {
   width: 48.5%;
-  border: 1px solid #c0bcbc;
-  margin-top: 3%;
+  border: 1px solid white;
   overflow: hidden; }
 
-.pic_notes_item:nth-child(odd) {
-  margin-right: 1.5%; }
-
-.pic_notes_item:nth-child(even) {
-  margin-left: 1.5%; }
+#pic_notes .scroll {
+  padding: 4px 1px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-basis: initial;
+  align-content: flex-start; }
 
 #pic_notes .closeButtonBox {
-  background-color: white;
+  background-color: #fed82f;
   width: 25px;
   height: 25px;
   z-index: 99;
-  float: right;
-  border-left: 1px solid #c0bcbc;
-  border-bottom: 1px solid #c0bcbc; }
+  float: right; }
 
 #pic_notes .closeButtonBox i {
   line-height: 25px;
@@ -872,7 +891,8 @@ input.login_button {
   -webkit-transform: translate3d(-50%, -50%, 1px);
   z-index: 99; }
 
-#percent_container b, #percent_container p {
+#percent_container b,
+#percent_container p {
   width: 100%;
   text-align: center;
   line-height: 0.8; }
@@ -1093,5 +1113,9 @@ input.login_button {
 
 .platform-ios .ios-header {
   display: block; }
+
+.lightbox .modalCloseButton {
+  width: 10%;
+  right: 2%; }
 
 /*# sourceMappingURL=index.css.map */

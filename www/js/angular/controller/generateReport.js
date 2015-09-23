@@ -71,7 +71,7 @@ app.controller('GenerateReportCtrl', function($scope,$rootScope,$q,$state,$trans
     function removeFile(dir,filename) {
         $cordovaFile.removeFile(dir,filename)
             .then(function(success){
-                $scope.closeRemoveModal();
+                $scope.removeModal.hide();
                 $scope.initVar();
             }, function(error){
                 $toast.show("UNKNOWN_ERROR");

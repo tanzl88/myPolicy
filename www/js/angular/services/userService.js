@@ -1,4 +1,4 @@
-app.service('userService', function($ionicUser,$http,credentialManager) {
+app.service('userService', function($ionicUser,$http,credentialManager,$cordovaDevice) {
     return {
         init : function() {
             //IONIC USER
@@ -8,20 +8,18 @@ app.service('userService', function($ionicUser,$http,credentialManager) {
                 user.credential = credentialManager.getCredential();
             };
             $ionicUser.identify(user).then(function(){
-                console.log("IDENTIFIED");
-                //if (ionic.Platform.isWebView()) {
-                //    console.log("ISWEBVIEW");
-                //    var device = $cordovaDevice.getDevice();
-                //    var input = {
-                //        ionicId         : user.user_id,
-                //        manufacturer    : device.manufacturer,
-                //        model           : device.model,
-                //        platform        : device.platform,
-                //        uuid            : device.uuid,
-                //        version         : device.version
-                //    };
-                //    $http.post(register_url + "set_user_analytics",input);
-                //}
+                if (ionic.Platform.isWebView()) {
+                    var device = $cordovaDevice.getDevice();
+                    var input = {
+                        ionicId         : user.user_id,
+                        manufacturer    : device.manufacturer,
+                        model           : device.model,
+                        platform        : device.platform,
+                        uuid            : device.uuid,
+                        version         : device.version
+                    };
+                    $http.post(register_url + "set_user_analytics",input);
+                }
             });
         }
     }

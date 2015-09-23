@@ -6,5 +6,8 @@ app.controller('SettingsCtrl', function($scope,$translate,$state) {
     $scope.goToEditFields = function() {
         $state.go("tabs.home.settings.customizeFieldNames");
     };
+    $scope.goToChangePassword = function() {
+        $state.go("tabs.home.settings.changePassword");
+    };
 });
 

@@ -95,6 +95,12 @@ var full_table_g = [
         type    : "currency",
     },
     {
+        title   : "TERMINAL_SA",
+        varName : "terminalSA",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
         title   : "EARLY_SA",
         varName : "earlySA",
         width   : "100px",
@@ -127,6 +133,12 @@ var full_table_g = [
     {
         title   : "ACCIDENT_REIMB",
         varName : "accidentReimb",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "RETIRE_INCOME",
+        varName : "retireIncome",
         width   : "100px",
         type    : "currency",
     },
@@ -267,6 +279,12 @@ var full_table_g_2 = [
         type    : "currency",
     },
     {
+        title   : "TERMINAL_SA",
+        varName : "terminalSA",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
         title   : "EARLY_SA",
         varName : "earlySA",
         width   : "100px",
@@ -299,6 +317,12 @@ var full_table_g_2 = [
     {
         title   : "ACCIDENT_REIMB",
         varName : "accidentReimb",
+        width   : "100px",
+        type    : "currency",
+    },
+    {
+        title   : "RETIRE_INCOME",
+        varName : "retireIncome",
         width   : "100px",
         type    : "currency",
     },

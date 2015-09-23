@@ -217,7 +217,7 @@ app.service('reminderService', function($rootScope,$q,$http,localNotificationSer
             var dfd = $q.defer();
 
             //ADD TO NOTIFICATION
-            var frequency = repeatModeEnum[reminderInputObj.frequency];
+            var frequency = repeatModeEnum[parseInt(reminderInputObj.frequency)];
             var firstTimeUnix = getFirstTime(reminderInputObj.dateTime,frequency);
             var diffInMinutes = (firstTimeUnix - Date.now()) / 1000 / 60;
 
@@ -246,7 +246,7 @@ app.service('reminderService', function($rootScope,$q,$http,localNotificationSer
                                 mode       : reminderInputObj.mode,
                                 notifiTime : firstTimeUnix,
                                 name       : reminderInputObj.name,
-                                frequency  : reminderInputObj.frequency,
+                                frequency  : frequency,
                                 data       : {
                                     checkId : getCheckId(reminderInputObj)
                                 }

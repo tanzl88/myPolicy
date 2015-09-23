@@ -26,8 +26,8 @@
             <table class="overview_table">
                 <tr ng-repeat="cat in viewObj.cat">
                     <td class="new-line" width="50%">{{cat.label | translate}}</td>
-                    <td ng-if="$index !== 10" class="align-middle" width="50%">{{cat.amt | currency:currency:0}}</td>
-                    <td ng-if="$index === 10" class="align-middle" width="50%">{{cat.amt}}</td>
+                    <td ng-if="$index !== 11" class="align-middle" width="50%">{{cat.amt | currency:currency:0}}</td>
+                    <td ng-if="$index === 11" class="align-middle" width="50%">{{cat.amt}}</td>
                 </tr>
             </table>
         </div>

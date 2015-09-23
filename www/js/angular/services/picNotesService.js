@@ -19,7 +19,7 @@ app.service('picNotesService', function($q,$http,$toast,$cordovaFile,$cordovaFil
                         var identifier = getIdentifier(policyId);
                         //GET FILE FOR EACH FILE ID -> EITHER FROM CACHE OR DOWNLOAD TO CAHCE
                         for (var i = 0 ; i < statusData["data"].length ; i++) {
-                            promises.push(thisService.getFile(identifier,statusData["data"][i].picId,policyId));
+                            promises.push(thisService.getFile(identifier,statusData["data"][i].picId,policyId,true));
                         }
                         $q.all(promises).then(function(picId){
                             dfd.resolve(picId);
@@ -31,9 +31,19 @@ app.service('picNotesService', function($q,$http,$toast,$cordovaFile,$cordovaFil
 
             return dfd.promise;
         },
-        getFile : function(identifier,picId,policyId) {
+        getFullPic : function(policyId,picId) {
             var dfd = $q.defer();
-            var filename      = picId + ".jpg";
+            var identifier = getIdentifier(policyId);
+            //GET FILE FOR EACH FILE ID -> EITHER FROM CACHE OR DOWNLOAD TO CAHCE
+            this.getFile(identifier,picId,policyId,false).then(function(obj){
+                dfd.resolve(obj);
+            });
+            return dfd.promise;
+        },
+        getFile : function(identifier,picId,policyId,getThumb) {
+            var dfd = $q.defer();
+            var thumb = getThumb ? "-thumb" : "";
+            var filename      = picId + thumb + ".jpg";
             var cacheFilename = identifier + filename;
 
             //CHECK CACHE EXISTS
@@ -41,8 +51,9 @@ app.service('picNotesService', function($q,$http,$toast,$cordovaFile,$cordovaFil
                 .then(function (success) {
                     //CACHE FOUND
                     dfd.resolve({
-                        id  : picId,
-                        src : fileCacheDir + cacheFilename
+                        id          : picId,
+                        policyId    : policyId,
+                        src         : fileCacheDir + cacheFilename
                     });
                 }, function (error) {
                     if (error.code === 1) {
@@ -54,8 +65,9 @@ app.service('picNotesService', function($q,$http,$toast,$cordovaFile,$cordovaFil
                         $cordovaFileTransfer.download(url, targetPath, options, false)
                             .then(function(result) {
                                 dfd.resolve({
-                                    id  : picId,
-                                    src : fileCacheDir + cacheFilename
+                                    id          : picId,
+                                    policyId    : policyId,
+                                    src         : fileCacheDir + cacheFilename
                                 });
                             }, function(err) {
                                 console.log(err);

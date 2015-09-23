@@ -35,11 +35,21 @@
         <div countdown-time-picker name="annual" type="birthday" year-scroll="false" repeat-mode="false"></div>
         <div countdown-time-picker name="maturity" type="maturity" year-scroll="false" repeat-mode="false"></div>
 
-
-        <ion-scroll style="height: 100%;" has-bouncing="true">
+        <div id="reminder_filter" style="height: 10%;">
+            <div class="inline-block align-middle" style="width: 42%; margin-right: 2%;">
+                <div class="transform-align-middle align-center filter_button" ng-click="changeReminderDisplay()">
+                    {{displayReminder}}
+                </div>
+            </div>
+            <div class="inline-block align-middle" style="width: 55%;">
+                <div class="transform-align-middle align-center filter_button" ng-click="changeReminderSorting()">
+                    {{reminderSortingText}}
+                </div>
+            </div>
+        </div>
+        <ion-scroll style="height: 90%;" has-bouncing="true">
             <ion-list>
-                <ion-item class="reminder_item" ng-repeat="reminder in reminders" ng-click="editReminder(reminder.type,$index)">
-
+                <ion-item class="reminder_item item-animate" ng-repeat="reminder in reminders | filter: reminderFilter" ng-click="editReminder(reminder.type,$index)">
                     <div>
                         <div class="inline-block align-middle reminder_info" style="width: 73%;">
                             <p class="name" style="font-weight: bold;">{{reminder.name}}</p>
@@ -57,7 +67,6 @@
                     <ion-option-button class="button yellow" ng-click="remove(reminder.id)">
                         <i class="ion-ios-trash-outline"></i>
                     </ion-option-button>
-
                 </ion-item>
             </ion-list>
         </ion-scroll>

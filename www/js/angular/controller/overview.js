@@ -7,7 +7,7 @@ app.controller('OverviewCtrl', function($scope,$translate,$timeout,$interval,$to
             if (ele_to_check.length > 0) {
                 //STYLING
                 var chart_width = Math.floor(window_width_g);
-                var chart_height = Math.floor(window_height_g * 0.65);
+                var chart_height = Math.floor(window_height_g * 0.7);
                 $("#overviewChart").attr("width", chart_width).attr("height", chart_height);
                 barChartService.drawChart("overviewChart", chartData, chartOptions);
                 $interval.cancel(initTimer);

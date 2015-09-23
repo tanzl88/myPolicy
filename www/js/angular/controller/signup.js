@@ -12,7 +12,6 @@ app.controller('SignUpCtrl', function($scope,$http,$ionicHistory,$toast,modalSer
             if (!$scope.emailExist) {
                 //var type = form.advisorRegister.$modelValue === true ? "advisor" : "client";
                 var type = "client";
-
                 var input = {
                     email       : form.email.$modelValue,
                     password    : form.password.$modelValue,

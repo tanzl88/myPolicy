@@ -6,12 +6,15 @@ app.service('barChartService', function($rootScope,$q,$http,$translate) {
 
     return {
         getOverviewChartData : function(data_array) {
-            var limit = 7;
+            var limit = 8;
 
             var sliced_array = data_array.slice(0,limit);
-            console.log(sliced_array);
-            sliced_array.splice(5,1);
-            console.log(sliced_array);
+            for (var i = 0 ; i < sliced_array.length ; i++) {
+                if (sliced_array[i].title === "ACCIDENT_REIMB") {
+                    sliced_array.splice(i,1);
+                    break;
+                }
+            }
 
             var chart_array = _.pluck(sliced_array, 'amt').reverse();
             var label_array = [];

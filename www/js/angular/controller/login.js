@@ -122,6 +122,7 @@ app.controller('LoginCtrl', function($scope,$rootScope,$state,$timeout,$interval
 
     // ------------- IN APP BROWSER -------------
     function openLinkInInAppBrowser(link) {
+        loadingService.show("LOADING");
         var toolbar = (ionic.Platform.isIOS()) ? 'yes' : 'no';
         var options = {
             location: 'no',
@@ -129,6 +130,9 @@ app.controller('LoginCtrl', function($scope,$rootScope,$state,$timeout,$interval
             hardwareback: 'yes'
         };
         $cordovaInAppBrowser.open(link, '_blank', options);
+        $rootScope.$on('$cordovaInAppBrowser:exit', function(e, event){
+            loadingService.hide();
+        });
     }
 
     $scope.termsOfUse = function() {

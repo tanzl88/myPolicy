@@ -46,9 +46,16 @@ app.controller('AddPolicyCtrl', function($rootScope,$scope,$timeout,$state,$tran
             return undefined;
         }
     }
+    function getDefaultMode(mode) {
+        if (mode === "premiumMode") {
+            return 2;
+        } else {
+            return -1;
+        }
+    }
     $scope.changeMode = function(mode) {
         var enum_g = getModeEnum(mode);
-        var currentModeIndex = validity_test($scope.policyObj[mode]) ? parseInt($scope.policyObj[mode]) : -1;
+        var currentModeIndex = validity_test($scope.policyObj[mode]) ? parseInt($scope.policyObj[mode]) : getDefaultMode(mode);
         var nextModeIndex = (currentModeIndex + 1) % enum_g.length;
         $scope.updateMode(mode,nextModeIndex);
     };
@@ -98,11 +105,13 @@ app.controller('AddPolicyCtrl', function($rootScope,$scope,$timeout,$state,$tran
                 tpdSA                   : undefined,
                 disabledSA              : undefined,
                 critSA                  : undefined,
+                terminalSA              : undefined,
                 earlySA                 : undefined,
                 hospitalSA              : undefined,
                 hospitalIncome          : undefined,
                 accidentDeath           : undefined,
                 accidentReimb           : undefined,
+                retireIncome            : undefined,
                 currentCash             : undefined,
                 surrenderCash           : undefined,
                 remarks                 : undefined

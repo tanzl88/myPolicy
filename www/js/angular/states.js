@@ -164,6 +164,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
                 }
             }
         })
+        .state('tabs.home.settings.changePassword', {
+            url: '/changePassword',
+            views: {
+                "home-tab@tabs": {
+                    templateUrl: "templates/home/changePassword.html",
+                    controller: "ChangePasswordCtrl",
+                }
+            }
+        })
 
 
         //------------------------ LIST ------------------------

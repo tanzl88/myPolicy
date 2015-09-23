@@ -32,6 +32,12 @@ var translations_en = {
     REPEAT_MONTHLY  : "Repeat monthly",
     REPEAT_YEARLY   : "Repeat yearly",
     DONT_REPEAT     : "Do no repeat",
+    SHOW_ALL : "Show all",
+    SHOW_BIRTHDAY : "Birthday reminder",
+    SHOW_REVIEW : "Review reminder",
+    SHOW_MATURITY : "Maturity reminder",
+    SORT_COUNTDOWN : "Sort by: reminder date",
+    SORT_NAME : "Sort by: reminder name",
 
     //NOTIFICATION
     REVIEW_REMINDER : "Review Reminder",
@@ -66,6 +72,7 @@ var translations_en = {
     LOADING_CLIENT : "Loading client's data",
     LOADING_NOTES : "Loading case notes",
     LOADING_IMAGES : "Loading images",
+    LOADING_FULL_IMAGE : "Loading full\nresolution image",
     UPLOADING : "Uploading\n{{percent}}%",
     SESSION_EXPIRED_LOGOUT : "Session expired. Logging out.",
     SESSION_EXPIRED : "Session expired. Please login again.",
@@ -78,6 +85,8 @@ var translations_en = {
     CREATE_ACCOUNT_FAILED : "Create account failed. Please try again.",
     RESET_PASSWORD_FAILED : "Reset password failed. Please try again.",
     RESET_PASSWORD_FAILED_LOG_IN : "Account is currently logged in.",
+    WRONG_PASSWORD : "Password is incorrect. Please try again.",
+    CHANGE_PASSWORD_SUCCESS : "Your password was successfully changed.",
 
     REMINDER_NAME : "Reminder name",
     REMINDER_SET : "Reminder set",
@@ -120,12 +129,16 @@ var translations_en = {
     PIC_NOTES : "Picture Notes",
     DROP_MAIL : "Drop us a mail",
     ROTATE_TO_GO_BACK : "Rotate to go back",
+    CHANGE_PASSWORD : "Change Password",
+    CHANGE : "Change",
+    CHANGE_CAPS : "CHANGE",
 
     //MESSAGE
     NO_NOTIFICATION : "You do not have any message.",
     NO_ADVISOR_MSG : "You are not linked to any advisor. Input your advisor's myPolicy account email to continue.",
     NO_ADVISOR_TO_LINK_MSG : "If you do not have a preferred advisor at the moment or you have any insurance related question, please feel free to drop us an email below.",
     NO_POLICY_MSG : "No policy found.\nPress '+' button to add new policy.",
+    NO_PIC_NOTES_MSG : "No picture note found.\nPress 'camera' button to add a new picture note.",
     NO_CASE_NOTES_MSG : "No case note found.\nPress '+' button to add new case note.",
     CLIENT_NOT_SELECTED : "No client is selected.\nPlease select a client to continue.",
     ACCOUNT_NAME_MSG : "Please enter an unique name for the account created. The name is for your own identification purpose and is not visible to your client.",
@@ -213,7 +226,10 @@ var translations_en = {
     USERNAME : "Username",
     EMAIL : "Email",
     PASSWORD : "Password",
+    OLD_PASSWORD : "Old password",
+    NEW_PASSWORD : "New password",
     CONFIRM_PASSWORD : "Confirm password",
+    CONFIRM_NEW_PASSWORD : "Confirm new password",
     SIGN_UP : "Sign up",
     SIGN_UP_NEW_LINE : "Sign up\naccount",
     SIGN_UP_CAPS : "SIGN UP",
@@ -276,16 +292,20 @@ var translations_en = {
     SHORTFALL : "Shortfall\n",
     KEY_PROTECTION_TITLE : "Key Protection Needs Overview",
 
-
+    //OVERVIEW COLUMN NAME
+    POLICIES_NUMBER : "Number of\npolicies",
+    TOTAL_PREMIUM : "Annual premium",
     DEATH_SUM : "Death Sum Assured",
     TPD_SUM : "TPD Sum Assured",
     CRIT_ILL_SUM : "Critical Illness Sum Assured",
+    TERMINAL_ILL_SUM : "Terminal Illness Sum Assured",
     EARLY_ILL_SUM : "Early Illness Sum Assured",
     ACCIDENT_LUMP_SUM : "Accidental Death",
     HS_REIMB_SUM : "HS Reimbursement",
     TITLE_DEATH_SUM : "Death",
     TITLE_TPD_SUM : "Total Permanent\nDisability",
     TITLE_CRIT_ILL_SUM : "Critical Illness",
+    TITLE_TERMINAL_ILL_SUM : "Terminal Illness",
     TITLE_EARLY_ILL_SUM : "Early Illness",
     TITLE_ACCIDENT_LUMP_SUM : "Accidental\nDeath",
     TITLE_ACCIDENT_REIMB : "Accidental\nReimbursement",
@@ -295,6 +315,8 @@ var translations_en = {
     TITLE_INCOME_PER_MONTH : "Retirement Income\nper month",
     TITLE_POLICIES_NUMBER : "Number of\npolicies",
     TITLE_TOTAL_PREMIUM : "Annual premium",
+
+    //REPORT COL NAME
     REPORT : "Report",
     ACCIDENT : "Accidental",
     BASIC : "Basic Hospital",
@@ -382,6 +404,8 @@ var translations_en = {
     SUGGESTED_COVERAGE : "Suggested Coverage",
     POLICY_TABLE_1 : "Policy Table (Part 1)",
     POLICY_TABLE_2 : "Policy Table (Part 2)",
+
+    //ADD POLICY COLUMN NAME
     POLICY_NUMBER : "Policy number",
     COMPANY : "Company",
     PLAN_TYPE : "Plan type",
@@ -400,16 +424,19 @@ var translations_en = {
     TPD_SA : "Total permanent\n disability SA",
     DISABLED_SA : "Disability income",
     CRIT_SA : "Critical Illness SA",
+    TERMINAL_SA : "Terminal Illness SA",
     EARLY_SA : "Early Ilness SA",
     HOSPITAL_SA : "Hospital SA",
     HOSPITAL_INCOME : "Hospital income",
     ACCIDENT_DEATH : "Accidental death",
     ACCIDENT_REIMB : "Accidental\n reimbursement",
+    RETIRE_INCOME : "Retirement income per month",
     CASH_VALUE : "Current cash values",
-    SURRENDER_CASH_VALUE : "Retirement cash\n values",
-    POLICIES_NUMBER : "Number of\npolicies",
-    TOTAL_PREMIUM : "Annual premium",
+    SURRENDER_CASH_VALUE : "Projected maturity\ncash values ",
     REMARKS : "Remarks",
+
+
+
     CASE_NOTES : "Case notes",
     VIEW_CASE_NOTES : "View case notes",
     TOTAL : "Total",
@@ -438,7 +465,7 @@ var translations_en = {
     ACCIDENT_DEATH_DEFAULT : "Accidental death",
     ACCIDENT_REIMB_DEFAULT : "Accidental\n reimbursement",
     CASH_VALUE_DEFAULT : "Current cash values",
-    SURRENDER_CASH_VALUE_DEFAULT : "Retirement cash\n values",
+    SURRENDER_CASH_VALUE_DEFAULT : "Projected maturity\ncash values ",
     REMARKS_DEFAULT : "Remarks",
     CASE_NOTES_DEFAULT : "Case notes",
 

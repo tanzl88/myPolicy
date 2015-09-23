@@ -37,6 +37,7 @@ app.service('localNotificationService', function ($rootScope, $q, $state, $ionic
     return {
         init: function () {
             $cordovaLocalNotification.getAll().then(function (notifications) {
+                console.log(notifications);
                 var checkIdArray = [];
                 angular.forEach(notifications,function(notification,index){
                     if (notification.data !== undefined) {

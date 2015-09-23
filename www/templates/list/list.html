@@ -20,7 +20,7 @@
         </div>
         <ion-scroll style="height: 100%;" has-bouncing="true" ng-if="policies.length > 0">
             <ion-list>
-                <ion-item collection-repeat="policy in policies" class="policy_item item-remove-animate" ng-click="editPolicy($index)">
+                <ion-item ng-repeat="policy in policies" class="policy_item item-remove-animate" ng-click="editPolicy($index)">
                     <div class="policy_summary">
                         <p>{{$index + 1}}. {{policy.company}} - {{policy.planName}}</p>
                         <div>

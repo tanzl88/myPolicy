@@ -170,7 +170,7 @@ app.controller('HomeCtrl', function($scope,$http,$timeout,$state,$translate,$toa
                     }
                 });
         }
-    }
+    };
 
     modalService.init("create_temp_account","create_temp_account",$scope).then(function(modal){
         $scope.tempAccountModal = modal;

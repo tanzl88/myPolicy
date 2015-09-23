@@ -4,6 +4,10 @@ app.controller('BirthdayCtrl', function($scope,$translate,$timeout,$http,$toast,
     $scope.initVar = function() {
         $scope.reminderMenu = false;
         $scope.reminders = reminderService.get();
+        $scope.displayReminderIndex = $scope.displayReminderIndex === undefined ? -1 : $scope.displayReminderIndex - 1;
+        $scope.reminderSortingIndex = $scope.reminderSortingIndex === undefined ? -1 : $scope.reminderSortingIndex - 1;
+        $scope.changeReminderDisplay();
+        $scope.changeReminderSorting();
         //LOCAL NOTIFICATION
         localNotificationService.init();
     };
@@ -22,6 +26,31 @@ app.controller('BirthdayCtrl', function($scope,$translate,$timeout,$http,$toast,
         originatorEv = ev;
         $mdOpenMenu(ev);
     };
+
+    // --------------- EDIT REMINDER CLICK ---------------
+    $scope.changeReminderDisplay = function() {
+        var nextIndex = ($scope.displayReminderIndex + 1) % reminder_display_g.length;
+        $scope.updateReminderDisplay(nextIndex);
+    };
+    $scope.updateReminderDisplay = function(index) {
+        var reminderDisplayObj = reminder_display_g[index];
+        $scope.displayReminderIndex = index;
+        $scope.displayReminder = $translate.instant(reminderDisplayObj.name);
+        $scope.reminderFilter = reminderDisplayObj.filter;
+    };
+    $scope.changeReminderSorting = function() {
+        var nextIndex = ($scope.reminderSortingIndex + 1) % reminder_sort_g.length;
+        $scope.updateReminderSorting(nextIndex);
+    };
+    $scope.updateReminderSorting = function(index) {
+        var reminderSortObj = reminder_sort_g[index];
+        $scope.reminderSortingIndex = index;
+        $scope.reminderSortingText = $translate.instant(reminderSortObj.name);
+        $scope.reminders = _.sortBy($scope.reminders, function(reminder){
+            return reminder[reminderSortObj.sortCol];
+        });
+    };
+
 
     // --------------- EDIT REMINDER CLICK ---------------
     $scope.editReminder = function(type,index) {
