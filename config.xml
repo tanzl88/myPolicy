@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.mypolicy296876" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.ionicframework.mypolicy296876" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>myPolicy</name>
   <description>
-        An Ionic Framework and Cordova project.
+        myPolicy
     </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
-    </author>
+  <author email="admin@mypolicyapp.com" href="https://mypolicyapp.com/">
+      Tan Zhong Lin
+  </author>
   <content src="index.html"/>
   <access origin="*"/>
   <preference name="Orientation" value="portrait"/>
