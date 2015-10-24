@@ -1,0 +1,97 @@
+$item-transition-duration:   200ms !default;
+$item-leave-transition-function:   ease-in !default;
+$item-enter-transition-function:   ease-out !default;
+$item-descendents-transition-function:  cubic-bezier(.25,.81,.24,1) !default;
+
+// Transition Mixins
+// --------------------------------------------------
+
+@mixin transition($transition...) {
+  -webkit-transition: $transition;
+  transition: $transition;
+}
+@mixin transition-delay($transition-delay) {
+  -webkit-transition-delay: $transition-delay;
+  transition-delay: $transition-delay;
+}
+@mixin transition-duration($transition-duration) {
+  -webkit-transition-duration: $transition-duration;
+  transition-duration: $transition-duration;
+}
+@mixin transition-timing-function($transition-timing) {
+  -webkit-transition-timing-function: $transition-timing;
+  transition-timing-function: $transition-timing;
+}
+@mixin transition-property($property) {
+  -webkit-transition-property: $property;
+  transition-property: $property;
+}
+@mixin transition-transform($properties...) {
+  // special case cuz of transform vendor prefixes
+  -webkit-transition: -webkit-transform $properties;
+  transition: transform $properties;
+}
+
+
+
+.item-animate {
+  &.ng-leave {
+    @include transition-duration( $item-transition-duration );
+  }
+  &.ng-leave {
+    @include transition-duration( $item-transition-duration );
+    @include transition-timing-function( $item-leave-transition-function );
+    @include transition-property( all );
+  }
+
+  &.ng-leave.ng-leave-active {
+    opacity:0;
+    -webkit-transform: translate3d(-100%, 0, 0) !important;
+    transform: translate3d(-100%, 0, 0) !important;
+  }
+  //&.ng-leave.ng-leave-active:last-of-type {
+  //  opacity: 0;
+  //}
+  //
+  //&.ng-leave.ng-leave-active ~ ion-item:not(.ng-leave) {
+  //  -webkit-transform: translate3d(0, unquote('-webkit-calc(-100% + 1px)'), 0);
+  //  transform: translate3d(0, calc(-100% + 1px), 0);
+  //  @include transition-duration( $item-transition-duration );
+  //  @include transition-timing-function( $item-descendents-transition-function );
+  //  @include transition-property( all );
+  //}
+
+
+
+  &.ng-enter {
+    @include transition-duration( $item-transition-duration );
+    @include transition-timing-function( $item-enter-transition-function );
+    @include transition-property( all );
+    opacity:0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+  &.ng-enter.ng-enter-active {
+    opacity:1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  //&.ng-enter .item-content {
+  //  @include transition-duration( $item-transition-duration );
+  //  @include transition-timing-function( $item-transition-function );
+  //  @include transition-property( all );
+  //  opacity:0;
+  //  -webkit-transform: translate3d(-100%, 0, 0);
+  //  transform: translate3d(-100%, 0, 0);
+  //}
+  //
+  //&.ng-enter.ng-enter-active .item-content {
+  //  opacity:1;
+  //  -webkit-transform: translate3d(0, 0, 0);
+  //  transform: translate3d(0, 0, 0);
+  //}
+  //&.ng-enter.ng-enter-active:last-of-type {
+  //  opacity: 1;
+  //}
+}
