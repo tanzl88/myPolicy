@@ -1,0 +1,232 @@
+<ion-view id="profile_view" view-title="{{'REMINDER' | translate}}" >
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear" ng-click="toggleMenu()">
+            <i class="ion-plus"></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="">
+
+        <!--INTERACTION MENU-->
+        <md-menu md-offset="0 0" md-position-mode="target target">
+            <md-button id="reminderMenuTrigger"  style="display: none; float: right;" aria-label="interactionMenu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+            </md-button>
+            <md-menu-content width="3">
+                <md-menu-item>
+                    <md-button ng-click="openReminderModal('birthday')">
+                        {{"BIRTHDAY_REMINDER" | translate}}
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button ng-click="openReminderModal('review')">
+                        {{"REVIEW_REMINDER" | translate}}
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button ng-click="openReminderModal('maturity')">
+                        {{"MATURITY_REMINDER" | translate}}
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button ng-click="openReminderModal('payment')">
+                        {{"PAYMENT_REMINDER" | translate}}
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+
+        <!--PICKER-->
+        <div date-time-picker name="oneTime" type="review" max-year="125"></div>
+        <div countdown-time-picker name="annual" type="birthday" year-scroll="false" repeat-mode="false"></div>
+        <div countdown-time-picker name="maturity" type="maturity" year-scroll="false" repeat-mode="false"></div>
+
+        <div class="reminder_filter" style="height: 10%;">
+            <div class="inline-block align-middle" style="width: 41%; margin-right: 2%;">
+                <div class="transform-align-middle align-center filter_button" ng-click="changeReminderDisplay()">
+                    {{displayReminder}}
+                </div>
+            </div>
+            <div class="inline-block align-middle" style="width: 55%;">
+                <div class="transform-align-middle align-center filter_button" ng-click="changeReminderSorting()">
+                    {{reminderSortingText}}
+                </div>
+            </div>
+        </div>
+        <ion-scroll style="height: 90%;" has-bouncing="true">
+            <ion-list>
+                <ion-item class="reminder_item item-animate" ng-repeat="reminder in reminders | filter: reminderFilter" ng-click="editReminder(reminder.type,$index)">
+                    <div>
+                        <div class="inline-block align-middle reminder_info" style="width: 73%;">
+                            <p class="name" style="font-weight: bold;">{{reminder.name}}</p>
+                            <p class="type">{{reminder.type.toUpperCase() + "_REMINDER" | translate}}</p>
+                            <p ng-if="reminder.freqTitle === 'NO_REPEAT'" class="time">{{reminder.dateTime.format("LL, hh:mma")}}</p>
+                            <p ng-if="reminder.freqTitle !== 'NO_REPEAT'" class="time">{{reminder.dateTime.format("DD MMM, hh:mma")}}</p>
+                            <p ng-if="reminder.freqTitle !== 'NO_REPEAT'" style="line-height: 1.3;">{{reminder.freqTitle | translate}}</p>
+                        </div>
+                        <div class="inline-block align-middle align-center" style="width: 30%;">
+                            <p ng-if="reminder.countdown > 1" class="countdown" style="font-size: 2.0em;">{{reminder.countdown}}</p>
+                            <p ng-class="{'countdown_today' : reminder.countdown <= 1, 'countdown_text' : reminder.countdown > 1}" >
+                                {{"DAY" | translate:{ day : reminder.countdown }:'messageformat'}}
+                            </p>
+                        </div>
+                    </div>
+                    <ion-option-button class="button yellow" ng-click="remove(reminder.id)">
+                        <i class="ion-ios-trash-outline"></i>
+                    </ion-option-button>
+                </ion-item>
+            </ion-list>
+        </ion-scroll>
+
+    </ion-content>
+</ion-view>
+
+
+
+
+<!--BIRTHDAY COUNTDOWN-->
+<script id="birthday.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(255,255,255,1)">
+        <ion-header-bar style="background-color: #fed82f">
+            <a ng-click="birthdayModal.hide()" class="button button-icon icon ion-ios-close-empty" style="position: absolute; right: 0%;"></a>
+        </ion-header-bar>
+        <ion-content>
+            <div class="reminder_filter" style="height: 10%">
+                <div class="inline-block align-middle" style="width: 55%; margin-right: 2%;">
+                    <div class="transform-align-middle align-center filter_button" ng-click="changeReminderSelectionMode('birthday')">
+                        {{reminderSelectionMode}}
+                    </div>
+                </div>
+                <div class="inline-block align-middle" style="width: 40%;">
+                    <div class="transform-align-middle align-center filter_button" ng-class="{'hide' : reminderSelectionModeIndex === 0}" ng-click="multipleReminderClick('birthday')">
+                        Set selected
+                    </div>
+                </div>
+            </div>
+            <ion-scroll style="height: 90%;" has-bouncing="true">
+                <ion-list>
+                    <ion-item class="birthday_item" ng-repeat="birthday in birthdays" ng-click="reminderItemClick('birthday',$index)" ng-class="{'selected' : birthday.selected === true}">
+                        <div class="inline-block align-middle" style="width: 70%;">
+                            <strong class="name">{{birthday.name}}</strong>
+                            <p>{{birthday.birthday.format("LL")}}</p>
+                            <div ng-if="birthday.reminderSet">
+                                <i class="inline-block align-middle ion-checkmark" style="color: #fed82f;"></i>
+                                <p class="inline-block align-middle">{{"REMINDER_SET" | translate}}</p>
+                            </div>
+                        </div>
+                        <div class="inline-block align-middle align-center" style="width: 30%;">
+                            <p ng-if="birthday.countdown > 1" class="countdown">{{birthday.countdown}}</p>
+                            <p ng-class="{'countdown_today' : birthday.countdown <= 1, 'countdown_text' : birthday.countdown > 1}" >
+                                {{"DAY" | translate:{ day : birthday.countdown }:'messageformat'}}
+                            </p>
+                        </div>
+                    </ion-item>
+                </ion-list>
+            </ion-scroll>
+        </ion-content>
+    </div>
+</script>
+<!--REVIEW-->
+<script id="review.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(255,255,255,1)">
+        <ion-header-bar style="background-color: #fed82f">
+            <a ng-click="reviewModal.hide()" class="button button-icon icon ion-ios-close-empty" style="position: absolute; right: 0%;"></a>
+        </ion-header-bar>
+        <ion-content>
+            <ion-list>
+                <ion-item class="birthday_item" ng-repeat="review in reviews" ng-click="reminderItemClick('review',$index)">
+                    <div class="inline-block align-middle" style="width: 100%;">
+                        <b class="name">{{review.name}}</b>
+                        <div ng-if="review.reminderSet">
+                            <i class="inline-block align-middle ion-checkmark" style="color: #fed82f;"></i>
+                            <p class="inline-block align-middle">{{"REMINDER_SET" | translate}}</p>
+                        </div>
+                    </div>
+                </ion-item>
+            </ion-list>
+        </ion-content>
+    </div>
+</script>
+<!--MATURITY COUNTDOWN-->
+<script id="maturity.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(255,255,255,1)">
+        <ion-header-bar style="background-color: #fed82f">
+            <a ng-click="maturityModal.hide();" class="button button-icon icon ion-ios-close-empty" style="position: absolute; right: 0%;"></a>
+        </ion-header-bar>
+        <ion-content>
+            <div class="reminder_filter" style="height: 10%">
+                <div class="inline-block align-middle" style="width: 55%; margin-right: 2%;">
+                    <div class="transform-align-middle align-center filter_button" ng-click="changeReminderSelectionMode('maturity')">
+                        {{reminderSelectionMode}}
+                    </div>
+                </div>
+                <div class="inline-block align-middle" style="width: 40%;">
+                    <div class="transform-align-middle align-center filter_button" ng-class="{'hide' : reminderSelectionModeIndex === 0}" ng-click="multipleReminderClick('maturity')">
+                        Set selected
+                    </div>
+                </div>
+            </div>
+            <ion-scroll style="height: 90%;" has-bouncing="true">
+                <ion-list>
+                    <ion-item class="birthday_item" ng-repeat="policy in maturityData" ng-click="reminderItemClick('maturity',$index)" ng-class="{'selected' : policy.selected === true}">
+                        <div class="inline-block align-middle" style="width: 70%;">
+                            <strong class="name">{{policy.name}}</strong>
+                            <p>{{policy.company}} - {{policy.maturityDate.format("LL")}}</p>
+                            <div ng-if="policy.reminderSet">
+                                <i class="inline-block align-middle ion-checkmark" style="color: #fed82f;"></i>
+                                <p class="inline-block align-middle">{{"REMINDER_SET" | translate}}</p>
+                            </div>
+                        </div>
+                        <div class="inline-block align-middle align-center" style="width: 30%;">
+                            <p ng-if="policy.countdown > 1" class="countdown">{{policy.countdown}}</p>
+                            <p ng-class="{'countdown_today' : policy.countdown <= 1, 'countdown_text' : policy.countdown > 1}" >
+                                {{"DAY" | translate:{ day : policy.countdown }:'messageformat'}}
+                            </p>
+                        </div>
+                    </ion-item>
+                </ion-list>
+            </ion-scroll>
+        </ion-content>
+    </div>
+</script>
+<!--PAYMENT COUNTDOWN-->
+<script id="payment.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(255,255,255,1)">
+        <ion-header-bar style="background-color: #fed82f">
+            <a ng-click="paymentModal.hide();" class="button button-icon icon ion-ios-close-empty" style="position: absolute; right: 0%;"></a>
+        </ion-header-bar>
+        <ion-content>
+            <!--<div class="reminder_filter" style="height: 10%">-->
+                <!--<div class="inline-block align-middle" style="width: 55%; margin-right: 2%;">-->
+                    <!--<div class="transform-align-middle align-center filter_button" ng-click="changeReminderSelectionMode('maturity')">-->
+                        <!--{{reminderSelectionMode}}-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="inline-block align-middle" style="width: 40%;">-->
+                    <!--<div class="transform-align-middle align-center filter_button" ng-class="{'hide' : reminderSelectionModeIndex === 0}" ng-click="multipleReminderClick('maturity')">-->
+                        <!--Set selected-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <ion-scroll style="height: 100%;" has-bouncing="true">
+                <ion-list>
+                    <ion-item class="birthday_item" ng-repeat="policy in paymentData" ng-click="reminderItemClick('payment',$index)">
+                        <div class="inline-block align-middle" style="width: 70%;">
+                            <strong class="name">{{policy.name}}</strong>
+                            <p>{{policy.company}} - {{policy.startDate.format("LL")}}</p>
+                            <p>{{policy.freqTitle | translate}}</p>
+                            <div ng-if="policy.reminderSet">
+                                <i class="inline-block align-middle ion-checkmark" style="color: #fed82f;"></i>
+                                <p class="inline-block align-middle">{{"REMINDER_SET" | translate}}</p>
+                            </div>
+                        </div>
+                        <div class="inline-block align-middle align-center" style="width: 30%;">
+                            <p ng-if="policy.countdown > 1" class="countdown">{{policy.countdown}}</p>
+                            <p ng-class="{'countdown_today' : policy.countdown <= 1, 'countdown_text' : policy.countdown > 1}" >
+                                {{"DAY" | translate:{ day : policy.countdown }:'messageformat'}}
+                            </p>
+                        </div>
+                    </ion-item>
+                </ion-list>
+            </ion-scroll>
+        </ion-content>
+    </div>
+</script>

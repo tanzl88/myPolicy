@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta content="telephone=no" name="format-detection">
+    <meta http-equiv="Content-Security-Policy" content="default-src * &apos;unsafe-eval&apos; &apos;unsafe-inline&apos;">
+    <title></title>
+
+    <link rel="stylesheet" href="dist_css/styles.css">
+
+    <script src="dist_js/app.js"></script>
+</head>
+<body ng-app="myPolicy" ng-strict-di ng-controller="GlobalCtrl">
+    <div ng-include="&apos;modal.html&apos;"></div>
+    <div ng-include="&apos;blocker.html&apos;"></div>
+    <ion-pane>
+        <ion-nav-bar class="bar-energized" align-title="center">
+            <ion-nav-back-button state-nav-back-button="" class="button-clear">
+                <i class="ion-chevron-left"></i>
+            </ion-nav-back-button>
+        </ion-nav-bar>
+
+
+        <ion-nav-view id="main-view">
+
+        </ion-nav-view>
+    </ion-pane>
+</body>
+
+<script>
+    //PARSE URL SCHEME
+    function handleOpenURL(url) {
+        var urlSplit = ((url.split("mypolicyapp://"))[1]).split("/");
+        var method = urlSplit[0];
+        var args = [];
+        for (var i = 1 ; i < urlSplit.length - 1; i++) {
+            args.push(urlSplit[i]);
+        };
+        $("#login_view").scope().handleOpenURL(method,args);
+    }
+</script>
+
+</html>

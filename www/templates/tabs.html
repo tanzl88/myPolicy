@@ -3,19 +3,19 @@
         <ion-nav-view name="home-tab"></ion-nav-view>
     </ion-tab>
 
-    <ion-tab icon="policy-profile" href="#/profile">
+    <ion-tab icon="policy-profile" href="#/profile" ng-click="scrollClick('profile')">
         <ion-nav-view name="profile-tab"></ion-nav-view>
     </ion-tab>
 
-    <ion-tab icon="policy-policy" href="#/list">
+    <ion-tab icon="policy-policy" href="#/list" ng-click="scrollClick('list')">
         <ion-nav-view name="list-tab"></ion-nav-view>
     </ion-tab>
 
-    <ion-tab icon="policy-report" href="#/overview">
+    <ion-tab icon="policy-report" href="#/overview" ng-click="scrollClick('overview')">
         <ion-nav-view name="overview-tab"></ion-nav-view>
     </ion-tab>
 
-    <ion-tab icon="policy-pie" href="#/report">
+    <ion-tab icon="policy-pie" href="#/report" ng-click="scrollClick('report')">
         <ion-nav-view id="report-tab" name="report-tab"></ion-nav-view>
     </ion-tab>
 </ion-tabs>

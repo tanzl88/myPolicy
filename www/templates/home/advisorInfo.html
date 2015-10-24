@@ -14,19 +14,19 @@
             <md-menu-content width="3">
                 <md-menu-item>
                     <md-button ng-click="call()">
-                        Call advisor
+                        {{"CALL_ADVISOR" | translate}}
                     </md-button>
                 </md-menu-item>
                 <md-menu-item>
                     <md-button ng-click="email()">
-                        Email advisor
+                        {{"EMAIL_ADVISOR" | translate}}
                     </md-button>
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
 
         <section ng-if="accountLinked === false" >
-            <form class="advisor_info_container align-center" name="linkAccountForm" novalidate="" ng-submit="linkAccount(linkAccountForm)">
+            <form id="linkAccountForm" class="advisor_info_container align-center" name="linkAccountForm" novalidate="" ng-submit="linkAccount(linkAccountForm)">
                 <p class="">{{"NO_ADVISOR_MSG" | translate}}</p>
                 <input class="align-center email form-group" ng-class="{ 'has-error' : linkAccountForm.advisorEmail.$invalid && !linkAccountForm.advisorEmail.$pristine }"
                        placeholder="{{'ADVISOR_EMAIL' | translate}}" type="advisorEmail" name="advisorEmail" ng-model="advisorEmail" required ng-disabled="confirmDetails === true">
@@ -58,27 +58,6 @@
                 </div>
                 <input class="login_button" type="submit" value="{{'CONFIRM_CAPS' | translate}}" ng-click="confirmLinkAccount()"/>
             </div>
-
-            <md-divider></md-divider>
-
-            <form id="sendFeedbackForm" class="advisor_info_container align-center" name="sendFeedbackForm" novalidate="" ng-submit="sendFeedback(sendFeedbackForm)" ng-if="confirmDetails === false">
-                <div>
-                    <b class="align-center">{{"DROP_MAIL" | translate}}</b>
-                    <p id="no_advisor_to_link_text">{{"NO_ADVISOR_TO_LINK_MSG" | translate}}</p>
-                    <div id="subjectSelect"
-                         dropdown-select="categories"
-                         dropdown-model="viewObj.subject"
-                         dropdown-item-label="text" >
-                    </div>
-                    <input id="feedbackContact" type="text" class="form-group" ng-class="{ 'has-error' : sendFeedbackForm.contact.$invalid && !sendFeedbackForm.contact.$pristine }"
-                           name="contact" ng-model="viewObj.contact" placeholder="{{feedbackContactPlaceholder}}" required>
-                    <textarea class="form-group" ng-class="{ 'has-error' : sendFeedbackForm.body.$invalid && !sendFeedbackForm.body.$pristine }"
-                              rows="8" cols="1" name="body" ng-model="viewObj.body" placeholder="{{feedbackBodyPlaceholder}}" required>
-                    </textarea>
-                    <input class="login_button" type="submit" value="{{'SUBMIT' | translate}}" style="margin-top: 6%;"/>
-                </div>
-            </form>
-
         </section>
 
 
@@ -91,6 +70,10 @@
             <div class="two_cols_item" ng-if="advisorInfo.title">
                 <div class="inline-block align-middle">{{"TITLE" | translate}}</div>
                 <p class="inline-block align-middle align-center bg_color">{{advisorInfo.title}}</p>
+            </div>
+            <div class="two_cols_item" ng-if="advisorInfo.agency">
+                <div class="inline-block align-middle">{{"AGENCY" | translate}}</div>
+                <p class="inline-block align-middle align-center bg_color">{{advisorInfo.agency}}</p>
             </div>
             <div class="two_cols_item" ng-if="advisorInfo.company">
                 <div class="inline-block align-middle">{{"COMPANY" | translate}}</div>

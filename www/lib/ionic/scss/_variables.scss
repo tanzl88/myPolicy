@@ -7,7 +7,7 @@ $stable:                          #f8f8f8 !default;
 $positive:                        #387ef5 !default;
 $calm:                            #11c1f3 !default;
 $balanced:                        #33cd5f !default;
-$energized:                       #ffc900 !default;
+$energized:                       #fed82f !default;
 $assertive:                       #ef473a !default;
 $royal:                           #886aea !default;
 $dark:                            #444 !default;
@@ -157,7 +157,9 @@ $button-default-active-border:    $button-stable-active-border !default;
 // -------------------------------
 
 $bar-height:                      44px !default;
-$bar-title-font-size:             17px !default;
+$bar-title-font-size:             22px !default;
+//$bar-height:                      70px !default;
+//$bar-title-font-size:             30px !default;
 $bar-padding-portrait:            5px !default;
 $bar-padding-landscape:           5px !default;
 $bar-transparency:                1 !default;
@@ -231,9 +233,11 @@ $bar-default-active-border:       $bar-light-active-border !default;
 // -------------------------------
 
 $tabs-height:                     49px !default;
+//$tabs-height:                     65px !default;
 $tabs-text-font-size:             14px !default;
 $tabs-text-font-size-side-icon:   10px !default;
 $tabs-icon-size:                  32px !default;
+//$tabs-icon-size:                  50px !default;
 $tabs-badge-padding:              1px 6px !default;
 $tabs-badge-font-size:            12px !default;
 
@@ -562,7 +566,7 @@ $modal-bg-color:                  #fff !default;
 $modal-backdrop-bg-active:        #000 !default;
 $modal-backdrop-bg-inactive:      rgba(0,0,0,0) !default;
 
-$modal-inset-mode-break-point:    680px !default;  // @media min-width
+$modal-inset-mode-break-point:    68000px !default;  // @media min-width
 $modal-inset-mode-top:            20% !default;
 $modal-inset-mode-right:          20% !default;
 $modal-inset-mode-bottom:         20% !default;
@@ -757,4 +761,4 @@ $z-index-click-block:             99999 !default;
 // Platform
 // -------------------------------
 
-$ios-statusbar-height:           20px !default;
+$ios-statusbar-height:           0px !default;

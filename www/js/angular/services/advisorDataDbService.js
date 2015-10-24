@@ -13,6 +13,15 @@ app.service('advisorDataDbService', function($rootScope,$q,$http,$translate,erro
         advisor_g = null;
         advisor_profile_found_g = null;
     });
+    function parseDbBoolean(input) {
+        if (input === "0") {
+            return false;
+        } else if (input === "1") {
+            return true;
+        } else {
+            return undefined;
+        }
+    }
 
     return {
         init : function() {
@@ -35,11 +44,17 @@ app.service('advisorDataDbService', function($rootScope,$q,$http,$translate,erro
         set : function(array) {
             advisor_g = this.processAdvisorProfile(array);
         },
+        setLogo : function(value) {
+            advisor_g.logo = value;
+        },
         processAdvisorProfile : function(advisorProfileArray) {
             advisor_profile_found_g = (validity_test(advisorProfileArray.name)) ? true : false;
             var output = {
+                advisorId       : advisorProfileArray.advisorId,
                 name            : advisorProfileArray.name,
+                logo            : parseDbBoolean(advisorProfileArray.logo),
                 title           : advisorProfileArray.title,
+                agency          : advisorProfileArray.agency,
                 company         : advisorProfileArray.company,
                 repNo           : advisorProfileArray.repNo,
                 address         : advisorProfileArray.address,
@@ -63,6 +78,9 @@ app.service('advisorDataDbService', function($rootScope,$q,$http,$translate,erro
         },
         profileFound : function() {
             return advisor_profile_found_g
+        },
+        getAdvisorId : function() {
+            return advisor_g.advisorId;
         }
     }
 });

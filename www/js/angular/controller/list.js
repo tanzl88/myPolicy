@@ -1,4 +1,4 @@
-app.controller('ListCtrl', function($rootScope,$scope,$state,$http,$translate,$timeout,$toast,
+app.controller('ListCtrl', function($rootScope,$scope,$state,$filter,$http,$translate,$timeout,$toast,
                                     policyDataDbService,credentialManager,modalService,loadingService,errorHandler) {
     // ------------ NAVIGATION ------------
     $scope.addPolicy = function() {
@@ -11,6 +11,7 @@ app.controller('ListCtrl', function($rootScope,$scope,$state,$http,$translate,$t
     };
     $scope.insertPolicy = function(policyObj) {
         $scope.policies.push(policyObj);
+        $scope.initVar();
     };
     $scope.updatePolicy = function(policyObj) {
         for (var i = 0 ; i < $scope.policies.length ; i++) {
@@ -19,7 +20,10 @@ app.controller('ListCtrl', function($rootScope,$scope,$state,$http,$translate,$t
                 break;
             }
         }
+        $scope.initVar();
     };
+
+    //$scope.renderFullTable = true;
 
     // ------------ REMOVE ------------
     function hideEverything() {
@@ -63,7 +67,57 @@ app.controller('ListCtrl', function($rootScope,$scope,$state,$http,$translate,$t
         $scope.policies         = policyDataDbService.getPolicies();
         $scope.sums             = policyDataDbService.getAllSum();
         loadingService.hide();
-        //if ($scope.credential === "advisor" && !$scope.clientSelected) $toast.showClientNotSelected();
+
+
+        //POST PROCESS POLICIES FOR REACT
+        var fullTableObj = {
+            head : [],
+            body : []
+        };
+        //HEAD
+        angular.forEach(full_table_g,function(col,index){
+            fullTableObj.head.push({
+                title : $translate.instant(col.title),
+                width : col.width
+            });
+        });
+        //BODY
+        angular.forEach($scope.policies,function(policy,policyIndex){
+            var rowArray = [];
+            angular.forEach(full_table_g,function(col,index){
+                if (col.type === "currency") {
+                    rowArray.push($filter("currency")(policy[col.varName],"",0));
+                } else {
+                    rowArray.push(policy[col.varName]);
+                }
+            });
+            fullTableObj.body.push(rowArray);
+        });
+        //SUM
+        var rowArray = [];
+        var sumColStart = 12;
+        for (var i = 0 ; i < full_table_g.length ; i++) {
+            if (i < sumColStart) {
+                rowArray.push(undefined);
+            } else {
+                rowArray.push($filter("currency")($scope.sums[i - sumColStart],"",0));
+            }
+        }
+        fullTableObj.body.push(rowArray);
+
+        $scope.fullTableObj = fullTableObj;
+    };
+
+    // --------------- INTERACTION MENU ---------------
+    var originatorEv;
+    $scope.toggleMenu = function() {
+        $timeout(function(){
+            $("#policyMenuTrigger").click();
+        },1);
+    };
+    $scope.openMenu = function($mdOpenMenu, ev) {
+        originatorEv = ev;
+        $mdOpenMenu(ev);
     };
 
     // ------------ NO CLIENT ------------
@@ -72,26 +126,37 @@ app.controller('ListCtrl', function($rootScope,$scope,$state,$http,$translate,$t
     };
 
     $scope.fullTableColumns = full_table_g;
+    if ($("html").hasClass("tablet")) {
+        angular.forEach($scope.fullTableColumns, function(column,index){
+            $scope.fullTableColumns[index]["width"] = parseInt(column.width) * 1.7 + "px";
+        });
+    }
 
     // ------------ GO TO GALLERY ------------
     $scope.goToGallery = function(index) {
+        console.log($scope.policies[index]);
         $rootScope.policyId = $scope.policies[index].id;
         $rootScope.userId   = credentialManager.getClientProperty("id");
+        console.log($rootScope.policyId);
         $state.go("tabs.list.gallery");
     };
 
     //// ------------ ROTATE PORTRAIT ------------
-    $scope.touch = function() {
-        $scope.showRotate = false;
-    };
-    $scope.release = function() {
-        $scope.showRotate = true;
-    };
+    //$scope.touch = function() {
+    //    $scope.showRotate = false;
+    //};
+    //$scope.release = function() {
+    //    $scope.showRotate = true;
+    //};
 
 
-    function switchTo(orientation) {
+    $scope.switchTo = function(orientation) {
+        //ANALYTICS
+        if (ionic.Platform.isWebView()) window.analytics.trackEvent('User Interaction', "Full table toggle", orientation);
+
         if (orientation === "landscape") {
             $("body").addClass("landscape");
+            //$scope.renderFullTable = true;
         } else {
             $("body").removeClass("landscape");
         }
@@ -100,26 +165,24 @@ app.controller('ListCtrl', function($rootScope,$scope,$state,$http,$translate,$t
             $scope.showFullTable = orientation === "landscape" ? true : false;
         },200);
         screen.lockOrientation(orientation + "-primary");
-        screen.unlockOrientation();
-    }
+        //screen.unlockOrientation();
+    };
     //LIST TAB ORIENTATION CHANGE EVENT LISTENER
-    window.addEventListener("orientationchange", function() {
-        if ($state.current.name === "tabs.list") {
-            var orientation = (typeof screen.orientation === "object") ? (screen.orientation.type.split("-"))[0] : (screen.orientation.split("-"))[0];
-            console.log(orientation);
-            console.log($scope.clientSelected);
-            if (orientation === "landscape") {
-                switchTo("landscape");
-                //if ($scope.clientSelected) switchTo("landscape");
-            } else {
-                //TO PREVENT AFTER PAUSE PORTRAIT MODE
-                if (!ionic.Platform.isIOS() && ($(window).width() < $(window).height())) {
-                    switchTo("landscape");
-                } else {
-                    switchTo("portrait");
-                }
-            }
-        }
-    }, false);
+    //window.addEventListener("orientationchange", function() {
+    //    if ($state.current.name === "tabs.list") {
+    //        var orientation = (typeof screen.orientation === "object") ? (screen.orientation.type.split("-"))[0] : (screen.orientation.split("-"))[0];
+    //        if (orientation === "landscape") {
+    //            $scope.switchTo("landscape");
+    //            //if ($scope.clientSelected) switchTo("landscape");
+    //        } else {
+    //            //TO PREVENT AFTER PAUSE PORTRAIT MODE
+    //            if (!ionic.Platform.isIOS() && ($(window).width() < $(window).height())) {
+    //                $scope.switchTo("landscape");
+    //            } else {
+    //                $scope.switchTo("portrait");
+    //            }
+    //        }
+    //    }
+    //}, false);
 });
 

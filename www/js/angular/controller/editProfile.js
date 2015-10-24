@@ -119,6 +119,9 @@ app.controller('EditProfileCtrl', function($scope,$translate,$timeout,$http,
     };
     //---------------------SUBMIT---------------------
     $scope.submit = function() {
+        //ANALYTICS
+        if (ionic.Platform.isWebView()) window.analytics.trackEvent('Core', "Client's profile", 'Client Add / Client Edit');
+
         loadingService.show("SUBMITTING");
         var input = {
             id          : $scope.personal.id,
@@ -164,33 +167,4 @@ app.controller('EditProfileCtrl', function($scope,$translate,$timeout,$http,
         }
         return "";
     };
-});
-
-app.controller('ProfileCtrl', function($scope,$state,$translate,$toast,$ionicHistory,personalDataDbService,credentialManager) {
-    $scope.initVar = function() {
-        $scope.credential       = credentialManager.getCredential();
-        $scope.clientSelected   = credentialManager.getClientSelected();
-        if ($scope.credential === "advisor" && !$scope.clientSelected) {
-            //$toast.showClientNotSelected();
-        } else {
-            if (!personalDataDbService.profileFound()) {
-                $state.go("tabs.profile.editProfile");
-            }
-        }
-
-        $scope.currency = $translate.instant("CURRENCY");
-        $scope.personal = personalDataDbService.getData();
-    };
-    $scope.$on('CLIENTS PROFILE UPDATED',function(){
-        $scope.personal = personalDataDbService.getData();
-    });
-    $scope.editProfile = function() {
-        $state.go("tabs.profile.editProfile");
-    };
-    $scope.goToProfile = function() {
-        $ionicHistory.goBack();
-    };
-    $scope.goToCaseNotes = function() {
-        $state.go("tabs.profile.caseNotes");
-    }
 });

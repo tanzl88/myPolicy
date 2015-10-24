@@ -7,30 +7,34 @@
     <meta http-equiv="Content-Security-Policy" content="default-src * &apos;unsafe-eval&apos; &apos;unsafe-inline&apos;">
     <title></title>
 
-    <!--<link href="lib/ionic/css/ionic.css" rel="stylesheet">-->
+    <!-- build:css dist_css/styles.css -->
     <link href="css/bootstrap-slider.css" rel="stylesheet">
     <link href="lib/ionic/ionic.app.css" rel="stylesheet">
     <link href="lib/ionic/general.css" rel="stylesheet">
     <link href="lib/ionic/index.css" rel="stylesheet">
+    <link href="lib/ionic/tablet.css" rel="stylesheet">
     <link href="lib/ionic/animate.css" rel="stylesheet">
     <link href="lib/angular-macgyver/lib/macgyver.css" rel="stylesheet">
     <link href="lib/angular-material/angular-material.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/swiper.css" rel="stylesheet">
     <link href="lib/ionic/date_picker.css" rel="stylesheet">
+    <link href="css/swiper.css" rel="stylesheet">
     <link href="css/policyFont.css" rel="stylesheet">
     <link href="css/angular-toggle-switch.css" rel="stylesheet">
     <link href="css/angular-dropdowns.css" rel="stylesheet">
+    <!-- endbuild -->
 
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
-
+    <!-- build:js dist_js/app.js -->
     <!-- JQUERY -->
+    <script type="text/javascript" src="js/react/react-0.10.0.js"></script>
     <script type="text/javascript" src="js/jquery/jquery-1.11.2.min.js"></script>
-    <!--<script type="text/javascript" src="js/openSource/parse-1.5.0.js"></script>-->
+
+    <!--CHART-->
+    <script type="text/javascript" src="js/chartJS/ChartNew.js"></script>
+    <script type="text/javascript" src="js/chartJS/Add-ins/stats.js"></script>
+    <script type="text/javascript" src="js/chartJS/Add-ins/shapesInChart.js"></script>
 
     <!-- CUSTOM -->
+    <script type="text/javascript" src="js/openSource/lodash.min.js"></script>
     <script type="text/javascript" src="js/custom/chart_constant.js"></script>
     <script type="text/javascript" src="js/custom/constant.js"></script>
     <script type="text/javascript" src="js/custom/currency_constant.js"></script>
@@ -40,12 +44,13 @@
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/ionic-platform-web-client/dist/ionic.io.bundle.min.js"></script>
+    <script src="lib/angular/angularWebviewPatch.js"></script>
     <script src="lib/ionic-service-core/ionic-core.js"></script>
-    <script src="lib/ionic-service-push/ionic-push.js"></script>
+    <!--<script src="lib/ionic-service-push/ionic-push.js"></script>-->
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="lib/ngCordova/dist/ng-cordova.js"></script>
-    <script src="cordova.js"></script>
 
     <script type="text/javascript" src="js/openSource/angular/bootstrap-slider.js"></script>
     <script type="text/javascript" src="js/openSource/slider.js"></script>
@@ -62,14 +67,15 @@
     <script type="text/javascript" src="js/openSource/moment/moment.min.js"></script>
     <script type="text/javascript" src="js/openSource/moment/en.js"></script>
     <!--<script type="text/javascript" src="js/openSource/moment/zh.js"></script>-->
-    <script type="text/javascript" src="js/openSource/ChartNew.js"></script>
-    <script type="text/javascript" src="js/openSource/lodash.min.js"></script>
+    <!--<script type="text/javascript" src="js/openSource/ChartNew.js"></script>-->
     <script type="text/javascript" src="js/openSource/swiper.jquery.js"></script>
     <script type="text/javascript" src="js/openSource/jspdf.debug.js"></script>
     <script type="text/javascript" src="js/openSource/TweenMax.min.js"></script>
 
 
+    <script src="js/templates.js"></script>
     <script src="js/app.js"></script>
+
     <script src="js/openSource/angular/ngmodel.format.js"></script>
     <script src="js/openSource/angular/angular-dropdowns.js"></script>
     <script src="js/openSource/angular/angular-toggle-switch.js"></script>
@@ -79,6 +85,7 @@
     <script src="lib/angular-material/angular-material.min.js"></script>
     <script src="lib/angular-validation-match/dist/angular-input-match.min.js"></script>
     <script src="lib/angular-macgyver/lib/macgyver.js"></script>
+    <script src="lib/devicejs/lib/device.js"></script>
     <script src="js/angular/states.js"></script>
 
     <!----------CONTROLLER---------->
@@ -99,10 +106,11 @@
     <script src="js/angular/controller/export.js"></script>
     <script src="js/angular/controller/changePassword.js"></script>
 
-
+    <script src="js/angular/controller/profile.js"></script>
     <script src="js/angular/controller/editProfile.js"></script>
     <script src="js/angular/controller/settings.js"></script>
-    <script src="js/angular/controller/birthday.js"></script>
+    <script src="js/angular/controller/reminder.js"></script>
+    <script src="js/angular/controller/askQuestion.js"></script>
     <script src="js/angular/controller/notification.js"></script>
     <script src="js/angular/controller/gallery.js"></script>
     <script src="js/angular/controller/list.js"></script>
@@ -124,9 +132,11 @@
     <script src="js/angular/directive/countdownTimePicker.js"></script>
     <script src="js/angular/directive/termPicker.js"></script>
     <script src="js/angular/directive/popupPicker.js"></script>
+    <script src="js/angular/directive/percentInput.js"></script>
     <script src="js/angular/directive/currencyInput.js"></script>
     <script src="js/angular/directive/currencyPicker.js"></script>
     <script src="js/angular/directive/suggestAmtEditor.js"></script>
+    <script src="js/angular/directive/reactTable.js"></script>
 
     <script src="js/angular/services/errorHandler.js"></script>
     <script src="js/angular/services/pushNotificationService.js"></script>
@@ -148,6 +158,7 @@
     <script src="js/angular/services/notificationDbService.js"></script>
     <script src="js/angular/services/doughnutChartService.js"></script>
     <script src="js/angular/services/barChartService.js"></script>
+    <script src="js/angular/services/lineChartService.js"></script>
     <script src="js/angular/services/ageIconService.js"></script>
     <script src="js/angular/services/horoscopeService.js"></script>
     <script src="js/angular/services/reminderService.js"></script>
@@ -155,11 +166,11 @@
     <script src="js/angular/services/exportUtility.js"></script>
     <script src="js/angular/services/utilityService.js"></script>
     <script src="js/angular/services/userService.js"></script>
-
+    <!-- endbuild -->
 </head>
 <body ng-app="myPolicy" ng-controller="GlobalCtrl">
-    <div ng-include="'templates/modal.html'"></div>
-    <div ng-include="'templates/blocker.html'"></div>
+    <div ng-include="&apos;modal.html&apos;"></div>
+    <div ng-include="&apos;blocker.html&apos;"></div>
     <ion-pane>
         <ion-nav-bar class="bar-energized" align-title="center">
             <ion-nav-back-button state-nav-back-button="" class="button-clear">

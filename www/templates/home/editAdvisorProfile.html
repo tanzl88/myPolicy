@@ -1,6 +1,24 @@
 <ion-view id="edit_advisor_profile_view" view-title="{{'MY_PROFILE' | translate}}">
-    <ion-content class="">
+    <ion-content class="" has-bouncing="true">
         <form id="advisorProfile" name="advisorProfileForm" novalidate="" ng-submit="submit(advisorProfileForm)">
+            <!--LOGO-->
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"LOGO" | translate}}</div>
+                <div id="company_logo_container" class="inline-block align-middle align-center bg_color form-group" ng-click="gallery()">
+                    <div style="position: relative; width: 100%; height: 100%;">
+                        <p ng-if="!dataObj.logo" class="transform-align-middle">Upload your logo</p>
+
+                        <div ng-if="dataObj.logo" class="transform-align-middle">
+                            <div class="align-center closeButtonBox" ng-click="remove($event)">
+                                <i class="ion-android-close"></i>
+                            </div>
+                            <img ng-src="{{logo.src}}" style="width: 75%; border-radius: 10px;"/>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
             <!--NAME-->
             <div class="two_cols_item">
                 <div class="inline-block align-middle">{{"NAME" | translate}}</div>
@@ -17,6 +35,13 @@
                 <div class="inline-block align-middle">{{"TITLE" | translate}}</div>
                 <input class="inline-block align-middle align-center bg_color form-group" type="text" name="title" ng-model="dataObj.title" required
                        ng-class="{ 'has-error' : advisorProfileForm.title.$invalid && !advisorProfileForm.title.$pristine }">
+            </div>
+
+            <!--AGENCY-->
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"AGENCY" | translate}}</div>
+                <input class="inline-block align-middle align-center bg_color form-group" type="text" name="agency" ng-model="dataObj.agency"
+                       ng-class="{ 'has-error' : advisorProfileForm.agency.$invalid && !advisorProfileForm.agency.$pristine }">
             </div>
 
             <!--COMPANY-->

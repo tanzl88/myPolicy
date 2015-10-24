@@ -1,8 +1,9 @@
 <ion-view id="home_view" view-title="{{'HOME' | translate}}">
     <ion-content class="" overflow-scroll="true">
         <!--ADVISOR DASHBOARD-->
-        <section id="dashboard_section" ng-controller="AdvisorDashboardCtrl" style="height: 40%; background-image: url('img/dashboard_bg.jpg'); background-size: cover;"  ng-show="credential === 'advisor'" ng-click="detriggerClientSearch();">
-            <div ng-show="advisorProfileFound === true" class="transform-align-middle">
+        <section id="dashboard_section" ng-show="credential === 'advisor'" ng-click="detriggerClientSearch();"
+                 style="height: 40%; background-image: url('img/dashboard_bg.jpg'); background-size: cover;">
+            <div ng-controller="AdvisorDashboardCtrl" ng-show="advisorProfileFound === true" class="transform-align-middle">
                 <p class="greet">Hi {{advisorData.name}},<br><br>Who would you like<br>to advise today?</p>
                 <div class="client_select" ng-click="triggerClientSearch($event); $event.stopPropagation();">
                     <input id="selectedClientInput" type="text" placeholder="{{'SELECT_CLIENT' | translate}}" ng-model="selectedClientName" readonly>
@@ -66,31 +67,33 @@
 
         <!--USER DASHBOARD-->
         <section id="dashboard_section" ng-controller="ClientDashboardCtrl" style="height: 60%;" ng-show="credential === 'client'">
-            <div class="transform-align-middle">
-                <div class="doughnut_container" ng-click="showDoughnutTooltip()">
-                    <canvas id="client-doughnut"></canvas>
-                    <div id="percent_container" class="align-center">
-                        <!--<i class="ion-information-circled dashboard-tooltip" ng-click=""></i>-->
-                        <b id="percentAnimate" class="align-center">{{percentAnimate}}</b>
-                        <p>{{"SCORE" | translate}}</p>
-                    </div>
+            <!--<div  >-->
+                <div class="transform-align-middle">
+                    <div class="doughnut_container" ng-click="showDoughnutTooltip()">
+                        <canvas id="client-doughnut"></canvas>
+                        <div id="percent_container" class="align-center">
+                            <!--<i class="ion-information-circled dashboard-tooltip" ng-click=""></i>-->
+                            <b id="percentAnimate" class="align-center">{{percentAnimate}}</b>
+                            <p>{{"SCORE" | translate}}</p>
+                        </div>
 
+                    </div>
+                    <div id="dashboard_coverage_number" class="row">
+                        <div class="col align-center" ng-click="showCoverageStatusTooltip('notCover')">
+                            <p class="inline-block align-middle">{{meterData.notCover}}</p>
+                            <p class="inline-block align-middle new-line">{{"NOT_COVERED" | translate}}</p>
+                        </div>
+                        <div class="col align-center" ng-click="showCoverageStatusTooltip('partiallyCover')">
+                            <p class="inline-block align-middle">{{meterData.partiallyCover}}</p>
+                            <p class="inline-block align-middle new-line">{{"PARTIALLY_COVERED" | translate}}</p>
+                        </div>
+                        <div class="col align-center" ng-click="showCoverageStatusTooltip('fullyCover')">
+                            <p class="inline-block align-middle">{{meterData.fullyCover}}</p>
+                            <p class="inline-block align-middle new-line">{{"FULLY_COVERED" | translate}}</p>
+                        </div>
+                    </div>
                 </div>
-                <div id="dashboard_coverage_number" class="row">
-                    <div class="col align-center" ng-click="showCoverageStatusTooltip('notCover')">
-                        <p class="inline-block align-middle">{{meterData.notCover}}</p>
-                        <p class="inline-block align-middle new-line">{{"NOT_COVERED" | translate}}</p>
-                    </div>
-                    <div class="col align-center" ng-click="showCoverageStatusTooltip('partiallyCover')">
-                        <p class="inline-block align-middle">{{meterData.partiallyCover}}</p>
-                        <p class="inline-block align-middle new-line">{{"PARTIALLY_COVERED" | translate}}</p>
-                    </div>
-                    <div class="col align-center" ng-click="showCoverageStatusTooltip('fullyCover')">
-                        <p class="inline-block align-middle">{{meterData.fullyCover}}</p>
-                        <p class="inline-block align-middle new-line">{{"FULLY_COVERED" | translate}}</p>
-                    </div>
-                </div>
-            </div>
+            <!--</div>-->
         </section>
 
         <section id="menu_list" ng-class="{'client' : credential === 'client'}">
@@ -104,7 +107,7 @@
                     <i class="policy-user-transfer inline-block align-middle"></i>
                     <p class="inline-block align-middle">{{"TRANSFER_ACCOUNT" | translate}}</p>
                 </div>
-                <div class="menu_list_item" ng-click="goTo('birthday')">
+                <div class="menu_list_item" ng-click="goTo('reminder')">
                     <i class="policy-bell inline-block align-middle"></i>
                     <p class="inline-block align-middle">{{"REMINDER" | translate}}</p>
                 </div>
@@ -117,10 +120,6 @@
 
 
             <div ng-show="credential === 'client'">
-                <!--<div class="menu_list_item" ng-click="editProfile()">-->
-                    <!--<i class="policy-pencil inline-block align-middle"></i>-->
-                    <!--<p class="inline-block align-middle">{{"MY_PROFILE" | translate}}</p>-->
-                <!--</div>-->
                 <div class="menu_list_item" ng-click="goTo('notification')">
                     <i class="policy-mail inline-block align-middle" style="position: relative;">
                         <div id="inboxCount" class="align-center" ng-if="inboxCount > 0">{{inboxCount}}</div>
@@ -132,9 +131,15 @@
                     <i class="policy-phone inline-block align-middle"></i>
                     <p class="inline-block align-middle">{{"CONTACT_ADVISOR" | translate}}</p>
                 </div>
+                <div class="menu_list_item" ng-click="goTo('askQuestion')">
+                    <i class="policy-question inline-block align-middle"></i>
+                    <p class="inline-block align-middle">{{"ASK_QUESTION" | translate}}</p>
+                </div>
+                <div class="menu_list_item" ng-click="goTo('generateReport')">
+                    <i class="policy-chart inline-block align-middle"></i>
+                    <p class="inline-block align-middle">{{"GENERATE_REPORT" | translate}}</p>
+                </div>
             </div>
-
-
             <div class="menu_list_item" ng-click="goTo('settings')">
                 <i class="policy-gear inline-block align-middle"></i>
                 <p class="inline-block align-middle">{{"SETTINGS" | translate}}</p>

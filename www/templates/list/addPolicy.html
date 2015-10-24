@@ -129,12 +129,12 @@
                     <currency-input ng-model-name="policyObj.critSA"></currency-input>
                 </div>
                 <div class="two_cols_item">
-                    <div class="inline-block align-middle new-line">{{"TERMINAL_SA" | translate}}</div>
-                    <currency-input ng-model-name="policyObj.terminalSA"></currency-input>
-                </div>
-                <div class="two_cols_item">
                     <div class="inline-block align-middle new-line">{{"EARLY_SA" | translate}}</div>
                     <currency-input ng-model-name="policyObj.earlySA"></currency-input>
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle new-line">{{"TERMINAL_SA" | translate}}</div>
+                    <currency-input ng-model-name="policyObj.terminalSA"></currency-input>
                 </div>
                 <div class="two_cols_item">
                     <div class="inline-block align-middle new-line">{{"HOSPITAL_SA" | translate}}</div>
@@ -172,10 +172,17 @@
             </section>
 
             <div class="policyForm_divider"></div>
-
             <!------------------------REMARKS AND NOTES-------------------------->
             <section>
-                <p>{{"REMARKS" | translate}}</p>
+                <p class="section_header">{{"REMARKS" | translate}}</p>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{"BENEFICIARY" | translate}}</div>
+                    <input class="inline-block align-middle align-center bg_color"
+                           type="text"
+                           name="beneficiary"
+                           ng-click="selectAll($event)"
+                           ng-model="policyObj.beneficiary">
+                </div>
                 <textarea class="remarks_textarea" rows="10" cols="10"
                           ng-model="policyObj.remarks" name="remarks"
                           style="margin-bottom: 4%;"></textarea>

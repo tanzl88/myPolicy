@@ -4,8 +4,8 @@ angular.module('$suggestAmtEditor', []).directive('suggestAmtEditor', function (
         restrict: 'E',
         require: [],
         //require: ['ngModel', 'ngData', 'ngSelectedId', 'ngSelectedValue', '?ngTitle', 'ngiItemName', 'ngItemId'],
-        template: '<p class="amt inline-block align-middle" ng-click="showSuggestAmtEditor($index)"></p>',
-        //template: '<input class="align-center bg_color datepicker" type="text" ng-click="showSuggestAmtEditor()" style="cursor:inherit; width: 100%;" readonly required/>',
+        template: '<p class="amt inline-block align-middle" ng-click="showSuggestAmtEditor($index)" style="width: 95%;">{{cat.suggested | number}}</p>' +
+                  '<p class="amt inline-block" ng-if="cat.defaultSuggested" style="width: 4%; vertical-align: super; font-size: 0.7em;">*</p>',
         controller: function ($scope, $element, $attrs, $ionicModal, $timeout, $parse, $state, $translate, findParentService) {
             var parentScope = findParentService.findByFunctionName($scope,"initVar");
             $scope.suggestAmtEditor = {};
@@ -14,8 +14,6 @@ angular.module('$suggestAmtEditor', []).directive('suggestAmtEditor', function (
             $scope.showSuggestAmtEditor = function (index) {
                 //ASSIGN INDEX
                 $scope.index = index;
-
-
                 $scope.currentAmt = parseInt(parentScope.viewObj.cat[index].suggested);
                 $scope.suggestAmtEditor.show();
 
@@ -24,10 +22,6 @@ angular.module('$suggestAmtEditor', []).directive('suggestAmtEditor', function (
                     var input = $(".modal .suggestAmtEditor.suggestAmtEditor" + index +  " input");
                     $(input).focus();
                 },100);
-
-                //    $timeout(function(){
-
-                //    },delay_time);
             };
 
             $scope.closeSuggestAmtEditor = function () {
@@ -59,8 +53,6 @@ angular.module('$suggestAmtEditor', []).directive('suggestAmtEditor', function (
                                     '<div>' +
                                         '<div class="suggestAmtEditor suggestAmtEditor{{$index}} transform-align-middle">' +
                                             '<div class="picker_header align-right">' +
-                                                //'<toggle-switch ng-model="$parent.$parent.pickerMode" ng-change="pickerModeChange()" on-label="{{\'BY_YEAR\' | translate}}" off-label="{{\'BY_AGE\' | translate}}"><toggle-switch>' +
-                                                //'<div class="col align-center">{{"PICKER_EDIT_SUGGESTED" | translate}}</div>' +
                                                 '<div class="restore_default_button inline-block" ng-click="restoreDefault()">{{"RESTORE_DEFAULT" | translate}}</div>' +
                                             '</div>' +
                                             '<div class="birthday_divider"></div>' +
@@ -83,14 +75,14 @@ angular.module('$suggestAmtEditor', []).directive('suggestAmtEditor', function (
         },
         compile: function ($element, $attrs, $scope) {
             //ASSIGN INPUT ELEMENT ATTRIBUTE
-            var paragraph = $element.find('p');
-            angular.forEach({
-                'ng-bind': $attrs.ngBindData + " | number"
-            }, function (value, name) {
-                if (angular.isDefined(value)) {
-                    paragraph.attr(name, value);
-                }
-            });
+            //var paragraph = $element.find('p');
+            //angular.forEach({
+            //    'ng-bind': $attrs.ngBindData + " | number"
+            //}, function (value, name) {
+            //    if (angular.isDefined(value)) {
+            //        paragraph.attr(name, value);
+            //    }
+            //});
         }
     };
 });

@@ -1,6 +1,7 @@
 .item-animate.ng-leave {
   -webkit-transition-duration: 200ms;
   transition-duration: 200ms; }
+
 .item-animate.ng-leave {
   -webkit-transition-duration: 200ms;
   transition-duration: 200ms;
@@ -8,10 +9,12 @@
   transition-timing-function: ease-in;
   -webkit-transition-property: all;
   transition-property: all; }
+
 .item-animate.ng-leave.ng-leave-active {
   opacity: 0;
   -webkit-transform: translate3d(-100%, 0, 0) !important;
   transform: translate3d(-100%, 0, 0) !important; }
+
 .item-animate.ng-enter {
   -webkit-transition-duration: 200ms;
   transition-duration: 200ms;
@@ -22,9 +25,8 @@
   opacity: 0;
   -webkit-transform: translate3d(-100%, 0, 0);
   transform: translate3d(-100%, 0, 0); }
+
 .item-animate.ng-enter.ng-enter-active {
   opacity: 1;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0); }
-
-/*# sourceMappingURL=animate.css.map */

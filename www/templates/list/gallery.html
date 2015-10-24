@@ -1,10 +1,30 @@
 <ion-view id="gallery_view" view-title="{{'PIC_NOTES' | translate}}">
     <ion-nav-buttons side="secondary">
-        <button class="button button-clear" ng-click="camera()">
-            <i class="ion-ios-camera-outline" style="font-size: 1.7em;"></i>
+        <button class="button button-clear"  ng-click="toggleMenu()">
+            <i class="ion-plus"></i>
         </button>
     </ion-nav-buttons>
     <ion-content class="" >
+
+        <!--INTERACTION MENU-->
+        <md-menu md-offset="0 0" md-position-mode="target target">
+            <md-button id="galleryMenuTrigger"  style="display: none; float: right;" aria-label="interactionMenu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+            </md-button>
+            <md-menu-content width="3">
+                <md-menu-item>
+                    <md-button ng-click="camera()">
+                        {{"FROM_CAMERA" | translate}}
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button ng-click="gallery()">
+                        {{"FROM_GALLERY" | translate}}
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+
+
         <div class="no_content_container align-center" ng-if="picNotes.length === 0">
             <p class="new-line">{{"NO_PIC_NOTES_MSG" | translate}}</p>
         </div>
@@ -25,7 +45,6 @@
 
 <!--LIGHTBOX-->
 <script id="lightbox.html" type="text/ng-template">
-    <div class="ios-header"></div>
     <div class="modal lightbox" style="background-color: rgba(0,0,0,0.5); height: 100%;">
         <img class="modalCloseButton" src="img/close_button.svg" ng-click="lightbox.hide();">
         <ion-scroll zooming="true" direction="xy" max-zoom="1" style="width: 100%; height: 100%; margin-top: 0;" delegate-handle="lightboxScroll" on-double-tap="lightboxDoubleTap()">

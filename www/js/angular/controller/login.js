@@ -1,7 +1,8 @@
-app.controller('LoginCtrl', function($scope,$rootScope,$state,$timeout,$interval,$http,$toast,$ionicUser,$ionicPush,$cordovaDevice,
+app.controller('LoginCtrl', function($scope,$rootScope,$state,$timeout,$interval,$http,$toast,$ionicUser,$cordovaDevice,
                                      $ionicViewSwitcher,$ionicNavBarDelegate,$cordovaInAppBrowser,pushNotificationService,utilityService,
                                      credentialManager,loadDataDbService,loadingService,errorHandler) {
     $scope.initVar = function() {
+        console.log("LOGIN INIT VAR");
         if (ionic.Platform.isWebView()) {
             var autoLoginTimer = $interval(function(){
                 //CHECK IF NETWORK STATUS IS ALREADY AVAILABLE
@@ -40,8 +41,13 @@ app.controller('LoginCtrl', function($scope,$rootScope,$state,$timeout,$interval
     }
     function autoLogin() {
         loadingService.show("LOGGING_IN");
+
+        var loginStartTime = Date.now();
         $http.post(register_url + 'autologin')
             .success(function(data){
+                //ANALYTICS
+                if (ionic.Platform.isWebView()) window.analytics.trackTiming('AJAX', Date.now() - loginStartTime, 'Login', 'Auto');
+
                 if (data.status === "OK") {
                     loadDataDbService.processLoginData(data,goToHome);
                 } else {
@@ -69,8 +75,14 @@ app.controller('LoginCtrl', function($scope,$rootScope,$state,$timeout,$interval
                     password    : loginForm.password.$modelValue,
                     rememberMe  : loginForm.rememberMe.$modelValue,
                 };
+
+                var loginStartTime = Date.now();
+
                 $http.post(register_url + 'login', input).
                     success(function(data) {
+                        //ANALYTICS
+                        if (ionic.Platform.isWebView()) window.analytics.trackTiming('AJAX', Date.now() - loginStartTime, 'Login', 'Manual');
+
                         var status = data.status;
                         if (status === "OK") {
                             //SET AUTOLOGIN

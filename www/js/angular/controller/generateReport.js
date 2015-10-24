@@ -1,6 +1,6 @@
-app.controller('GenerateReportCtrl', function($scope,$rootScope,$q,$state,$translate,$toast,credentialManager,
+app.controller('GenerateReportCtrl', function($scope,$rootScope,$q,$state,$translate,$toast,$timeout,
                                               $cordovaFile,$cordovaFileOpener2,$cordovaEmailComposer,
-                                              loadingService,modalService,utilityService) {
+                                              credentialManager,loadingService,modalService,utilityService) {
 
     // ------------ FILE UTILITY ------------
     function listDir(dirInput) {
@@ -57,6 +57,7 @@ app.controller('GenerateReportCtrl', function($scope,$rootScope,$q,$state,$trans
     function runIfFilenameValid(filename,callback) {
         $cordovaFile.checkFile(fileTransferDir,filename)
             .then(function(file) {
+                console.log(file);
                 if (file.nativeURL) {
                     callback(file.nativeURL);
                 } else {
@@ -85,6 +86,7 @@ app.controller('GenerateReportCtrl', function($scope,$rootScope,$q,$state,$trans
         runIfFilenameValid(filename,function(nativeUrl){
             console.log(decodeURIComponent(nativeUrl));
             $cordovaFileOpener2.open(decodeURIComponent(nativeUrl),'application/pdf').then(function(result){
+                console.log(result);
                 //TEST ON IOS TO DECIDE
             }, function(error){
                 console.log(error);
@@ -136,30 +138,32 @@ app.controller('GenerateReportCtrl', function($scope,$rootScope,$q,$state,$trans
         } else {
             var filename = form.reportName.$modelValue + ".pdf";
 
-
-            //$scope.closeModal();
-            //loadingService.show("GENERATING_REPORT",1);
-            //$rootScope.reportName = filename;
-            //$state.go("tabs.home.generateReport.export");
-
-
-            //CHECK FILE EXIST
-            $cordovaFile.checkFile(fileTransferDir,filename)
-                .then(function (file) {
-                    $toast.show("REPORT_SAME_NAME");
-                }, function (error) {
-                    if (error.code === 1) {
-                        //EXPORT
-                        //$scope.closeModal();
-                        $scope.generateReportModal.hide();
-                        loadingService.show("GENERATING_REPORT",1);
-                        $rootScope.reportName = filename;
-                        $state.go("tabs.home.generateReport.export");
-                    } else {
-                        console.log(error);
-                        $toast.show("UNKNOWN_ERROR");
-                    }
-                });
+            if (ionic.Platform.isWebView()) {
+                //CHECK FILE EXIST
+                $cordovaFile.checkFile(fileTransferDir,filename)
+                    .then(function (file) {
+                        $toast.show("REPORT_SAME_NAME");
+                    }, function (error) {
+                        if (error.code === 1) {
+                            //EXPORT
+                            //$scope.closeModal();
+                            $scope.generateReportModal.hide();
+                            loadingService.show("GENERATING_REPORT",1);
+                            $rootScope.reportName = filename;
+                            $timeout(function(){
+                                $state.go("tabs.home.generateReport.export");
+                            },400);
+                        } else {
+                            console.log(error);
+                            $toast.show("UNKNOWN_ERROR");
+                        }
+                    });
+            } else {
+                $scope.generateReportModal.hide();
+                loadingService.show("GENERATING_REPORT",1);
+                $rootScope.reportName = filename;
+                $state.go("tabs.home.generateReport.export");
+            }
         }
     };
 

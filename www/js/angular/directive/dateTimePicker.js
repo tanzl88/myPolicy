@@ -17,7 +17,7 @@ angular.module('$dateTimePicker', []).directive('dateTimePicker', function () {
             $scope.mode = $attrs.name;
 
             // ---------------- DEFAULT ----------------
-            $scope.yearScroll   = angular.isDefined($attrs.yearScroll)  ? parse_boolean($attrs.yearScroll)           : true;
+            $scope.yearScroll   = angular.isDefined($attrs.yearScroll)  ? parse_boolean($attrs.yearScroll)           : false;
             $scope.monthScroll  = angular.isDefined($attrs.monthScroll) ? parse_boolean($attrs.monthScroll)          : true;
             $scope.dayScroll    = angular.isDefined($attrs.dayScroll)   ? parse_boolean($attrs.dayScroll)            : true;
             $scope.hourScroll   = angular.isDefined($attrs.hourScroll)  ? parse_boolean($attrs.hourScroll)           : true;
@@ -48,15 +48,26 @@ angular.module('$dateTimePicker', []).directive('dateTimePicker', function () {
             };
 
             // ---------------- MODAL FUNCTION ----------------
+            //function parsePolicyIndexToIndex(policyIndex) {
+            //    for (var i = 0 ; i < repeatModeEnum.length ; i++) {
+            //        if (repeatModeEnum[i].policy === policyIndex) {
+            //            return repeatModeEnum[i].order;
+            //            break;
+            //        }
+            //    }
+            //}
             parentScope.showDateTimePicker[$attrs.name] = $scope.showDateTimePicker = function (options) {
                 $scope.editId = validity_test(options.data.id) ? options.data.id : undefined;
                 $scope.data = options.data;
+
                 //HIDE KEYBOARD BEFORE MODAL SHOWN
                 var delay_time = utilityService.getKeyboardDelay();
-                var init_name = validity_test(options.placeholder)   ? options.placeholder          : undefined;
-                var init_date = validity_test($scope.data) && validity_test($scope.data.dateTime)  ? $scope.data.dateTime         : moment();
-                var init_hour = validity_test($scope.data) && validity_test($scope.data.dateTime)  ? $scope.data.dateTime.hour()  : 9;
-                var init_freq = validity_test($scope.data) && validity_test($scope.data.frequency) ? $scope.data.frequency        : 1;
+                var init_name = validity_test(options.placeholder)                                 ? options.placeholder                                                                                : undefined;
+                $scope.init_date = validity_test($scope.data) && validity_test($scope.data.dateTime)  ? $scope.data.dateTime                                                                               : moment();
+                var init_hour    = validity_test($scope.data) && validity_test($scope.data.dateTime)  ? $scope.data.dateTime.hour()                                                                        : 9;
+                var init_freq    = validity_test($scope.data) && validity_test($scope.data.frequency) ? $scope.data.frequency : 3;
+
+                console.log($scope.data);
 
                 if (!$scope.readOnly) {
                     $timeout(function(){
@@ -69,11 +80,11 @@ angular.module('$dateTimePicker', []).directive('dateTimePicker', function () {
 
                         pageScroll();
                         $timeout(function(){
-                            if ($scope.yearScroll)  year_scroll (container,init_date.year(),minYear,maxYear);
-                            if ($scope.monthScroll) month_scroll(container,init_date.month());
-                            if ($scope.dayScroll)   day_scroll  (container,init_date.date());
+                            if ($scope.yearScroll)  year_scroll (container,$scope.init_date.year(),minYear,maxYear);
+                            if ($scope.monthScroll) month_scroll(container,$scope.init_date.month());
+                            if ($scope.dayScroll)   day_scroll  (container,$scope.init_date.date());
                             if ($scope.hourScroll)  hour_scroll (container,init_hour);
-                        },666)
+                        },1)
                     },delay_time);
                 }
             };
@@ -100,7 +111,7 @@ angular.module('$dateTimePicker', []).directive('dateTimePicker', function () {
                 if ($scope[type + "Scroll"]) {
                     return parseInt($(container + " ." + type + " .swiper-slide-active").text());
                 } else {
-                    var defaultValue = type === "year" ? 1950 : 1;
+                    var defaultValue = type === "year" ? 2012 : 1;
                     return defaultValue;
                 }
             }
@@ -119,15 +130,16 @@ angular.module('$dateTimePicker', []).directive('dateTimePicker', function () {
                 //SET DATA AND MODEL
                 var output_moment_date = moment([year,month - 1,day,hour,0,0]);
 
-
                 var reminderInputObj = {
                     id            : $scope.editId,
                     name          : reminderName,
-                    type          : $attrs.type,
+                    type          : $scope.data.type,
                     dateTime      : output_moment_date,
                     frequency     : $scope.repeatModeIndex,
                     data          : $scope.data
                 };
+
+                console.log(reminderInputObj);
 
                 reminderService.add(reminderInputObj).then(function(status){
                     if (status === "OK") {
@@ -137,12 +149,29 @@ angular.module('$dateTimePicker', []).directive('dateTimePicker', function () {
                 });
             };
 
+            var oneTimeIndex;
+            for (var i = 0 ; i < repeatModeEnum.length ; i++) {
+                if (repeatModeEnum[i].cordova === "0") {
+                    oneTimeIndex = repeatModeEnum[i].order;
+                    break;
+                }
+            }
             $scope.changeRepeatMode = function() {
-                $scope.repeatModeIndex = $scope.repeatModeIndex !== undefined ? ($scope.repeatModeIndex + 1)%repeat_mode_g.length : 0 ;
+                $scope.repeatModeIndex = $scope.repeatModeIndex !== undefined ? ($scope.repeatModeIndex + 1)%repeatModeEnum.length : 0 ;
                 $scope.updateRepeatMode();
             };
             $scope.updateRepeatMode = function() {
-                $scope.repeatModeDisplayed = repeat_mode_g[$scope.repeatModeIndex];
+                $scope.repeatModeDisplayed = repeatModeEnum[$scope.repeatModeIndex].translate;
+                $scope.yearScroll = $scope.repeatModeIndex === oneTimeIndex ? true : false;
+                $timeout(function(){
+                    if ($scope.yearScroll)  year_scroll (container,$scope.init_date.year(),minYear,maxYear);
+                },1);
+
+                //if ($scope.repeatModeIndex === oneTimeIndex) {
+                //    $scope.yearScroll = false;
+                //} else {
+                //    $scope.yearScroll = true;
+                //}
             };
 
 
@@ -169,14 +198,14 @@ angular.module('$dateTimePicker', []).directive('dateTimePicker', function () {
                                                     '<div class="row picker_header" style="margin-bottom: 0%;">' +
                                                         '<div class="col align-center" ng-if="dayScroll">{{"PICKER_DAY" | translate}}</div>' +
                                                         '<div class="col align-center" ng-if="monthScroll">{{"PICKER_MONTH" | translate}}</div>' +
-                                                        '<div class="col align-center" ng-if="yearScroll">{{"PICKER_YEAR" | translate}}</div>' +
+                                                        '<div class="col align-center" ng-show="yearScroll">{{"PICKER_YEAR" | translate}}</div>' +
                                                         '<div class="col align-center" ng-if="hourScroll">{{"PICKER_TIME" | translate}}</div>' +
                                                     '</div>' +
                                                     '<div class="row pickerScroll">' +
                                                         '<div class="selector_box"></div>' +
                                                         '<div class="swiper-container day col" ng-if="dayScroll"><div class="swiper-wrapper"></div></div>' +
                                                         '<div class="swiper-container month col" ng-if="monthScroll"><div class="swiper-wrapper"></div></div>' +
-                                                        '<div class="swiper-container year col" ng-if="yearScroll"><div class="swiper-wrapper"></div></div>' +
+                                                        '<div class="swiper-container year col" ng-show="yearScroll"><div class="swiper-wrapper"></div></div>' +
                                                         '<div class="swiper-container hour col" ng-if="hourScroll"><div class="swiper-wrapper"></div></div>' +
                                                     '</div>' +
                                                     '<div class="row picker_buttons">' +

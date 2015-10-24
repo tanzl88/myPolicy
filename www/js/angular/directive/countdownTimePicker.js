@@ -3,9 +3,6 @@ angular.module('$countdownTimePicker', []).directive('countdownTimePicker', func
         scope: true,
         restrict: 'A',
         require: [],
-        //require: ['ngModel', 'ngData', 'ngSelectedId', 'ngSelectedValue', '?ngTitle', 'ngiItemName', 'ngItemId'],
-        //template: '<input class="align-center bg_color datepicker" type="text" ng-click="showCountdownTimePicker()" style="cursor:inherit; width: 100%;" readonly/>',
-        //template: '<ion-item class="reminder_menu_item" ng-click="showCountdownTimePicker()">Review reminder</ion-item>',
         template: '',
         controller: function ($scope, $element, $attrs, $ionicModal, $timeout, $parse, $state, $translate, $toast, findParentService, reminderService, utilityService) {
 
@@ -13,17 +10,31 @@ angular.module('$countdownTimePicker', []).directive('countdownTimePicker', func
 
             var parentScope = findParentService.findByFunctionName($scope,"initVar");
             var container = ".modal .date_picker." + $attrs.name;
-            if ($attrs.name === "birthday") {
-                $scope.frequency = "year";
+            //MAP TYPE -> ARRAY VAR NAME
+            var varNameEnum = {
+                review      : "review",
+                birthday    : "birthday",
+                maturity    : "maturityDate",
+                countdown   : "countdown"
+            };
+            function getOrderFromCordovaName(cordovaName) {
+                for (var i = 0 ; i < repeatModeEnum.length ; i++) {
+                    if (repeatModeEnum[i].cordova === cordovaName) {
+                        return repeatModeEnum[i].order;
+                        break;
+                    }
+                }
+            }
+
+            if ($attrs.name === "annual") {
+                $scope.frequency = getOrderFromCordovaName("year");
             } else if ($attrs.name === "maturity") {
-                $scope.frequency = "0";
+                $scope.frequency = getOrderFromCordovaName("0");
             } else {
-                $scope.frequency = "0";
+                $scope.frequency = getOrderFromCordovaName("0");
             }
 
             $scope.countdownTimePicker = {};
-            //$scope.mode = $attrs.name;
-            //$scope.type = $attrs.type;
 
             // ---------------- DEFAULT ----------------
             $scope.repeatMode = angular.isDefined($attrs.repeatMode) ? parse_boolean($attrs.repeatMode) : true;
@@ -69,14 +80,16 @@ angular.module('$countdownTimePicker', []).directive('countdownTimePicker', func
             }
 
             // ---------------- SLIDE ----------------
-            function pageScroll() {
+            function pageScroll(initSlide) {
+                initSlide = initSlide === undefined ? 0 : initSlide;
                 if ($scope.pageSwiper === undefined) {
                     $(container + " .swiper-slide.match-height").height($(container + " .swiper-slide.target-height").height());
                     $scope.pageSwiper = new Swiper(container+".swiper-container", {
                         onlyExternal: true,
+                        initialSlide : initSlide
                     });
                 } else {
-                    $scope.pageSwiper.slideTo(0,0);
+                    $scope.pageSwiper.slideTo(initSlide,0);
                 }
             }
             $scope.goToSlide = function(index) {
@@ -92,12 +105,21 @@ angular.module('$countdownTimePicker', []).directive('countdownTimePicker', func
 
             // ---------------- MODAL FUNCTION ----------------
             parentScope.showCountdownTimePicker[$attrs.name] = $scope.showCountdownTimePicker = function(options) {
-                $scope.data = options.data;
+                //$scope.data = options.data;
+                console.log(options);
+                $scope.multiple = validity_test(options.placeholder)        ? false        : true;
+                $scope.data     = $scope.multiple                           ? options.data : [options.data];
+                $scope.new      = validity_test($scope.data[0].reminderSet) ? true         : false;
+
                 var delay_time = utilityService.getKeyboardDelay();
                 var init_name      = validity_test(options.placeholder)       ? options.placeholder                            : undefined;
                 var init_countdown = validity_test($scope.data.countdownDays) ? get_countdown_index($scope.data.countdownDays) : 0;
                 var init_hour      = validity_test($scope.data.dateTime)      ? $scope.data.dateTime.hour()                    : 9;
                 var init_freq      = validity_test($scope.data.frequency)     ? $scope.data.frequency                          : $scope.frequency;
+
+
+                console.log($scope.frequency);
+                console.log(init_freq);
 
 
                 if (!$scope.readOnly) {
@@ -108,12 +130,16 @@ angular.module('$countdownTimePicker', []).directive('countdownTimePicker', func
                         //SHOW MODAL
                         $scope.countdownTimePicker.show();
                         //INIT VALUE
-                        pageScroll();
+                        if ($scope.multiple) {
+                            pageScroll(1);
+                        } else {
+                            pageScroll();
+                        }
                         $(container + " input").val(init_name);
                         $timeout(function(){
                             countdown_scroll(init_countdown);
                             hour_scroll (container,init_hour);
-                        },666)
+                        },1)
                     },delay_time);
                 }
             };
@@ -135,56 +161,65 @@ angular.module('$countdownTimePicker', []).directive('countdownTimePicker', func
 
             // ---------------- DONE AND DATA PROCESSING ----------------
             $scope.clickDone = function() {
-                var reminderName = $(container + " input").val();
-                var countdown = countdown_array_g[parseInt($scope.countdownTimeSwiper.activeIndex)];
-                var hour  = parseInt($(container + " .hour .swiper-slide-active").text());
+                var reminderInputObjArray = [];
+                angular.forEach($scope.data, function(data,index) {
+                    console.log(data);
 
-                //SET DATA AND MODEL
-                if (validity_test($scope.data.birthday)) {
-                    var referenceDate = $scope.data.birthday;
-                    var type = "birthday";
-                    var reminderDate = referenceDate.clone().subtract(countdown,'days');
-                    var output_moment_date = moment([2015,reminderDate.month(),reminderDate.date(),hour,0,0]);
-                } else if (validity_test($scope.data.maturityDate)) {
-                    var referenceDate = $scope.data.maturityDate;
-                    var type = "maturity";
+                    var countdown = countdown_array_g[parseInt($scope.countdownTimeSwiper.activeIndex)];
+                    var hour = parseInt($(container + " .hour .swiper-slide-active").text());
+                    var type = data.type;
+                    var referenceDate = $scope.new ? data[varNameEnum[data.type]] : data.referenceDate;
                     var output_moment_date = referenceDate.clone().subtract(countdown,'days').hour(hour);
-                } else {
-                    var referenceDate = $scope.data.referenceDate;
-                    var type = $scope.data.type;
-                    if (type === "birthday") {
-                        var reminderDate = referenceDate.clone().subtract(countdown, 'days');
-                        var output_moment_date = moment([2015, reminderDate.month(), reminderDate.date(), hour, 0, 0]);
+                    if ($scope.multiple) {
+                        var reminderName = $translate.instant("ONE_" + type.toUpperCase(),{
+                            name    : data.name,
+                            company : data.company
+                        });
                     } else {
-                        var output_moment_date = referenceDate.clone().subtract(countdown,'days').hour(hour);
+                        var reminderName = $(container + " input").val();
                     }
-                }
 
-                var reminderInputObj = {
-                    id            : $scope.data.id,
-                    name          : reminderName,
-                    type          : type,
-                    dateTime      : output_moment_date,
-                    frequency     : $scope.repeatModeIndex,
-                    referenceDate : referenceDate,
-                    countdownDays : countdown,
-                    data          : $scope.data
-                };
+                    var reminderInputObj = {
+                        id            : data.id,
+                        name          : reminderName,
+                        type          : type,
+                        dateTime      : output_moment_date,
+                        frequency     : $scope.repeatModeIndex,
+                        referenceDate : referenceDate,
+                        countdownDays : countdown,
+                        data          : data
+                    };
 
-                reminderService.add(reminderInputObj).then(function(status){
-                    if (status === "OK") {
-                        parentScope.closeEverything();
-                        $scope.closeCountdownTimePicker();
+                    //IF MULTIPLE WAIT,
+                    //ELSE POST DATA IMMEDIATELY
+                    if ($scope.multiple) {
+                        reminderInputObjArray.push(reminderInputObj);
+                    } else {
+                        reminderService.add(reminderInputObj).then(function(status){
+                            if (status === "OK") {
+                                parentScope.closeEverything();
+                                $scope.closeCountdownTimePicker();
+                            }
+                        });
                     }
                 });
+
+                if ($scope.multiple) {
+                    reminderService.addMultiple(reminderInputObjArray).then(function(status){
+                        if (status === "OK") {
+                            parentScope.closeEverything();
+                            $scope.closeCountdownTimePicker();
+                        }
+                    });
+                }
             };
 
             $scope.changeRepeatMode = function() {
-                $scope.repeatModeIndex = $scope.repeatModeIndex !== undefined ? ($scope.repeatModeIndex + 1)%repeat_mode_g.length : 0 ;
+                $scope.repeatModeIndex = $scope.repeatModeIndex !== undefined ? ($scope.repeatModeIndex + 1)%repeatModeEnum.length : 0 ;
                 $scope.updateRepeatMode();
             };
             $scope.updateRepeatMode = function() {
-                $scope.repeatModeDisplayed = repeat_mode_g[$scope.repeatModeIndex];
+                $scope.repeatModeDisplayed = repeatModeEnum[$scope.repeatModeIndex].translate;
             };
 
             var modal_template = '<div class="modal" style="background-color: rgba(0,0,0,0.6)">' +
@@ -215,7 +250,8 @@ angular.module('$countdownTimePicker', []).directive('countdownTimePicker', func
                                                         '<div class="swiper-container hour col"><div class="swiper-wrapper"></div></div>' +
                                                     '</div>' +
                                                     '<div class="row picker_buttons">' +
-                                                        '<md-button class="col align-center bg_gray_color" ng-click="goToSlide(0)">{{"PICKER_BACK" | translate}}</md-button>' +
+                                                        '<md-button class="col align-center bg_gray_color" ng-if="multiple" ng-click="closeCountdownTimePicker()">{{"PICKER_CANCEL" | translate}}</md-button>' +
+                                                        '<md-button class="col align-center bg_gray_color" ng-if="!multiple" ng-click="goToSlide(0)">{{"PICKER_BACK" | translate}}</md-button>' +
                                                         '<md-button class="col align-center bg_theme_color" ng-click="clickDone()">{{"PICKER_DONE" | translate}}</md-button>' +
                                                     '</div>' +
                                                 '</div>' +

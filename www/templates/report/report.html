@@ -31,11 +31,12 @@
                             <suggest-amt-editor ng-bind-data="cat.suggested">
                             </suggest-amt-editor>
                         </td>
-                        <td width="26%">
-                            <p class="amt inline-block align-middle" ng-class="{'excess' : cat.diff_type === 'Excess', 'shortfall' : cat.diff_type === 'Shortfall'}">{{cat.diff | number}}</p>
+                        <td width="26%" ng-class="{'excess' : cat.diff_type === 'Excess', 'shortfall' : cat.diff_type === 'Shortfall'}">
+                            <p class="amt inline-block align-middle">{{cat.diff | number}}</p>
                         </td>
                     </tr>
                 </table>
+                <p class="report_notes">*{{"SUGGEST_AMT_NOTES" | translate}}</p>
             </div>
 
             <!--DOUGHNUT-->

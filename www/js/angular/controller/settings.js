@@ -9,5 +9,8 @@ app.controller('SettingsCtrl', function($scope,$translate,$state) {
     $scope.goToChangePassword = function() {
         $state.go("tabs.home.settings.changePassword");
     };
+    $scope.goToChangeEmail = function() {
+        $state.go("tabs.home.settings.changeEmail");
+    };
 });
 

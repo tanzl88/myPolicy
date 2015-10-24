@@ -1,4 +1,4 @@
-app.controller('HomeCtrl', function($scope,$http,$timeout,$state,$translate,$toast,loadingService,modalService,
+app.controller('HomeCtrl', function($scope,$rootScope,$http,$timeout,$state,$translate,$toast,loadingService,modalService,
                                     loadDataDbService,personalDataDbService,advisorDataDbService,policyDataService,clientListDbService,pushNotificationService,
                                     credentialManager,doughnutChartService,notificationDbService,utilityService,errorHandler) {
 
@@ -62,7 +62,10 @@ app.controller('HomeCtrl', function($scope,$http,$timeout,$state,$translate,$toa
     $scope.refreshClientList = function() {
         var clientList = clientListDbService.getClients();
         $scope.clientList = _.sortBy(clientList, function(client){ return client.name; });
-    }
+    };
+    $rootScope.$on("LOGOUT", function(){
+        $scope.credential = undefined;
+    });
     $scope.initVar = function() {
         $scope.detriggerClientSearch();
         $scope.currency = $translate.instant("CURRENCY").trim();

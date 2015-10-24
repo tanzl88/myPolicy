@@ -16,21 +16,22 @@ angular.module('$currencyInput', []).directive('currencyInput', function () {
                 $scope.state = "input";
 
                 var focusTimer = $interval(function(){
-
                     if ($(numberInput).css("display") !== "none") {
                         $(numberInput).val($parse($attrs.ngModelName)(parentScope));
                         numberInput.focus();
                         $interval.cancel(focusTimer);
                     }
                 },333);
-
             };
+
+
             $scope.inputNumberBlur = function(event) {
                 $scope.state = "show";
                 var roundedValue = $(numberInput).val() === "" ? undefined : parseFloat($(numberInput).val()).toFixed(decimal);
                 $(numberInput).val("");
                 $parse($attrs.ngModelName).assign(parentScope, roundedValue);
             };
+
             $scope.goToNext = function(event) {
                 if (event.which === 9) {
                     event.preventDefault();

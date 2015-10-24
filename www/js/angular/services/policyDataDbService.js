@@ -1,4 +1,4 @@
-app.service('policyDataDbService', function($rootScope,$q,$http,$translate) {
+app.service('policyDataDbService', function($rootScope,$q,$http,$translate,personalDataDbService) {
     var policies_g;
     $rootScope.$on("LOGOUT", function(){
         policies_g = [];
@@ -8,8 +8,8 @@ app.service('policyDataDbService', function($rootScope,$q,$http,$translate) {
         "deathSA",
         "tpdSA",
         "critSA",
-        "terminalSA",
         "earlySA",
+        "terminalSA",
         "disabledSA",
         "hospitalSA",
         "hospitalIncome",
@@ -27,7 +27,7 @@ app.service('policyDataDbService', function($rootScope,$q,$http,$translate) {
         } else {
             return moment(dateString,"YYYY-MM-DD").format("LL")
         }
-    };
+    }
     function parseUndefinedToZero(input) {
         if (input === undefined) {
             return 0;
@@ -41,7 +41,7 @@ app.service('policyDataDbService', function($rootScope,$q,$http,$translate) {
         } else {
             return parseFloat(input);
         }
-    };
+    }
     function parseDbBoolean(input) {
         if (input === "0") {
             return false;
@@ -107,6 +107,7 @@ app.service('policyDataDbService', function($rootScope,$q,$http,$translate) {
             angular.forEach(policiesArray, function(policy,index){
                 var policyObj = {
                     id                      : policy.id,
+                    index                   : index + 1,
                     policyNumber            : policy.policyNumber,
                     company                 : policy.company,
                     planType                : parseDbInt(policy.planType),
@@ -139,6 +140,7 @@ app.service('policyDataDbService', function($rootScope,$q,$http,$translate) {
                     retireIncome            : parseDbInt(policy.retireIncome),
                     currentValue            : parseDbInt(policy.currentValue),
                     surrenderValue          : parseDbInt(policy.surrenderValue),
+                    beneficiary             : policy.beneficiary,
                     remarks                 : policy.remarks,
                     timestamp               : policy.timestamp
                 };
@@ -202,14 +204,65 @@ app.service('policyDataDbService', function($rootScope,$q,$http,$translate) {
             }
 
         },
-        getTotalPremium : function() {
+        getTotalPremium : function(cat,referenceMomentDate) {
             var sum = 0;
+            referenceMomentDate = referenceMomentDate === undefined ? moment() : referenceMomentDate;
             angular.forEach(policies_g, function(policy,index){
                 if (validity_test(policy.premium) && validity_test(policy.premiumMode)) {
-                    sum += policy.premium * premium_mode_factor_g[policy.premiumMode];
+                    //PREMIUM TERM MODE TRUE -> BY YEARS
+                    if (policy.startDate !== undefined && policy.premiumTermMode === true && policy.premiumTerm !== undefined) {
+                        var startDate = moment(policy.startDate,"LL");
+                        var premiumExpiryDate = startDate.clone().add(policy.premiumTerm,"y");
+
+                        if (startDate.isBefore(referenceMomentDate) && premiumExpiryDate.isAfter(referenceMomentDate)) {
+                            //NOT EXPIRED
+                            if (cat === undefined) {
+                                sum += policy.premium * premium_mode_factor_g[policy.premiumMode];
+                            } else {
+                                if (plan_type_cat_enum_g[policy.planType] === cat) sum += policy.premium * premium_mode_factor_g[policy.premiumMode];
+                            }
+                        }
+                    } else {
+                        if (cat === undefined) {
+                            sum += policy.premium * premium_mode_factor_g[policy.premiumMode];
+                        } else {
+                            if (plan_type_cat_enum_g[policy.planType] === cat) sum += policy.premium * premium_mode_factor_g[policy.premiumMode];
+                        }
+                    }
                 }
             });
             return sum.toFixed(0);
+        },
+        getPremiumTrend : function() {
+            var trendObj = {
+                data : [],
+                now  : []
+            };
+            var birthday = moment(personalDataDbService.getUserData("birthday"),"LL");
+            var thisYearBirthday = birthday.clone().year(moment().year());
+            var age = Math.abs(thisYearBirthday.diff(birthday,"y"));
+            for (var i = 20 ; i <= 100 ; i +=5) {
+                var incrementBirthday = birthday.clone().add(i,"y");
+
+                trendObj.data.push({
+                    year    : incrementBirthday.year(),
+                    age     : i,
+                    premium : this.getTotalPremium(undefined,incrementBirthday)
+                });
+
+                if (age > i && age < i + 5) {
+                    trendObj.now = {
+                        year    : thisYearBirthday.year(),
+                        age     : age,
+                        premium : this.getTotalPremium(undefined,thisYearBirthday),
+                        type    : "now",
+                        index   : (i - 20) / 5 + (age - i) / 5
+                    };
+                }
+
+
+            }
+            return trendObj;
         }
     }
 });

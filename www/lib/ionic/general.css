@@ -7,24 +7,23 @@ body {
 @media only screen and (min-device-width: 320px) and (max-device-height: 480px) and (-webkit-min-device-pixel-ratio: 2) {
   body {
     font-size: 12px; } }
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (min-device-height: 481px) and (-webkit-min-device-pixel-ratio: 2) {
   body {
-    font-size: 14px; } }
+    font-size: 15px; } }
+
 @media only screen and (min-device-width: 360px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
   body {
     font-size: 16px; } }
+
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
   body {
     font-size: 16px; } }
+
 @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) {
   body {
     font-size: 16px; } }
-@media only screen and (min-device-width: 768px) {
-  body {
-    font-size: 26px; }
 
-  .full_table {
-    line-height: 1.4; } }
 body.platform-browser {
   font-size: 16px; }
 
@@ -89,26 +88,29 @@ form {
   padding: 3% 3%;
   font-size: 0.9em; }
 
-currency-input input {
+currency-input input,
+percent-input input {
   display: none !important; }
 
-currency-input input.front {
+currency-input input.front,
+percent-input input.front {
   display: inline-block !important;
   width: 49%; }
 
 /* ------------------- HEADER ------------------------- */
 ion-header-bar i {
-  color: black; }
+  color: #444; }
 
 /* ------------------- TABS ------------------------- */
 .tabs {
   border-top-width: 0px;
   padding-top: 0; }
 
-.keyboard-open .tabs, .keyboard-open #terms_link {
+.keyboard-open-native .tabs,
+.keyboard-open-native #terms_link {
   display: none; }
 
-.keyboard-open .has-tabs {
+.keyboard-open-native .has-tabs {
   bottom: 0; }
 
 /* ------------------- REFRESHER ------------------------- */
@@ -240,7 +242,8 @@ ion-header-bar i {
 .no_content_container {
   width: 100%;
   padding: 3% 5%;
-  font-size: 0.9em; }
+  font-size: 0.9em;
+  line-height: 1.3; }
 
 .no_content_container .login_logo_container {
   margin-bottom: 1%; }
@@ -253,7 +256,7 @@ ion-list ion-item .item-content {
   padding: 0 !important; }
 
 .selected {
-  background-color: #FAFAFA !important; }
+  background-color: #F5F5F5 !important; }
 
 ion-list ion-item .item-content > div {
   padding: 4% 5%; }
@@ -298,5 +301,3 @@ md-menu-content {
 .md-open-menu-container {
   right: 0;
   left: auto !important; }
-
-/*# sourceMappingURL=general.css.map */

@@ -100,7 +100,6 @@ app.controller('AddPolicyCtrl', function($rootScope,$scope,$timeout,$state,$tran
                 coverageTerm            : undefined,
                 coverageTermMode        : undefined,
                 coverageTermDisplayed   : undefined,
-                //sumAssured              : undefined,
                 deathSA                 : undefined,
                 tpdSA                   : undefined,
                 disabledSA              : undefined,
@@ -114,6 +113,7 @@ app.controller('AddPolicyCtrl', function($rootScope,$scope,$timeout,$state,$tran
                 retireIncome            : undefined,
                 currentCash             : undefined,
                 surrenderCash           : undefined,
+                beneficiary             : undefined,
                 remarks                 : undefined
             };
         }
@@ -127,6 +127,9 @@ app.controller('AddPolicyCtrl', function($rootScope,$scope,$timeout,$state,$tran
 
     // -------------------- VALIDATION --------------------
     $scope.submit = function(policyForm) {
+        //ANALYTICS
+        if (ionic.Platform.isWebView()) window.analytics.trackEvent('Core', 'Policy', 'Add / Edit');
+
         //HIDE KEYBOARD UPON SUBMIT
         var delay_time = utilityService.getKeyboardDelay();
         $timeout(function(){
@@ -148,7 +151,7 @@ app.controller('AddPolicyCtrl', function($rootScope,$scope,$timeout,$state,$tran
                 //CONVERT BOOLEAN
                 if (input.premiumTermMode  !== undefined) input.premiumTermMode  = booleanToInt(input.premiumTermMode);
                 if (input.coverageTermMode !== undefined) input.coverageTermMode = booleanToInt(input.coverageTermMode);
-                console.log(input);
+
                 $http.post(ctrl_url + "set_policy", input)
                     .success(function(result){
                         if (result.status === "success") {

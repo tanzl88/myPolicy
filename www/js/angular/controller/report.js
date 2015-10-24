@@ -52,12 +52,16 @@ app.controller('ReportCtrl', function($scope,$translate,$timeout,$interval,$stat
             $scope.currency = $translate.instant("CURRENCY").trim();
             $scope.viewObj = {};
             $scope.viewObj.cat = policyDataService.getProtectionsData();
+            console.log($scope.viewObj.cat);
             drawDoughnuts();
         }
     };
 
     //TOOLTIP
     $scope.showDoughnutTooltip = function(title) {
+        //ANALYTICS
+        if (ionic.Platform.isWebView()) window.analytics.trackEvent('User Interaction', 'Tooltip', 'Protection explanation');
+
         $scope.category          = $translate.instant("REPORT_" + title);
         $scope.importanceContent = $translate.instant("REPORT_" + title + "_IMPT");
         $scope.coverageContent   = $translate.instant("REPORT_" + title + "_DESC");
@@ -67,6 +71,9 @@ app.controller('ReportCtrl', function($scope,$translate,$timeout,$interval,$stat
         $scope.doughnutTooltip = modal;
     });
     $scope.showSuggestTooltip = function(title) {
+        //ANALYTICS
+        if (ionic.Platform.isWebView()) window.analytics.trackEvent('User Interaction', 'Tooltip', 'Suggested explanation');
+
         $scope.category          = $translate.instant("REPORT_" + title);
         $scope.suggestedCoverage = $translate.instant("REPORT_" + title + "_SUGG");
         $scope.suggestTooltip.show();

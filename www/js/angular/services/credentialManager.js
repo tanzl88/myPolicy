@@ -32,13 +32,16 @@ app.service('credentialManager', function($rootScope,$toast) {
 
         setClientSelectedObj : function(obj) {
             client_selected_obj_g = obj;
-            this.setClientSelected();
 
-            //REFRESH NAME AND SHOW TOAST
-            $("#home_view").scope().refreshClientName();
-            $toast.show("SIGN_IN_AS", {
-                name : this.getClientProperty("name")
-            });
+            if (this.getCredential() === "advisor") {
+                this.setClientSelected();
+
+                //REFRESH NAME AND SHOW TOAST
+                $("#home_view").scope().refreshClientName();
+                $toast.show("SIGN_IN_AS", {
+                    name : this.getClientProperty("name")
+                });
+            }
         },
         removeClientSelectedObj : function() {
             client_selected_obj_g = {};

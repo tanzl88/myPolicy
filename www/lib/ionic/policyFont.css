@@ -1,0 +1,87 @@
+@font-face {
+  font-family: 'myPolicy';
+  src: url("fonts/myPolicy.eot?bttllu");
+  src: url("fonts/myPolicy.eot?bttllu#iefix") format("embedded-opentype"), url("fonts/myPolicy.ttf?bttllu") format("truetype"), url("fonts/myPolicy.woff?bttllu") format("woff"), url("fonts/myPolicy.svg?bttllu#myPolicy") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+i {
+  font-family: 'myPolicy';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.policy-profile:before {
+  content: "\e80c"; }
+
+.policy-user:before {
+  content: "\e815"; }
+
+.policy-bell:before {
+  content: "\e80d"; }
+
+.policy-briefcase:before {
+  content: "\e808"; }
+
+.policy-case-notes:before {
+  content: "\e802"; }
+
+.policy-chart:before {
+  content: "\e803"; }
+
+.policy-code:before {
+  content: "\e807"; }
+
+.policy-gear:before {
+  content: "\e800"; }
+
+.policy-home:before {
+  content: "\e80a"; }
+
+.policy-report:before {
+  content: "\e813"; }
+
+.policy-link:before {
+  content: "\e804"; }
+
+.policy-lock:before {
+  content: "\e810"; }
+
+.policy-logout:before {
+  content: "\e811"; }
+
+.policy-mail:before {
+  content: "\e801"; }
+
+.policy-pencil:before {
+  content: "\e80e"; }
+
+.policy-phone:before {
+  content: "\e80f"; }
+
+.policy-pie:before {
+  content: "\e812"; }
+
+.policy-policy:before {
+  content: "\e814"; }
+
+.policy-question:before {
+  content: "\e816"; }
+
+.policy-transfer-arrow:before {
+  content: "\e806"; }
+
+.policy-user-add:before {
+  content: "\e809"; }
+
+.policy-user-edit:before {
+  content: "\e80b"; }
+
+.policy-user-transfer:before {
+  content: "\e805"; }

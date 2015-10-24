@@ -9,23 +9,35 @@ app.service('exportUtility', function($q,$http,$interval,$translate,barChartServ
     return {
         getImageDataUrl : function(src,width,height) {
             var dfd = $q.defer();
-            var canvas = document.createElement("canvas");
-            $(canvas).attr("width",width).attr("height",height);
+            var canvas_width = width;
+            var canvas_height = height;
 
-            var context = canvas.getContext('2d');
             var imageObj = new Image();
             imageObj.onload = function() {
-                context.drawImage(imageObj,0,0,width,height);
+                if (!validity_test(canvas_height)) {
+                    var ratio       = canvas_width / this.width;
+                    canvas_height   = ratio * this.height;
+                }
+                if (!validity_test(canvas_width)) {
+                    var ratio       = canvas_height / this.height;
+                    canvas_width    = ratio * this.width;
+                }
+
+                //CREATE CANVAS
+                var canvas = document.createElement("canvas");
+                $(canvas).attr("width",canvas_width).attr("height",canvas_height);
+                var context = canvas.getContext('2d');
+                context.drawImage(imageObj,0,0,canvas_width,canvas_height);
 
                 //LAY WHITE BACKGROUND UNDERNEATH
                 var backgroundColor = "rgb(255,255,255)";
                 context.globalCompositeOperation = "destination-over";
                 context.fillStyle = backgroundColor;
-                context.fillRect(0,0,width,height);
+                context.fillRect(0,0,canvas_width,canvas_height);
 
                 dfd.resolve({
                     dataUrl : canvas.toDataURL("image/jpeg",0.7),
-                    ratio : width / height
+                    ratio : canvas_width / canvas_height
                 });
             };
             imageObj.src = src;

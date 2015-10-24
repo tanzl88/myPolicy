@@ -12,11 +12,22 @@ app.service('loadDataDbService', function($q,$http,$toast,credentialManager,
     return {
         processLoginData : function(data,callback) {
             if (data.credential === "client") {
+                //ANALYTICS
+                if (ionic.Platform.isWebView()) window.analytics.setUserId(sdbmHash(data.data.personal.userId));
+
                 credentialManager.setCredential("client");
+                credentialManager.setClientSelectedObj({
+                    id       : data.data.personal.userId,
+                    //name     : displayName,
+                    type     : "link"
+                });
                 this.setClientData(data.data.policy,data.data.personal,data.data.advisor,data.data.notification,data.data.suggested);
                 initIonicService();
                 if (callback !== undefined) callback();
             } else if (data.credential === "advisor") {
+                //ANALYTICS
+                if (ionic.Platform.isWebView()) window.analytics.setUserId(sdbmHash(data.data.advisor.advisorId));
+
                 credentialManager.setCredential("advisor");
                 this.setAdvisorData(data.data.advisor,data.data.clients,data.data.temp,data.data.reminders);
                 initIonicService();
@@ -50,7 +61,7 @@ app.service('loadDataDbService', function($q,$http,$toast,credentialManager,
         setAdvisorData : function(advisorData,clientList,tempAccountList,reminders) {
             advisorDataDbService.set(advisorData);
             clientListDbService.set(clientList, tempAccountList);
-            reminderService.set(reminders);
+            if (ionic.Platform.isWebView()) reminderService.set(reminders);
         }
     }
 });

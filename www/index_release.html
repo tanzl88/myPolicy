@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta content="telephone=no" name="format-detection">
+    <meta http-equiv="Content-Security-Policy" content="default-src * &apos;unsafe-eval&apos; &apos;unsafe-inline&apos;">
+    <title></title>
+
+    <!-- build:css dist_css/styles.css -->
+    <link href="css/bootstrap-slider.css" rel="stylesheet">
+    <link href="lib/ionic/ionic.app.css" rel="stylesheet">
+    <link href="lib/ionic/general.css" rel="stylesheet">
+    <link href="lib/ionic/index.css" rel="stylesheet">
+    <link href="lib/ionic/tablet.css" rel="stylesheet">
+    <link href="lib/ionic/animate.css" rel="stylesheet">
+    <link href="lib/angular-macgyver/lib/macgyver.css" rel="stylesheet">
+    <link href="lib/angular-material/angular-material.css" rel="stylesheet">
+    <link href="lib/ionic/date_picker.css" rel="stylesheet">
+    <link href="css/swiper.css" rel="stylesheet">
+    <link href="css/policyFont.css" rel="stylesheet">
+    <link href="css/angular-toggle-switch.css" rel="stylesheet">
+    <link href="css/angular-dropdowns.css" rel="stylesheet">
+    <!-- endbuild -->
+
+    <!-- build:js dist_js/app.js -->
+    <!-- JQUERY -->
+    <script type="text/javascript" src="dist/react/react-0.10.0.js"></script>
+    <script type="text/javascript" src="dist/jquery/jquery-1.11.2.min.js"></script>
+
+    <!--CHART-->
+    <script type="text/javascript" src="dist/chartJS/ChartNew.js"></script>
+    <script type="text/javascript" src="dist/chartJS/Add-ins/stats.js"></script>
+    <script type="text/javascript" src="dist/chartJS/Add-ins/shapesInChart.js"></script>
+
+    <!-- CUSTOM -->
+    <script type="text/javascript" src="dist/openSource/lodash.min.js"></script>
+    <script type="text/javascript" src="dist/custom/chart_constant.js"></script>
+    <script type="text/javascript" src="dist/custom/constant.js"></script>
+    <script type="text/javascript" src="dist/custom/currency_constant.js"></script>
+    <script type="text/javascript" src="dist/custom/table_constant.js"></script>
+    <script type="text/javascript" src="dist/custom/system_function.js"></script>
+    <script type="text/javascript" src="dist/custom/date_picker.js"></script>
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/ionic-platform-web-client/dist/ionic.io.bundle.min.js"></script>
+    <script src="lib/angular/angularWebviewPatch.js"></script>
+    <script src="lib/ionic-service-core/ionic-core.js"></script>
+    <!--<script src="lib/ionic-service-push/ionic-push.js"></script>-->
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+
+    <script type="text/javascript" src="dist/openSource/angular/bootstrap-slider.js"></script>
+    <script type="text/javascript" src="dist/openSource/slider.js"></script>
+
+    <!-- LOCALIZATION -->
+    <script type="text/javascript" src="lib/angular-translate/angular-translate.min.js"></script>
+    <script type="text/javascript" src="lib/messageformat/messageformat.js"></script>
+    <script type="text/javascript" src="lib/messageformat/locale/en.js"></script>
+    <script type="text/javascript" src="lib/messageformat/locale/zh.js"></script>
+    <script type="text/javascript" src="lib/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js"></script>
+    <script type="text/javascript" src="dist/translate/localization.js"></script>
+
+    <!-- OPEN SOURCE -->
+    <script type="text/javascript" src="dist/openSource/moment/moment.min.js"></script>
+    <script type="text/javascript" src="dist/openSource/moment/en.js"></script>
+    <!--<script type="text/javascript" src="dist/openSource/moment/zh.js"></script>-->
+    <!--<script type="text/javascript" src="dist/openSource/ChartNew.js"></script>-->
+    <script type="text/javascript" src="dist/openSource/swiper.jquery.js"></script>
+    <script type="text/javascript" src="dist/openSource/jspdf.debug.js"></script>
+    <script type="text/javascript" src="dist/openSource/TweenMax.min.js"></script>
+
+
+    <script src="dist/templates.js"></script>
+    <script src="dist/app.js"></script>
+
+    <script src="dist/openSource/angular/ngmodel.format.js"></script>
+    <script src="dist/openSource/angular/angular-dropdowns.js"></script>
+    <script src="dist/openSource/angular/angular-toggle-switch.js"></script>
+    <script src="dist/angular/angular-messages.min.js"></script>
+    <script src="lib/angular-animate/angular-animate.min.js"></script>
+    <script src="lib/angular-aria/angular-aria.min.js"></script>
+    <script src="lib/angular-material/angular-material.min.js"></script>
+    <script src="lib/angular-validation-match/dist/angular-input-match.min.js"></script>
+    <script src="lib/angular-macgyver/lib/macgyver.js"></script>
+    <script src="lib/devicejs/lib/device.js"></script>
+    <script src="dist/angular/states.js"></script>
+
+    <!----------CONTROLLER---------->
+    <!--GLOBAL-->
+    <script src="dist/angular/controller/global.js"></script>
+    <script src="dist/angular/controller/tabs.js"></script>
+    <script src="dist/angular/controller/tutorial.js"></script>
+    <script src="dist/angular/controller/toast.js"></script>
+    <!--LOGIN-->
+    <script src="dist/angular/controller/login.js"></script>
+    <script src="dist/angular/controller/login-forgot.js"></script>
+    <script src="dist/angular/controller/signup.js"></script>
+    <script src="dist/angular/controller/logout.js"></script>
+    <!--HOME-->
+    <script src="dist/angular/controller/home.js"></script>
+    <script src="dist/angular/controller/dashboard.js"></script>
+    <script src="dist/angular/controller/generateReport.js"></script>
+    <script src="dist/angular/controller/export.js"></script>
+    <script src="dist/angular/controller/changePassword.js"></script>
+
+    <script src="dist/angular/controller/profile.js"></script>
+    <script src="dist/angular/controller/editProfile.js"></script>
+    <script src="dist/angular/controller/settings.js"></script>
+    <script src="dist/angular/controller/reminder.js"></script>
+    <script src="dist/angular/controller/askQuestion.js"></script>
+    <script src="dist/angular/controller/notification.js"></script>
+    <script src="dist/angular/controller/gallery.js"></script>
+    <script src="dist/angular/controller/list.js"></script>
+    <script src="dist/angular/controller/addPolicy.js"></script>
+    <script src="dist/angular/controller/overview.js"></script>
+    <script src="dist/angular/controller/customizeFieldNames.js"></script>
+    <script src="dist/angular/controller/report.js"></script>
+
+    <script src="dist/angular/controller/caseNotes.js"></script>
+    <script src="dist/angular/controller/advisorInfo.js"></script>
+    <script src="dist/angular/controller/advisorProfile.js"></script>
+    <script src="dist/angular/controller/createClientAccount.js"></script>
+
+
+    <script src="dist/angular/directive/angular-bootstrap-checkbox.js"></script>
+    <script src="dist/angular/directive/datePicker.js"></script>
+    <script src="dist/angular/directive/planTypePicker.js"></script>
+    <script src="dist/angular/directive/dateTimePicker.js"></script>
+    <script src="dist/angular/directive/countdownTimePicker.js"></script>
+    <script src="dist/angular/directive/termPicker.js"></script>
+    <script src="dist/angular/directive/popupPicker.js"></script>
+    <script src="dist/angular/directive/percentInput.js"></script>
+    <script src="dist/angular/directive/currencyInput.js"></script>
+    <script src="dist/angular/directive/currencyPicker.js"></script>
+    <script src="dist/angular/directive/suggestAmtEditor.js"></script>
+    <script src="dist/angular/directive/reactTable.js"></script>
+
+    <script src="dist/angular/services/errorHandler.js"></script>
+    <script src="dist/angular/services/pushNotificationService.js"></script>
+    <script src="dist/angular/services/localNotificationService.js"></script>
+    <script src="dist/angular/services/tutorialManager.js"></script>
+    <script src="dist/angular/services/modalService.js"></script>
+    <script src="dist/angular/services/loadingService.js"></script>
+    <script src="dist/angular/services/credentialManager.js"></script>
+    <script src="dist/angular/services/toastService.js"></script>
+    <script src="dist/angular/services/currencyService.js"></script>
+    <script src="dist/angular/services/findParentService.js"></script>
+    <script src="dist/angular/services/advisorDataDbService.js"></script>
+    <script src="dist/angular/services/personalDataDbService.js"></script>
+    <script src="dist/angular/services/policyDataDbService.js"></script>
+    <script src="dist/angular/services/policyDataService.js"></script>
+    <script src="dist/angular/services/clientListDbService.js"></script>
+    <script src="dist/angular/services/customSuggestedDbService.js"></script>
+    <script src="dist/angular/services/loadDataDbService.js"></script>
+    <script src="dist/angular/services/notificationDbService.js"></script>
+    <script src="dist/angular/services/doughnutChartService.js"></script>
+    <script src="dist/angular/services/barChartService.js"></script>
+    <script src="dist/angular/services/lineChartService.js"></script>
+    <script src="dist/angular/services/ageIconService.js"></script>
+    <script src="dist/angular/services/horoscopeService.js"></script>
+    <script src="dist/angular/services/reminderService.js"></script>
+    <script src="dist/angular/services/picNotesService.js"></script>
+    <script src="dist/angular/services/exportUtility.js"></script>
+    <script src="dist/angular/services/utilityService.js"></script>
+    <script src="dist/angular/services/userService.js"></script>
+    <!-- endbuild -->
+</head>
+<body ng-app="myPolicy" ng-strict-di ng-controller="GlobalCtrl">
+    <div ng-include="&apos;modal.html&apos;"></div>
+    <div ng-include="&apos;blocker.html&apos;"></div>
+    <ion-pane>
+        <ion-nav-bar class="bar-energized" align-title="center">
+            <ion-nav-back-button state-nav-back-button="" class="button-clear">
+                <i class="ion-chevron-left"></i>
+            </ion-nav-back-button>
+        </ion-nav-bar>
+
+
+        <ion-nav-view id="main-view">
+
+        </ion-nav-view>
+    </ion-pane>
+</body>
+
+<script>
+    //PARSE URL SCHEME
+    function handleOpenURL(url) {
+        var urlSplit = ((url.split("mypolicyapp://"))[1]).split("/");
+        var method = urlSplit[0];
+        var args = [];
+        for (var i = 1 ; i < urlSplit.length - 1; i++) {
+            args.push(urlSplit[i]);
+        };
+        $("#login_view").scope().handleOpenURL(method,args);
+    }
+</script>
+
+</html>

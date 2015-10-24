@@ -1,7 +1,7 @@
-var app = angular.module('myPolicy',['ionic','ionic.service.core','ionic.service.push',
+var app = angular.module('myPolicy',['templates','ionic','ionic.service.core','ionic.service.analytics','ngIOS9UIWebViewPatch',
     'ngCordova','ngMessages','ngAnimate','pascalprecht.translate','Mac',
-    'validation.match','ngmodel.format','ngMaterial','ngDropdowns',
-    '$datePicker','$dateTimePicker','$countdownTimePicker','$termPicker','$currencyPicker','$currencyInput','$planTypePicker','$suggestAmtEditor','popupPicker',
+    'validation.match','ngmodel.format','ngMaterial','ngDropdowns','reactTable',
+    '$datePicker','$dateTimePicker','$countdownTimePicker','$termPicker','$currencyPicker','$currencyInput','$percentInput','$planTypePicker','$suggestAmtEditor','popupPicker',
     'ui.bootstrap-slider','ui.checkbox','toggle-switch']);
 
 //CHANGE ANDROID DEFAULT UI
@@ -94,8 +94,7 @@ app.config(function ($httpProvider) {
         }
         return $.param(data);
     };
-    $httpProvider.defaults.headers.post['Content-Type'] = ''
-        + 'application/x-www-form-urlencoded; charset=UTF-8';
+    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
 });
 //BACK BUTTON
 app.config(function ($ionicConfigProvider) {
@@ -106,8 +105,7 @@ app.config(function ($ionicConfigProvider) {
 });
 
 
-app.run(function ($rootScope,$ionicPlatform,$state,$cordovaNetwork,currencyService,
-                  localNotificationService,pushNotificationService) {
+app.run(function ($rootScope,$ionicPlatform,$state,$cordovaNetwork,currencyService,$ionicAnalytics) {
     $ionicPlatform.ready(function () {
         //KEYBOARD
         if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -115,7 +113,10 @@ app.run(function ($rootScope,$ionicPlatform,$state,$cordovaNetwork,currencyServi
             cordova.plugins.Keyboard.disableScroll(true);
             //HIDE FOOTER BAR WHEN KEYBOARD APPEAR
             window.addEventListener('native.keyboardshow', function () {
-                document.body.classList.add('keyboard-open');
+                document.body.classList.add('keyboard-open-native');
+            });
+            window.addEventListener('native.keyboardhide', function () {
+                document.body.classList.remove('keyboard-open-native');
             });
         }
 
@@ -128,7 +129,8 @@ app.run(function ($rootScope,$ionicPlatform,$state,$cordovaNetwork,currencyServi
 
         //iOS STATUS BAR & STYLING
         if (window.StatusBar) {
-            StatusBar.styleDefault();
+            //StatusBar.styleDefault();
+            //StatusBar.backgroundColorByHexString("#FED82F");
         }
         ionic.Platform.fullScreen(false,true);
 
@@ -157,5 +159,10 @@ app.run(function ($rootScope,$ionicPlatform,$state,$cordovaNetwork,currencyServi
             $rootScope.isOffline = true;
         });
         $rootScope.isOffline = $cordovaNetwork.isOffline();
+
+
+
+        //$ionicAnalytics.register();
+        if (ionic.Platform.isWebView()) window.analytics.startTrackerWithId('UA-68783318-1');
     });
 });

@@ -3,27 +3,27 @@ app.config(function($stateProvider, $urlRouterProvider) {
         //------------------------ LOGIN ------------------------
         .state('login', {
             url: '/login',
-            templateUrl: "templates/login/login.html",
+            templateUrl: "login/login.html",
             controller: "LoginCtrl",
         })
         .state('signup', {
             url: '/signup',
-            templateUrl: "templates/login/signup.html",
+            templateUrl: "login/signup.html",
             controller: "SignUpCtrl",
         })
         .state('forgot', {
             url: '/forgot',
-            templateUrl: "templates/login/forgot.html",
+            templateUrl: "login/forgot.html",
             controller: "ForgotCtrl",
         })
         .state('resetPassword', {
             url: '/resetPassword',
-            templateUrl: "templates/login/resetPassword.html",
+            templateUrl: "login/resetPassword.html",
             controller: "ResetPasswordCtrl",
         })
         .state('retrieveAccount', {
             url: '/retrieveAccount',
-            templateUrl: "templates/login/retrieveAccount.html",
+            templateUrl: "login/retrieveAccount.html",
             controller: "RetrieveAccountCtrl",
         })
 
@@ -31,7 +31,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('tabs', {
             abstract: true,
             url: '',
-            templateUrl: "templates/tabs.html",
+            templateUrl: "tabs.html",
         })
 
         //------------------------ PROFILE ------------------------
@@ -39,7 +39,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/profile',
             views: {
                 "profile-tab@tabs": {
-                    templateUrl: "templates/profile/previewProfile.html",
+                    templateUrl: "profile/previewProfile.html",
                     controller: "ProfileCtrl",
                 }
             }
@@ -48,7 +48,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/caseNotes',
             views: {
                 "profile-tab@tabs": {
-                    templateUrl: "templates/profile/caseNotes.html",
+                    templateUrl: "profile/caseNotes.html",
                     controller: "CaseNotesCtrl",
                 }
             }
@@ -57,7 +57,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/addCaseNotes',
             views: {
                 "profile-tab@tabs": {
-                    templateUrl: "templates/profile/addCaseNotes.html",
+                    templateUrl: "profile/addCaseNotes.html",
                     controller: "AddCaseNotesCtrl",
                 }
             }
@@ -66,7 +66,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/editProfile',
             views: {
                 "profile-tab@tabs": {
-                    templateUrl: "templates/profile/editProfile.html",
+                    templateUrl: "profile/editProfile.html",
                     controller: "EditProfileCtrl",
                 }
             }
@@ -77,7 +77,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/home',
             views: {
                 "home-tab@tabs": {
-                    templateUrl: "templates/home/home.html",
+                    templateUrl: "home/home.html",
                     controller: "HomeCtrl",
                 }
             }
@@ -86,7 +86,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/editAdvisorProfile',
             views: {
                 "home-tab@tabs": {
-                    templateUrl: "templates/home/editAdvisorProfile.html",
+                    templateUrl: "home/editAdvisorProfile.html",
                     controller: "EditAdvisorProfileCtrl",
                 }
             }
@@ -95,17 +95,17 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/createClientAccount',
             views: {
                 "home-tab@tabs": {
-                    templateUrl: "templates/home/createClientAccount.html",
+                    templateUrl: "home/createClientAccount.html",
                     controller: "CreateClientAccountCtrl",
                 }
             }
         })
-        .state('tabs.home.birthday', {
-            url: '/birthday',
+        .state('tabs.home.reminder', {
+            url: '/reminder',
             views: {
                 "home-tab@tabs": {
-                    templateUrl: "templates/home/birthday.html",
-                    controller: "BirthdayCtrl",
+                    templateUrl: "home/reminder.html",
+                    controller: "ReminderCtrl",
                 }
             }
         })
@@ -113,7 +113,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/notification',
             views: {
                 "home-tab@tabs": {
-                    templateUrl: "templates/home/notification.html",
+                    templateUrl: "home/notification.html",
                     controller: "NotificationCtrl",
                 }
             }
@@ -122,8 +122,17 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/advisorInfo',
             views: {
                 "home-tab@tabs": {
-                    templateUrl: "templates/home/advisorInfo.html",
+                    templateUrl: "home/advisorInfo.html",
                     controller: "AdvisorInfoCtrl",
+                }
+            }
+        })
+        .state('tabs.home.askQuestion', {
+            url: '/askQuestion',
+            views: {
+                "home-tab@tabs": {
+                    templateUrl: "home/askQuestion.html",
+                    controller: "AskQuestionCtrl",
                 }
             }
         })
@@ -131,7 +140,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/generateReport',
             views: {
                 "home-tab@tabs": {
-                    templateUrl: "templates/home/generateReport.html",
+                    templateUrl: "home/generateReport.html",
                     controller: "GenerateReportCtrl",
                 }
             }
@@ -140,7 +149,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/export',
             views: {
                 "home-tab@tabs": {
-                    templateUrl: "templates/export/export.html",
+                    templateUrl: "export/export.html",
                     controller: "ExportCtrl",
                 }
             }
@@ -150,7 +159,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/settings',
             views: {
                 "home-tab@tabs": {
-                    templateUrl: "templates/home/settings.html",
+                    templateUrl: "home/settings.html",
                     controller: "SettingsCtrl",
                 }
             }
@@ -159,7 +168,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/customizeFieldNames',
             views: {
                 "home-tab@tabs": {
-                    templateUrl: "templates/home/customizeFieldNames.html",
+                    templateUrl: "home/customizeFieldNames.html",
                     controller: "CustomizeFieldNamesCtrl",
                 }
             }
@@ -168,8 +177,17 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/changePassword',
             views: {
                 "home-tab@tabs": {
-                    templateUrl: "templates/home/changePassword.html",
+                    templateUrl: "home/changePassword.html",
                     controller: "ChangePasswordCtrl",
+                }
+            }
+        })
+        .state('tabs.home.settings.changeEmail', {
+            url: '/changeEmail',
+            views: {
+                "home-tab@tabs": {
+                    templateUrl: "home/changeEmail.html",
+                    controller: "ChangeEmailCtrl",
                 }
             }
         })
@@ -180,7 +198,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/list',
             views: {
                 "list-tab@tabs": {
-                    templateUrl: "templates/list/list.html",
+                    templateUrl: "list/list.html",
                     controller: "ListCtrl",
                 }
             }
@@ -189,7 +207,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/editPolicy',
             views: {
                 "list-tab@tabs": {
-                    templateUrl: "templates/list/addPolicy.html",
+                    templateUrl: "list/addPolicy.html",
                     controller: "AddPolicyCtrl",
                 }
             }
@@ -198,7 +216,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/addPolicy',
             views: {
                 "list-tab@tabs": {
-                    templateUrl: "templates/list/addPolicy.html",
+                    templateUrl: "list/addPolicy.html",
                     controller: "AddPolicyCtrl",
                 }
             }
@@ -207,7 +225,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/gallery',
             views: {
                 "list-tab@tabs": {
-                    templateUrl: "templates/list/gallery.html",
+                    templateUrl: "list/gallery.html",
                     controller: "GalleryCtrl",
                 }
             }
@@ -217,7 +235,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/overview',
             views: {
                 "overview-tab@tabs": {
-                    templateUrl: "templates/overview/overview.html",
+                    templateUrl: "overview/overview.html",
                     controller: "OverviewCtrl",
                 }
             }
@@ -227,7 +245,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/report',
             views: {
                 "report-tab@tabs": {
-                    templateUrl: "templates/report/report.html",
+                    templateUrl: "report/report.html",
                     controller: "ReportCtrl",
                 }
             }
@@ -237,7 +255,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/export',
             views: {
                 "report-tab@tabs": {
-                    templateUrl: "templates/export/export.html",
+                    templateUrl: "export/export.html",
                     controller: "ExportCtrl",
                 }
             }

@@ -1,0 +1,31 @@
+<ion-view id="ask_question_view" view-title="{{'ASK_QUESTION' | translate}}">
+    <!--<ion-nav-buttons side="secondary">-->
+        <!--<button class="button button-clear" ng-click="toggleMenu()" ng-if="accountLinked === true">-->
+            <!--<i class="ion-more"></i>-->
+        <!--</button>-->
+    <!--</ion-nav-buttons>-->
+
+    <ion-content class="" delegate-handle="askQuestion">
+
+        <form id="sendFeedbackForm" class="advisor_info_container align-center" name="sendFeedbackForm" novalidate="" ng-submit="sendFeedback(sendFeedbackForm)" ng-if="confirmDetails === false">
+            <div>
+                <!--<b class="align-center">{{"DROP_MAIL" | translate}}</b>-->
+                <p id="no_advisor_to_link_text">{{"NO_ADVISOR_TO_LINK_MSG" | translate}}</p>
+                <div id="subjectSelect"
+                     dropdown-select="categories"
+                     dropdown-model="viewObj.subject"
+                     dropdown-item-label="text" >
+                </div>
+                <input id="feedbackContact" type="text" class="form-group" ng-class="{ 'has-error' : sendFeedbackForm.contact.$invalid && !sendFeedbackForm.contact.$pristine }"
+                       name="contact" ng-model="viewObj.contact" placeholder="{{feedbackContactPlaceholder}}" required>
+                <textarea class="form-group" ng-class="{ 'has-error' : sendFeedbackForm.body.$invalid && !sendFeedbackForm.body.$pristine }"
+                          rows="8" cols="1" name="body" ng-model="viewObj.body" placeholder="{{feedbackBodyPlaceholder}}" required>
+                </textarea>
+                <input class="login_button" type="submit" value="{{'SUBMIT' | translate}}" style="margin-top: 6%;"/>
+            </div>
+        </form>
+
+    </ion-content>
+</ion-view>
+
+

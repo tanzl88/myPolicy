@@ -101,7 +101,7 @@ term-picker input {
   margin-top: 5%; }
 
 .repeat-container {
-  width: 45%;
+  width: 55%;
   position: relative;
   background-color: #fed82f;
   padding: 1.5% 6%;
@@ -113,5 +113,3 @@ term-picker input {
 .has-shadow {
   box-shadow: inset 2px 2px 25px -5px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: inset 2px 2px 25px -5px rgba(0, 0, 0, 0.3); }
-
-/*# sourceMappingURL=date_picker.css.map */

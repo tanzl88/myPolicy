@@ -1,129 +1,97 @@
-app.service('pushNotificationService', function ($http,$cordovaDevice) {
+app.service('pushNotificationService', function ($rootScope,$http,$cordovaDevice,$cordovaPush) {
     return {
         init : function() {
             if (ionic.Platform.isWebView()) {
                 console.log("INIT PUSH");
-                console.log(parsePlugin);
                 var appId = "ypj1dTwLw4pQKOJfR4sUVnXseHTd9YiJEwCInIiI";
                 var key = "BsbeM6bIj4g856Z6ZBZkGk7MGzhjV3tT4G7FxmIn";
-                parsePlugin.initialize(appId,key,function(success){
+                parsePlugin.initialize(appId, key, function (success) {
                     console.log("PUSH INIT SUCCESS");
-                    //console.log(success);
-                    parsePlugin.getInstallationId(function(id) {
-                        console.info("PARSE ID", id);
+                    parsePlugin.getInstallationId(function (id) {
+                        console.log("PARSE ID", id);
                         if (ionic.Platform.isWebView()) {
                             var input = {
-                                parseId : id,
+                                parseId: id,
                             };
-                            $http.post(register_url + "set_user_parse",input);
+                            $http.post(register_url + "set_user_parse", input);
                         }
-                    }, function(error) {
+                    }, function (error) {
                         console.log(error);
                     });
-                }, function(error){
+                }, function (error) {
                     console.log(error);
+                });
+
+
+                if (ionic.Platform.isIOS()) {
+                    var config = {
+                        "badge": true,
+                        "sound": true,
+                        "alert": true,
+                    };
+                } else {
+                    var config = {
+                        "senderID": "798861488666",
+                    };
+                }
+
+                registerPush(config);
+                $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
+                    if (ionic.Platform.isIOS()) {
+                        handleIOS(notification);
+                    } else {
+                        handleAndroid(notification);
+                    }
                 });
             }
 
+            function registerPush(config) {
+                $cordovaPush.register(config).then(function(result) {
+                    console.log(result);
+                }, function(err) {
+                    alert("Registration error: " + err)
+                });
+            }
+            function handleIOS(notification) {
+                //if (notification.alert) {
+                //    navigator.notification.alert(notification.alert);
+                //}
 
-            //var pushNotification = cordova.require("com.pushwoosh.plugins.pushwoosh.PushNotification");
-            //if (ionic.Platform.isAndroid()) {
-            //    //REGISTER
-            //    //set push notifications handler
-            //    document.addEventListener('push-notification', function(event) {
-            //        var title = event.notification.title;
-            //        var userData = event.notification.userdata;
-            //
-            //        if(typeof(userData) != "undefined") {
-            //            console.warn('user data: ' + JSON.stringify(userData));
-            //        }
-            //
-            //        alert(title);
-            //    });
-            //
-            //    //initialize Pushwoosh with projectid: "GOOGLE_PROJECT_NUMBER", pw_appid : "PUSHWOOSH_APP_ID". This will trigger all pending push notifications on start.
-            //    pushNotification.onDeviceReady({ projectid: "798861488666", pw_appid : "B5ECF-A591E" });
-            //
-            //    //register for pushes
-            //    pushNotification.registerDevice(
-            //        function(status) {
-            //            var pushToken = status;
-            //            console.warn('push token: ' + pushToken);
-            //        },
-            //        function(status) {
-            //            console.warn(JSON.stringify(['failed to register ', status]));
-            //        }
-            //    );
-            //
-            //    //RECEIVER
-            //    document.addEventListener('push-notification', function(event) {
-            //        var title = event.notification.title;
-            //        var userData = event.notification.userdata;
-            //
-            //        console.warn('user data: ' + JSON.stringify(userData));
-            //        alert(title);
-            //    });
-            //} else if (ionic.Platform.isIOS()) {
-            //    //set push notification callback before we initialize the plugin
-            //    document.addEventListener('push-notification', function(event) {
-            //        //get the notification payload
-            //        var notification = event.notification;
-            //
-            //        //display alert to the user for example
-            //        alert(notification.aps.alert);
-            //
-            //        //clear the app badge
-            //        pushNotification.setApplicationIconBadgeNumber(0);
-            //    });
-            //
-            //    //initialize the plugin
-            //    pushNotification.onDeviceReady({pw_appid:"B5ECF-A591E"});
-            //
-            //    //register for pushes
-            //    pushNotification.registerDevice(
-            //        function(status) {
-            //            var deviceToken = status['deviceToken'];
-            //            console.warn('registerDevice: ' + deviceToken);
-            //        },
-            //        function(status) {
-            //            console.warn('failed to register : ' + JSON.stringify(status));
-            //            alert(JSON.stringify(['failed to register ', status]));
-            //        }
-            //    );
-            //
-            //    //reset badges on app start
-            //    pushNotification.setApplicationIconBadgeNumber(0);
-            //
-            //    //RECEIVER
-            //    document.addEventListener('push-notification', function(event) {
-            //        var notification = event.notification;
-            //        alert(notification.aps.alert);
-            //        pushNotification.setApplicationIconBadgeNumber(0);
-            //    });
-            //}
+                if (notification.sound) {
+                    var snd = new Media(event.sound);
+                    snd.play();
+                }
 
+                if (notification.badge) {
+                    $cordovaPush.setBadgeNumber(notification.badge).then(function(result) {
+                        // Success!
+                    }, function(err) {
+                        // An error occurred. Show a message to the user
+                    });
+                }
+            }
+            function handleAndroid(notification) {
+                switch(notification.event) {
+                    case 'registered':
+                        //if (notification.regid.length > 0 ) {
+                        //    alert('registration ID = ' + notification.regid);
+                        //}
+                        break;
 
+                    case 'message':
+                        // this is the actual push notification. its format depends on the data model from the push server
+                        alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
+                        break;
 
-            //IONIC PUSH
-            //if (ionic.Platform.isWebView()) {
-                //$ionicPush.register({
-                //    canShowAlert: true, //Can pushes show an alert on your screen?
-                //    canSetBadge: true, //Can pushes update app icon badges?
-                //    canPlaySound: true, //Can notifications play a sound?
-                //    canRunActionsOnWake: true, //Can run actions outside the app,
-                //    onNotification: function(notification) {
-                //        // Handle new push notifications here
-                //        console.log(notification);
-                //        return true;
-                //    }
-                //});
-            //}
+                    case 'error':
+                        alert('GCM error = ' + notification.msg);
+                        break;
 
-            //$rootScope.$on('$cordovaPush:tokenReceived', function(event, data) {
-            //    console.log('Got token', data.token, data.platform);
-            //    // Do something with the token
-            //});
-
+                    default:
+                        alert('An unknown GCM event has occurred');
+                        break;
+                }
+            }
         },
         push : function(userIdArray) {
             var privateKey = '499afdccf75ee8841660b0b6fff2d8823738a1a8b0223406';

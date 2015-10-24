@@ -1,10 +1,34 @@
 <ion-view id="list_view" view-title="{{'POLICY' | translate}}">
     <ion-nav-buttons side="secondary">
+        <button class="button button-clear" ng-click="switchTo('landscape')" ng-if="credential !== 'advisor' || clientSelected === true" style="padding-right: 7px;">
+            <i class="ion-arrow-expand"></i>
+        </button>
         <button class="button button-clear" ng-click="addPolicy()" ng-if="credential !== 'advisor' || clientSelected === true">
             <i class="ion-plus"></i>
         </button>
+        <!--<button class="button button-clear"  ng-click="toggleMenu()" ng-if="credential !== 'advisor' || clientSelected === true">-->
+            <!--<i class="ion-more"></i>-->
+        <!--</button>-->
     </ion-nav-buttons>
     <ion-content class="" >
+
+        <!--INTERACTION MENU-->
+        <md-menu md-offset="0 0" md-position-mode="target target">
+            <md-button id="policyMenuTrigger"  style="display: none; float: right;" aria-label="interactionMenu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+            </md-button>
+            <md-menu-content width="3">
+                <md-menu-item>
+                    <md-button ng-click="addPolicy()">
+                        {{"ADD_POLICY" | translate}}
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button ng-click="switchTo('landscape')">
+                        {{"TOGGLE_FULL" | translate}}
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
 
         <!--NO CONTENT CONTAINER-->
         <div class="no_content_container align-center transform-align-middle" ng-if="credential === 'advisor' && clientSelected === false">
@@ -18,7 +42,7 @@
         <div class="no_content_container align-center" ng-if="(credential === 'advisor' && clientSelected === true && policies.length === 0) || (credential === 'client' && policies.length === 0) ">
             <p class="new-line">{{"NO_POLICY_MSG" | translate}}</p>
         </div>
-        <ion-scroll style="height: 100%;" has-bouncing="true" ng-if="policies.length > 0">
+        <ion-scroll style="height: 100%;" has-bouncing="true" ng-if="policies.length > 0" delegate-handle="policiesListScroll">
             <ion-list>
                 <ion-item ng-repeat="policy in policies" class="policy_item item-remove-animate" ng-click="editPolicy($index)">
                     <div class="policy_summary">
@@ -47,37 +71,35 @@
     </ion-content>
 
     <!--FULL TABLE -> TRIGGERED IN LANDSCAPE-->
-    <!--<div>-->
-        <div class="ios-header"></div>
-        <div ng-if="showRotate" id="full_table_rotate" class="">
-            <p>{{"ROTATE_TO_GO_BACK" | translate}}</p>
-        </div>
-        <div class="full_table">
-            <ion-scroll zooming="true" direction="xy" has-bouncing="true" style="height: 100%; width: 100%;" on-touch="touch()" on-release="release()">
-                <table>
-                    <thead>
-                    <tr>
-                        <th ng-repeat="col in fullTableColumns" style="min-width : {{col.width}};">{{col.title | translate}}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="policyObj in policies">
-                        <td ng-repeat="col in fullTableColumns">
-                            <p ng-if="col.type === 'index'">{{$parent.$parent.$index + 1}}</p>
-                            <p ng-if="col.type === 'text' || col.type === 'date'">{{policyObj[col.varName]}}</p>
-                            <p ng-if="col.type === 'currency'">{{policyObj[col.varName] | number}}</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="12" class="align-right">{{"TOTAL" | translate}}:</td>
-                        <td ng-repeat="sum in sums track by $index" class="sum">{{sum | number}}</td>
-                        <td ></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </ion-scroll>
-        </div>
-    <!--</div>-->
+    <div id="full_table_rotate" class="">
+        <p ng-click="switchTo('portrait')">{{"TOGGLE_LIST" | translate}}</p>
+    </div>
+    <div class="full_table" style="margin-top: 1px;">
+        <ion-scroll zooming="true" direction="xy" has-bouncing="true" style="height: 100%; width: 100%;" on-touch="touch()" on-release="release()">
+            <react-table data="fullTableObj"></react-table>
+            <!--<table>-->
+                <!--<thead>-->
+                <!--<tr>-->
+                    <!--<th ng-repeat="col in fullTableColumns" style="min-width : {{col.width}};">{{col.title | translate}}</th>-->
+                <!--</tr>-->
+                <!--</thead>-->
+                <!--<tbody>-->
+                <!--<tr ng-repeat="policyObj in policies">-->
+                    <!--<td ng-repeat="col in fullTableColumns">-->
+                        <!--<p ng-if="col.type === 'index'">{{$parent.$parent.$index + 1}}</p>-->
+                        <!--<p ng-if="col.type === 'text' || col.type === 'date'">{{policyObj[col.varName]}}</p>-->
+                        <!--<p ng-if="col.type === 'currency'">{{policyObj[col.varName] | number}}</p>-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td colspan="12" class="align-right">{{"TOTAL" | translate}}:</td>-->
+                    <!--<td ng-repeat="sum in sums track by $index" class="sum">{{sum | number}}</td>-->
+                    <!--<td ></td>-->
+                <!--</tr>-->
+                <!--</tbody>-->
+            <!--</table>-->
+        </ion-scroll>
+    </div>
 </ion-view>
 
 

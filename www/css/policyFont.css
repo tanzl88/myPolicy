@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'myPolicy';
-	src:url('fonts/myPolicy.eot?-yo32zz');
-	src:url('fonts/myPolicy.eot?#iefix-yo32zz') format('embedded-opentype'),
-	url('fonts/myPolicy.ttf?-yo32zz') format('truetype'),
-	url('fonts/myPolicy.woff?-yo32zz') format('woff'),
-	url('fonts/myPolicy.svg?-yo32zz#myPolicy') format('svg');
+	src:url('fonts/myPolicy.eot?bttllu');
+	src:url('fonts/myPolicy.eot?bttllu#iefix') format('embedded-opentype'),
+	url('fonts/myPolicy.ttf?bttllu') format('truetype'),
+	url('fonts/myPolicy.woff?bttllu') format('woff'),
+	url('fonts/myPolicy.svg?bttllu#myPolicy') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,75 +23,73 @@ i {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.policy-case-notes:before {
-	content: "\e608";
-}
-.policy-gear:before {
-	content: "\e618";
-}
-.policy-mail:before {
-	content: "\e61d";
-}
-.policy-transfer-arrow:before {
-	content: "\e619";
-}
-.policy-chart:before {
-	content: "\e613";
-}
-.policy-link:before {
-	content: "\e614";
-}
-.policy-transfer:before {
-	content: "\e615";
-}
-.policy-briefcase:before {
-	content: "\e60d";
-}
-.policy-user-transfer:before {
-	content: "\e612";
-}
-.policy-code:before {
-	content: "\e611";
-}
-.policy-user-add:before {
-	content: "\e610";
-}
-.policy-survey:before {
-	content: "\e60f";
-}
-.policy-user-edit:before {
-	content: "\e60e";
-}
-.policy-home:before {
-	content: "\e600";
-}
 .policy-profile:before {
-	content: "\e60b";
-}
-.policy-bell:before {
-	content: "\e609";
-}
-.policy-pencil:before {
-	content: "\e607";
-}
-.policy-phone:before {
-	content: "\e606";
-}
-.policy-logout:before {
-	content: "\e60c";
-}
-.policy-pie:before {
-	content: "\e605";
-}
-.policy-lock:before {
-	content: "\e603";
+	content: "\e80c";
 }
 .policy-user:before {
-	content: "\e604";
+	content: "\e815";
+}
+.policy-bell:before {
+	content: "\e80d";
+}
+.policy-briefcase:before {
+	content: "\e808";
+}
+.policy-case-notes:before {
+	content: "\e802";
+}
+.policy-chart:before {
+	content: "\e803";
+}
+.policy-code:before {
+	content: "\e807";
+}
+.policy-gear:before {
+	content: "\e800";
+}
+.policy-home:before {
+	content: "\e80a";
 }
 .policy-report:before {
-	content: "\e601";
+	content: "\e813";
+}
+.policy-link:before {
+	content: "\e804";
+}
+.policy-lock:before {
+	content: "\e810";
+}
+.policy-logout:before {
+	content: "\e811";
+}
+.policy-mail:before {
+	content: "\e801";
+}
+.policy-pencil:before {
+	content: "\e80e";
+}
+.policy-phone:before {
+	content: "\e80f";
+}
+.policy-pie:before {
+	content: "\e812";
 }
 .policy-policy:before {
-	content: "\e602";
+	content: "\e814";
 }
+.policy-question:before {
+	content: "\e816";
+}
+.policy-transfer-arrow:before {
+	content: "\e806";
+}
+.policy-user-add:before {
+	content: "\e809";
+}
+.policy-user-edit:before {
+	content: "\e80b";
+}
+.policy-user-transfer:before {
+	content: "\e805";
+}
+

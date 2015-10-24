@@ -1,5 +1,29 @@
 <ion-view id="preview_profile_view" view-title="{{'PROFILE' | translate}}">
-    <ion-content class="">
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear" ng-click="toggleMenu()" ng-if="credential === 'advisor'">
+            <i class="ion-more"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content class="" has-bouncing="true" delegate-handle="clientProfileScroll">
+
+        <!--INTERACTION MENU-->
+        <md-menu md-offset="0 0" md-position-mode="target target">
+            <md-button id="contactClientMenuTrigger" style="display: none; float: right;" aria-label="interactionMenu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+            </md-button>
+            <md-menu-content width="3">
+                <md-menu-item>
+                    <md-button ng-click="call()">
+                        {{"CALL_CLIENT" | translate}}
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button ng-click="email()">
+                        {{"EMAIL_CLIENT" | translate}}
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
 
         <!--NO CONTENT CONTAINER-->
         <div class="no_content_container align-center transform-align-middle" ng-if="credential === 'advisor' && clientSelected === false">
@@ -11,36 +35,140 @@
         </div>
 
         <div id="preview_profile" ng-if="(credential === 'advisor' && clientSelected === true) || (credential === 'client')">
+            <div ng-if="personal.useAdvanced === 1">
+                <p class="section_header">{{"DEMOGRAPHIC_INFO" | translate}}</p>
+            </div>
             <div class="two_cols_item">
                 <div class="inline-block align-middle">{{"NAME" | translate}}</div>
-                <p class="inline-block align-middle align-center bg_color">{{personal.name}}</p>
+                <input class="inline-block align-middle align-center bg_color" type="text" name="name" ng-model="personal.name" ng-readonly="credential !== 'advisor'">
             </div>
             <div class="two_cols_item">
                 <div class="inline-block align-middle">{{"GENDER" | translate}}</div>
-                <p class="inline-block align-middle align-center bg_color">{{personal.genderDisplayed}}</p>
+                <p class="inline-block align-middle align-center bg_color" ng-click="changeGender()">{{personal.genderDisplayed}}</p>
             </div>
             <div class="two_cols_item">
                 <div class="inline-block align-middle">{{"BIRTHDAY" | translate}}</div>
-                <p class="inline-block align-middle align-center bg_color">{{personal.birthday.format("LL")}}</p>
+                <p ng-if="credential !== 'advisor'" class="inline-block align-middle align-center bg_color">{{personal.birthday}}</p>
+                <date-picker class="inline-block align-middle align-center bg_color"
+                             ng-if="credential === 'advisor'"
+                             ng-model-name="personal.birthday"
+                             name="birthday"
+                             min-year = "1900"
+                             date-format="LL">
+                </date-picker>
             </div>
             <div class="two_cols_item">
                 <div class="inline-block align-middle">{{"SMOKER" | translate}}</div>
-                <p class="inline-block align-middle align-center bg_color">{{personal.smokerDisplayed}}</p>
+                <p class="inline-block align-middle align-center bg_color" ng-click="changeSmoker()">{{personal.smokerDisplayed}}</p>
             </div>
             <div class="two_cols_item">
                 <div class="inline-block align-middle">{{"INCOME" | translate}}</div>
-                <p class="inline-block align-middle align-center bg_color">{{personal.income | currency:currency:0}}</p>
+                <p ng-if="credential !== 'advisor'" class="inline-block align-middle align-center bg_color">{{personal.income | currency:currency:0}}</p>
+                <currency-input ng-if="credential === 'advisor'" ng-model-name="personal.income"></currency-input>
             </div>
             <div class="two_cols_item">
                 <div class="inline-block align-middle">{{"EXPENDITURE" | translate}}</div>
-                <p class="inline-block align-middle align-center bg_color">{{personal.expenditure | currency:currency:0}}</p>
+                <p ng-if="credential !== 'advisor'" class="inline-block align-middle align-center bg_color">{{personal.expenditure | currency:currency:0}}</p>
+                <currency-input ng-if="credential === 'advisor'" ng-model-name="personal.expenditure"></currency-input>
+            </div>
+
+            <div ng-if="personal.useAdvanced === 1">
+                <div class="policyForm_divider"></div>
+                <p class="section_header">{{"SUGGESTED_AMT_CALCULATION" | translate}}</p>
+            </div>
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"USE_ADVANCED" | translate}}</div>
+                <p class="inline-block align-middle align-center bg_color" ng-click="changeUseAdvanced()">{{personal.useAdvancedDisplayed}}</p>
+            </div>
+            <div ng-if="personal.useAdvanced === 1">
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{"DIFFERENTIATE_RATE" | translate}}</div>
+                    <p class="inline-block align-middle align-center bg_color" ng-click="changeDifferentiateRate()">{{personal.differentiateRateDisplayed}}</p>
+                </div>
+                <!--SHORT TERM-->
+                <div ng-if="personal.differentiateRate === 1" class="two_cols_item">
+                    <div class="inline-block align-middle">{{"SHORT_TERM_RATE_OF_RETURN" | translate}}</div>
+                    <p ng-if="credential !== 'advisor'" class="inline-block align-middle align-center bg_color">{{personal.shortTermRateOfReturn | number:1}}%</p>
+                    <percent-input ng-if="credential === 'advisor'" ng-model-name="personal.shortTermRateOfReturn"></percent-input>
+                </div>
+                <div ng-if="personal.differentiateRate === 1" class="two_cols_item">
+                    <div class="inline-block align-middle">{{"SHORT_TERM_INFLATION" | translate}}</div>
+                    <p ng-if="credential !== 'advisor'" class="inline-block align-middle align-center bg_color">{{personal.shortTermInflation | number:1}}%</p>
+                    <percent-input ng-if="credential === 'advisor'" ng-model-name="personal.shortTermInflation"></percent-input>
+                </div>
+                <div ng-if="personal.differentiateRate === 1" class="two_cols_item">
+                    <div class="inline-block align-middle">{{"SHORT_TERM_INFLATION_ADJUSTED_RATE_OF_RETURN" | translate}}</div>
+                    <p class="inline-block align-middle align-center bg_color disabled">{{personal.shortTermAdjustedRate}}</p>
+                </div>
+                <!--LONG TERM-->
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{longTermRateOfReturn | translate}}</div>
+                    <p ng-if="credential !== 'advisor'" class="inline-block align-middle align-center bg_color">{{personal.longTermRateOfReturn | number:1}}%</p>
+                    <percent-input ng-if="credential === 'advisor'" ng-model-name="personal.longTermRateOfReturn"></percent-input>
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{longTermInflationLabel | translate}}</div>
+                    <p ng-if="credential !== 'advisor'" class="inline-block align-middle align-center bg_color">{{personal.longTermInflation | number:1}}%</p>
+                    <percent-input ng-if="credential === 'advisor'" ng-model-name="personal.longTermInflation"></percent-input>
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{adjustedLongTermRateLabel | translate}}</div>
+                    <p class="inline-block align-middle align-center bg_color disabled">{{personal.longTermAdjustedRate}}</p>
+                </div>
+                <!--IMMEDIATE CASH NEEDS-->
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{"IMMEDIATE_CASH_NEEDS" | translate}}</div>
+                    <p ng-if="credential !== 'advisor'" class="inline-block align-middle align-center bg_color">{{personal.immediateCash | currency:currency:0}}</p>
+                    <currency-input ng-if="credential === 'advisor'" ng-model-name="personal.immediateCash"></currency-input>
+                </div>
+                <!--DEPENDENCY-->
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{"ANNUAL_DEPENDENCY_INCOME" | translate}}</div>
+                    <p ng-if="credential !== 'advisor'" class="inline-block align-middle align-center bg_color">{{personal.dependencyIncome | currency:currency:0}}</p>
+                    <currency-input ng-if="credential === 'advisor'" ng-model-name="personal.dependencyIncome"></currency-input>
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{"DEPENDENCY_YEARS" | translate}}</div>
+                    <input class="inline-block align-middle align-center bg_color" type="number" name="dependencyYears" ng-model="personal.dependencyYears" ng-readonly="credential !== 'advisor'">
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{"ANNUAL_PERSONAL_INCOME" | translate}}</div>
+                    <p ng-if="credential !== 'advisor'" class="inline-block align-middle align-center bg_color">{{personal.personalincome | currency:currency:0}}</p>
+                    <currency-input ng-if="credential === 'advisor'" ng-model-name="personal.personalIncome"></currency-input>
+                </div>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{"PERSONAL_INCOME_NEEDS_YEARS" | translate}}</div>
+                    <input class="inline-block align-middle align-center bg_color" type="number" name="dependencyYears" ng-model="personal.personalYears" ng-readonly="credential !== 'advisor'">
+                </div>
+            </div>
+
+            <div ng-if="personal.useAdvanced === 1">
+                <div class="policyForm_divider"></div>
+                <p class="section_header">{{"CLIENT_NOTES" | translate}}</p>
+            </div>
+            <!--PHONE-->
+            <div class="two_cols_item" ng-if="credential === 'advisor'">
+                <div class="inline-block align-middle">{{"PHONE" | translate}}</div>
+                <input class="inline-block align-middle align-center bg_color form-group" type="tel" name="phone" ng-model="personal.phone">
+            </div>
+            <!--PHONE-->
+            <div class="two_cols_item" ng-if="credential === 'advisor'">
+                <div class="inline-block align-middle">{{"EMAIL" | translate}}</div>
+                <input class="inline-block align-middle align-center bg_color form-group" type="email" name="email" ng-model="personal.email">
+            </div>
+
+            <div class="two_cols_item" ng-if="credential === 'advisor'">
+                <div class="inline-block align-middle">{{"INTEREST" | translate}}</div>
+                <textarea rows="3" class="inline-block align-middle align-center bg_color" ng-model="personal.interest"></textarea>
             </div>
             <div class="two_cols_item" ng-if="credential === 'advisor'">
                 <div class="inline-block align-middle">{{"CASE_NOTES" | translate}}</div>
                 <p class="inline-block align-middle align-center bg_color" ng-click="goToCaseNotes()" style="background-color: #D6D6D6;">{{"VIEW_CASE_NOTES" | translate}}</p>
             </div>
 
-            <div class="login_button" ng-click="editProfile()">{{"EDIT_PROFILE_CAPS" | translate}}</div>
+
+            <div ng-if="credential === 'advisor'" class="login_button" ng-click="submit()">{{"SUBMIT_CAPS" | translate}}</div>
+            <div ng-if="credential !== 'advisor'" class="login_button" ng-click="editProfile()">{{"EDIT_PROFILE_CAPS" | translate}}</div>
         </div>
 
 

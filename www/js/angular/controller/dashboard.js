@@ -27,12 +27,15 @@ app.controller('AdvisorDashboardCtrl', function($rootScope,$scope,$timeout,findP
     };
 });
 
-app.controller('ClientDashboardCtrl', function($rootScope,$scope,$state,$timeout,$interval,$translate,$filter,
+app.controller('ClientDashboardCtrl', function($rootScope,$scope,$state,$timeout,$interval,$translate,$filter,credentialManager,
                                                policyDataService,doughnutChartService,findParentService,modalService) {
+
+    //$scope.credential = credentialManager.getCredential();
     var parentScope = findParentService.findByFunctionName($scope,"initVar");
     var animateDashboard = true;
     $rootScope.$on("LOGOUT", function(){
         animateDashboard = true;
+        //$scope.credential = undefined;
     });
     parentScope.meterAnimate = function() {
         $scope.meterData = policyDataService.getMeterData();
@@ -42,12 +45,28 @@ app.controller('ClientDashboardCtrl', function($rootScope,$scope,$state,$timeout
 
     function animateInflate(DOM,scale) {
         TweenLite.to(DOM, 0.3, {
-            scale: scale,
-            ease: Power1.easeInOut,
-            onComplete: function() {
+            scale       : scale,
+            ease        : Power1.easeInOut,
+            onComplete  : function() {
                 TweenLite.to(DOM, 0.2, {
-                    scale: 1,
-                    ease: Power1.easeInOut
+                    scale       : 1,
+                    ease        : Power1.easeInOut
+                });
+            }
+        });
+    }
+    function animateInflatePercent(DOM,scale) {
+        TweenLite.to(DOM, 0.3, {
+            x           : -$(DOM).width() * 0.5,
+            y           : -$(DOM).height() * 0.5,
+            scale       : scale,
+            ease        : Power1.easeInOut,
+            onComplete  : function() {
+                TweenLite.to(DOM, 0.2, {
+                    x           : -$(DOM).width() * 0.5,
+                    y           : -$(DOM).height() * 0.5,
+                    scale       : 1,
+                    ease        : Power1.easeInOut
                 });
             }
         });
@@ -60,13 +79,13 @@ app.controller('ClientDashboardCtrl', function($rootScope,$scope,$state,$timeout
                     $scope.percentAnimate += 1;
                 } else {
                     $interval.cancel(percentAnimateTimer);
-                    animateInflate($("#percent_container"),1.2);
+                    animateInflatePercent($("#percent_container"),1.2);
                     animateInflate($("#client-doughnut"),1.1);
                 }
             },5);
         } else {
             $scope.percentAnimate = $scope.meterData.percent;
-            animateInflate($("#percent_container"),1.2);
+            animateInflatePercent($("#percent_container"),1.2);
             animateInflate($("#client-doughnut"),1.1);
         }
     }
@@ -101,6 +120,9 @@ app.controller('ClientDashboardCtrl', function($rootScope,$scope,$state,$timeout
 
     // -------------------- TOOLTIP MODAL --------------------
     $scope.showDoughnutTooltip = function() {
+        //ANALYTICS
+        if (ionic.Platform.isWebView()) window.analytics.trackEvent('User Interaction', 'Tooltip', 'Score');
+
         $scope.highlightType = undefined
         var varReplace = {
             percent     : $scope.meterData.percent,
@@ -114,6 +136,9 @@ app.controller('ClientDashboardCtrl', function($rootScope,$scope,$state,$timeout
         $scope.doughnutTooltip = modal;
     });
     $scope.showCoverageStatusTooltip = function(type) {
+        //ANALYTICS
+        if (ionic.Platform.isWebView()) window.analytics.trackEvent('User Interaction', 'Tooltip', 'Coverage status');
+
         $scope.highlightType = type;
         $scope.coverageStatus = $translate.instant(type.toUpperCase() + "_TOOLTIP");
         $scope.coverageStatusNeeds = $scope.meterData[type + "P"];
@@ -123,6 +148,9 @@ app.controller('ClientDashboardCtrl', function($rootScope,$scope,$state,$timeout
         $scope.coverageStatusTooltip = modal;
     });
     $scope.goToReport = function(type) {
+        //ANALYTICS
+        if (ionic.Platform.isWebView()) window.analytics.trackEvent('User Interaction', 'Tooltip', 'Go to report');
+
         $scope.doughnutTooltip.hide();
         $scope.coverageStatusTooltip.hide();
         $timeout(function(){

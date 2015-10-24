@@ -10,16 +10,32 @@ app.service('personalDataDbService', function($rootScope,$q,$http,$translate) {
         if (!validity_test(dateString) || dateString === "0000-00-00") {
             return undefined;
         } else {
-            return moment(dateString,"YYYY-MM-DD");
+            return moment(dateString,"YYYY-MM-DD").format("LL");
         }
-    };
+    }
     function parseDbInt(input) {
         if (!validity_test(input)) {
             return undefined;
         } else {
             return parseInt(input);
         }
-    };
+    }
+    function parseDbFloat(input) {
+        if (!validity_test(input)) {
+            return undefined;
+        } else {
+            return parseFloat(input);
+        }
+    }
+    function parseDbBoolean(input) {
+        if (input === "0") {
+            return false;
+        } else if (input === "1") {
+            return true;
+        } else {
+            return undefined;
+        }
+    }
 
 
     return {
@@ -39,26 +55,43 @@ app.service('personalDataDbService', function($rootScope,$q,$http,$translate) {
         },
         processPersonalArray : function(personalSettingsArray) {
             profile_found_g = (validity_test(parseDbInt(personalSettingsArray.gender))) ? true : false;
+            personalSettingsArray.useAdvanced = validity_test(personalSettingsArray.useAdvanced) ? parseDbInt(personalSettingsArray.useAdvanced) : 0;
             var birthday = parseDate(personalSettingsArray.birthday);
-            var year     = validity_test(birthday) ? birthday.year() : undefined;
-            var month    = validity_test(birthday) ? birthday.month() + 1 : undefined;
-            var day      = validity_test(birthday) ? birthday.date() : undefined;
+            var year     = validity_test(birthday) ? moment(birthday,"LL").year() : undefined;
+            var month    = validity_test(birthday) ? moment(birthday,"LL").month() + 1 : undefined;
+            var day      = validity_test(birthday) ? moment(birthday,"LL").date() : undefined;
 
             var output = {
-                id              : personalSettingsArray.id,
-                name            : personalSettingsArray.name,
-                gender          : parseDbInt(personalSettingsArray.gender),
-                genderDisplayed : gender_enum_g[parseDbInt(personalSettingsArray.gender)],
-                smoker          : parseDbInt(personalSettingsArray.smoker),
-                smokerDisplayed : smoker_enum_g[parseDbInt(personalSettingsArray.smoker)],
-                income          : parseDbInt(personalSettingsArray.income),
-                expenditure     : parseDbInt(personalSettingsArray.expenditure),
-                birthday        : birthday,
-                year            : year,
-                month           : month,
-                day             : day
+                id                          : personalSettingsArray.id,
+                name                        : personalSettingsArray.name,
+                gender                      : parseDbInt(personalSettingsArray.gender),
+                genderDisplayed             : gender_enum_g[parseDbInt(personalSettingsArray.gender)],
+                smoker                      : parseDbInt(personalSettingsArray.smoker),
+                smokerDisplayed             : smoker_enum_g[parseDbInt(personalSettingsArray.smoker)],
+                income                      : parseDbInt(personalSettingsArray.income),
+                expenditure                 : parseDbInt(personalSettingsArray.expenditure),
+                useAdvanced                 : personalSettingsArray.useAdvanced,
+                useAdvancedDisplayed        : advanced_enum_g[parseDbInt(personalSettingsArray.useAdvanced)],
+                differentiateRate           : personalSettingsArray.differentiateRate,
+                differentiateRateDisplayed  : differentiate_rate_enum_g[parseDbInt(personalSettingsArray.differentiateRate)],
+                shortTermRateOfReturn       : parseDbFloat(personalSettingsArray.shortTermRateOfReturn),
+                shortTermInflation          : parseDbFloat(personalSettingsArray.shortTermInflation),
+                longTermRateOfReturn        : parseDbFloat(personalSettingsArray.longTermRateOfReturn),
+                longTermInflation           : parseDbFloat(personalSettingsArray.longTermInflation),
+                immediateCash               : parseDbInt(personalSettingsArray.immediateCash),
+                dependencyYears             : parseDbInt(personalSettingsArray.dependencyYears),
+                dependencyIncome            : parseDbInt(personalSettingsArray.dependencyIncome),
+                personalYears               : parseDbInt(personalSettingsArray.personalYears),
+                personalIncome              : parseDbInt(personalSettingsArray.personalIncome),
+                phone                       : personalSettingsArray.phone,
+                email                       : personalSettingsArray.email,
+                interest                    : personalSettingsArray.interest,
+                birthday                    : birthday,
+                year                        : year,
+                month                       : month,
+                day                         : day
             };
-            console.log(output);
+
             return output;
         },
         getData : function() {
@@ -72,8 +105,14 @@ app.service('personalDataDbService', function($rootScope,$q,$http,$translate) {
                 return personal_g;
             }
         },
+        getUserData : function(colName) {
+            return personal_g[colName];
+        },
         profileFound : function() {
             return profile_found_g;
+        },
+        getUserId : function() {
+            return personal_g.id;
         }
     }
 });

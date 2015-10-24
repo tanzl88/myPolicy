@@ -9,18 +9,9 @@ app.controller('AdvisorInfoCtrl', function($scope,$http,$toast,$ionicScrollDeleg
         $ionicScrollDelegate.$getByHandle('advisorInfo').scrollTop();
 
         //DEFAULT VALUE AND SET PRISTINE
-        $scope.confirmDetails = false;
         $("#advisor_info_view .email").val(undefined);
-        $scope.viewObj = {
-            subject : {
-                text : "Contact an advisor"
-            },
-            contact : undefined,
-            body    : undefined
-        };
         $timeout(function(){
-            $("#sendFeedbackForm").scope().linkAccountForm.$setPristine();
-            $("#sendFeedbackForm").scope().sendFeedbackForm.$setPristine();
+            $("#linkAccountForm").scope().linkAccountForm.$setPristine();
         },100);
     };
     $scope.feedbackContactPlaceholder = $translate.instant("FEEDBACK_CONTACT_PLCHDR");
@@ -60,48 +51,6 @@ app.controller('AdvisorInfoCtrl', function($scope,$http,$toast,$ionicScrollDeleg
         }
     };
 
-    // --------------- FEEDBACK (IF NOT LINKED) ---------------
-    $scope.categories = [
-        {
-            text : "Feedback",
-        },
-        {
-            text : "Contact an advisor",
-        },
-        {
-            text : "Ask a question",
-        },
-        {
-            text : "Others"
-        }
-    ];
-
-    $scope.sendFeedback = function(form) {
-        //HIDE KEYBOARD UPON SUBMIT
-        var delay_time = utilityService.getKeyboardDelay();
-        $timeout(function(){
-            if (form.$invalid) {
-                form.contact.$setDirty();
-                form.body.$setDirty();
-            } else {
-                var input = {
-                    subject: $scope.viewObj.subject.text,
-                    content: form.body.$modelValue + "  My preferred contact: " + form.contact.$modelValue,
-                };
-
-                $http.post(ctrl_url + "send_feedback_email",input)
-                    .success(function(status){
-                        if (status === "OK") {
-                            $scope.thanksMail.show();
-                            $ionicHistory.goBack();
-                        } else {
-                            errorHandler.handleOthers(status);
-                        }
-                    });
-            }
-        },delay_time);
-    };
-
     // --------------- LINK ACCOUNT (IF NOT LINKED)  ---------------
     $scope.linkAccount = function(form) {
         if (form.$invalid) {
@@ -128,6 +77,9 @@ app.controller('AdvisorInfoCtrl', function($scope,$http,$toast,$ionicScrollDeleg
 
     };
     $scope.confirmLinkAccount = function() {
+        //ANALYTICS
+        if (ionic.Platform.isWebView()) window.analytics.trackEvent('User Interaction', 'Link Account', 'Add');
+
         loadingService.show("PLEASE_WAIT");
         var input = {
             advisorEmail : $("#advisor_info_view .email").val()
@@ -155,6 +107,9 @@ app.controller('AdvisorInfoCtrl', function($scope,$http,$toast,$ionicScrollDeleg
         $scope.unlinkAccountModal.show();
     };
     $scope.confirmUnlinkAccount = function() {
+        //ANALYTICS
+        if (ionic.Platform.isWebView()) window.analytics.trackEvent('User interaction', 'Link Account', 'Remove');
+
         loadingService.show("PLEASE_WAIT");
         $http.post(ctrl_url + "unlink_account",{})
             .success(function(status){
@@ -172,8 +127,5 @@ app.controller('AdvisorInfoCtrl', function($scope,$http,$toast,$ionicScrollDeleg
     // ------------- MODAL -------------
     modalService.init("unlink_account","unlink_account",$scope).then(function(modal){
         $scope.unlinkAccountModal = modal;
-    });
-    modalService.init("thanks_mail","thanks_mail",$scope).then(function(modal){
-        $scope.thanksMail = modal;
     });
 });

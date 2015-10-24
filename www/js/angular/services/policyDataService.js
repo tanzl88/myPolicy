@@ -13,22 +13,41 @@ app.service('policyDataService', function($rootScope,$q,$http,policyDataDbServic
             }
         ];
     }
+    function calcTotalPresentValue(subject,realRateOfReturn,numberOfYears) {
+        var totalPresentValue = 0;
+        for (var i = 0 ; i < numberOfYears ; i++) {
+            totalPresentValue += subject / Math.pow(1 + realRateOfReturn,i);
+        }
+        return totalPresentValue;
+    }
+    function useDefaultMethod(index,annual_income,annual_exps) {
+        var suggested_income_method = income_factor_g[index] * annual_income;
+        var suggested_expense_method = exps_factor_g[index] * annual_exps;
+        return Math.max(suggested_income_method,suggested_expense_method);
+    }
 
     return {
         getOverviewData : function() {
             var overview_array = [];
-            angular.forEach(overview_title_g, function(title,index){
-                if (title === "POLICIES_NUMBER") {
+            angular.forEach(overview_title_g, function(cat,index){
+                if (cat.name === "POLICIES_NUMBER") {
                     var amt = policyDataDbService.getPoliciesNumber();
-                } else if (title === "TOTAL_PREMIUM") {
+                } else if (cat.name === "TOTAL_PREMIUM") {
                     var amt = policyDataDbService.getTotalPremium();
+                } else if (cat.name === "PREMIUM_TO_INCOME_RATIO") {
+                    var amt = (policyDataDbService.getTotalPremium() / personalDataDbService.getUserData("income") * 100).toFixed(0) + "%";
+                } else if (cat.name === "PROTECTION_PREMIUM_TO_INCOME_RATIO") {
+                    var amt = (policyDataDbService.getTotalPremium("protection") / personalDataDbService.getUserData("income") * 100).toFixed(0) + "%";
+                } else if (cat.name === "SAVINGS_PREMIUM_TO_INCOME_RATIO") {
+                    var amt = (policyDataDbService.getTotalPremium("savings") / personalDataDbService.getUserData("income") * 100).toFixed(0) + "%";
                 } else {
-                    var amt = policyDataDbService.getSumByColName(overview_cat_g[index]);
+                    var amt = policyDataDbService.getSumByColName(cat.col);
                 }
                 overview_obj = {
-                    title : title,
-                    label : "TITLE_" + title,
-                    amt : amt
+                    title : cat.name,
+                    label : "TITLE_" + cat.name,
+                    type  : cat.type,
+                    amt   : amt
                 };
                 overview_array.push(overview_obj);
             });
@@ -37,12 +56,12 @@ app.service('policyDataService', function($rootScope,$q,$http,policyDataDbServic
         getProtectionsData : function() {
             var protections_array = [];
             var suggested = this.getSuggestedFigures();
-            angular.forEach(doughnut_title_g, function(title,index){
+            angular.forEach(doughnut_title_g, function(cat,index){
                 protections_obj = {
-                    title : title,
-                    label : "TITLE_" + title,
-                    desc : "DESC_" + title,
-                    amt : policyDataDbService.getSumByColName(overview_cat_g[ overview_to_dougnut_mapping_g[index] ]),
+                    title : cat.name,
+                    label : "TITLE_" + cat.name,
+                    desc : "DESC_" + cat.name,
+                    amt : policyDataDbService.getSumByColName(cat.col),
                     suggested : suggested[index].amt,
                     defaultSuggested : suggested[index].default,
                 };
@@ -62,21 +81,21 @@ app.service('policyDataService', function($rootScope,$q,$http,policyDataDbServic
             var fullyCoverP     = [];
 
             var suggested = this.getSuggestedFigures();
-            angular.forEach(doughnut_title_g, function(title,index){
-                var amt       = policyDataDbService.getSumByColName(overview_cat_g[ overview_to_dougnut_mapping_g[index] ]);
+            angular.forEach(doughnut_title_g, function(cat,index){
+                var amt       = policyDataDbService.getSumByColName(cat.col);
                 var suggest   = suggested[index].amt;
                 var covered   = Math.min(amt,suggest);
 
                 //CALC COVERAGE STATUS
                 if (amt === "") {
                     notCover += 1;
-                    notCoverP.push(title);
+                    notCoverP.push(cat.name);
                 } else if (amt < suggest) {
                     partiallyCover += 1;
-                    partiallyCoverP.push(title);
+                    partiallyCoverP.push(cat.name);
                 } else {
                     fullyCover += 1;
-                    fullyCoverP.push(title);
+                    fullyCoverP.push(cat.name);
                 }
 
                 //CALC TOTAL
@@ -152,18 +171,75 @@ app.service('policyDataService', function($rootScope,$q,$http,policyDataDbServic
         },
         getDefaultSuggestedFigures : function() {
             var suggested_array = [];
-            var personalData = personalDataDbService.getData();
-            var annual_income = personalData.income;
-            var annual_exps = personalData.expenditure;
+            var personalData = angular.copy(personalDataDbService.getData());
+            var useAdvanced             = personalData.useAdvanced;
+            var differentiateRate       = personalData.differentiateRate;
+            var annual_income           = personalData.income;
+            var annual_exps             = personalData.expenditure;
+            var immediateCash           = personalData.immediateCash === undefined          ? 0         : personalData.immediateCash;
+            var shortTermRateOfReturn   = personalData.shortTermRateOfReturn === undefined  ? undefined : personalData.shortTermRateOfReturn / 100;
+            var shortTermInflation      = personalData.shortTermInflation === undefined     ? undefined : personalData.shortTermInflation / 100;
+            var longTermRateOfReturn    = personalData.longTermRateOfReturn === undefined   ? undefined : personalData.longTermRateOfReturn / 100;
+            var longTermInflation       = personalData.longTermInflation === undefined      ? undefined : personalData.longTermInflation / 100;
+            var shortTermAdjRateOfReturn = (shortTermRateOfReturn - shortTermInflation) / (1 + shortTermInflation);
+            var longTermAdjRateOfReturn  = (longTermRateOfReturn - longTermInflation)   / (1 + longTermInflation);
 
-            angular.forEach(doughnut_title_g, function(title,index){
-                var suggested_income_method = income_factor_g[index] * annual_income;
-                var suggested_expense_method = exps_factor_g[index] * annual_exps;
-                var amt = Math.max(suggested_income_method,suggested_expense_method).toFixed(0);
+
+            //var realRateOfReturn = (rateOfReturn - inflationRate) / (1 + inflationRate);
+            var dependencyYears = personalData.dependencyYears;
+            var personalYears   = personalData.personalYears;
+            var annualDependentIncomeNeeds = personalData.dependencyIncome;
+            var annualPersonalIncomeNeeds = personalData.personalIncome;
+            var amt, advanced;
+
+            angular.forEach(doughnut_title_g, function(cat,index){
+                if (useAdvanced == "1") {
+
+                    if (cat.name === "FAMILY") {
+                        if (validity_test(annualDependentIncomeNeeds) && validity_test(dependencyYears)) {
+                            var dependencyRate = dependencyYears <= 5 && differentiateRate === 1 ? shortTermAdjRateOfReturn : longTermAdjRateOfReturn;
+                            amt = calcTotalPresentValue(annualDependentIncomeNeeds,dependencyRate,dependencyYears) + immediateCash;
+                            advanced = true;
+                        } else {
+                            amt = useDefaultMethod(index,annual_income,annual_exps);
+                            advanced = false;
+                        }
+                    } else if (cat.name === "CRIT") {
+                        var numberOfYears = 5;
+                        var treatmentCost = 200000;
+                        if (differentiateRate == "1") {
+                            amt = calcTotalPresentValue(annual_exps,shortTermAdjRateOfReturn,numberOfYears) + treatmentCost;
+                            advanced = true;
+                        } else {
+                            amt = calcTotalPresentValue(annual_exps,longTermAdjRateOfReturn,numberOfYears) + treatmentCost;
+                            advanced = true;
+                        }
+                    } else if (cat.name === "DISABLED") {
+                        if (validity_test(annualDependentIncomeNeeds) && validity_test(annualPersonalIncomeNeeds) && validity_test(dependencyYears) && validity_test(personalYears)) {
+                            var dependencyRate = dependencyYears <= 5 && differentiateRate === 1 ? shortTermAdjRateOfReturn : longTermAdjRateOfReturn;
+                            var personalRate   = personalYears <= 5 && differentiateRate === 1   ? shortTermAdjRateOfReturn : longTermAdjRateOfReturn;
+                            amt = calcTotalPresentValue(annualDependentIncomeNeeds,dependencyRate,dependencyYears) + calcTotalPresentValue(annualPersonalIncomeNeeds,personalRate,personalYears) + immediateCash;
+                            advanced = true;
+                        } else {
+                            amt = useDefaultMethod(index,annual_income,annual_exps);
+                            advanced = false;
+                        }
+                    } else {
+                        amt = useDefaultMethod(index,annual_income,annual_exps);
+                        advanced = false;
+                    }
+
+                } else {
+                    amt = useDefaultMethod(index,annual_income,annual_exps);
+                    advanced = false;
+                }
+
                 if (isNaN(amt) || !validity_test(amt)) amt = 0;
+
                 suggested_array.push({
                     default : true,
-                    amt     : amt
+                    advanced : advanced,
+                    amt     : parseFloat(amt).toFixed(0)
                 });
             });
             return suggested_array;
