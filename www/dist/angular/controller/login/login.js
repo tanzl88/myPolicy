@@ -1,8 +1,7 @@
-app.controller('LoginCtrl', function($scope,$rootScope,$state,$timeout,$interval,$http,$toast,$ionicUser,$cordovaDevice,
+app.controller('LoginCtrl', ['$scope', '$rootScope', '$state', '$timeout', '$interval', '$http', '$toast', '$ionicUser', '$cordovaDevice', '$ionicViewSwitcher', '$ionicNavBarDelegate', '$cordovaInAppBrowser', 'pushNotificationService', 'utilityService', 'credentialManager', 'loadDataDbService', 'loadingService', 'errorHandler', function($scope,$rootScope,$state,$timeout,$interval,$http,$toast,$ionicUser,$cordovaDevice,
                                      $ionicViewSwitcher,$ionicNavBarDelegate,$cordovaInAppBrowser,pushNotificationService,utilityService,
                                      credentialManager,loadDataDbService,loadingService,errorHandler) {
     $scope.initVar = function() {
-        console.log("LOGIN INIT VAR");
         if (ionic.Platform.isWebView()) {
             var autoLoginTimer = $interval(function(){
                 //CHECK IF NETWORK STATUS IS ALREADY AVAILABLE
@@ -169,4 +168,4 @@ app.controller('LoginCtrl', function($scope,$rootScope,$state,$timeout,$interval
         $state.go(state);
     };
 
-});
+}]);

@@ -1,5 +1,8 @@
 app.controller('TabsCtrl', function($scope,$state,$timeout,$ionicScrollDelegate) {
     $scope.homeClick = function() {
+        //HIDE CHART ANNOTATION
+        $("#divCursor").hide();
+
         if ($state.current.name !== "tabs.home") {
             $state.go("tabs.home");
         } else {
@@ -15,6 +18,9 @@ app.controller('TabsCtrl', function($scope,$state,$timeout,$ionicScrollDelegate)
     };
 
     $scope.scrollClick = function(currentState) {
+        //HIDE CHART ANNOTATION
+        $("#divCursor").hide();
+
         var stateNameSplit = $state.current.name.split(".");
         var stateName = stateNameSplit[stateNameSplit.length - 1];
         if (currentState === stateName) {

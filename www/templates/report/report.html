@@ -22,7 +22,7 @@
                         <th>{{"SUGGESTED" | translate}}<br>({{currency}})</th>
                         <th>{{"SHORTFALL" | translate}}<br>({{currency}})</th>
                     </tr>
-                    <tr id="{{cat.title}}_ROW" ng-repeat="cat in viewObj.cat">
+                    <tr id="{{cat.title}}_ROW" ng-repeat="cat in viewObj.cat" ng-click="chooseLineChart($index)">
                         <td width="20%" class="new-line protections_table_category">{{cat.label | translate}}</td>
                         <td width="26%">
                             <p class="amt inline-block align-middle">{{cat.amt | number}}</p>
@@ -37,6 +37,26 @@
                     </tr>
                 </table>
                 <p class="report_notes">*{{"SUGGEST_AMT_NOTES" | translate}}</p>
+                <div class="padded_divider"></div>
+            </div>
+
+            <div id="reportLineChart">
+                <div>
+                    <!--<p class="inline-block align-middle header" style="padding-top: 6%;">ACCIDENTAL Coverage Trend Chart</p>-->
+                    <md-select class="inline-block align-middle header" style="border-bottom-width: 0;" ng-model="chosenCat">
+                        <md-option ng-repeat="cat in viewObj.cat" value="{{$index}}" ng-click="chooseLineChart($index)">
+                            {{cat.dropdown}}
+                        </md-option>
+                    </md-select>
+                    <!--<i class="inline-block align-middle ion-arrow-down-b" style="padding-top: 6%;"></i>-->
+                </div>
+
+                <div class="no_content_container align-center" ng-if="!birthdayAvailable" style="margin-top: 6%;">
+                    <p class="new-line">{{"BIRTHDAY_NOT_AVAILABLE_MSG" | translate}}</p>
+                    <div class="login_button" ng-click="goToProfile()">{{"SET_BIRTHDAY" | translate}}</div>
+                </div>
+                <canvas ng-show="birthdayAvailable" id="coverageTrendChart"></canvas>
+                <div class="padded_divider"></div>
             </div>
 
             <!--DOUGHNUT-->

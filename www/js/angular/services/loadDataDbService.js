@@ -1,6 +1,6 @@
-app.service('loadDataDbService', function($q,$http,$toast,credentialManager,
+app.service('loadDataDbService', function($q,$http,$toast,$translate,credentialManager,
                                           policyDataDbService,personalDataDbService,advisorDataDbService,clientListDbService,notificationDbService,customSuggestedDbService,
-                                          policyDataService,reminderService,userService,pushNotificationService,loadingService) {
+                                          policyDataService,reminderService,userService,fieldNameService,pushNotificationService,loadingService) {
 
     function initIonicService() {
         //IONIC USER INIT
@@ -21,7 +21,7 @@ app.service('loadDataDbService', function($q,$http,$toast,credentialManager,
                     //name     : displayName,
                     type     : "link"
                 });
-                this.setClientData(data.data.policy,data.data.personal,data.data.advisor,data.data.notification,data.data.suggested);
+                this.setClientData(data.data.policy,data.data.personal,data.data.advisor,data.data.notification,data.data.suggested,data.data.full_table);
                 initIonicService();
                 if (callback !== undefined) callback();
             } else if (data.credential === "advisor") {
@@ -29,7 +29,7 @@ app.service('loadDataDbService', function($q,$http,$toast,credentialManager,
                 if (ionic.Platform.isWebView()) window.analytics.setUserId(sdbmHash(data.data.advisor.advisorId));
 
                 credentialManager.setCredential("advisor");
-                this.setAdvisorData(data.data.advisor,data.data.clients,data.data.temp,data.data.reminders);
+                this.setAdvisorData(data.data.advisor,data.data.clients,data.data.temp,data.data.reminders,data.data.full_table);
                 initIonicService();
                 if (callback !== undefined) callback();
             } else {
@@ -37,12 +37,16 @@ app.service('loadDataDbService', function($q,$http,$toast,credentialManager,
                 loadingService.hide();
             }
         },
-        setClientData : function(policyData,personalData,advisorData,notificationData,suggestedData) {
+        setClientData : function(policyData,personalData,advisorData,notificationData,suggestedData,full_table_fieldName) {
             policyDataDbService.set(policyData);
             personalDataDbService.set(personalData);
             notificationDbService.set(notificationData);
             customSuggestedDbService.set(suggestedData);
-            if (credentialManager.getCredential() === "client") advisorDataDbService.set(advisorData);
+            if (credentialManager.getCredential() === "client") {
+                advisorDataDbService.set(advisorData);
+                fieldNameService.setFieldName("full_table",full_table_fieldName);
+                $translate.refresh("en");
+            }
         },
         loadPoliciesData : function() {
             var dfd = $q.defer();
@@ -58,10 +62,12 @@ app.service('loadDataDbService', function($q,$http,$toast,credentialManager,
             });
             return dfd.promise;
         },
-        setAdvisorData : function(advisorData,clientList,tempAccountList,reminders) {
+        setAdvisorData : function(advisorData,clientList,tempAccountList,reminders,full_table_fieldName) {
             advisorDataDbService.set(advisorData);
             clientListDbService.set(clientList, tempAccountList);
             if (ionic.Platform.isWebView()) reminderService.set(reminders);
+            fieldNameService.setFieldName("full_table",full_table_fieldName);
+            $translate.refresh("en");
         }
     }
 });

@@ -756,7 +756,6 @@ function getMousePos(canvas, evt) {
 var annotatePrevShow=-1;
 
 function doMouseAction(config, ctx, event, data, action, funct) {
-	console.log("DO MOUSE ACTION");
 	var onData = false;
 	var textMsr;
 
@@ -816,6 +815,7 @@ function doMouseAction(config, ctx, event, data, action, funct) {
 				}
 			}
 		} else if (jsGraphAnnotate[ctx.ChartNewId][i][0] == "RECT") {
+			console.log(jsGraphAnnotate[ctx.ChartNewId]);
 			myStatData=jsGraphAnnotate[ctx.ChartNewId][i][3][jsGraphAnnotate[ctx.ChartNewId][i][1]][jsGraphAnnotate[ctx.ChartNewId][i][2]];
 
 			if (canvas_pos.x > Math.min(myStatData.xPosLeft,myStatData.xPosRight) && canvas_pos.x < Math.max(myStatData.xPosLeft,myStatData.xPosRight) && canvas_pos.y < Math.max(myStatData.yPosBottom,myStatData.yPosTop) && canvas_pos.y > Math.min(myStatData.yPosBottom,myStatData.yPosTop)) {
@@ -6140,8 +6140,31 @@ window.Chart = function(context) {
 		if (isIE() < 9 && isIE() != false) ctx.canvas.attachEvent("onmousewheel", function(event) {
 			if (cursorDivCreated) document.getElementById('divCursor').style.display = 'none';
 		});
-		else ctx.canvas.addEventListener("DOMMouseScroll", function(event) {
+		else ctx.canvas.addEventListener("mousewheel", function(event) {
 			if (cursorDivCreated) document.getElementById('divCursor').style.display = 'none';
+		}, false);
+		
+		// ZL
+		// ADDED SUPPORT FOR TOUCH DEVICES
+		var start = {x:0,y:0};
+		document.body.addEventListener("touchstart", function(event) {
+			if (cursorDivCreated) {
+				start.x = event.touches[0].pageX;
+				start.y = event.touches[0].pageY;
+			}
+		}, false);
+		if (isIE() < 9 && isIE() != false) document.body.attachEvent("onmousewheel", function(event) {
+			if (cursorDivCreated) document.getElementById('divCursor').style.display = 'none';
+		});
+		else document.body.addEventListener("touchmove", function(event) {
+			if (cursorDivCreated) {
+				var offsetX = start.x - event.touches[0].pageX;
+				var offsetY = start.y - event.touches[0].pageY;
+				var distance = Math.sqrt(Math.pow(offsetX,2) + Math.pow(offsetY,2));
+				if (distance > 50) {
+					document.getElementById('divCursor').style.display = 'none';					
+				}
+			}
 		}, false);
 
 		function add_event_listener(type, func, chk)

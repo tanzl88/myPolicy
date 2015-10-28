@@ -100,6 +100,7 @@ var translations_en = {
     NEW_EMAIL : "New email",
     FROM_GALLERY : "From gallery",
     FROM_CAMERA : "From camera",
+    SET_BIRTHDAY : "SET BIRTHDAY",
 
     REMINDER_NAME : "Reminder name",
     REMINDER_SET : "Reminder set",
@@ -151,6 +152,7 @@ var translations_en = {
     SELECT_NOT_SET : "Select reminders not set",
     SELECT_ALL : "Select all reminders",
     ASK_QUESTION : "Ask a question",
+    CAT_COVERAGE_TREND : "{{cat}} Coverage Trend",
 
     //MESSAGE
     NO_NOTIFICATION : "You do not have any message.",
@@ -187,6 +189,7 @@ var translations_en = {
     REQUEST_PENDING : "You had sent request to link to this account earlier.",
     ACCOUNT_LINK_SUCCESS : "You are now linked to {{name}}",
     THANKS_MAIL : "Thanks for your mail.\nWe will get in touch with\nyou as soon as possible.",
+    BIRTHDAY_NOT_AVAILABLE_MSG : "This report is not available because\nuser's birthday is not found.\nSet birthday to show this report.",
 
     HOME_EDIT_PROFILE : "Edit\nprofile",
     REMINDER : "Set Reminder",
@@ -299,7 +302,9 @@ var translations_en = {
     SMOKER : "Smoker",
     INCOME : "Income",
     EXPENDITURE : "Expenditure",
+    REPORTS_INPUT : "Reports parameters",
     SUGGESTED_AMT_CALCULATION : "Suggested amount calculation",
+    NET_WORTH_ANALYSIS : "Net worth analysis",
     USE_ADVANCED : "Use advanced calculation method",
     DIFFERENTIATE_RATE : "Use advanced rate calculation",
     SHORT_TERM_RATE_OF_RETURN : "Short term rate of return",
@@ -327,6 +332,7 @@ var translations_en = {
     FAX     : "Fax",
     WEBSITE : "Website",
     CLIENT_NOTES : "Client's notes",
+    EDIT : "Edit",
 
     HOME : "Home",
     POLICY : "Policies",
@@ -521,6 +527,7 @@ var translations_en = {
 
     SUBMIT_CAPS : "SUBMIT",
 
+    NUMBER_DEFAULT : "No.",
     POLICY_NUMBER_DEFAULT : "Policy number",
     COMPANY_DEFAULT : "Company",
     PLAN_TYPE_DEFAULT : "Plan type",
@@ -535,18 +542,22 @@ var translations_en = {
     SUM_ASSURED_DEFAULT : "Sum assured",
     DEATH_SA_DEFAULT : "Death SA",
     TPD_SA_DEFAULT : "Total permanent\n disability SA",
+    TPD_SA_SHORT_DEFAULT : "Total permanent\n disability SA",
     DISABLED_SA_DEFAULT : "Disability income",
     CRIT_SA_DEFAULT : "Critical Illness SA",
+    TERMINAL_SA_DEFAULT : "Terminal Ilness SA",
     EARLY_SA_DEFAULT : "Early Ilness SA",
     HOSPITAL_SA_DEFAULT : "Hospital SA",
     HOSPITAL_INCOME_DEFAULT : "Hospital income",
+    RETIRE_INCOME_DEFAULT : "Retirement income per month",
     ACCIDENT_DEATH_DEFAULT : "Accidental death",
     ACCIDENT_REIMB_DEFAULT : "Accidental\n reimbursement",
     CASH_VALUE_DEFAULT : "Projected current cash values",
-    SURRENDER_CASH_VALUE_DEFAULT : "Projected maturity\ncash values ",
+    SURRENDER_CASH_VALUE_DEFAULT : "Projected maturity cash values ",
     REMARKS_DEFAULT : "Remarks",
     CASE_NOTES_DEFAULT : "Case notes",
-
+    BENEFICIARY_DEFAULT : "Beneficiary",
+    FIELDNAME_UPDATED : "Field names updated.",
 
     //EXPORT
     INSURANCE_PROPOSAL : "Insurance Summary",

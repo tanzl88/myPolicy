@@ -1,4 +1,4 @@
-app.controller('ProfileCtrl', function($scope,$state,$http,$translate,$toast,$timeout,$ionicHistory,$ionicScrollDelegate,$cordovaEmailComposer,
+app.controller('SuggestAmtInputCtrl', ['$scope', '$state', '$http', '$translate', '$toast', '$timeout', '$ionicHistory', '$ionicScrollDelegate', '$cordovaEmailComposer', 'personalDataDbService', 'loadingService', 'credentialManager', function($scope,$state,$http,$translate,$toast,$timeout,$ionicHistory,$ionicScrollDelegate,$cordovaEmailComposer,
                                        personalDataDbService,loadingService,credentialManager) {
     $scope.initVar = function() {
         $scope.credential       = credentialManager.getCredential();
@@ -106,7 +106,7 @@ app.controller('ProfileCtrl', function($scope,$state,$http,$translate,$toast,$ti
         if ($scope.credential === "advisor") {
             $scope.personal.useAdvanced = $scope.personal.useAdvanced === undefined ? 1 : ($scope.personal.useAdvanced + 1)%advanced_enum_g.length;
             $scope.personal.useAdvancedDisplayed = advanced_enum_g[$scope.personal.useAdvanced];
-            $ionicScrollDelegate.$getByHandle('clientProfileScroll').scrollTop();
+            $ionicScrollDelegate.$getByHandle('clientProfileScroll').scrollTop(true);
         }
     };
 
@@ -198,4 +198,4 @@ app.controller('ProfileCtrl', function($scope,$state,$http,$translate,$toast,$ti
                 }
             });
     };
-});
+}]);

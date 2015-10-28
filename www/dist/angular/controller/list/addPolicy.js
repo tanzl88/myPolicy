@@ -1,4 +1,4 @@
-app.controller('AddPolicyCtrl', function($rootScope,$scope,$timeout,$state,$translate,$http,$toast,loadingService,utilityService,
+app.controller('AddPolicyCtrl', ['$rootScope', '$scope', '$timeout', '$state', '$translate', '$http', '$toast', 'loadingService', 'utilityService', '$ionicNavBarDelegate', '$ionicHistory', '$ionicScrollDelegate', 'errorHandler', function($rootScope,$scope,$timeout,$state,$translate,$http,$toast,loadingService,utilityService,
                                          $ionicNavBarDelegate,$ionicHistory,$ionicScrollDelegate,errorHandler) {
     $scope.company_enum = company_enum_g;
     $scope.plan_type_enum = plan_type_enum_g;
@@ -126,6 +126,9 @@ app.controller('AddPolicyCtrl', function($rootScope,$scope,$timeout,$state,$tran
     };
 
     // -------------------- VALIDATION --------------------
+    $scope.submitButton = function() {
+        $("#addPolicySubmit").click();
+    };
     $scope.submit = function(policyForm) {
         //ANALYTICS
         if (ionic.Platform.isWebView()) window.analytics.trackEvent('Core', 'Policy', 'Add / Edit');
@@ -133,7 +136,6 @@ app.controller('AddPolicyCtrl', function($rootScope,$scope,$timeout,$state,$tran
         //HIDE KEYBOARD UPON SUBMIT
         var delay_time = utilityService.getKeyboardDelay();
         $timeout(function(){
-            console.log(policyForm);
             if (policyForm.$invalid) {
                 policyForm.company.$setDirty();
                 $ionicScrollDelegate.$getByHandle('policyForm').scrollTop(true);
@@ -173,5 +175,5 @@ app.controller('AddPolicyCtrl', function($rootScope,$scope,$timeout,$state,$tran
     };
 
 
-});
+}]);
 

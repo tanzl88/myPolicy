@@ -126,6 +126,9 @@ app.controller('AddPolicyCtrl', ['$rootScope', '$scope', '$timeout', '$state', '
     };
 
     // -------------------- VALIDATION --------------------
+    $scope.submitButton = function() {
+        $("#addPolicySubmit").click();
+    };
     $scope.submit = function(policyForm) {
         //ANALYTICS
         if (ionic.Platform.isWebView()) window.analytics.trackEvent('Core', 'Policy', 'Add / Edit');
@@ -133,7 +136,6 @@ app.controller('AddPolicyCtrl', ['$rootScope', '$scope', '$timeout', '$state', '
         //HIDE KEYBOARD UPON SUBMIT
         var delay_time = utilityService.getKeyboardDelay();
         $timeout(function(){
-            console.log(policyForm);
             if (policyForm.$invalid) {
                 policyForm.company.$setDirty();
                 $ionicScrollDelegate.$getByHandle('policyForm').scrollTop(true);

@@ -1,4 +1,4 @@
-app.service('policyDataService', ['$rootScope', '$q', '$http', 'policyDataDbService', 'personalDataDbService', 'customSuggestedDbService', function($rootScope,$q,$http,policyDataDbService,personalDataDbService,customSuggestedDbService) {
+app.service('policyDataService', ['$rootScope', '$q', '$http', '$translate', 'policyDataDbService', 'personalDataDbService', 'customSuggestedDbService', function($rootScope,$q,$http,$translate,policyDataDbService,personalDataDbService,customSuggestedDbService) {
 
     function getChartData(covered,shortfall) {
         return [
@@ -57,13 +57,15 @@ app.service('policyDataService', ['$rootScope', '$q', '$http', 'policyDataDbServ
             var protections_array = [];
             var suggested = this.getSuggestedFigures();
             angular.forEach(doughnut_title_g, function(cat,index){
+                var label = $translate.instant("TITLE_" + cat.name);
                 protections_obj = {
-                    title : cat.name,
-                    label : "TITLE_" + cat.name,
-                    desc : "DESC_" + cat.name,
-                    amt : policyDataDbService.getSumByColName(cat.col),
-                    suggested : suggested[index].amt,
-                    defaultSuggested : suggested[index].default,
+                    title               : cat.name,
+                    label               : "TITLE_" + cat.name,
+                    desc                : "DESC_" + cat.name,
+                    dropdown            : $translate.instant("CAT_COVERAGE_TREND",{cat : label}),
+                    amt                 : policyDataDbService.getSumByColName(cat.col,moment()),
+                    suggested           : suggested[index].amt,
+                    defaultSuggested    : suggested[index].default,
                 };
                 protections_array.push(protections_obj);
             });
@@ -174,8 +176,8 @@ app.service('policyDataService', ['$rootScope', '$q', '$http', 'policyDataDbServ
             var personalData = angular.copy(personalDataDbService.getData());
             var useAdvanced             = personalData.useAdvanced;
             var differentiateRate       = personalData.differentiateRate;
-            var annual_income           = personalData.income;
-            var annual_exps             = personalData.expenditure;
+            var annual_income           = personalData.income === undefined ? 0 : personalData.income;
+            var annual_exps             = personalData.expenditure === undefined ? 0 : personalData.expenditure;
             var immediateCash           = personalData.immediateCash === undefined          ? 0         : personalData.immediateCash;
             var shortTermRateOfReturn   = personalData.shortTermRateOfReturn === undefined  ? undefined : personalData.shortTermRateOfReturn / 100;
             var shortTermInflation      = personalData.shortTermInflation === undefined     ? undefined : personalData.shortTermInflation / 100;
@@ -237,9 +239,9 @@ app.service('policyDataService', ['$rootScope', '$q', '$http', 'policyDataDbServ
                 if (isNaN(amt) || !validity_test(amt)) amt = 0;
 
                 suggested_array.push({
-                    default : true,
-                    advanced : advanced,
-                    amt     : parseFloat(amt).toFixed(0)
+                    default     : true,
+                    advanced    : advanced,
+                    amt         : parseFloat(amt).toFixed(0)
                 });
             });
             return suggested_array;

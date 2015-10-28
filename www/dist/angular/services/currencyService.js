@@ -1,5 +1,4 @@
-app.service('currencyService', ['currencyLoader', '$translate', function(currencyLoader,$translate) {
-    //var currency_g;
+app.service('currencyService', ['$translate', function($translate) {
 
     return {
         setCurrency : function(index) {

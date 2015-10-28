@@ -22,7 +22,11 @@
 
 
             <p class="header" style="padding-top: 6%;">{{'PREMIUM_TREND' | translate}}</p>
-            <canvas id="premiumTrendChart"></canvas>
+            <div class="no_content_container align-center" ng-if="!birthdayAvailable" style="margin-top: 6%;">
+                <p class="new-line">{{"BIRTHDAY_NOT_AVAILABLE_MSG" | translate}}</p>
+                <div class="login_button" ng-click="goToProfile()">{{"SET_BIRTHDAY" | translate}}</div>
+            </div>
+            <canvas ng-show="birthdayAvailable" id="premiumTrendChart"></canvas>
             <div class="padded_divider"></div>
 
             <p class="header">{{"TOTAL_COVERAGE" | translate}}</p>

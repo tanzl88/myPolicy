@@ -13,7 +13,7 @@
     <link href="lib/ionic/general.css" rel="stylesheet">
     <link href="lib/ionic/index.css" rel="stylesheet">
     <link href="lib/ionic/tablet.css" rel="stylesheet">
-    <link href="lib/ionic/animate.css" rel="stylesheet">
+    <link href="lib/ionic/animate-list.css" rel="stylesheet">
     <link href="lib/angular-macgyver/lib/macgyver.css" rel="stylesheet">
     <link href="lib/angular-material/angular-material.css" rel="stylesheet">
     <link href="lib/ionic/date_picker.css" rel="stylesheet">
@@ -21,6 +21,7 @@
     <link href="css/policyFont.css" rel="stylesheet">
     <link href="css/angular-toggle-switch.css" rel="stylesheet">
     <link href="css/angular-dropdowns.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
     <!-- endbuild -->
 
     <!-- build:js dist_js/app.js -->
@@ -29,6 +30,7 @@
     <script type="text/javascript" src="dist/jquery/jquery-1.11.2.min.js"></script>
 
     <!--CHART-->
+    <!--<script type="text/javascript" src="dist/chartJS/Chart.js"></script>-->
     <script type="text/javascript" src="dist/chartJS/ChartNew.js"></script>
     <script type="text/javascript" src="dist/chartJS/Add-ins/stats.js"></script>
     <script type="text/javascript" src="dist/chartJS/Add-ins/shapesInChart.js"></script>
@@ -90,39 +92,48 @@
 
     <!----------CONTROLLER---------->
     <!--GLOBAL-->
-    <script src="dist/angular/controller/global.js"></script>
-    <script src="dist/angular/controller/tabs.js"></script>
-    <script src="dist/angular/controller/tutorial.js"></script>
-    <script src="dist/angular/controller/toast.js"></script>
+    <script src="dist/angular/controller/global/global.js"></script>
+    <script src="dist/angular/controller/global/tabs.js"></script>
+    <script src="dist/angular/controller/global/tutorial.js"></script>
+    <script src="dist/angular/controller/global/toast.js"></script>
     <!--LOGIN-->
-    <script src="dist/angular/controller/login.js"></script>
-    <script src="dist/angular/controller/login-forgot.js"></script>
-    <script src="dist/angular/controller/signup.js"></script>
-    <script src="dist/angular/controller/logout.js"></script>
+    <script src="dist/angular/controller/login/login.js"></script>
+    <script src="dist/angular/controller/login/login-forgot.js"></script>
+    <script src="dist/angular/controller/login/signup.js"></script>
+    <script src="dist/angular/controller/login/logout.js"></script>
     <!--HOME-->
-    <script src="dist/angular/controller/home.js"></script>
-    <script src="dist/angular/controller/dashboard.js"></script>
-    <script src="dist/angular/controller/generateReport.js"></script>
-    <script src="dist/angular/controller/export.js"></script>
-    <script src="dist/angular/controller/changePassword.js"></script>
+    <script src="dist/angular/controller/home/home.js"></script>
+    <script src="dist/angular/controller/home/dashboard.js"></script>
+    <script src="dist/angular/controller/home/notification.js"></script>
 
-    <script src="dist/angular/controller/profile.js"></script>
-    <script src="dist/angular/controller/editProfile.js"></script>
-    <script src="dist/angular/controller/settings.js"></script>
-    <script src="dist/angular/controller/reminder.js"></script>
-    <script src="dist/angular/controller/askQuestion.js"></script>
-    <script src="dist/angular/controller/notification.js"></script>
-    <script src="dist/angular/controller/gallery.js"></script>
-    <script src="dist/angular/controller/list.js"></script>
-    <script src="dist/angular/controller/addPolicy.js"></script>
-    <script src="dist/angular/controller/overview.js"></script>
-    <script src="dist/angular/controller/customizeFieldNames.js"></script>
-    <script src="dist/angular/controller/report.js"></script>
+    <script src="dist/angular/controller/home/reminder.js"></script>
+    <script src="dist/angular/controller/home/askQuestion.js"></script>
 
-    <script src="dist/angular/controller/caseNotes.js"></script>
-    <script src="dist/angular/controller/advisorInfo.js"></script>
-    <script src="dist/angular/controller/advisorProfile.js"></script>
-    <script src="dist/angular/controller/createClientAccount.js"></script>
+    <script src="dist/angular/controller/home/advisorInfo.js"></script>
+    <script src="dist/angular/controller/home/advisorProfile.js"></script>
+    <script src="dist/angular/controller/home/createClientAccount.js"></script>
+    <!--SETTINGS-->
+    <script src="dist/angular/controller/settigns/settings.js"></script>
+    <script src="dist/angular/controller/settings/changePassword.js"></script>
+    <script src="dist/angular/controller/settings/customizeFieldNames.js"></script>
+    <!--GENERATE REPORT-->
+    <script src="dist/angular/controller/export/generateReport.js"></script>
+    <script src="dist/angular/controller/export/export.js"></script>
+    <!--PROFILE-->
+    <script src="dist/angular/controller/profile/profile.js"></script>
+    <script src="dist/angular/controller/profile/editProfile.js"></script>
+    <script src="dist/angular/controller/profile/caseNotes.js"></script>
+    <script src="dist/angular/controller/profile/suggestAmtInput.js"></script>
+    <!--LIST-->
+    <script src="dist/angular/controller/list/gallery.js"></script>
+    <script src="dist/angular/controller/list/list.js"></script>
+    <script src="dist/angular/controller/list/addPolicy.js"></script>
+    <!--REPORT-->
+    <script src="dist/angular/controller/report/overview.js"></script>
+    <script src="dist/angular/controller/report/report.js"></script>
+
+
+
 
 
     <script src="dist/angular/directive/angular-bootstrap-checkbox.js"></script>
@@ -147,6 +158,7 @@
     <script src="dist/angular/services/credentialManager.js"></script>
     <script src="dist/angular/services/toastService.js"></script>
     <script src="dist/angular/services/currencyService.js"></script>
+    <script src="dist/angular/services/fieldNameService.js"></script>
     <script src="dist/angular/services/findParentService.js"></script>
     <script src="dist/angular/services/advisorDataDbService.js"></script>
     <script src="dist/angular/services/personalDataDbService.js"></script>

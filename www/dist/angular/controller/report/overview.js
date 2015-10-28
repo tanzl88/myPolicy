@@ -1,5 +1,5 @@
-app.controller('OverviewCtrl', function($scope,$translate,$timeout,$interval,$toast,$ionicScrollDelegate,credentialManager,
-                                        policyDataService,policyDataDbService,barChartService,lineChartService) {
+app.controller('OverviewCtrl', ['$scope', '$translate', '$timeout', '$interval', '$toast', '$state', '$ionicScrollDelegate', 'credentialManager', 'policyDataService', 'policyDataDbService', 'personalDataDbService', 'barChartService', 'lineChartService', function($scope,$translate,$timeout,$interval,$toast,$state,$ionicScrollDelegate,credentialManager,
+                                        policyDataService,policyDataDbService,personalDataDbService,barChartService,lineChartService) {
 
     function drawBarChart(chartData,chartOptions) {
         var initTimer;
@@ -30,6 +30,10 @@ app.controller('OverviewCtrl', function($scope,$translate,$timeout,$interval,$to
             }
         },100);
     }
+
+    $scope.goToProfile = function() {
+        $state.go("tabs.profile");
+    };
 
     $scope.initVar = function() {
         //SCROLL TO TOP
@@ -64,27 +68,32 @@ app.controller('OverviewCtrl', function($scope,$translate,$timeout,$interval,$to
 
             drawBarChart(chartData,chartOptions);
 
+            //CHECK BIRTHDAY BEFORE DRAW LINE LINE CHART
+            $scope.birthdayAvailable = personalDataDbService.getUserData("birthday") === undefined ? false : true;
+
             //DRAW LINE CHART
-            var premiumTrendData = policyDataDbService.getPremiumTrend();
-            var premiumChartData = lineChartService.getPremiumTrendChartData(premiumTrendData);
-            if ($("html").hasClass("tablet")) {
-                var chartOptions = lineChartService.getChartOptions({
-                    scaleFontSize           : 18,
-                    xAxisFontSize           : 18,
-                    //barValueSpacing         : Math.floor(chart_width/4000 * 110),
-                    //xAxisSpaceBefore        : Math.floor(chart_width/4000 * 50),
-                    //xAxisLabelSpaceBefore   : Math.floor(chart_width/4000 * 100),
-                    //yAxisSpaceLeft          : Math.floor(chart_width/4000 * 100),
-                    //scaleLineWidth          : Math.floor(chart_width/4000 * 10),
-                });
-            } else {
-                var chartOptions = lineChartService.getChartOptions({
+            if ($scope.birthdayAvailable) {
+                var premiumTrendData = policyDataDbService.getPremiumTrend();
+                var premiumChartData = lineChartService.getPremiumTrendChartData(premiumTrendData);
+                if ($("html").hasClass("tablet")) {
+                    var chartOptions = lineChartService.getChartOptions({
+                        scaleFontSize           : 18,
+                        xAxisFontSize           : 18,
+                        //barValueSpacing         : Math.floor(chart_width/4000 * 110),
+                        //xAxisSpaceBefore        : Math.floor(chart_width/4000 * 50),
+                        //xAxisLabelSpaceBefore   : Math.floor(chart_width/4000 * 100),
+                        //yAxisSpaceLeft          : Math.floor(chart_width/4000 * 100),
+                        //scaleLineWidth          : Math.floor(chart_width/4000 * 10),
+                    });
+                } else {
+                    var chartOptions = lineChartService.getChartOptions({
 
-                });
+                    });
+                }
+
+                drawLineChart(premiumChartData,chartOptions);
             }
-
-            drawLineChart(premiumChartData,chartOptions);
         }
     }
-});
+}]);
 

@@ -551,28 +551,33 @@ function drawShapes(area, ctx, data,statData, posi,posj,othervars){
 			case "RELATIVE" :
 				xpos = paddingX1;
 				ypos = paddingY1;
-				switch (xposval) {
-					case 0:
-						break;
-					case 1:
-						xpos += othervars.borderX;
-						break;
-					case 2:
-						xpos += othervars.midPosX;
-						break;
-					case -2:
-						xpos += ctx.canvas.width / 2;
-						break;
-					case 3:
-						xpos += xpos + 2 * othervars.midPosX - othervars.borderX;
-						break;
-					case 4:
-						xpos += ctx.canvas.width;
-						break;
-					default:
-						xpos += othervars.midPosX;
-						break;
+				// switch (xposval) {
+					// case 0:
+						// break;
+					// case 1:
+						// xpos += othervars.borderX;
+						// break;
+					// case 2:
+						// xpos += othervars.midPosX;
+						// break;
+					// case -2:
+						// xpos += ctx.canvas.width / 2;
+						// break;
+					// case 3:
+						// xpos += xpos + 2 * othervars.midPosX - othervars.borderX;
+						// break;
+					// case 4:
+						// xpos += ctx.canvas.width;
+						// break;
+				// }
+				var xposval_wk=xposval;
+				if(limitToChart){
+					if (xposval_wk<0)xposval_wk=0;
+					if (xposval_wk>statData[0][0].nbValueHop)xposval_wk=statData[0][0].nbValueHop;
 				}
+				xpos=statData[0][0].yAxisPosX + (statData[0][0].valueHop * xposval_wk)+paddingX1;
+				
+				
 				switch (yposval) {
 					case 0:
 						break;

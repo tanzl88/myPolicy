@@ -86,6 +86,18 @@ app.service('policyDataDbService', function($rootScope,$q,$http,$translate,perso
         }
     };
 
+    function calculatePremium(cat,planType,premium,premiumMode) {
+        if (cat === undefined) {
+            return premium * premium_mode_factor_g[premiumMode];
+        } else {
+            if (plan_type_cat_enum_g[planType] === cat) {
+              return premium * premium_mode_factor_g[premiumMode];
+            } else {
+                return 0;
+            }
+        }
+    }
+
     return {
         init : function() {
             var thisService = this;
@@ -176,15 +188,52 @@ app.service('policyDataDbService', function($rootScope,$q,$http,$translate,perso
 
             return dfd.promise;
         },
-        getSumByColName : function(colName) {
+        getSumByColName : function(colName,referenceMomentDate) {
             var pluck = _.pluck(policies_g,colName);
             var sum = 0;
+            var birthday = moment(personalDataDbService.getUserData("birthday"),"LL");
             if (_.compact(pluck).length === 0) {
                 return "";
             } else {
-                angular.forEach(pluck, function(num,index){
-                    if (validity_test(num)) sum += parseInt(num);
-                });
+                //referenceMomentDate = referenceMomentDate === undefined ? moment() : referenceMomentDate;
+                if (referenceMomentDate === undefined) {
+                    angular.forEach(policies_g, function(policy,index){
+                        var coverage = policy[colName];
+                        if (validity_test(coverage)) sum += parseInt(coverage);
+                    });
+                } else {
+                    angular.forEach(policies_g, function(policy,index){
+                        var coverage = policy[colName];
+                        if (validity_test(coverage)) {
+                            //PREMIUM TERM MODE TRUE -> BY YEARS, FALSE -> BY AGE
+                            if (policy.startDate !== undefined && policy.coverageTermMode !== undefined && policy.coverageTerm !== undefined) {
+                                //IF NO BIRTHDAY IS AVAILABLE AND COVERAGE TERM CALCULATE BY AGE -> UNABLE TO CALCULATE EXPIRY DATE
+                                //DEFAULT TO ADD TO SUM
+                                if (!policy.coverageTermMode && birthday === undefined) {
+                                    sum += parseInt(coverage);
+                                } else {
+                                    var startDate = moment(policy.startDate,"LL");
+                                    //PREMIUM TERM MODE TRUE -> BY YEARS, FALSE -> BY AGE
+                                    if (policy.coverageTermMode) {
+                                        var coverageYear = policy.coverageTerm;
+                                    } else {
+                                        var startDateAtBirth = startDate.clone().year(birthday.year());
+                                        var coverageYear = policy.coverageTerm - startDate.diff(startDateAtBirth,"y");
+                                    }
+                                    var coverageExpiryDate = startDate.clone().add(coverageYear,"y");
+
+                                    if (startDate.isBefore(referenceMomentDate) && coverageExpiryDate.isAfter(referenceMomentDate)) {
+                                        //NOT EXPIRED
+                                        sum += parseInt(coverage);
+                                    }
+                                }
+                            } else {
+                                sum += parseInt(coverage);
+                            }
+                        }
+                    });
+                }
+
             }
             return sum;
         },
@@ -206,28 +255,33 @@ app.service('policyDataDbService', function($rootScope,$q,$http,$translate,perso
         },
         getTotalPremium : function(cat,referenceMomentDate) {
             var sum = 0;
+            var birthday = moment(personalDataDbService.getUserData("birthday"),"LL");
             referenceMomentDate = referenceMomentDate === undefined ? moment() : referenceMomentDate;
             angular.forEach(policies_g, function(policy,index){
                 if (validity_test(policy.premium) && validity_test(policy.premiumMode)) {
-                    //PREMIUM TERM MODE TRUE -> BY YEARS
-                    if (policy.startDate !== undefined && policy.premiumTermMode === true && policy.premiumTerm !== undefined) {
-                        var startDate = moment(policy.startDate,"LL");
-                        var premiumExpiryDate = startDate.clone().add(policy.premiumTerm,"y");
-
-                        if (startDate.isBefore(referenceMomentDate) && premiumExpiryDate.isAfter(referenceMomentDate)) {
-                            //NOT EXPIRED
-                            if (cat === undefined) {
-                                sum += policy.premium * premium_mode_factor_g[policy.premiumMode];
+                    if (policy.startDate !== undefined && policy.premiumTermMode !== undefined && policy.premiumTerm !== undefined) {
+                        //IF NO BIRTHDAY IS AVAILABLE AND PREMIUM TERM CALCULATE BY AGE -> UNABLE TO CALCULATE EXPIRY DATE
+                        //DEFAULT TO ADD TO SUM
+                        if (!policy.premiumTermMode && birthday === undefined) {
+                            sum += calculatePremium(cat,policy.planType,policy.premium,policy.premiumMode);
+                        } else {
+                            var startDate = moment(policy.startDate,"LL");
+                            //PREMIUM TERM MODE TRUE -> BY YEARS, FALSE -> BY AGE
+                            if (policy.premiumTermMode) {
+                                var premiumYear = policy.premiumTerm;
                             } else {
-                                if (plan_type_cat_enum_g[policy.planType] === cat) sum += policy.premium * premium_mode_factor_g[policy.premiumMode];
+                                var startDateAtBirth = startDate.clone().year(birthday.year());
+                                var premiumYear = policy.premiumTerm - startDate.diff(startDateAtBirth,"y");
+                            }
+                            var premiumExpiryDate = startDate.clone().add(premiumYear,"y");
+
+                            if (startDate.isBefore(referenceMomentDate) && premiumExpiryDate.isAfter(referenceMomentDate)) {
+                                //NOT EXPIRED
+                                sum += calculatePremium(cat,policy.planType,policy.premium,policy.premiumMode);
                             }
                         }
                     } else {
-                        if (cat === undefined) {
-                            sum += policy.premium * premium_mode_factor_g[policy.premiumMode];
-                        } else {
-                            if (plan_type_cat_enum_g[policy.planType] === cat) sum += policy.premium * premium_mode_factor_g[policy.premiumMode];
-                        }
+                        sum += calculatePremium(cat,policy.planType,policy.premium,policy.premiumMode);
                     }
                 }
             });
@@ -250,11 +304,11 @@ app.service('policyDataDbService', function($rootScope,$q,$http,$translate,perso
                     premium : this.getTotalPremium(undefined,incrementBirthday)
                 });
 
-                if (age > i && age < i + 5) {
+                if (age >= i && age < i + 5) {
                     trendObj.now = {
                         year    : thisYearBirthday.year(),
                         age     : age,
-                        premium : this.getTotalPremium(undefined,thisYearBirthday),
+                        premium : this.getTotalPremium(undefined,undefined),
                         type    : "now",
                         index   : (i - 20) / 5 + (age - i) / 5
                     };
@@ -262,6 +316,42 @@ app.service('policyDataDbService', function($rootScope,$q,$http,$translate,perso
 
 
             }
+            return trendObj;
+        },
+        getCoverageTrend : function() {
+            var trendObj = {
+                data : [],
+                //now  : []
+            };
+            var thisService = this;
+            var birthday = moment(personalDataDbService.getUserData("birthday"),"LL");
+            var thisYearBirthday = birthday.clone().year(moment().year());
+            var age = Math.abs(thisYearBirthday.diff(birthday,"y"));
+
+            angular.forEach(doughnut_title_g, function(cat,index){
+                var catArray = [];
+                for (var i = 20 ; i <= 100 ; i +=5) {
+                    var incrementBirthday = birthday.clone().add(i,"y");
+
+                    catArray.push({
+                        year     : incrementBirthday.year(),
+                        age      : i,
+                        coverage : thisService.getSumByColName(cat.col,incrementBirthday)
+                    });
+
+                    //if (age >= i && age < i + 5) {
+                    //    trendObj.now = {
+                    //        year    : thisYearBirthday.year(),
+                    //        age     : age,
+                    //        premium : this.getTotalPremium(undefined,undefined),
+                    //        type    : "now",
+                    //        index   : (i - 20) / 5 + (age - i) / 5
+                    //    };
+                    //}
+                }
+                trendObj.data.push(catArray);
+            });
+
             return trendObj;
         }
     }

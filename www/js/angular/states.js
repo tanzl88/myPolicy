@@ -44,6 +44,24 @@ app.config(function($stateProvider, $urlRouterProvider) {
                 }
             }
         })
+        .state('tabs.profile.suggestAmtInput', {
+            url: '/caseNotes',
+            views: {
+                "profile-tab@tabs": {
+                    templateUrl: "profile/suggestAmtInput.html",
+                    controller: "SuggestAmtInputCtrl",
+                }
+            }
+        })
+        .state('tabs.profile.netWorthInput', {
+            url: '/caseNotes',
+            views: {
+                "profile-tab@tabs": {
+                    templateUrl: "profile/netWorthInput.html",
+                    controller: "netWorthInputCtrl",
+                }
+            }
+        })
         .state('tabs.profile.caseNotes', {
             url: '/caseNotes',
             views: {

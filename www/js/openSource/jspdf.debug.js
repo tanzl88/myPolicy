@@ -3383,30 +3383,22 @@ var jsPDF = (function(global) {
             } else {
                 //New line
                 var margins = this.margins || NO_MARGINS;
-                // console.log(this.internal.pageSize.height);
-                console.log(curCell);
-                console.log(curCell.y + ' ' + curCell.h + " " + h + "  " + margin);
-                // console.log();
+                
                 if ((curCell.y + curCell.h + h + margin) >= this.internal.pageSize.height - margins.bottom) {
                 	                	
                     this.cellAddPage();
 
-                    // var originalFontSize = this.internal.getFontSize();
-                    // this.overflowHook();
-					// // RESTORE FONT SIZE
-					// this.setFontSize(originalFontSize);
-// 					                    
-                    // // this = tempThis;
+                    var originalFontSize = this.internal.getFontSize();
+                    this.overflowHook();
+					// RESTORE FONT SIZE
+					this.setFontSize(originalFontSize);
+ 					               
                     if (this.printHeaders && this.tableHeaderRow) {
                         this.printHeaderRow(ln, true);
                     }
                 }
                 //We ignore the passed y: the lines may have diferent heights
                 y = (getLastCellPosition().y + (getLastCellPosition().h || y));
-                // y = Math.min(540,y);
-                // y = 70;
-                // console.log("Y: " + y + " vs. " + Math.min(540,y));
-				// console.log("Y:    " + getLastCellPosition().y + " + " + (getLastCellPosition().h || y) + " = " + y);
             }
         }
         // ZL

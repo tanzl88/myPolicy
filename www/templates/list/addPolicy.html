@@ -1,4 +1,9 @@
 <ion-view id="add_policy_view" view-title="{{'EDIT_POLICY' | translate}}">
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear" ng-click="submitButton()">
+            <i class="ion-checkmark"></i>
+        </button>
+    </ion-nav-buttons>
     <ion-content class="policy_form" delegate-handle="policyForm" has-bouncing="true">
         <form id="policyForm" name="policyForm" novalidate="" ng-submit="submit(policyForm)" style="padding-bottom: 3%;">
             <!------------------------BASIC INFO-------------------------->
@@ -183,15 +188,21 @@
                            ng-click="selectAll($event)"
                            ng-model="policyObj.beneficiary">
                 </div>
-                <textarea class="remarks_textarea" rows="10" cols="10"
-                          ng-model="policyObj.remarks" name="remarks"
-                          style="margin-bottom: 4%;"></textarea>
+                <div class="two_cols_item">
+                    <div class="inline-block align-middle">{{"REMARKS" | translate}}</div>
+                    <textarea class="inline-block remarks_textarea" rows="10" cols="10"
+                              ng-model="policyObj.remarks" name="remarks"
+                              style="margin-bottom: 4%;"></textarea>
+                </div>
+                <!--<textarea class="remarks_textarea" rows="10" cols="10"-->
+                          <!--ng-model="policyObj.remarks" name="remarks"-->
+                          <!--style="margin-bottom: 4%;"></textarea>-->
             </section>
 
 
 
             <!--SUBMIT-->
-            <input class="login_button" type="submit" value="{{'SUBMIT_CAPS' | translate}}"
+            <input id="addPolicySubmit" class="login_button" type="submit" value="{{'SUBMIT_CAPS' | translate}}"
                    style="margin-top: 4%;"/>
         </form>
 

@@ -13,7 +13,7 @@
     <link href="lib/ionic/general.css" rel="stylesheet">
     <link href="lib/ionic/index.css" rel="stylesheet">
     <link href="lib/ionic/tablet.css" rel="stylesheet">
-    <link href="lib/ionic/animate.css" rel="stylesheet">
+    <link href="lib/ionic/animate-list.css" rel="stylesheet">
     <link href="lib/angular-macgyver/lib/macgyver.css" rel="stylesheet">
     <link href="lib/angular-material/angular-material.css" rel="stylesheet">
     <link href="lib/ionic/date_picker.css" rel="stylesheet">
@@ -21,6 +21,7 @@
     <link href="css/policyFont.css" rel="stylesheet">
     <link href="css/angular-toggle-switch.css" rel="stylesheet">
     <link href="css/angular-dropdowns.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
     <!-- endbuild -->
 
     <!-- build:js dist_js/app.js -->
@@ -29,6 +30,7 @@
     <script type="text/javascript" src="js/jquery/jquery-1.11.2.min.js"></script>
 
     <!--CHART-->
+    <!--<script type="text/javascript" src="js/chartJS/Chart.js"></script>-->
     <script type="text/javascript" src="js/chartJS/ChartNew.js"></script>
     <script type="text/javascript" src="js/chartJS/Add-ins/stats.js"></script>
     <script type="text/javascript" src="js/chartJS/Add-ins/shapesInChart.js"></script>
@@ -90,39 +92,46 @@
 
     <!----------CONTROLLER---------->
     <!--GLOBAL-->
-    <script src="js/angular/controller/global.js"></script>
-    <script src="js/angular/controller/tabs.js"></script>
-    <script src="js/angular/controller/tutorial.js"></script>
-    <script src="js/angular/controller/toast.js"></script>
+    <script src="js/angular/controller/global/global.js"></script>
+    <script src="js/angular/controller/global/tabs.js"></script>
+    <script src="js/angular/controller/global/tutorial.js"></script>
+    <script src="js/angular/controller/global/toast.js"></script>
     <!--LOGIN-->
-    <script src="js/angular/controller/login.js"></script>
-    <script src="js/angular/controller/login-forgot.js"></script>
-    <script src="js/angular/controller/signup.js"></script>
-    <script src="js/angular/controller/logout.js"></script>
+    <script src="js/angular/controller/login/login.js"></script>
+    <script src="js/angular/controller/login/login-forgot.js"></script>
+    <script src="js/angular/controller/login/signup.js"></script>
+    <script src="js/angular/controller/login/logout.js"></script>
     <!--HOME-->
-    <script src="js/angular/controller/home.js"></script>
-    <script src="js/angular/controller/dashboard.js"></script>
-    <script src="js/angular/controller/generateReport.js"></script>
-    <script src="js/angular/controller/export.js"></script>
-    <script src="js/angular/controller/changePassword.js"></script>
+    <script src="js/angular/controller/home/home.js"></script>
+    <script src="js/angular/controller/home/dashboard.js"></script>
+    <script src="js/angular/controller/home/notification.js"></script>
+    <script src="js/angular/controller/home/reminder.js"></script>
+    <script src="js/angular/controller/home/askQuestion.js"></script>
+    <script src="js/angular/controller/home/advisorInfo.js"></script>
+    <script src="js/angular/controller/home/advisorProfile.js"></script>
+    <script src="js/angular/controller/home/createClientAccount.js"></script>
+    <!--SETTINGS-->
+    <script src="js/angular/controller/settings/settings.js"></script>
+    <script src="js/angular/controller/settings/changePassword.js"></script>
+    <script src="js/angular/controller/settings/customizeFieldNames.js"></script>
+    <!--GENERATE REPORT-->
+    <script src="js/angular/controller/export/generateReport.js"></script>
+    <script src="js/angular/controller/export/export.js"></script>
+    <!--PROFILE-->
+    <script src="js/angular/controller/profile/profile.js"></script>
+    <script src="js/angular/controller/profile/editProfile.js"></script>
+    <script src="js/angular/controller/profile/caseNotes.js"></script>
+    <script src="js/angular/controller/profile/suggestAmtInput.js"></script>
+    <!--LIST-->
+    <script src="js/angular/controller/list/gallery.js"></script>
+    <script src="js/angular/controller/list/list.js"></script>
+    <script src="js/angular/controller/list/addPolicy.js"></script>
+    <!--REPORT-->
+    <script src="js/angular/controller/report/overview.js"></script>
+    <script src="js/angular/controller/report/report.js"></script>
 
-    <script src="js/angular/controller/profile.js"></script>
-    <script src="js/angular/controller/editProfile.js"></script>
-    <script src="js/angular/controller/settings.js"></script>
-    <script src="js/angular/controller/reminder.js"></script>
-    <script src="js/angular/controller/askQuestion.js"></script>
-    <script src="js/angular/controller/notification.js"></script>
-    <script src="js/angular/controller/gallery.js"></script>
-    <script src="js/angular/controller/list.js"></script>
-    <script src="js/angular/controller/addPolicy.js"></script>
-    <script src="js/angular/controller/overview.js"></script>
-    <script src="js/angular/controller/customizeFieldNames.js"></script>
-    <script src="js/angular/controller/report.js"></script>
 
-    <script src="js/angular/controller/caseNotes.js"></script>
-    <script src="js/angular/controller/advisorInfo.js"></script>
-    <script src="js/angular/controller/advisorProfile.js"></script>
-    <script src="js/angular/controller/createClientAccount.js"></script>
+
 
 
     <script src="js/angular/directive/angular-bootstrap-checkbox.js"></script>
@@ -147,6 +156,7 @@
     <script src="js/angular/services/credentialManager.js"></script>
     <script src="js/angular/services/toastService.js"></script>
     <script src="js/angular/services/currencyService.js"></script>
+    <script src="js/angular/services/fieldNameService.js"></script>
     <script src="js/angular/services/findParentService.js"></script>
     <script src="js/angular/services/advisorDataDbService.js"></script>
     <script src="js/angular/services/personalDataDbService.js"></script>

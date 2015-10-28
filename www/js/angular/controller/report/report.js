@@ -1,5 +1,5 @@
 app.controller('ReportCtrl', function($scope,$translate,$timeout,$interval,$state,$translate,$toast,$ionicScrollDelegate,modalService,
-                                      loadingService,policyDataService,barChartService,doughnutChartService,credentialManager) {
+                                      loadingService,personalDataDbService,policyDataService,policyDataDbService,barChartService,doughnutChartService,lineChartService,credentialManager) {
 
     //---------------------- DOUGHNUT CHART ----------------------------------
     function drawDoughnuts() {
@@ -26,6 +26,41 @@ app.controller('ReportCtrl', function($scope,$translate,$timeout,$interval,$stat
             }
         },100);
     };
+    $scope.chooseLineChart = function(index) {
+        $scope.chosenCat = index;
+        $scope.cat = $scope.viewObj.cat[index];
+        var chosenCoverageTrendData = angular.copy($scope.coverageTrendData);
+        chosenCoverageTrendData.data = chosenCoverageTrendData.data[index];
+        var coverageChartData = lineChartService.getCoverageTrendChartData(chosenCoverageTrendData);
+
+        if ($("html").hasClass("tablet")) {
+            var chartOptions = lineChartService.getChartOptions({
+                scaleFontSize           : 18,
+                xAxisFontSize           : 18,
+            });
+        } else {
+            var chartOptions = lineChartService.getChartOptions({
+                spaceTop    : 18
+            });
+        }
+        //$ionicScrollDelegate.$getByHandle('report').scrollBy(0,$("#reportLineChart").offset().top,true);
+        drawLineChart(coverageChartData,chartOptions);
+    }
+    function drawLineChart(chartData,chartOptions) {
+        var initTimer;
+        initTimer = $interval(function() {
+            var ele_to_check = $("#coverageTrendChart");
+            if (ele_to_check.length > 0) {
+                //STYLING
+                var chart_width = Math.floor(window_width_g);
+                var chart_height = Math.floor(window_height_g * 0.5);
+                $("#coverageTrendChart").attr("width", chart_width).attr("height", chart_height);
+                console.log(chartData);
+                lineChartService.drawChart("coverageTrendChart", chartData, chartOptions);
+                $interval.cancel(initTimer);
+            }
+        },100);
+    }
     var chartOptions = doughnutChartService.getChartOptions({
 
     });
@@ -52,8 +87,13 @@ app.controller('ReportCtrl', function($scope,$translate,$timeout,$interval,$stat
             $scope.currency = $translate.instant("CURRENCY").trim();
             $scope.viewObj = {};
             $scope.viewObj.cat = policyDataService.getProtectionsData();
-            console.log($scope.viewObj.cat);
             drawDoughnuts();
+
+            $scope.birthdayAvailable = personalDataDbService.getUserData("birthday") === undefined ? false : true;
+            if ($scope.birthdayAvailable) {
+                $scope.coverageTrendData = policyDataDbService.getCoverageTrend();
+                $scope.chooseLineChart(0);
+            }
         }
     };
 

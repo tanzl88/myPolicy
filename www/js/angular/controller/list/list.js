@@ -1,4 +1,4 @@
-app.controller('ListCtrl', function($rootScope,$scope,$state,$filter,$http,$translate,$timeout,$toast,
+app.controller('ListCtrl', function($rootScope,$scope,$state,$filter,$http,$translate,$timeout,$toast,$ionicScrollDelegate,
                                     policyDataDbService,credentialManager,modalService,loadingService,errorHandler) {
     // ------------ NAVIGATION ------------
     $scope.addPolicy = function() {
@@ -142,14 +142,6 @@ app.controller('ListCtrl', function($rootScope,$scope,$state,$filter,$http,$tran
     };
 
     //// ------------ ROTATE PORTRAIT ------------
-    //$scope.touch = function() {
-    //    $scope.showRotate = false;
-    //};
-    //$scope.release = function() {
-    //    $scope.showRotate = true;
-    //};
-
-
     $scope.switchTo = function(orientation) {
         //ANALYTICS
         if (ionic.Platform.isWebView()) window.analytics.trackEvent('User Interaction', "Full table toggle", orientation);
@@ -161,11 +153,14 @@ app.controller('ListCtrl', function($rootScope,$scope,$state,$filter,$http,$tran
             $("body").removeClass("landscape");
         }
         //TABLE DISPLAY SWITCH
-        $timeout(function(){
-            $scope.showFullTable = orientation === "landscape" ? true : false;
-        },200);
         screen.lockOrientation(orientation + "-primary");
         //screen.unlockOrientation();
+    };
+    $scope.fullTableDoubleTap = function() {
+        var scrollDelegate = $ionicScrollDelegate.$getByHandle('fullTableScroll');
+        var currentZoom = scrollDelegate.getScrollView().__zoomLevel;
+        var zoomLevel = currentZoom > 0.9 ? 0.3 : 1;
+        scrollDelegate.zoomTo(zoomLevel,true);
     };
     //LIST TAB ORIENTATION CHANGE EVENT LISTENER
     //window.addEventListener("orientationchange", function() {

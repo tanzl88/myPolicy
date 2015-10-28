@@ -95,7 +95,7 @@ percent-input input {
 currency-input input.front,
 percent-input input.front {
   display: inline-block !important;
-  width: 49%; }
+  width: 58%; }
 
 /* ------------------- HEADER ------------------------- */
 ion-header-bar i {
@@ -301,3 +301,12 @@ md-menu-content {
 .md-open-menu-container {
   right: 0;
   left: auto !important; }
+
+md-option .md-text {
+  font-size: 0.8em !important; }
+
+md-option {
+  height: 34px !important; }
+
+.md-select-label {
+  border-bottom-width: 0px !important; }

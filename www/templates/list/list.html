@@ -46,7 +46,7 @@
             <ion-list>
                 <ion-item ng-repeat="policy in policies" class="policy_item item-remove-animate" ng-click="editPolicy($index)">
                     <div class="policy_summary">
-                        <p>{{$index + 1}}. {{policy.company}} - {{policy.planName}}</p>
+                        <p><b>{{$index + 1}}. {{policy.company}} - {{policy.planName}}</b></p>
                         <div>
                             <p class="inline-block align-middle" style="width: 35%;">{{"POLICY_NUMBER" | translate}}:</p>
                             <p class="inline-block align-middle" style="width: 62%;">{{policy.policyNumber}}</p>
@@ -75,29 +75,8 @@
         <p ng-click="switchTo('portrait')">{{"TOGGLE_LIST" | translate}}</p>
     </div>
     <div class="full_table" style="margin-top: 1px;">
-        <ion-scroll zooming="true" direction="xy" has-bouncing="true" style="height: 100%; width: 100%;" on-touch="touch()" on-release="release()">
+        <ion-scroll zooming="true" direction="xy" has-bouncing="true" style="height: 100%; width: 100%;" delegate-handle="fullTableScroll" on-double-tap="fullTableDoubleTap()">
             <react-table data="fullTableObj"></react-table>
-            <!--<table>-->
-                <!--<thead>-->
-                <!--<tr>-->
-                    <!--<th ng-repeat="col in fullTableColumns" style="min-width : {{col.width}};">{{col.title | translate}}</th>-->
-                <!--</tr>-->
-                <!--</thead>-->
-                <!--<tbody>-->
-                <!--<tr ng-repeat="policyObj in policies">-->
-                    <!--<td ng-repeat="col in fullTableColumns">-->
-                        <!--<p ng-if="col.type === 'index'">{{$parent.$parent.$index + 1}}</p>-->
-                        <!--<p ng-if="col.type === 'text' || col.type === 'date'">{{policyObj[col.varName]}}</p>-->
-                        <!--<p ng-if="col.type === 'currency'">{{policyObj[col.varName] | number}}</p>-->
-                    <!--</td>-->
-                <!--</tr>-->
-                <!--<tr>-->
-                    <!--<td colspan="12" class="align-right">{{"TOTAL" | translate}}:</td>-->
-                    <!--<td ng-repeat="sum in sums track by $index" class="sum">{{sum | number}}</td>-->
-                    <!--<td ></td>-->
-                <!--</tr>-->
-                <!--</tbody>-->
-            <!--</table>-->
         </ion-scroll>
     </div>
 </ion-view>

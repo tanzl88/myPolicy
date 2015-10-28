@@ -1,4 +1,4 @@
-var app = angular.module('myPolicy',['templates','ionic','ionic.service.core','ionic.service.analytics','ngIOS9UIWebViewPatch',
+var app = angular.module('myPolicy',['templates','ionic','ionic.service.core','ngIOS9UIWebViewPatch',
     'ngCordova','ngMessages','ngAnimate','pascalprecht.translate','Mac',
     'validation.match','ngmodel.format','ngMaterial','ngDropdowns','reactTable',
     '$datePicker','$dateTimePicker','$countdownTimePicker','$termPicker','$currencyPicker','$currencyInput','$percentInput','$planTypePicker','$suggestAmtEditor','popupPicker',
@@ -10,31 +10,14 @@ app.config(function ($ionicConfigProvider) {
     $ionicConfigProvider.tabs.position("");
 });
 //LOCALIZATION
-app.factory('customLoader', function ($http, $q, $timeout) {
+app.factory('fieldNameLoader', function ($http,$q,$timeout,fieldNameService) {
     // return loaderFn
     return function (options) {
         var deferred = $q.defer();
-        // do something with $http, $q and key to load localization files
+        var data = {};
+        _.extend(data,fieldNameService.getFieldName("full_table"));
+        _.extend(data,{'CURRENCY': currency_g});
 
-        var data = {
-            'CURRENCY': 'RM '
-        };
-
-        // resolve with translation data
-        $timeout(function () {
-            deferred.resolve(data);
-        }, 1000);
-
-        return deferred.promise;
-    };
-});
-app.factory('currencyLoader', function ($http,$q,$timeout) {
-    // return loaderFn
-    return function (options) {
-        var deferred = $q.defer();
-        var data = {
-            'CURRENCY': currency_g,
-        };
         deferred.resolve(data);
 
         return deferred.promise;
@@ -70,7 +53,7 @@ app.config(['$translateProvider', function ($translateProvider) {
             '*': 'en'
     });
     $translateProvider.fallbackLanguage('en');
-    $translateProvider.useLoader('currencyLoader');
+    $translateProvider.useLoader('fieldNameLoader');
     $translateProvider.preferredLanguage('en');
     $translateProvider.forceAsyncReload(true);
     $translateProvider.useSanitizeValueStrategy('escaped');
@@ -105,7 +88,7 @@ app.config(function ($ionicConfigProvider) {
 });
 
 
-app.run(function ($rootScope,$ionicPlatform,$state,$cordovaNetwork,currencyService,$ionicAnalytics) {
+app.run(function ($rootScope,$ionicPlatform,$state,$cordovaNetwork,currencyService) {
     $ionicPlatform.ready(function () {
         //KEYBOARD
         if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -161,8 +144,6 @@ app.run(function ($rootScope,$ionicPlatform,$state,$cordovaNetwork,currencyServi
         $rootScope.isOffline = $cordovaNetwork.isOffline();
 
 
-
-        //$ionicAnalytics.register();
         if (ionic.Platform.isWebView()) window.analytics.startTrackerWithId('UA-68783318-1');
     });
 });

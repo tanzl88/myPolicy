@@ -745,15 +745,18 @@ input.login_button {
 .policy_form .two_cols_item div:first-child {
   line-height: 1.3 !important; }
 
-.policy_form .two_cols_item .inline-block {
-  width: 49%; }
+.policy_form .two_cols_item .inline-block:first-child {
+  width: 40%; }
+
+.policy_form .two_cols_item .inline-block:last-child {
+  width: 58%; }
 
 .policy_form input.bg_color {
   background-color: #eaeaea;
   border-radius: 3px; }
 
 .remarks_textarea {
-  width: 100%;
+  width: 58%;
   background-color: #eaeaea;
   border-radius: 3px;
   padding: 3%; }
