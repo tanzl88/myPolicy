@@ -34,8 +34,8 @@ app.controller('ProfileCtrl', ['$scope', '$state', '$http', '$translate', '$toas
     $scope.goToProfile = function() {
         $ionicHistory.goBack();
     };
-    $scope.goToCaseNotes = function() {
-        $state.go("tabs.profile.caseNotes");
+    $scope.goTo = function(state) {
+        $state.go("tabs.profile." + state);
     };
 
     // --------------- CONTACT ADVISOR MENU (IF LINKED) ---------------
