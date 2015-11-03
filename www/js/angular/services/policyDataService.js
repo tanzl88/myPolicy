@@ -25,6 +25,13 @@ app.service('policyDataService', function($rootScope,$q,$http,$translate,policyD
         var suggested_expense_method = exps_factor_g[index] * annual_exps;
         return Math.max(suggested_income_method,suggested_expense_method);
     }
+    function parseDbInt(value) {
+        if (isNaN(parseInt(value))) {
+            return 0
+        } else {
+            return parseInt(value);
+        }
+    }
 
     return {
         getOverviewData : function() {
@@ -52,6 +59,45 @@ app.service('policyDataService', function($rootScope,$q,$http,$translate,policyD
                 overview_array.push(overview_obj);
             });
             return overview_array;
+        },
+        getPremiumData : function() {
+            //var overview_array = [];
+            //angular.forEach(premium_title_g, function(cat,index){
+            //    if (cat.name === "POLICIES_NUMBER") {
+            //        var amt = policyDataDbService.getPoliciesNumber();
+            //    } else if (cat.name === "TOTAL_PREMIUM") {
+            //        var amt = policyDataDbService.getTotalPremium();
+            //    } else if (cat.name === "PREMIUM_TO_INCOME_RATIO") {
+            //        var amt = (policyDataDbService.getTotalPremium() / personalDataDbService.getUserData("income") * 100).toFixed(0) + "%";
+            //    } else if (cat.name === "PROTECTION_PREMIUM_TO_INCOME_RATIO") {
+            //        var amt = (policyDataDbService.getTotalPremium("protection") / personalDataDbService.getUserData("income") * 100).toFixed(0) + "%";
+            //    } else if (cat.name === "SAVINGS_PREMIUM_TO_INCOME_RATIO") {
+            //        var amt = (policyDataDbService.getTotalPremium("savings") / personalDataDbService.getUserData("income") * 100).toFixed(0) + "%";
+            //    } else {
+            //        var amt = policyDataDbService.getSumByColName(cat.col);
+            //    }
+            //    overview_obj = {
+            //        title : cat.name,
+            //        label : "TITLE_" + cat.name,
+            //        type  : cat.type,
+            //        amt   : amt
+            //    };
+            //    overview_array.push(overview_obj);
+            //});
+            //return overview_array;
+
+
+            var premium_array = {
+                total       : parseDbInt(policyDataDbService.getTotalPremium()),
+                income      : parseDbInt(personalDataDbService.getUserData("income")),
+                protection  : parseDbInt(policyDataDbService.getTotalPremium("protection")),
+                savings     : parseDbInt(policyDataDbService.getTotalPremium("savings"))
+            };
+            premium_array.left = premium_array.total - premium_array.protection - premium_array.savings;
+            premium_array.protectionRatio   = premium_array.income === 0 ? 0 : (premium_array.protection / premium_array.income * 100).toFixed(0);
+            premium_array.savingsRatio      = premium_array.income === 0 ? 0 : (premium_array.savings / premium_array.income * 100).toFixed(0);
+            premium_array.totalRatio        = parseInt(premium_array.protectionRatio) + parseInt(premium_array.savingsRatio);
+            return premium_array;
         },
         getProtectionsData : function() {
             var protections_array = [];

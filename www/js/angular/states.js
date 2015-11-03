@@ -100,6 +100,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
                 }
             }
         })
+        .state('tabs.home.advisorInfo', {
+            url: '/advisorInfo',
+            views: {
+                "home-tab@tabs": {
+                    templateUrl: "home/advisorInfo.html",
+                    controller: "AdvisorInfoCtrl",
+                }
+            }
+        })
         .state('tabs.home.editAdvisorProfile', {
             url: '/editAdvisorProfile',
             views: {
@@ -136,15 +145,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('tabs.home.advisorInfo', {
-            url: '/advisorInfo',
-            views: {
-                "home-tab@tabs": {
-                    templateUrl: "home/advisorInfo.html",
-                    controller: "AdvisorInfoCtrl",
-                }
-            }
-        })
         .state('tabs.home.askQuestion', {
             url: '/askQuestion',
             views: {
@@ -154,6 +154,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
                 }
             }
         })
+        //------------------------ EXPORT ------------------------
         .state('tabs.home.generateReport', {
             url: '/generateReport',
             views: {
@@ -172,7 +173,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-
+        //------------------------ SETTINGS ------------------------
         .state('tabs.home.settings', {
             url: '/settings',
             views: {
@@ -248,37 +249,74 @@ app.config(function($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-
-        .state('tabs.overview', {
+        //------------------------ REPORTS ------------------------
+        .state('tabs.reports', {
+            abstract: true,
+            url: '/reports',
+            views: {
+                "reports-tab@tabs": {
+                    templateUrl: "report/report-tabs.html",
+                    //controller: "OverviewCtrl",
+                }
+            }
+        })
+        .state('tabs.reports.overview', {
             url: '/overview',
             views: {
-                "overview-tab@tabs": {
-                    templateUrl: "overview/overview.html",
+                "overview-tab": {
+                    templateUrl: "report/overview.html",
                     controller: "OverviewCtrl",
                 }
             }
         })
-
-        .state('tabs.report', {
+        .state('tabs.reports.report', {
             url: '/report',
             views: {
-                "report-tab@tabs": {
+                "report-tab": {
                     templateUrl: "report/report.html",
                     controller: "ReportCtrl",
                 }
             }
         })
-
-        .state('tabs.export', {
-            url: '/export',
+        .state('tabs.reports.premium', {
+            url: '/premium',
             views: {
-                "report-tab@tabs": {
-                    templateUrl: "export/export.html",
-                    controller: "ExportCtrl",
+                "premium-tab": {
+                    templateUrl: "report/premium.html",
+                    controller: "PremiumCtrl",
+                }
+            }
+        })
+        .state('tabs.reports.netWorth', {
+            url: '/netWorth',
+            views: {
+                "netWorth-tab": {
+                    templateUrl: "report/netWorth.html",
+                    controller: "NetWorthCtrl",
                 }
             }
         })
 
+
+        //.state('tabs.overview', {
+        //    url: '/overview',
+        //    views: {
+        //        "overview-tab": {
+        //            templateUrl: "overview/overview.html",
+        //            controller: "OverviewCtrl",
+        //        }
+        //    }
+        //})
+
+        //.state('tabs.report', {
+        //    url: '/report',
+        //    views: {
+        //        "report-tabtab": {
+//                    templateUrl: "report/report.html",
+//                    controller: "ReportCtrl",
+//                }
+//            }
+//  ;      })
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/login');
 });

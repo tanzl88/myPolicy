@@ -1,0 +1,116 @@
+<ion-view id="overview_view" view-title="{{'PREMIUM_ANALYSIS' | translate}}">
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear">
+            <i class=""></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="has-footer" delegate-handle="premium" has-bouncing="true" style="background-color: #FAFAFA;">
+
+        <!--NO CONTENT CONTAINER-->
+        <div class="no_content_container align-center transform-align-middle" ng-if="credential === 'advisor' && clientSelected === false">
+            <div class="login_logo_container" >
+                <img src="img/select_client.svg" />
+            </div>
+            <p class="new-line">{{"CLIENT_NOT_SELECTED" | translate}}</p>
+            <div class="login_button" ng-controller="NoClientCtrl" ng-click="goToSelectClient()">{{"SELECT_CLIENT_CAPS" | translate}}</div>
+        </div>
+
+        <div ng-if="(credential === 'advisor' && clientSelected === true) || (credential === 'client')">
+
+            <md-card>
+                <md-card-content class="">
+                    <p class="card_header">{{"ANNUAL_PREMIUM_OVERVIEW" | translate}}</p>
+                    <div class="align-center">
+                        <div class="premium_infographic_text_container" style="padding-top: 5%;">
+                            <p class="new-line">{{"ANNUAL_PREMIUM" | translate}}</p>
+                            <p>{{premiumObj.total | currency:currency:0}}</p>
+                        </div>
+
+                        <img style="width: 100%;" src="img/premium.svg" />
+
+                        <div class="premium_infographic_text_container" style="padding-bottom: 5%;">
+                            <div class="inline-block" style="width: 49%;">
+                                <p class="new-line">{{"PROTECTION_POLICIES_NEW_LINE" | translate}}</p>
+                                <p>{{premiumObj.protection | currency:currency:0}}</p>
+                            </div>
+                            <div class="inline-block" style="width: 49%;">
+                                <p class="new-line">{{"SAVINGS_POLICIES_NEW_LINE" | translate}}</p>
+                                <p>{{premiumObj.savings | currency:currency:0}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--<p>Current annual premium</p>-->
+                    <!--<td class="align-middle" width="50%">{{viewObj.cat[0].amt | currency:currency:0}}</td>-->
+                </md-card-content>
+            </md-card>
+
+            <md-card>
+                <md-card-content>
+                    <p class="card_header">{{'PREMIUM_TREND' | translate}}</p>
+                    <div class="no_content_container align-center" ng-if="!birthdayAvailable" style="margin-top: 6%;">
+                        <p class="new-line">{{"BIRTHDAY_NOT_AVAILABLE_MSG" | translate}}</p>
+                        <div class="login_button" ng-click="goToProfile()">{{"SET_BIRTHDAY" | translate}}</div>
+                    </div>
+                    <canvas ng-show="birthdayAvailable" id="premiumTrendChart"></canvas>
+                </md-card-content>
+            </md-card>
+
+            <!--<div class="padded_divider"></div>-->
+
+            <md-card>
+                <md-card-content>
+                    <p class="card_header">{{"PREMIUM_TO_INCOME_RATIO" | translate}}</p>
+
+                    <div class="doughnut_container">
+                        <canvas id="premium_ratio_pie"></canvas>
+                    </div>
+
+                    <table class="doughnut_table">
+                        <tr class="doughnut_text_container">
+                            <td style="width: 10%;">
+                                <div style="background-color: #FED82F; width: 15px; height: 15px;"></div>
+                            </td>
+                            <td style="width: 65%;">
+                                {{"TITLE_PROTECTION_PREMIUM_TO_INCOME_RATIO" | translate}}
+                            </td>
+                            <td class="value" style="width: 21%;">
+                                {{premiumObj.protectionRatio}}%
+                            </td>
+                        </tr>
+                        <tr class="doughnut_text_container">
+                            <td style="width: 10%;">
+                                <div style="background-color: rgba(139,188,230,1); width: 15px; height: 15px;"></div>
+                            </td>
+                            <td style="width: 65%;">
+                                {{"TITLE_SAVINGS_PREMIUM_TO_INCOME_RATIO" | translate}}
+                            </td>
+                            <td class="value" style="width: 21%;">
+                                {{premiumObj.savingsRatio}}%
+                            </td>
+                        </tr>
+                        <tr class="doughnut_text_container">
+                            <td style="width: 10%;">
+                                <div style="background-color: transparent; width: 15px; height: 15px;"></div>
+                            </td>
+                            <td style="width: 65%;">
+                                {{"TITLE_PREMIUM_TO_INCOME_RATIO" | translate}}
+                            </td>
+                            <td class="value" style="width: 21%;">
+                                {{premiumObj.totalRatio}}%
+                            </td>
+                        </tr>
+                    </table>
+
+                </md-card-content>
+            </md-card>
+
+
+        </div>
+
+        <div style="height: 20px; width: 100%;"></div>
+
+    </ion-content>
+</ion-view>
+
+

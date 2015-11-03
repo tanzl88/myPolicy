@@ -1,0 +1,17 @@
+<ion-tabs id="reports-tab" class="tabs-striped tabs-top tabs-stable" ng-controller="ReportTabsCtrl">
+    <ion-tab icon="policy-bar" ng-click="scrollClick('overview')">
+        <ion-nav-view name="overview-tab"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab icon="policy-shield" ng-click="scrollClick('report')">
+        <ion-nav-view name="report-tab"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab icon="policy-magnify" ng-click="scrollClick('premium')">
+        <ion-nav-view name="premium-tab"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab icon="policy-money-bag" ng-click="scrollClick('netWorth')">
+        <ion-nav-view name="netWorth-tab"></ion-nav-view>
+    </ion-tab>
+</ion-tabs>

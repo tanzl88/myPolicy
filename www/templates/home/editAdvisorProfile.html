@@ -1,4 +1,9 @@
 <ion-view id="edit_advisor_profile_view" view-title="{{'MY_PROFILE' | translate}}">
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear" ng-click="submitButton()">
+            <i class="ion-checkmark"></i>
+        </button>
+    </ion-nav-buttons>
     <ion-content class="" has-bouncing="true">
         <form id="advisorProfile" name="advisorProfileForm" novalidate="" ng-submit="submit(advisorProfileForm)">
             <!--LOGO-->
@@ -69,7 +74,7 @@
                        <!--ng-class="{ 'has-error' : advisorProfileForm.address.$invalid && !advisorProfileForm.address.$pristine }">-->
                 <textarea class="inline-block align-middle align-center bg_color form-group"
                           rows="2" cols="2" type="text" name="address" ng-model="dataObj.address"
-                          style="text-align: left; padding: 3%"
+                          style="padding: 3%"
                           ng-class="{ 'has-error' : advisorProfileForm.address.$invalid && !advisorProfileForm.address.$pristine }">
                 </textarea>
             </div>
@@ -100,12 +105,12 @@
                 <div class="inline-block align-middle">{{"EDUCATION" | translate}}</div>
                 <textarea class="inline-block align-middle align-center bg_color form-group"
                           rows="8" cols="2" type="text" name="education" ng-model="dataObj.education"
-                          style="text-align: left; padding: 3%"
+                          style="padding: 3%"
                           ng-class="{ 'has-error' : advisorProfileForm.education.$invalid && !advisorProfileForm.education.$pristine }">
                 </textarea>
             </div>
 
-            <input class="login_button" type="submit" value="{{'SUBMIT_CAPS' | translate}}" style="padding: 0;"/>
+            <input id="advisorProfileSubmit" class="login_button hide-g" type="submit" value="{{'SUBMIT_CAPS' | translate}}" style="padding: 0;"/>
         </form>
     </ion-content>
 </ion-view>

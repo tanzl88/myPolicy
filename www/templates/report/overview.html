@@ -1,0 +1,46 @@
+<ion-view id="overview_view" view-title="{{'PROTECTIONS_OVERVIEW' | translate}}">
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear">
+            <i class=""></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="has-footer" delegate-handle="overview" has-bouncing="true" style="background-color: #FAFAFA;">
+
+        <!--NO CONTENT CONTAINER-->
+        <div class="no_content_container align-center transform-align-middle" ng-if="credential === 'advisor' && clientSelected === false">
+            <div class="login_logo_container" >
+                <img src="img/select_client.svg" />
+            </div>
+            <p class="new-line">{{"CLIENT_NOT_SELECTED" | translate}}</p>
+            <div class="login_button" ng-controller="NoClientCtrl" ng-click="goToSelectClient()">{{"SELECT_CLIENT_CAPS" | translate}}</div>
+        </div>
+
+        <div ng-if="(credential === 'advisor' && clientSelected === true) || (credential === 'client')">
+            <md-card>
+                <md-card-content>
+                    <p class="card_header">{{'COVERAGE_BREAKDOWN' | translate}}</p>
+                    <canvas id="overviewChart"></canvas>
+                </md-card-content>
+            </md-card>
+
+            <md-card>
+                <md-card-content>
+                    <p class="card_header">{{"TOTAL_COVERAGE" | translate}}</p>
+
+                    <table class="overview_table">
+                        <tr ng-repeat="cat in viewObj.cat">
+                            <td class="new-line" width="50%">{{cat.label | translate}}</td>
+                            <td ng-if="cat.type === 'currency'" class="align-middle" width="50%">{{cat.amt | currency:currency:0}}</td>
+                            <td ng-if="cat.type !== 'currency'" class="align-middle" width="50%">{{cat.amt}}</td>
+                        </tr>
+                    </table>
+                </md-card-content>
+            </md-card>
+        </div>
+
+        <div style="height: 20px; width: 100%;"></div>
+
+    </ion-content>
+</ion-view>
+
+

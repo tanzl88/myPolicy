@@ -1,5 +1,5 @@
-<ion-view id="report_view" view-title="{{'REPORT' | translate}}">
-    <ion-content class="" delegate-handle="report" has-bouncing="true">
+<ion-view id="report_view" view-title="{{'PROTECTION_NEEDS' | translate}}">
+    <ion-content class="has-footer" delegate-handle="report" has-bouncing="true" style="background-color: #FAFAFA;">
 
         <!--NO CONTENT CONTAINER-->
         <div class="no_content_container align-center transform-align-middle" ng-if="credential === 'advisor' && clientSelected === false">
@@ -11,114 +11,130 @@
         </div>
 
         <div ng-if="(credential === 'advisor' && clientSelected === true) || (credential === 'client')">
-            <!--TABLE-->
-            <div class="table_wrapper">
-                <p class="protections_table_title">{{"KEY_PROTECTION_TITLE" | translate}}</p>
-                <!--<canvas id="protectionsChart" width="360" height="520"></canvas>-->
-                <table class="protections_table">
-                    <tr>
-                        <th>{{"CATEGORY" | translate}}</th>
-                        <th>{{"CURRENT" | translate}}<br>({{currency}})</th>
-                        <th>{{"SUGGESTED" | translate}}<br>({{currency}})</th>
-                        <th>{{"SHORTFALL" | translate}}<br>({{currency}})</th>
-                    </tr>
-                    <tr id="{{cat.title}}_ROW" ng-repeat="cat in viewObj.cat" ng-click="chooseLineChart($index)">
-                        <td width="20%" class="new-line protections_table_category">{{cat.label | translate}}</td>
-                        <td width="26%">
-                            <p class="amt inline-block align-middle">{{cat.amt | number}}</p>
-                        </td>
-                        <td width="26%">
-                            <suggest-amt-editor ng-bind-data="cat.suggested">
-                            </suggest-amt-editor>
-                        </td>
-                        <td width="26%" ng-class="{'excess' : cat.diff_type === 'Excess', 'shortfall' : cat.diff_type === 'Shortfall'}">
-                            <p class="amt inline-block align-middle">{{cat.diff | number}}</p>
-                        </td>
-                    </tr>
-                </table>
-                <p class="report_notes">*{{"SUGGEST_AMT_NOTES" | translate}}</p>
-                <div class="padded_divider"></div>
-            </div>
+            <md-card>
+                <md-card-content>
+                    <!--TABLE-->
+                    <div class="table_wrapper">
+                        <p class="protections_table_title card_header">{{"KEY_PROTECTION_TITLE" | translate}}</p>
 
-            <div id="reportLineChart">
-                <div>
-                    <!--<p class="inline-block align-middle header" style="padding-top: 6%;">ACCIDENTAL Coverage Trend Chart</p>-->
-                    <md-select class="inline-block align-middle header" style="border-bottom-width: 0;" ng-model="chosenCat">
-                        <md-option ng-repeat="cat in viewObj.cat" value="{{$index}}" ng-click="chooseLineChart($index)">
-                            {{cat.dropdown}}
-                        </md-option>
-                    </md-select>
-                    <!--<i class="inline-block align-middle ion-arrow-down-b" style="padding-top: 6%;"></i>-->
-                </div>
+                        <table class="protections_table" style="margin-top: 4%;">
+                            <tr>
+                                <th>{{"CATEGORY" | translate}}</th>
+                                <th>{{"CURRENT" | translate}}<br>({{currency}})</th>
+                                <th>{{"SUGGESTED" | translate}}<br>({{currency}})</th>
+                                <th>{{"SHORTFALL" | translate}}<br>({{currency}})</th>
+                            </tr>
+                            <tr id="{{cat.title}}_ROW" ng-repeat="cat in viewObj.cat" ng-click="chooseLineChart($index)">
+                                <td width="20%" class="new-line protections_table_category">{{cat.label | translate}}</td>
+                                <td width="26%">
+                                    <p class="amt inline-block align-middle">{{cat.amt | number}}</p>
+                                </td>
+                                <td width="26%">
+                                    <suggest-amt-editor ng-bind-data="cat.suggested">
+                                    </suggest-amt-editor>
+                                </td>
+                                <td width="26%" ng-class="{'excess' : cat.diff_type === 'Excess', 'shortfall' : cat.diff_type === 'Shortfall'}">
+                                    <p class="amt inline-block align-middle">{{cat.diff | number}}</p>
+                                </td>
+                            </tr>
+                        </table>
+                        <p class="report_notes">*{{"SUGGEST_AMT_NOTES" | translate}}</p>
+                    </div>
+                </md-card-content>
+            </md-card>
 
-                <div class="no_content_container align-center" ng-if="!birthdayAvailable" style="margin-top: 6%;">
-                    <p class="new-line">{{"BIRTHDAY_NOT_AVAILABLE_MSG" | translate}}</p>
-                    <div class="login_button" ng-click="goToProfile()">{{"SET_BIRTHDAY" | translate}}</div>
-                </div>
-                <canvas ng-show="birthdayAvailable" id="coverageTrendChart"></canvas>
-                <div class="padded_divider"></div>
-            </div>
+            <md-card>
+                <md-card-content>
+                    <div id="reportLineChart">
+                        <div>
+                            <p class="protections_table_title card_header">{{"COVERAGE_TREND" | translate}}</p>
+
+                            <md-select class="inline-block align-middle header" style="border-bottom-width: 0;" ng-model="chosenCat">
+                                <md-option ng-repeat="cat in viewObj.cat" value="{{$index}}" ng-click="chooseLineChart($index)">
+                                    {{cat.dropdown}}
+                                </md-option>
+                            </md-select>
+                            <!--<i class="inline-block align-middle ion-arrow-down-b" style="padding-top: 6%;"></i>-->
+                        </div>
+
+                        <div class="no_content_container align-center" ng-if="!birthdayAvailable" style="margin-top: 6%;">
+                            <p class="new-line">{{"BIRTHDAY_NOT_AVAILABLE_MSG" | translate}}</p>
+                            <div class="login_button" ng-click="goToProfile()">{{"SET_BIRTHDAY" | translate}}</div>
+                        </div>
+                        <canvas ng-show="birthdayAvailable" id="coverageTrendChart"></canvas>
+                    </div>
+                </md-card-content>
+            </md-card>
 
             <!--DOUGHNUT-->
             <div class="doughnut_wrapper" ng-repeat="cat in viewObj.cat">
-                <div>
-                    <p class="inline-block align-middle header" style="padding-right: 1%;">{{cat.title | translate}}</p>
-                    <i class="inline-block align-middle ion-information-circled doughnut-tooltip" ng-click="showDoughnutTooltip(cat.title)"></i>
-                </div>
-                <p class="desc_header new-line" style="font-weight: normal;">{{cat.desc | translate}}</p>
-                <div class="doughnut_container">
-                    <canvas id="doughnut-{{$index}}"></canvas>
-                    <img ng-src="img/icons/{{cat.title}}.png" />
-                </div>
+                <md-card>
+                    <md-card-content>
+                        <p class="card_header">{{"KEY_PROTECTION" | translate}} - {{cat.title | translate}}</p>
+
+                        <div>
+                            <p class="inline-block align-middle header" style="padding-right: 1%;">{{cat.title | translate}}</p>
+                            <i class="inline-block align-middle ion-information-circled doughnut-tooltip" ng-click="showDoughnutTooltip(cat.title)"></i>
+                        </div>
+                        <p class="desc_header new-line" style="font-weight: normal;">{{cat.desc | translate}}</p>
+                        <div class="doughnut_container">
+                            <canvas id="doughnut-{{$index}}"></canvas>
+                            <img ng-src="img/icons/{{cat.title}}.png" />
+                        </div>
 
 
-                <table class="doughnut_table">
-                    <tr class="doughnut_text_container">
-                        <td style="width: 10%;">
-                            <div style="background-color: rgba(130,124,111,1); width: 15px; height: 15px;"></div>
-                        </td>
-                        <td style="width: 55%;">
-                            {{"CURRENT_COVERAGE" | translate}}
-                        </td>
-                        <td style="width: 10%;">
-                            {{currency}}
-                        </td>
-                        <td class="value" style="width: 21%;">
-                            {{cat.amt | number}}
-                        </td>
-                    </tr>
-                    <tr class="doughnut_text_container">
-                        <td style="width: 10%;">
-                            <div style="width: 15px; height: 15px;" ng-style="{{cat.color}}"></div>
-                        </td>
-                        <td style="width: 55%;">
-                            {{cat.diff_type}}
-                        </td>
-                        <td style="width: 10%;">
-                            {{currency}}
-                        </td>
-                        <td class="value" style="width: 21%;">
-                            {{cat.diff | number}}
-                        </td>
-                    </tr>
-                    <tr class="doughnut_text_container">
-                        <td style="width: 10%;">
-                            <div style="background-color: transparent; width: 15px; height: 15px;"></div>
-                        </td>
-                        <td style="width: 55%;">
-                            <div class="inline-block align-middle" style="">{{"SUGGESTED_COVERAGE" | translate}}</div>
-                            <i class="inline-block align-middle ion-information-circled suggest-tooltip" ng-click="showSuggestTooltip(cat.title)"></i>
-                        </td>
-                        <td style="width: 10%;">
-                            {{currency}}
-                        </td>
-                        <td class="value" style="width: 21%;">
-                            {{cat.suggested | number}}
-                        </td>
-                    </tr>
-                </table>
+                        <table class="doughnut_table">
+                            <tr class="doughnut_text_container">
+                                <td style="width: 10%;">
+                                    <div style="background-color: rgba(130,124,111,1); width: 15px; height: 15px;"></div>
+                                </td>
+                                <td style="width: 55%;">
+                                    {{"CURRENT_COVERAGE" | translate}}
+                                </td>
+                                <td style="width: 10%;">
+                                    {{currency}}
+                                </td>
+                                <td class="value" style="width: 21%;">
+                                    {{cat.amt | number}}
+                                </td>
+                            </tr>
+                            <tr class="doughnut_text_container">
+                                <td style="width: 10%;">
+                                    <div style="width: 15px; height: 15px;" ng-style="{{cat.color}}"></div>
+                                </td>
+                                <td style="width: 55%;">
+                                    {{cat.diff_type}}
+                                </td>
+                                <td style="width: 10%;">
+                                    {{currency}}
+                                </td>
+                                <td class="value" style="width: 21%;">
+                                    {{cat.diff | number}}
+                                </td>
+                            </tr>
+                            <tr class="doughnut_text_container">
+                                <td style="width: 10%;">
+                                    <div style="background-color: transparent; width: 15px; height: 15px;"></div>
+                                </td>
+                                <td style="width: 55%;">
+                                    <div class="inline-block align-middle" style="">{{"SUGGESTED_COVERAGE" | translate}}</div>
+                                    <i class="inline-block align-middle ion-information-circled suggest-tooltip" ng-click="showSuggestTooltip(cat.title)"></i>
+                                </td>
+                                <td style="width: 10%;">
+                                    {{currency}}
+                                </td>
+                                <td class="value" style="width: 21%;">
+                                    {{cat.suggested | number}}
+                                </td>
+                            </tr>
+                        </table>
+                    </md-card-content>
+                </md-card>
+
             </div>
         </div>
+
+        <div style="height: 20px; width: 100%;"></div>
 
     </ion-content>
 </ion-view>

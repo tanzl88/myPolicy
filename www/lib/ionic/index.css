@@ -1,3 +1,6 @@
+.bar-header {
+  border-bottom-width: 0px !important; }
+
 .tab-item {
   background-color: #c0bcbc;
   color: black; }
@@ -7,6 +10,17 @@
 
 .tab-item.tab-item-active {
   background-color: white; }
+
+#reports-tab .tab-item {
+  background: #fed82f;
+  margin-top: 0 !important;
+  border-right-width: 0px;
+  color: #555; }
+
+#reports-tab .tab-item i {
+  margin-top: -3px;
+  line-height: 49px;
+  font-size: 2.0em; }
 
 .modal input.bg_color {
   background-color: #eaeaea;
@@ -791,6 +805,7 @@ input.login_button {
 
 .overview_table {
   padding-top: 2%;
+  margin-top: 5%;
   margin-bottom: 5%; }
 
 .overview_table .row {
@@ -827,7 +842,7 @@ input.login_button {
   padding-left: 7%; }
 
 .protections_table_title {
-  padding: 6% 3% 1% 3%;
+  padding: 2% 3% 1% 3%;
   font-size: 0.8em;
   font-weight: bold; }
 
@@ -838,8 +853,8 @@ input.login_button {
   font-size: 0.7em; }
 
 .protections_table tr:first-child {
-  background-color: #827c6f;
-  color: white; }
+  background-color: #DDD;
+  font-weight: 500; }
 
 .protections_table_category {
   line-height: 1.4; }
@@ -886,8 +901,15 @@ input.login_button {
   font-size: 0.7em;
   line-height: 1.5; }
 
+.card_header {
+  background-color: grey;
+  color: white;
+  padding: 2% 3%;
+  font-size: 0.8em;
+  font-weight: bold; }
+
 .doughnut_wrapper {
-  padding: 5% 0%; }
+  padding: 0% 0%; }
 
 .dashboard-tooltip {
   position: absolute;
@@ -984,7 +1006,8 @@ input.login_button {
 
 .doughnut_table {
   width: 88%;
-  margin: auto; }
+  margin: auto;
+  margin-bottom: 5%; }
 
 .doughnut_table td {
   border-top: 1px solid #eaeaea;
@@ -1175,3 +1198,33 @@ input.login_button {
   right: 2%;
   transform: translateZ(1px);
   -webkit-transform: translateZ(1px); }
+
+.premium_infographic_text_container {
+  font-size: 0.85em; }
+
+.premium_infographic_text_container p {
+  color: #555; }
+
+.premium_infographic_text_container p:first-child {
+  line-height: 1; }
+
+table.premium_income_ratio {
+  font-size: 0.8em; }
+
+#assetTable,
+#liabilityTable {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  font-size: 0.8em;
+  color: #827C6F; }
+
+#assetTable thead,
+#liabilityTable thead {
+  color: white;
+  font-size: 1.2em;
+  font-weight: bold; }
+
+#assetTable .percent,
+#liabilityTable .percent {
+  font-size: 1.5em; }

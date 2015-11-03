@@ -95,7 +95,16 @@ percent-input input {
 currency-input input.front,
 percent-input input.front {
   display: inline-block !important;
+  width: 49%; }
+
+.policy_form currency-input input.front,
+.policy_form percent-input input.front {
+  display: inline-block !important;
   width: 58%; }
+
+/* ------------------- HIDE ------------------------- */
+.hide-g {
+  display: none !important; }
 
 /* ------------------- HEADER ------------------------- */
 ion-header-bar i {
@@ -288,6 +297,9 @@ ion-list ion-item ion-option-button i {
   z-index: 99;
   font-size: 2.0em;
   color: black; }
+
+md-card md-card-content {
+  padding: 0 !important; }
 
 md-menu-content {
   padding: 0 !important; }

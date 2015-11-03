@@ -1,4 +1,11 @@
-app.controller('CustomizeFieldNamesCtrl', function($scope,$translate,$http,$ionicHistory,$toast,loadingService,fieldNameService,errorHandler) {
+app.controller('CustomizeFieldNamesCtrl', function($scope,$translate,$http,$timeout,$ionicHistory,$toast,loadingService,fieldNameService,errorHandler) {
+
+    $scope.submitButton = function() {
+        $timeout(function(){
+            $("#fullTableFieldNameSubmit").click();
+        },1);
+    };
+
     $scope.submit = function(form) {
         //ANALYTICS
         if (ionic.Platform.isWebView()) window.analytics.trackEvent('Core', 'Policy', 'Add / Edit');

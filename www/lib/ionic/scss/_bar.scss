@@ -142,7 +142,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 
-    font-size: $bar-title-font-size;
+    font-size: $bar-title-font-size - 6;
     font-weight: $headings-font-weight;
 
     line-height: $bar-height;

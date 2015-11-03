@@ -250,7 +250,9 @@ var overview_title_g = [
     {
         name : "POLICIES_NUMBER",
         type : "number"
-    },
+    }
+];
+var premium_title_g = [
     {
         name : "TOTAL_PREMIUM",
         type : "currency"
@@ -267,7 +269,8 @@ var overview_title_g = [
         name : "SAVINGS_PREMIUM_TO_INCOME_RATIO",
         type : "number"
     }
-];
+]
+
 
 var doughnut_title_g = [
     {
@@ -359,5 +362,97 @@ var reminder_sort_g = [
     {
         name    : "SORT_NAME",
         sortCol : "name"
+    }
+];
+
+
+var assets_g = [
+    {
+        title   : "CASH",
+        varName : "cashAssets"
+    },
+    {
+        title   : "PENSION",
+        varName : "pension"
+    },
+    {
+        title   : "INVESTMENTS",
+        varName : "investmentAssets"
+    },
+    {
+        title   : "HOUSE",
+        varName : "houseValue"
+    },
+    {
+        title   : "CAR",
+        varName : "carValue"
+    },
+    {
+        title   : "OTHERS",
+        varName : "otherAssets"
+    }
+];
+var liabilities_g = [
+    {
+        title   : "MORTGAGE",
+        varName : "mortgage"
+    },
+    {
+        title   : "AUTO_LOANS",
+        varName : "autoLoans"
+    },
+    {
+        title   : "STUDY_LOANS",
+        varName : "studyLoans"
+    },
+    {
+        title   : "OTHERS",
+        varName : "otherLiabilities"
+    }
+];
+var financial_ratio_g = [
+    {
+        title : "LIQUIDITY_RATIO",
+        numerator   : "cashAssets",
+        denominator : "expenditure",
+        lower       : 3,
+        upper       : 6
+    },
+    {
+        title : "SOLVENCY_RATIO",
+        numerator   : "netWorth",
+        denominator : "totalAssets",
+        lower       : 50
+    },
+    {
+        title : "DEBT_TO_ASSET_RATIO",
+        numerator   : "totalLiabilities",
+        denominator : "totalAssets",
+        upper       : 50
+    },
+    {
+        title : "DEBT_SERVICE_RATIO",
+        numerator   : "debtRepayment",
+        denominator : "cashInflow",
+        upper       : 35
+    },
+    {
+        title : "LIQUIDITY_ASSET_TO_NET_WORTH_RATIO",
+        numerator   : "cashAssets",
+        denominator : "netWorth",
+        lower       : 15,
+        upper       : 20
+    },
+    {
+        title : "NET_INVESTMENT_ASSETS_TO_NET_WORTH_RATIO",
+        numerator   : "investmentAssets",
+        denominator : "netWorth",
+        lower       : 50
+    },
+    {
+        title : "SAVINGS_RATIO",
+        numerator   : "savings",
+        denominator : "cashInflow",
+        lower       : 10
     }
 ];

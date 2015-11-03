@@ -1,4 +1,4 @@
-app.controller('CaseNotesCtrl', function($scope,$rootScope,$http,$state,$translate,$toast,modalService,loadingService,errorHandler) {
+app.controller('CaseNotesCtrl', function($scope,$rootScope,$http,$state,$translate,$toast,$timeout,modalService,loadingService,errorHandler) {
     function parseDate(dateString) {
         if (!validity_test(dateString) || dateString === "0000-00-00") {
             return undefined;
@@ -68,7 +68,7 @@ app.controller('CaseNotesCtrl', function($scope,$rootScope,$http,$state,$transla
     $scope.removeMessage = $translate.instant("NOTE_REMOVE_MSG");
 });
 
-app.controller('AddCaseNotesCtrl', function($scope,$rootScope,$http,$state,$ionicHistory,loadingService,errorHandler) {
+app.controller('AddCaseNotesCtrl', function($scope,$rootScope,$http,$state,$timeout,$ionicHistory,loadingService,errorHandler) {
     $scope.initVar = function() {
         var caseNotesMode = $rootScope.caseNotesMode;
         delete $rootScope.caseNotesMode;
@@ -88,6 +88,11 @@ app.controller('AddCaseNotesCtrl', function($scope,$rootScope,$http,$state,$ioni
         caseNotesForm.notes.$setPristine();
     };
 
+    $scope.submitButton = function() {
+        $timeout(function(){
+            $("#caseNoteSubmit").click();
+        },1);
+    };
 
     $scope.submit = function(caseNotesForm) {
         if (caseNotesForm.$invalid) {

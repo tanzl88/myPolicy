@@ -31,10 +31,18 @@
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0); }
 
-#preview_profile_view .animate-item.ng-enter {
-  -webkit-animation: slideInLeft 0.5s;
-  animation: slideInLeft 0.5s; }
+@keyframes heightIn {
+  from {
+    max-height: 0px; }
+  to {
+    max-height: 100px; } }
 
-#preview_profile_view .animate-item.ng-leave {
-  -webkit-animation: slideOutLeft 0.3s;
-  animation: slideOutLeft 0.3s; }
+@keyframes heightOut {
+  from {
+    max-height: 100px; }
+  to {
+    max-height: 0px; } }
+
+#preview_profile_view .animate-item.ng-enter {
+  -webkit-animation: heightIn 1s;
+  animation: heightIn 1s; }

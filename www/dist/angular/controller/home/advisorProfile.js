@@ -28,6 +28,12 @@ app.controller('EditAdvisorProfileCtrl', ['$scope', '$q', '$http', '$timeout', '
         }
     };
 
+    //-------------------- SUBMIT --------------------
+    $scope.submitButton = function() {
+        $timeout(function() {
+            $("#advisorProfileSubmit").click();
+        });
+    };
     $scope.submit = function(form) {
         //ANALYTICS
         if (ionic.Platform.isWebView()) window.analytics.trackEvent('Core', 'Advisor Profile', 'Add / Edit');

@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'myPolicy';
-	src:url('fonts/myPolicy.eot?bttllu');
-	src:url('fonts/myPolicy.eot?bttllu#iefix') format('embedded-opentype'),
-	url('fonts/myPolicy.ttf?bttllu') format('truetype'),
-	url('fonts/myPolicy.woff?bttllu') format('woff'),
-	url('fonts/myPolicy.svg?bttllu#myPolicy') format('svg');
+	src:url('fonts/myPolicy.eot?de9r07');
+	src:url('fonts/myPolicy.eot?de9r07#iefix') format('embedded-opentype'),
+		url('fonts/myPolicy.ttf?de9r07') format('truetype'),
+		url('fonts/myPolicy.woff?de9r07') format('woff'),
+		url('fonts/myPolicy.svg?de9r07#myPolicy') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,6 +23,18 @@ i {
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.policy-magnify:before {
+	content: "\e901";
+}
+.policy-bar:before {
+	content: "\e900";
+}
+.policy-money-bag:before {
+	content: "\e902";
+}
+.policy-shield:before {
+	content: "\e903";
+}
 .policy-profile:before {
 	content: "\e80c";
 }

@@ -52,9 +52,9 @@ app.controller('GlobalCtrl', ['$scope', '$rootScope', '$timeout', '$state', 'tut
             var stateName = stateNameSplit[stateNameSplit.length - 1];
 
             //LOADING SCREEN WHILE WAITING FOR VIEW TO RENDER
-            if (stateName === "list" && !states.fromCache) {
-                loadingService.show("LOADING");
-            }
+            //if (stateName === "list" && !states.fromCache) {
+            //    loadingService.show("LOADING");
+            //}
 
 
             //TUTORIAL
@@ -74,7 +74,7 @@ app.controller('GlobalCtrl', ['$scope', '$rootScope', '$timeout', '$state', 'tut
                 $timeout(function(){
                     scopes.targetScope.initVar();
                 },1000);
-            } else if (validity_test(states.stateName) && (states.direction === "forward" || states.direction === "swap")) {
+            } else if (validity_test(states.stateName) && (states.direction === "forward" || states.direction === "swap" || states.direction === "none")) {
                 //INITIATION TRIGGER
                 if (scopes.targetScope.initVar !== undefined) {
                     $timeout(function(){

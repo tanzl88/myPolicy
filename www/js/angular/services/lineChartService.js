@@ -4,20 +4,27 @@ app.service('lineChartService', function($rootScope,$q,$http,$translate,$filter)
         lineChartExport = null;
     });
 
-    var color = [
-        "rgba(255,216,47,1)",
-        "rgba(255,0,0,1)",
-        "rgba(0,255,0,1)",
-        "rgba(0,0,255,1)",
-        "rgba(128,128,0,1)",
-        "rgba(255,0,255,1)",
-    ];
-
     return {
         getPremiumTrendChartData : function(data_array) {
+            var labels = [];
+            angular.forEach(_.pluck(data_array.data,'age'), function(age,index){
+                if (index % 2 === 0) labels.push(age);
+            });
+
             var ChartData = {
-                labels: _.pluck(data_array.data,'age'),
+                labels: labels,
                 datasets: [
+                    //{
+                    //    fillColor               : "rgba(67,174,168,0.1)",
+                    //    strokeColor             : "rgba(67,174,168,1)",
+                    //    pointColor              : "rgba(150,150,150,1)",
+                    //    pointStrokeColor        : "rgba(67,174,168,0)",
+                    //    pointHighlightFill      : "#fff",
+                    //    pointHighlightStroke    : "rgba(220,220,220,1)",
+                    //    xPos                    : _.pluck(data_array.data,'age'),
+                    //    data                    : _.pluck(data_array.data,'premium'),
+                    //    title                   : "Premium"
+                    //}
                     {
                         fillColor               : "rgba(220,220,220,0.2)",
                         strokeColor             : "rgba(255,216,47,1)",
@@ -25,13 +32,14 @@ app.service('lineChartService', function($rootScope,$q,$http,$translate,$filter)
                         pointStrokeColor        : "#fff",
                         pointHighlightFill      : "#fff",
                         pointHighlightStroke    : "rgba(220,220,220,1)",
+                        xPos                    : _.pluck(data_array.data,'age'),
                         data                    : _.pluck(data_array.data,'premium'),
                         title                   : "Premium"
                     },
                     {
                         //fillColor               : "rgba(220,220,220,0.2)",
                         //strokeColor             : "rgba(255,216,47,1)",
-                        pointColor              : "rgba(255,0,0,1)",
+                        pointColor              : "rgba(227,113,93,1)",
                         pointStrokeColor        : "#fff",
                         pointHighlightFill      : "#fff",
                         pointHighlightStroke    : "rgba(220,220,220,1)",
@@ -119,8 +127,12 @@ app.service('lineChartService', function($rootScope,$q,$http,$translate,$filter)
             //});
         },
         getCoverageTrendChartData : function(data_array) {
+            var labels = [];
+            angular.forEach(_.pluck(data_array.data,'age'), function(age,index){
+                if (index % 2 === 0) labels.push(age);
+            });
             var ChartData = {
-                labels: _.pluck(data_array.data,'age'),
+                labels: labels,
                 datasets: [{
                     fillColor               : "rgba(220,220,220,0.2)",
                     strokeColor             : "rgba(255,216,47,1)",
@@ -128,6 +140,7 @@ app.service('lineChartService', function($rootScope,$q,$http,$translate,$filter)
                     pointStrokeColor        : "#fff",
                     pointHighlightFill      : "#fff",
                     pointHighlightStroke    : "rgba(220,220,220,1)",
+                    xPos                    : _.pluck(data_array.data,'age'),
                     data                    : _.pluck(data_array.data,'coverage'),
                     title                   : "Coverage"
                 }]

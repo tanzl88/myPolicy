@@ -9611,7 +9611,16 @@ percent-input input {
 currency-input input.front,
 percent-input input.front {
   display: inline-block !important;
+  width: 49%; }
+
+.policy_form currency-input input.front,
+.policy_form percent-input input.front {
+  display: inline-block !important;
   width: 58%; }
+
+/* ------------------- HIDE ------------------------- */
+.hide-g {
+  display: none !important; }
 
 /* ------------------- HEADER ------------------------- */
 ion-header-bar i {
@@ -11179,13 +11188,21 @@ input.login_button {
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0); }
 
-#preview_profile_view .animate-item.ng-enter {
-  -webkit-animation: slideInLeft 0.5s;
-  animation: slideInLeft 0.5s; }
+@keyframes heightIn {
+  from {
+    max-height: 0px; }
+  to {
+    max-height: 100px; } }
 
-#preview_profile_view .animate-item.ng-leave {
-  -webkit-animation: slideOutLeft 0.3s;
-  animation: slideOutLeft 0.3s; }
+@keyframes heightOut {
+  from {
+    max-height: 100px; }
+  to {
+    max-height: 0px; } }
+
+#preview_profile_view .animate-item.ng-enter {
+  -webkit-animation: heightIn 1s;
+  animation: heightIn 1s; }
 
 .mac-date-time.ng-invalid-date,.mac-date-time.ng-invalid-time{background:#ffe2e2;border:solid 1px #dea9a9}.close,.close-modal{width:18px;height:18px;border-radius:9px;display:block;background:#bdc0c7;position:relative;opacity:1;}.close:after,.close-modal:after{content:'';display:block;width:2px;height:10px;background:#fff;position:absolute;top:4px;left:8px;transform:rotate(45deg)}.close:before,.close-modal:before{content:'';display:block;width:2px;height:10px;background:#fff;position:absolute;top:4px;left:8px;transform:rotate(-45deg)}.close:hover,.close-modal:hover{background:#828590}.hide{display:none}.affix{position:fixed;}.affix-bottom{position:absolute}
 .mac-menu{position:absolute;top:0;left:0;min-width:200px;background:#fff;box-shadow:0 3px 6px rgba(0,0,0,0.2);border:1px solid #d1d3d8;box-sizing:border-box;max-height:325px;overflow-y:auto;opacity:0;visibility:hidden;transition:opacity .1s ease-out,visibility .1s ease-out;z-index:4;}.mac-menu.visible{visibility:visible;opacity:1}.mac-menu ul{list-style:none;margin:0;padding-left:0;}.mac-menu ul .mac-menu-item{display:block;padding:5px 10px;transition:background .1s ease-out;color:#000;cursor:pointer;}.mac-menu ul .mac-menu-item.active{background:#e0e8fb;transition:0;text-decoration:none}

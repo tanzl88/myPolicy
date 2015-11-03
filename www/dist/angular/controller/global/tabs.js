@@ -13,26 +13,63 @@ app.controller('TabsCtrl', ['$scope', '$state', '$timeout', '$ionicScrollDelegat
     var scrollObj = {
         profile     : "clientProfileScroll",
         list        : "policiesListScroll",
-        overview    : "overview",
-        report      : "report"
+        //overview    : "overview",
+        //report      : "report"
     };
 
     $scope.scrollClick = function(currentState) {
         //HIDE CHART ANNOTATION
         $("#divCursor").hide();
 
-        var stateNameSplit = $state.current.name.split(".");
-        var stateName = stateNameSplit[stateNameSplit.length - 1];
-        if (currentState === stateName) {
-            $timeout(function(){
-                $ionicScrollDelegate.$getByHandle(scrollObj[currentState]).scrollTop(true);
-            },100);
-        } else {
-            $state.go("tabs." + currentState);
-            $timeout(function(){
-                $ionicScrollDelegate.$getByHandle(scrollObj[currentState]).scrollTop();
-            },100);
-        }
+        $timeout(function(){
+            var stateNameSplit = $state.current.name.split(".");
+            var stateName = stateNameSplit[stateNameSplit.length - 1];
+
+            if (currentState === stateName) {
+                $timeout(function(){
+                    $ionicScrollDelegate.$getByHandle(scrollObj[currentState]).scrollTop(true);
+                },100);
+            } else {
+                $state.go("tabs." + currentState);
+                $timeout(function(){
+                    $ionicScrollDelegate.$getByHandle(scrollObj[currentState]).scrollTop();
+                },100);
+            }
+        },100);
+    };
+}]);
+
+app.controller('ReportTabsCtrl', ['$scope', '$state', '$timeout', '$ionicScrollDelegate', function($scope,$state,$timeout,$ionicScrollDelegate) {
+    $scope.goTo = function(state) {
+        $state.go("tabs.reports." + state);
+    };
+
+    var scrollObj = {
+        overview    : "overview",
+        report      : "report",
+        premium     : "premium",
+        netWorth    : "netWorth"
+    };
+
+    $scope.scrollClick = function(currentState) {
+        //HIDE CHART ANNOTATION
+        $("#divCursor").hide();
+
+        $timeout(function(){
+            var stateNameSplit = $state.current.name.split(".");
+            var stateName = stateNameSplit[stateNameSplit.length - 1];
+
+            if (currentState === stateName) {
+                $timeout(function(){
+                    $ionicScrollDelegate.$getByHandle(scrollObj[currentState]).scrollTop(true);
+                },100);
+            } else {
+                $state.go("tabs.reports." + currentState);
+                $timeout(function(){
+                    $ionicScrollDelegate.$getByHandle(scrollObj[currentState]).scrollTop();
+                },100);
+            }
+        },100);
     };
 }]);
 

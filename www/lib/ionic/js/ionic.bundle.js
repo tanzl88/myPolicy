@@ -43635,7 +43635,7 @@ IonicModule
       forwardCache: false,
       transition: 'ios',
       swipeBackEnabled: true,
-      swipeBackHitWidth: 45
+      swipeBackHitWidth: 150
     },
 
     navBar: {

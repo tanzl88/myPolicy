@@ -1,4 +1,9 @@
 <ion-view id="add_case_notes_view" view-title="{{'CASE_NOTES' | translate}}">
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear" ng-click="submitButton()">
+            <i class="ion-checkmark"></i>
+        </button>
+    </ion-nav-buttons>
     <ion-content class="">
         <form id="caseNotesForm" name="caseNotesForm" novalidate="" ng-submit="submit(caseNotesForm)">
             <div class="">{{"DATE" | translate}}</div>
@@ -14,11 +19,11 @@
             <p style="margin-top: 3%;">{{"CASE_NOTES" | translate}}</p>
                 <textarea class="remarks_textarea" rows="10" cols="10"
                           ng-model="notesObj.notes" name="notes"
-                          style="margin-bottom: 4%;" required
+                          style="margin-bottom: 4%; width: 100%;" required
                           ng-class="{ 'has-error' : caseNotesForm.notes.$invalid && !caseNotesForm.notes.$pristine }"></textarea>
 
             <!--SUBMIT-->
-            <input class="login_button" type="submit" value="{{'SUBMIT_CAPS' | translate}}"
+            <input id="caseNoteSubmit" class="login_button hide-g" type="submit" value="{{'SUBMIT_CAPS' | translate}}"
                    style="margin-top: 4%;"/>
         </form>
     </ion-content>

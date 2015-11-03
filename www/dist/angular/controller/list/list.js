@@ -66,8 +66,6 @@ app.controller('ListCtrl', ['$rootScope', '$scope', '$state', '$filter', '$http'
         $scope.clientSelected   = credentialManager.getClientSelected();
         $scope.policies         = policyDataDbService.getPolicies();
         $scope.sums             = policyDataDbService.getAllSum();
-        loadingService.hide();
-
 
         //POST PROCESS POLICIES FOR REACT
         var fullTableObj = {

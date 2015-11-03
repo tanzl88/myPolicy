@@ -12,7 +12,7 @@ app.controller('ReportCtrl', ['$scope', '$translate', '$timeout', '$interval', '
                 $(".doughnut_container").width(chart_width).height(chart_width);
                 $(".doughnut_container canvas").attr("width",chart_width).attr("height",chart_width);
                 angular.forEach($scope.viewObj.cat,function(cat,index){
-                    if (index > 1) {
+                    if (index > -1) {
                         chartOptions.animation = false;
                     }
                     //POST PROCESS FOR EMTPY DATA -> DRAW ALL SHORTFALL
@@ -52,7 +52,7 @@ app.controller('ReportCtrl', ['$scope', '$translate', '$timeout', '$interval', '
             var ele_to_check = $("#coverageTrendChart");
             if (ele_to_check.length > 0) {
                 //STYLING
-                var chart_width = Math.floor(window_width_g);
+                var chart_width = Math.floor(window_width_g) - 16;
                 var chart_height = Math.floor(window_height_g * 0.5);
                 $("#coverageTrendChart").attr("width", chart_width).attr("height", chart_height);
                 console.log(chartData);

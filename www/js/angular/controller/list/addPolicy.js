@@ -1,4 +1,4 @@
-app.controller('AddPolicyCtrl', function($rootScope,$scope,$timeout,$state,$translate,$http,$toast,loadingService,utilityService,
+app.controller('AddPolicyCtrl', function($rootScope,$scope,$timeout,$state,$translate,$http,$timeout,$toast,loadingService,utilityService,
                                          $ionicNavBarDelegate,$ionicHistory,$ionicScrollDelegate,errorHandler) {
     $scope.company_enum = company_enum_g;
     $scope.plan_type_enum = plan_type_enum_g;
@@ -127,7 +127,9 @@ app.controller('AddPolicyCtrl', function($rootScope,$scope,$timeout,$state,$tran
 
     // -------------------- VALIDATION --------------------
     $scope.submitButton = function() {
-        $("#addPolicySubmit").click();
+        $timeout(function(){
+            $("#addPolicySubmit").click();
+        },1);
     };
     $scope.submit = function(policyForm) {
         //ANALYTICS

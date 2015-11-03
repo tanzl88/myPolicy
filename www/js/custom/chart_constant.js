@@ -159,7 +159,7 @@ var bar_chart_options_g = {
 };
 
 var doughnut_chart_options_g = {
-    responsive: true,
+    responsive: false,
     canvasBackgroundColor: 'rgba(255,255,255,1.00)',
     spaceLeft: 12,
     spaceRight: 12,
@@ -435,7 +435,7 @@ var line_chart_options_g = {
     scaleGridLineStyle: "solid",
     scaleGridLineWidth: 1,
     scaleGridLineColor: "rgba(240,240,240,1)",
-    scaleXGridLinesStep: 2,
+    scaleXGridLinesStep: 0,
     scaleYGridLinesStep: 1,
     segmentShowStroke: true,
     segmentStrokeStyle: "solid",
@@ -449,7 +449,7 @@ var line_chart_options_g = {
     bezierCurveTension: 0.4,
     pointDotStrokeStyle: "solid",
     pointDotStrokeWidth: 3,
-    pointDotRadius: 3,
+    pointDotRadius: 4,
     pointDot: true,
     scaleTickSizeBottom: 5,
     scaleTickSizeTop: 5,
@@ -471,6 +471,6 @@ var line_chart_options_g = {
     animationByDataset: false,
     animationLeftToRight: true,
     animationSteps: 40,
-    animation: true,
+    animation: false,
     endDrawScaleFunction: drawShapes
 };

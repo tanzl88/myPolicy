@@ -304,13 +304,13 @@ app.service('policyDataDbService', ['$rootScope', '$q', '$http', '$translate', '
                     premium : this.getTotalPremium(undefined,incrementBirthday)
                 });
 
-                if (age >= i && age < i + 5) {
+                if (age % 10 === 0 && age >= i && age < i + 10) {
                     trendObj.now = {
                         year    : thisYearBirthday.year(),
                         age     : age,
                         premium : this.getTotalPremium(undefined,undefined),
                         type    : "now",
-                        index   : (i - 20) / 5 + (age - i) / 5
+                        index   : (i - 20) / 10 + (age - i) / 10
                     };
                 }
 

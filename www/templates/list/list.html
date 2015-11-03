@@ -3,12 +3,9 @@
         <button class="button button-clear" ng-click="switchTo('landscape')" ng-if="credential !== 'advisor' || clientSelected === true" style="padding-right: 7px;">
             <i class="ion-arrow-expand"></i>
         </button>
-        <button class="button button-clear" ng-click="addPolicy()" ng-if="credential !== 'advisor' || clientSelected === true">
+        <button class="button button-clear" ng-if="credential !== 'advisor' || clientSelected === true" ng-click="addPolicy()">
             <i class="ion-plus"></i>
         </button>
-        <!--<button class="button button-clear"  ng-click="toggleMenu()" ng-if="credential !== 'advisor' || clientSelected === true">-->
-            <!--<i class="ion-more"></i>-->
-        <!--</button>-->
     </ion-nav-buttons>
     <ion-content class="" >
 
@@ -45,6 +42,7 @@
         <ion-scroll style="height: 100%;" has-bouncing="true" ng-if="policies.length > 0" delegate-handle="policiesListScroll">
             <ion-list>
                 <ion-item ng-repeat="policy in policies" class="policy_item item-remove-animate" ng-click="editPolicy($index)">
+
                     <div class="policy_summary">
                         <p><b>{{$index + 1}}. {{policy.company}} - {{policy.planName}}</b></p>
                         <div>
