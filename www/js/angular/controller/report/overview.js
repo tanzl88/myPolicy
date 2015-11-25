@@ -1,20 +1,37 @@
 app.controller('OverviewCtrl', function($scope,$translate,$timeout,$interval,$toast,$state,$ionicScrollDelegate,credentialManager,
                                         policyDataService,policyDataDbService,personalDataDbService,barChartService,lineChartService) {
 
-    function drawBarChart(chartData,chartOptions) {
+    function drawBarChart(canvasId,heightFactor,chartData,chartOptions) {
         var initTimer;
         initTimer = $interval(function() {
-            var ele_to_check = $("#overviewChart");
+            var ele = canvasId;
+            var ele_to_check = $("#" + ele);
             if (ele_to_check.length > 0) {
                 //STYLING
                 var chart_width = Math.floor(window_width_g - 16);
-                var chart_height = Math.floor(window_height_g * 0.65);
-                $("#overviewChart").attr("width", chart_width).attr("height", chart_height);
-                barChartService.drawChart("overviewChart", chartData, chartOptions);
+                var chart_height = Math.floor(window_height_g * heightFactor);
+                $(ele_to_check).attr("width", chart_width).attr("height", chart_height);
+                barChartService.drawChart(ele, chartData, chartOptions);
                 $interval.cancel(initTimer);
             }
         },100);
     }
+
+    //function drawIncomeBarChart(chartData,chartOptions) {
+    //    var initTimer;
+    //    initTimer = $interval(function() {
+    //        var ele = "overviewIncomeChart";
+    //        var ele_to_check = $("#" + ele);
+    //        if (ele_to_check.length > 0) {
+    //            //STYLING
+    //            var chart_width = Math.floor(window_width_g - 16);
+    //            var chart_height = Math.floor(window_height_g * 0.65);
+    //            $(ele_to_check).attr("width", chart_width).attr("height", chart_height);
+    //            barChartService.drawChart(ele, chartData, chartOptions);
+    //            $interval.cancel(initTimer);
+    //        }
+    //    },100);
+    //}
 
     $scope.goToProfile = function() {
         $state.go("tabs.profile");
@@ -32,27 +49,29 @@ app.controller('OverviewCtrl', function($scope,$translate,$timeout,$interval,$to
         if (($scope.credential === "advisor" && $scope.clientSelected) || $scope.credential === "client") {
             $scope.currency = $translate.instant("CURRENCY");
             $scope.viewObj = {};
-            $scope.viewObj.cat = policyDataService.getOverviewData();
+            $scope.viewObj.cat = _.groupBy(policyDataService.getOverviewData(),function(cat){ return cat.chart; });
 
             //DRAW BAR CHART
-            var chartData = barChartService.getOverviewChartData($scope.viewObj.cat);
+
             if ($("html").hasClass("tablet")) {
                 var chartOptions = barChartService.getChartOptions({
                     scaleFontSize           : 18,
                     xAxisFontSize           : 18,
-                    //barValueSpacing         : Math.floor(chart_width/4000 * 110),
-                    //xAxisSpaceBefore        : Math.floor(chart_width/4000 * 50),
-                    //xAxisLabelSpaceBefore   : Math.floor(chart_width/4000 * 100),
-                    //yAxisSpaceLeft          : Math.floor(chart_width/4000 * 100),
-                    //scaleLineWidth          : Math.floor(chart_width/4000 * 10),
                 });
+                var overviewHeightFactor = 0.8;
+                var overviewIncomeHeightFactor = 0.55;
             } else {
                 var chartOptions = barChartService.getChartOptions({
 
                 });
+                var overviewHeightFactor = 0.65;
+                var overviewIncomeHeightFactor = 0.43;
             }
+            var chartData = barChartService.getOverviewChartData($scope.viewObj.cat.lump);
+            drawBarChart("overviewChart",overviewHeightFactor,chartData,chartOptions);
 
-            drawBarChart(chartData,chartOptions);
+            var chartData = barChartService.getOverviewChartData($scope.viewObj.cat.income);
+            drawBarChart("overviewIncomeChart",overviewIncomeHeightFactor,chartData,chartOptions);
         }
     };
 });

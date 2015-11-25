@@ -138,7 +138,9 @@ app.service('policyDataDbService', ['$rootScope', '$q', '$http', '$translate', '
                     coverageTerm            : parseDbInt(policy.coverageTerm),
                     coverageTermMode        : parseDbBoolean(policy.coverageTermMode),
                     coverageTermDisplayed   : getTermDisplayed(policy.coverageTermMode,parseDbInt(policy.coverageTerm)),
-                    //sumAssured              : parseDbInt(policy.sumAssured),
+                    payoutTerm              : parseDbInt(policy.payoutTerm),
+                    payoutTermMode          : parseDbBoolean(policy.payoutTermMode),
+                    payoutTermDisplayed     : getTermDisplayed(policy.payoutTermMode,parseDbInt(policy.payoutTerm)),
                     deathSA                 : parseDbInt(policy.deathSA),
                     disabledSA              : parseDbInt(policy.disabledSA),
                     critSA                  : parseDbInt(policy.critSA),
@@ -251,7 +253,48 @@ app.service('policyDataDbService', ['$rootScope', '$q', '$http', '$translate', '
             } else {
                 return 0;
             }
+        },
+        getPayoutData : function() {
+            var payout = [];
+            var payoutObj = {};
+            var sum = 0;
+            var birthday = moment(personalDataDbService.getUserData("birthday"),"LL");
+            angular.forEach(policies_g, function(policy,index){
+                if (policy.surrenderValue !== undefined) {
 
+                    if (policy.payoutTerm === undefined || policy.startDate === undefined) {
+                        var age = 99999;
+                    } else {
+                        if (policy.payoutTermMode) {
+                            var payoutDate = moment(policy.startDate,"LL").clone().add(policy.payoutTerm,"y");
+                            var startDateAtBirth = payoutDate.clone().year(birthday.year());
+                            var age = payoutDate.diff(startDateAtBirth,"y");
+                        } else {
+                            var age = policy.payoutTerm;
+                        }
+                    }
+
+                    if (payoutObj[age] === undefined) {
+                        var surrenderValue = policy.surrenderValue !== undefined ? parseInt(policy.surrenderValue) : 0;
+                        var currentValue   = policy.currentValue !== undefined   ? parseInt(policy.currentValue)   : 0;
+                        payoutObj[age] = {
+                            age          : age,
+                            surrenderAmt : surrenderValue,
+                            cashAmt      : currentValue,
+                        };
+                    } else {
+                        if (policy.surrenderValue !== undefined) payoutObj[age].surrenderAmt  += parseInt(policy.surrenderValue);
+                        if (policy.currentValue !== undefined)   payoutObj[age].cashAmt       += parseInt(policy.currentValue);
+                    }
+                }
+            });
+
+            //RESTRUCTURE OUTPUT TO ARRAY
+            for (var key in payoutObj) {
+                payout.push(payoutObj[key]);
+            }
+
+            return _.sortBy(payout, 'age');
         },
         getTotalPremium : function(cat,referenceMomentDate) {
             var sum = 0;
@@ -287,6 +330,87 @@ app.service('policyDataDbService', ['$rootScope', '$q', '$http', '$translate', '
             });
             return sum.toFixed(0);
         },
+        getTotalPremium2 : function(referenceMomentDate) {
+            var premium = {
+                protection : {
+                    title   : "PROTECTION_POLICIES",
+                    sum     : 0,
+                    num     : 0
+                },
+                savings : {
+                    title   : "SAVINGS_POLICIES",
+                    sum     : 0,
+                    num     : 0
+                },
+                others : {
+                    title   : "UNKNOWN",
+                    sum     : 0,
+                    num     : 0
+                },
+                total : {
+                    title   : "TOTAL",
+                    sum     : 0,
+                    num     : 0
+                }
+            };
+
+            var birthday = moment(personalDataDbService.getUserData("birthday"),"LL");
+            referenceMomentDate = referenceMomentDate === undefined ? moment() : referenceMomentDate;
+            angular.forEach(policies_g, function(policy,index){
+                var planCat = policy.planType === undefined ? "others" : plan_type_cat_enum_g[policy.planType];
+                if (validity_test(policy.premium) && validity_test(policy.premiumMode)) {
+                    if (policy.startDate !== undefined && policy.premiumTermMode !== undefined && policy.premiumTerm !== undefined) {
+                        //IF NO BIRTHDAY IS AVAILABLE AND PREMIUM TERM CALCULATE BY AGE -> UNABLE TO CALCULATE EXPIRY DATE
+                        //DEFAULT TO ADD TO SUM
+                        if (!policy.premiumTermMode && birthday === undefined) {
+                            premium[planCat].sum += policy.premium * premium_mode_factor_g[policy.premiumMode];
+                            premium[planCat].num += 1;
+                        } else {
+                            var startDate = moment(policy.startDate,"LL");
+                            //PREMIUM TERM MODE TRUE -> BY YEARS, FALSE -> BY AGE
+                            if (policy.premiumTermMode) {
+                                var premiumYear = policy.premiumTerm;
+                            } else {
+                                var startDateAtBirth = startDate.clone().year(birthday.year());
+                                var premiumYear = policy.premiumTerm - startDate.diff(startDateAtBirth,"y");
+                            }
+                            var premiumExpiryDate = startDate.clone().add(premiumYear,"y");
+
+                            if (startDate.isBefore(referenceMomentDate) && premiumExpiryDate.isAfter(referenceMomentDate)) {
+                                //NOT EXPIRED
+                                premium[planCat].sum += policy.premium * premium_mode_factor_g[policy.premiumMode];
+                                premium[planCat].num += 1;
+                            }
+                        }
+                    } else {
+                        premium[planCat].sum += policy.premium * premium_mode_factor_g[policy.premiumMode];
+                        premium[planCat].num += 1;
+                    }
+                } else {
+                    premium[planCat].num += 1;
+                }
+            });
+
+            //CALCULATE TOTAL
+            premium.total.sum = premium.protection.sum + premium.savings.sum + premium.others.sum;
+            premium.total.num = premium.protection.num + premium.savings.num + premium.others.num;
+
+            //REMOVE UNKNOWN IF EMPTY
+            if (premium.others.num === 0) delete premium.others;
+
+            //RESTRUCTURE OUTPUT TO ARRAY
+            var output = [];
+            for (var key in premium) {
+                output.push({
+                    title : premium[key].title,
+                    sum   : premium[key].sum,
+                    num   : premium[key].num,
+                });
+            }
+
+
+            return output;
+        },
         getPremiumTrend : function() {
             var trendObj = {
                 data : [],
@@ -304,17 +428,18 @@ app.service('policyDataDbService', ['$rootScope', '$q', '$http', '$translate', '
                     premium : this.getTotalPremium(undefined,incrementBirthday)
                 });
 
-                if (age % 10 === 0 && age >= i && age < i + 10) {
-                    trendObj.now = {
+                if (age >= i && age < i + 5) {
+                    var nowObj = {
                         year    : thisYearBirthday.year(),
                         age     : age,
                         premium : this.getTotalPremium(undefined,undefined),
                         type    : "now",
                         index   : (i - 20) / 10 + (age - i) / 10
                     };
+                    if (age < i + 5)  trendObj.data.push(nowObj);
+                    if (age < i + 10) trendObj.now = nowObj;
+
                 }
-
-
             }
             return trendObj;
         },
@@ -334,6 +459,7 @@ app.service('policyDataDbService', ['$rootScope', '$q', '$http', '$translate', '
                     var incrementBirthday = birthday.clone().add(i,"y");
 
                     catArray.push({
+                        title    : cat.name,
                         year     : incrementBirthday.year(),
                         age      : i,
                         coverage : thisService.getSumByColName(cat.col,incrementBirthday)
@@ -351,7 +477,6 @@ app.service('policyDataDbService', ['$rootScope', '$q', '$http', '$translate', '
                 }
                 trendObj.data.push(catArray);
             });
-
             return trendObj;
         }
     }

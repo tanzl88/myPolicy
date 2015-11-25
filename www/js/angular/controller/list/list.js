@@ -1,5 +1,5 @@
 app.controller('ListCtrl', function($rootScope,$scope,$state,$filter,$http,$translate,$timeout,$toast,$ionicScrollDelegate,
-                                    policyDataDbService,credentialManager,modalService,loadingService,errorHandler) {
+                                    reactDOMService,policyDataDbService,credentialManager,modalService,loadingService,errorHandler) {
     // ------------ NAVIGATION ------------
     $scope.addPolicy = function() {
         $state.go("tabs.list.addPolicy");
@@ -65,45 +65,7 @@ app.controller('ListCtrl', function($rootScope,$scope,$state,$filter,$http,$tran
         $scope.credential       = credentialManager.getCredential();
         $scope.clientSelected   = credentialManager.getClientSelected();
         $scope.policies         = policyDataDbService.getPolicies();
-        $scope.sums             = policyDataDbService.getAllSum();
-
-        //POST PROCESS POLICIES FOR REACT
-        var fullTableObj = {
-            head : [],
-            body : []
-        };
-        //HEAD
-        angular.forEach(full_table_g,function(col,index){
-            fullTableObj.head.push({
-                title : $translate.instant(col.title),
-                width : col.width
-            });
-        });
-        //BODY
-        angular.forEach($scope.policies,function(policy,policyIndex){
-            var rowArray = [];
-            angular.forEach(full_table_g,function(col,index){
-                if (col.type === "currency") {
-                    rowArray.push($filter("currency")(policy[col.varName],"",0));
-                } else {
-                    rowArray.push(policy[col.varName]);
-                }
-            });
-            fullTableObj.body.push(rowArray);
-        });
-        //SUM
-        var rowArray = [];
-        var sumColStart = 12;
-        for (var i = 0 ; i < full_table_g.length ; i++) {
-            if (i < sumColStart) {
-                rowArray.push(undefined);
-            } else {
-                rowArray.push($filter("currency")($scope.sums[i - sumColStart],"",0));
-            }
-        }
-        fullTableObj.body.push(rowArray);
-
-        $scope.fullTableObj = fullTableObj;
+        $scope.fullTableObj     = reactDOMService.getFullTable([full_table_g]);
     };
 
     // --------------- INTERACTION MENU ---------------
@@ -132,10 +94,8 @@ app.controller('ListCtrl', function($rootScope,$scope,$state,$filter,$http,$tran
 
     // ------------ GO TO GALLERY ------------
     $scope.goToGallery = function(index) {
-        console.log($scope.policies[index]);
         $rootScope.policyId = $scope.policies[index].id;
         $rootScope.userId   = credentialManager.getClientProperty("id");
-        console.log($rootScope.policyId);
         $state.go("tabs.list.gallery");
     };
 

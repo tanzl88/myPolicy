@@ -1,114 +1,351 @@
-<ion-view id="export_view" view-title="{{'GENERATE_REPORT' | translate}}" cache-view="false">
-    <ion-content class="">
+<ion-view id="export_view" view-title="{{::'GENERATE_REPORT' | translate}}" cache-view="false">
+    <ion-content>
+
         <canvas id="overviewChart-export"></canvas>
+        <canvas id="overviewIncomeChart-export"></canvas>
+        <canvas id="premiumTrendChart-export"></canvas>
+        <!--<canvas id="coverageChart-export"></canvas>-->
+        <canvas id="premiumRatioPie-export"></canvas>
+        <div ng-repeat="cat in viewObj.cat">
+            <canvas id="coverageChart-export{{::$index}}"></canvas>
+        </div>
+
 
         <!--OVERVIEW TABLE-->
         <div id="overviewTable-export" class="overviewTable-export">
-            <table class="overview_table">
-                <thead>
-                    <tr>
-                        <th width="60%" class="new-line">{{"PROTECTIONS" | translate}}</th>
-                        <th width="40%">{{"SUM_ASSURED" | translate}}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="cat in viewObj.protectionsData">
-                        <td class="new-line">{{"EXP_" + cat.label | translate}}</td>
-                        <td class="align-middle">{{cat.amt | currency:"S$ ":0}}</td>
-                    </tr>
-                </tbody>
+            <table class="protections_table" style="margin-top: 4%; margin-bottom: 4%;">
+                <tr>
+                    <th width="60%" style="text-align: left;">{{::"CATEGORY" | translate}}</th>
+                    <th colspan="2" width="40%" style="border-left-width: 0;">{{::"COVERAGE" | translate}}</th>
+                </tr>
+                <tr ng-repeat="cat in viewObj.overviewData.lump">
+                    <td width="60%" class="protections_table_category">{{::cat.translate}}</td>
+                    <td width="15%" style="width: 10%; border-left-width: 0;">{{::currency}}</td>
+                    <td width="25%" class="align-right" style="border-left-width: 0;">
+                        <p class="amt inline-block align-middle">{{::cat.amt | number}}</p>
+                    </td>
+                </tr>
             </table>
         </div>
 
         <!--FINANCIAL INFO TABLE-->
         <div id="financialInfoTable-export" class="overviewTable-export">
-            <table class="overview_table">
-                <thead>
-                    <tr>
-                        <th width="60%" class="new-line">{{"FINANCIAL" | translate}}</th>
-                        <th width="40%">{{"AMOUNT" | translate}}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="cat in viewObj.financialData">
-                        <td class="new-line">{{"EXP_" + cat.label | translate}}</td>
-                        <td ng-if="$index !== 3" class="align-middle">{{cat.amt | currency:"S$ ":0}}</td>
-                        <td ng-if="$index === 3" class="align-middle">{{cat.amt}}</td>
-                    </tr>
-                </tbody>
+            <table class="protections_table" style="margin-top: 4%; margin-bottom: 4%;">
+                <tr>
+                    <th width="60%" style="text-align: left;">{{::"CATEGORY" | translate}}</th>
+                    <th colspan="2" class="align-center" width="40%" style="border-left-width: 0;">{{::"COVERAGE" | translate}}</th>
+                </tr>
+                <tr ng-repeat="cat in viewObj.overviewData.income">
+                    <td width="60%" class="protections_table_category">{{::cat.translate}}</td>
+                    <td width="15%" style="width: 10%; border-left-width: 0;">{{::currency}}</td>
+                    <td width="25%" class="align-right" style="border-left-width: 0;">
+                        <p class="amt inline-block align-middle">{{::cat.amt | number}}</p>
+                    </td>
+                </tr>
             </table>
         </div>
+
+        <!--ASSETS TABLE-->
+        <div id="assetsTable-export" class="export-table">
+            <table id="assetTable">
+                <tr>
+                    <th colspan="3" class="align-middle align-center">{{::"TOTAL_ASSETS" | translate}}: {{::personal.personal.totalAssets | currency:currency:0}}</th>
+                </tr>
+                <tr ng-repeat="asset in personal.assetsObj">
+                    <td class="align-right align-middle percent" style="width: 33%">
+                        {{::asset.percent}}%
+                    </td>
+                    <td class="align-middle" style="width: 33%"></td>
+                    <td class="align-middle amt" style="width: 33%">
+                        <p>{{::asset.title | translate}}</p>
+                        <p>{{::asset.amt | currency:currency:0}}</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!--LIABILITIES TABLE-->
+        <div id="liabilitiesTable-export" class="export-table">
+            <table id="liabilityTable">
+                <tr>
+                    <th colspan="3" class="align-middle align-center">{{::"TOTAL_LIABILITIES" | translate}}: {{::personal.personal.totalLiabilities | currency:currency:0}}</th>
+                </tr>
+                <tr ng-repeat="liability in personal.liabilitiesObj">
+                    <td class="align-right align-middle percent" style="width: 33%">
+                        {{::liability.percent}}%
+                    </td>
+                    <td class="align-middle" style="width: 33%"></td>
+                    <td class="align-middle amt" style="width: 33%">
+                        <p>{{::liability.title | translate}}</p>
+                        <p>{{::liability.amt | currency:currency:0}}</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!--NET WORTH TOP TABLE-->
+        <div id="netWorthTop-export" class="export-table">
+            <table class="split_diagram_table">
+                <tr>
+                    <td width="33%" class="align-center">
+                        {{::"TOTAL_ASSETS" | translate}}
+                        {{::personal.personal.totalAssets | currency:currency:0}}
+                    </td>
+                    <td width="34%"></td>
+                    <td width="33%" class="align-center">
+                        {{::"TOTAL_LIABILITIES" | translate}}
+                        {{::personal.personal.totalLiabilities | currency:currency:0}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!--NET WORTH BOTTOM TABLE-->
+        <div id="netWorthBottom-export" class="export-table">
+            <table class="split_diagram_table">
+                <tr>
+                    <td width="100%" class="align-center">
+                        {{::"NET_WORTH" | translate}}
+                        {{::personal.personal.netWorth | currency:currency:0}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!--PREMIUM TOP TABLE-->
+        <div id="premiumTop-export" class="export-table">
+            <table class="split_diagram_table">
+                <tr>
+                    <td width="100%" class="align-center">
+                        {{::"ANNUAL_PREMIUM" | translate}}
+                        {{::premiumObj.total | currency:currency:0}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!--PREMIUM BOTTOM TABLE-->
+        <div id="premiumBottom-export" class="export-table">
+            <table class="split_diagram_table">
+                <tr>
+                    <td width="40%" class="align-center">
+                        <p class="new-line">{{::"PROTECTION_POLICIES_NEW_LINE" | translate}}</p>
+                        <p>{{::premiumObj.protection | currency:currency:0}}</p>
+                    </td>
+                    <td width="20%"></td>
+                    <td width="40%" class="align-center">
+                        <p class="new-line">{{::"SAVINGS_POLICIES_NEW_LINE" | translate}}</p>
+                        <p>{{::premiumObj.savings | currency:currency:0}}</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+        <!--CASHFLOW TABLE-->
+        <div id="cashflowTable-export" class="export-table">
+            <table id="cashflowTable">
+                <tr>
+                    <th colspan="3" class="align-middle align-center">{{::"NET_CASHFLOW" | translate}}: {{::personal.personal.netCashflow | currency:currency:0}}</th>
+                </tr>
+                <tr class="content">
+                    <td width="40%" class="align-center align-middle">
+                        <p>{{::"EXPENSES" | translate}}</p>
+                        <p>{{::personal.personal.expenses | currency:currency:0}}</p>
+                    </td>
+                    <td width="20%"></td>
+                    <td width="40%" class="align-center align-middle">
+                        <p>{{::"DEBTS" | translate}}</p>
+                        <p>{{::personal.personal.debtRepayment | currency:currency:0}}</p>
+                    </td>
+                </tr>
+                <tr class="empty"><td width="100%" colspan="3"></td></tr>
+                <tr class="content">
+                    <td class="align-center align-middle">
+                        <p>{{::"SAVINGS_ONLY" | translate}}</p>
+                        <p>{{::personal.personal.savings | currency:currency:0}}</p>
+                    </td>
+                    <td></td>
+                    <td class="align-center align-middle">
+                        <p>{{::"EXPENDITURE_ONLY" | translate}}</p>
+                        <p>{{::personal.personal.expenditure | currency:currency:0}}</p>
+                    </td>
+                </tr>
+                <tr class="empty"><td width="100%" colspan="3"></td></tr>
+                <tr class="content">
+                    <td class="align-center align-middle">
+                        <p>{{::"CASH_INFLOW" | translate}}</p>
+                        <p>{{::personal.personal.cashInflow | currency:currency:0}}</p>
+                    </td>
+                    <td></td>
+                    <td class="align-center align-middle">
+                        <p>{{::"CASH_OUTFLOW" | translate}}</p>
+                        <p>{{::personal.personal.cashOutflow | currency:currency:0}}</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!--NET WORTH TOTAL TABLE-->
+        <div id="netWorthTotalTable-export" class="export-table">
+            <table id="netWorthTotalTable">
+                <tr>
+                    <th colspan="3" class="align-middle align-center">{{::"NET_WORTH" | translate}}: {{::personal.personal.netWorth | currency:currency:0}}</th>
+                </tr>
+                <tr class="content">
+                    <td width="45%" class="align-center align-middle">
+                        <p>{{::"TOTAL_ASSETS" | translate}}</p>
+                        <p>{{::personal.personal.totalAssets | currency:currency:0}}</p>
+                    </td>
+                    <td width="10%"></td>
+                    <td width="45%" class="align-center align-middle">
+                        <p>{{::"TOTAL_LIABILITIES" | translate}}</p>
+                        <p>{{::personal.personal.totalLiabilities | currency:currency:0}}</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!--FINANCIAL RATIO TABLE-->
+        <div id="financialRatioTable-export" class="overviewTable-export">
+            <table class="protections_table" style="margin: 4% auto;">
+                <tr>
+                    <th style="width: 32%;">{{::"FINANCIAL_RATIO" | translate}}</th>
+                    <th class="align-center" style="width: 22%;">{{::"CURRENT" | translate}}</th>
+                    <th class="align-center" style="width: 22%;">{{::"SUGGESTED" | translate}}</th>
+                    <th class="align-center" style="width: 22%;">{{::"STATUS" | translate}}</th>
+                </tr>
+                <tr ng-repeat="ratio in personal.ratios">
+                    <td class="new-line protections_table_category">{{::ratio.title | translate}}</td>
+                    <td class="align-right">
+                        <p class="amt inline-block align-middle">{{::ratio.amt}}</p>
+                    </td>
+                    <td class="align-right">
+                        <p class="amt inline-block align-middle">{{::ratio.suggest}}</p>
+                    </td>
+                    <td class="align-right" ng-class="{'excess' : ratio.pass === true, 'shortfall' : ratio.pass === false}">
+                        <p class="amt inline-block align-middle">{{::ratio.status}}</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!--CASH VALUE TABLE-->
+        <div id="cashValueTable-export" class="overviewTable-export">
+            <table class="protections_table" style="margin-top: 4%; margin-bottom: 4%;">
+                <tr>
+                    <th width="30%" style="text-align: left;">{{"AGE" | translate}}</th>
+                    <th width="35%" style="border-left-width: 0;">{{"SURRENDER_CASH_VALUE" | translate}}</th>
+                    <th width="35%" style="border-left-width: 0;">{{"CASH_VALUE" | translate}}</th>
+                </tr>
+                <tr ng-repeat="cat in payoutObj">
+                    <td ng-if="cat.age != '99999'" class="protections_table_category">{{cat.age}}</td>
+                    <td ng-if="cat.age == '99999'" class="protections_table_category">{{"UNKNOWN" | translate}}</td>
+                    <td class="align-center" style="border-left-width: 0;">
+                        <p class="amt inline-block align-middle">{{currency}}{{cat.surrenderAmt | number}}</p>
+                    </td>
+                    <td class="align-center" style="border-left-width: 0;">
+                        <p class="amt inline-block align-middle">{{currency}}{{cat.cashAmt | number}}</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!--POLICY INFO TABLE-->
+        <div id="policyInfoTable-export" class="overviewTable-export">
+            <table class="protections_table" style="margin-top: 4%; margin-bottom: 4%;">
+                <tr>
+                    <th width="30%" style="text-align: left;">{{"CATEGORY" | translate}}</th>
+                    <th width="35%" style="border-left-width: 0;">{{"PREMIUM_AMT" | translate}}</th>
+                    <th width="35%" style="border-left-width: 0;">{{"NUMBER_OF_POLICIES" | translate}}</th>
+                </tr>
+                <tr ng-repeat="cat in premiumBreakdownObj">
+                    <td class="align-center">
+                        <p class="amt inline-block align-middle">{{cat.title | translate}}</p>
+                    </td>
+                    <td class="align-center" style="border-left-width: 0;">
+                        <p class="amt inline-block align-middle">{{currency}}{{cat.sum | number}}</p>
+                    </td>
+                    <td class="align-center" style="border-left-width: 0;">
+                        <p class="amt inline-block align-middle">{{cat.num}}</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
 
 
         <!--FULL TABLE 1-->
         <div id="fullTable1-export" class="full_table fullTable-export">
-            <react-table data="fullTableObj[0]"></react-table>
+            <react-table id="reactFullTable1" data="fullTableObj[0]"></react-table>
         </div>
         <!--FULL TABLE 2-->
         <div id="fullTable2-export" class="full_table fullTable-export">
-            <react-table data="fullTableObj[1]"></react-table>
+            <react-table id="reactFullTable2" data="fullTableObj[1]"></react-table>
         </div>
 
         <!--PROTECTION TABLE-->
-        <div id="protectionsTable-export">
+        <div id="protectionsTable-export" class="overviewTable-export">
             <table class="protections_table">
-                <thead>
-                    <tr>
-                        <th style="width: 22%;">{{"CATEGORY" | translate}}</th>
-                        <th style="width: 26%;">{{"CURRENT" | translate}}({{currency}})</th>
-                        <th style="width: 26%;">{{"SUGGESTED" | translate}}({{currency}})</th>
-                        <th style="width: 26%;">{{"SHORTFALL" | translate}}({{currency}})</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="cat in viewObj.cat">
-                        <td class="new-line protections_table_category">{{cat.label | translate}}</td>
-                        <td>
-                            <p class="amt inline-block align-middle">{{cat.amt | number}}</p>
-                        </td>
-                        <td>
-                            <suggest-amt-editor ng-bind-data="cat.suggested">
-                            </suggest-amt-editor>
-                        </td>
-                        <td ng-class="{'excess' : cat.diff_type === 'Excess', 'shortfall' : cat.diff_type === 'Shortfall'}">
-                            <p class="amt inline-block align-middle">{{cat.diff | number}}</p>
-                        </td>
-                    </tr>
-                </tbody>
+                <tr>
+                    <th style="width: 28%;">{{::"CATEGORY" | translate}}</th>
+                    <th style="width: 24%;">{{::"CURRENT" | translate}}({{::currency}})</th>
+                    <th style="width: 24%;">{{::"SUGGESTED" | translate}}({{::currency}})</th>
+                    <th style="width: 24%;">{{::"SHORTFALL" | translate}}({{::currency}})</th>
+                </tr>
+                <tr ng-repeat="cat in viewObj.cat">
+                    <td class="new-line protections_table_category">{{::cat.label | translate}}</td>
+                    <td class="align-right">
+                        <p class="amt inline-block align-middle">{{::cat.amt | number}}</p>
+                    </td>
+                    <td class="align-right">
+                        <suggest-amt-editor ng-bind-data="cat.suggested" show-asterisk="t">
+                        </suggest-amt-editor>
+                    </td>
+                    <td class="align-right" ng-class="{'excess' : cat.diff_type === 'Excess', 'shortfall' : cat.diff_type === 'Shortfall'}">
+                        <p class="amt inline-block align-middle">{{::cat.diff | number}}</p>
+                    </td>
+                </tr>
             </table>
         </div>
 
-        <!--DOUGNUT-->
+        <div ng-repeat="cat in viewObj.cat" id="catTitle{{$index}}">
+            <table>
+                <tr><td class="align-middle align-center" style="font-size: 0.1em;">{{::cat.title | translate}}</td></tr>
+            </table>
+        </div>
+
+        <!--DOUGHNUT-->
         <div ng-repeat="cat in viewObj.cat">
-            <canvas id="doughnut-export{{$index}}" class="doughnutChart-export"></canvas>
-            <div id="doughnut-exportTable{{$index}}">
+            <canvas id="doughnut-export{{::$index}}" class="doughnutChart-export"></canvas>
+            <div id="doughnut-exportTable{{::$index}}">
                 <table class="doughnut_table doughnutTable-export">
                     <tr class="doughnut_text_container">
                         <td style="width: 10%;">
                             <div style="background-color: rgba(130,124,111,1); width: 15px; height: 15px;"></div>
                         </td>
                         <td style="width: 45%;">
-                            {{"CURRENT_COVERAGE" | translate}}
+                            {{::"CURRENT_COVERAGE" | translate}}
                         </td>
                         <td style="width: 10%;">
-                            {{currency}}
+                            {{::currency}}
                         </td>
                         <td class="value" style="width: 31%;">
-                            {{cat.amt | number}}
+                            {{::cat.amt | number}}
                         </td>
                     </tr>
                     <tr class="doughnut_text_container">
                         <td>
-                            <div style="width: 15px; height: 15px;" ng-style="{{cat.color}}"></div>
+                            <div style="width: 15px; height: 15px;" ng-style="{{::cat.color}}"></div>
                         </td>
                         <td>
-                            {{cat.diff_type}}
+                            {{::cat.diff_type}}
                         </td>
                         <td>
-                            {{currency}}
+                            {{::currency}}
                         </td>
                         <td class="value">
-                            {{cat.diff | number}}
+                            {{::cat.diff | number}}
                         </td>
                     </tr>
                     <tr class="doughnut_text_container">
@@ -116,13 +353,13 @@
                             <div style="background-color: transparent; width: 15px; height: 15px;"></div>
                         </td>
                         <td>
-                            {{"SUGGESTED_COVERAGE" | translate}}
+                            {{::"SUGGESTED_COVERAGE" | translate}}
                         </td>
                         <td>
-                            {{currency}}
+                            {{::currency}}
                         </td>
                         <td class="value">
-                            {{cat.suggested | number}}
+                            {{::cat.suggested | number}}
                         </td>
                     </tr>
                 </table>
@@ -135,18 +372,18 @@
             <table class="protections_table">
                 <thead>
                     <tr>
-                        <th style="width: 13%;">{{"CATEGORY" | translate}}</th>
-                        <th style="width: 29%;">{{"WHY_IMPORTANT" | translate}}</th>
-                        <th style="width: 29%;">{{"GENERALLY_COVERS" | translate}}</th>
-                        <th style="width: 29%;">{{"SUGGESTED_COVERAGE" | translate}}</th>
+                        <th style="width: 13%; text-align: left;">{{::"CATEGORY" | translate}}</th>
+                        <th style="width: 29%;">{{::"WHY_IMPORTANT" | translate}}</th>
+                        <th style="width: 29%;">{{::"GENERALLY_COVERS" | translate}}</th>
+                        <th style="width: 29%;">{{::"SUGGESTED_COVERAGE" | translate}}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="cat in viewObj.cat">
-                        <td>{{"REPORT_" + cat.title | translate}}</td>
-                        <td>{{"REPORT_" + cat.title + "_IMPT" | translate}}</td>
-                        <td>{{"REPORT_" + cat.title + "_DESC" | translate}}</td>
-                        <td>{{"REPORT_" + cat.title + "_SUGG" | translate}}</td>
+                        <td>{{::"REPORT_" + cat.title | translate}}</td>
+                        <td>{{::"REPORT_" + cat.title + "_IMPT" | translate}}</td>
+                        <td>{{::"REPORT_" + cat.title + "_DESC" | translate}}</td>
+                        <td>{{::"REPORT_" + cat.title + "_SUGG" | translate}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -157,7 +394,7 @@
         <div id="disclaimerTable-export">
             <table class="protections_table">
                 <tr>
-                    <td style="width: 100%;">{{"DISCLAIMER_CONTENT" | translate}}</td>
+                    <td style="width: 100%;">{{::"DISCLAIMER_CONTENT" | translate}}</td>
                 </tr>
             </table>
         </div>

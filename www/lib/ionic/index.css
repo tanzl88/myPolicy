@@ -884,6 +884,9 @@ input.login_button {
   width: 100%;
   text-align: right; }
 
+#premium_view .protections_table .amt {
+  text-align: center; }
+
 .report_notes {
   padding: 2% 4%;
   font-size: 0.7em;
@@ -1009,25 +1012,29 @@ input.login_button {
   margin: auto;
   margin-bottom: 5%; }
 
-.doughnut_table td {
+.doughnut_table td,
+.doughnut_table th {
   border-top: 1px solid #eaeaea;
   padding: 3% 0%; }
 
 .doughnut_table tr:last-child td {
   border-bottom: 1px solid #eaeaea; }
 
+.export-table th,
+.export-table td {
+  background-color: transparent; }
+
 .overviewTable-export th {
-  background-color: #fed82f;
-  text-align: left;
-  padding: 7px 10px !important;
+  background-color: #827c6f;
+  color: white;
+  padding: 7px 10px;
   border-top: 1px solid #eaeaea;
   border-left: 1px solid #eaeaea;
   font-size: 0.2em; }
 
 .overviewTable-export td {
   background-color: white;
-  text-align: left;
-  padding: 7px 10px !important;
+  padding: 9px 10px !important;
   border-top: 1px solid #eaeaea;
   border-left: 1px solid #eaeaea;
   font-size: 0.2em; }
@@ -1038,14 +1045,36 @@ input.login_button {
 .overviewTable-export tr:last-child td {
   border-bottom: 1px solid #eaeaea; }
 
-.overviewTable-export tr:nth-child(odd) td {
+.overviewTable-export tr:nth-child(even) td {
   background-color: #EEE; }
 
 .overviewTable-export tr td:first-child {
   text-align: left; }
 
+#assetsTable-export th,
+#liabilitiesTable-export th,
+#cashflowTable-export th,
+#netWorthTotalTable-export th {
+  padding: 13px 5px !important;
+  color: white; }
+
+#assetsTable-export td,
+#liabilitiesTable-export td {
+  padding: 22px 5px !important; }
+
+#netWorthTotalTable-export td {
+  padding: 3px 5px !important; }
+
+#policyInfoTable-export th,
+#policyInfoTable-export td {
+  padding: 10px 5px !important; }
+
 .fullTable-export {
   display: block; }
+
+.fullTable-export th {
+  background-color: #827c6f;
+  color: white; }
 
 .fullTable-export td {
   padding: 6px;
@@ -1059,20 +1088,8 @@ input.login_button {
   background-color: #827c6f !important;
   color: white !important; }
 
-#protectionsTable-export th {
-  padding: 9px 3px;
-  background-color: #fed82f;
-  color: black; }
-
-#protectionsTable-export td {
-  padding: 9px 3px;
-  background-color: white; }
-
-#protectionsTable-export td:not(:last-child) {
-  color: black; }
-
-#protectionsTable-export tr:nth-child(odd) td {
-  background-color: #EEE; }
+#financialRatioTable-export th {
+  padding: 13px 10px; }
 
 #chartLegendTable-export {
   font-size: 0.2em; }
@@ -1084,7 +1101,8 @@ input.login_button {
 #chartLegendTable-export td {
   padding: 10px 8px;
   background-color: white;
-  color: black; }
+  color: black;
+  vertical-align: baseline; }
 
 #chartLegendTable-export tr:nth-child(odd) td {
   background-color: #EEE; }
@@ -1101,6 +1119,12 @@ input.login_button {
   background-color: white;
   border-width: 0;
   color: black; }
+
+#cashflowTable-export tr.content td {
+  padding: 6px 0px; }
+
+#cashflowTable-export tr.empty td {
+  padding: 58px 0px; }
 
 #add_data {
   width: 100%;
@@ -1211,20 +1235,30 @@ input.login_button {
 table.premium_income_ratio {
   font-size: 0.8em; }
 
+.split_diagram_table {
+  font-size: 0.85em;
+  color: #555;
+  width: 100%; }
+
 #assetTable,
-#liabilityTable {
+#liabilityTable,
+#cashflowTable,
+#netWorthTotalTable {
   position: absolute;
   width: 100%;
   top: 0;
   font-size: 0.8em;
   color: #827C6F; }
 
-#assetTable thead,
-#liabilityTable thead {
+#cashflowTable {
+  font-size: 0.9em; }
+
+#assetTable th,
+#liabilityTable th {
   color: white;
   font-size: 1.2em;
   font-weight: bold; }
 
 #assetTable .percent,
 #liabilityTable .percent {
-  font-size: 1.5em; }
+  font-size: 1.3em; }

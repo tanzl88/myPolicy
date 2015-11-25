@@ -6,19 +6,9 @@ app.service('barChartService', ['$rootScope', '$q', '$http', '$translate', funct
 
     return {
         getOverviewChartData : function(data_array) {
-            var limit = 8;
-
-            var sliced_array = data_array.slice(0,limit);
-            var output_array = [];
-            for (var i = 0 ; i < sliced_array.length ; i++) {
-                if (sliced_array[i].title !== "ACCIDENT_REIMB" && sliced_array[i].title !== "TERMINAL_ILL_SUM") {
-                    output_array.push(sliced_array[i]);
-                }
-            }
-
-            var chart_array = _.pluck(output_array, 'amt').reverse();
+            var chart_array = _.pluck(data_array, 'amt').reverse();
             var label_array = [];
-            angular.forEach(_.pluck(output_array,'label').reverse(), function(title,index){
+            angular.forEach(_.pluck(data_array,'label').reverse(), function(title,index){
                 label_array.push($translate.instant(title));
             });
 

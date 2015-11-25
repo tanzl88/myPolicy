@@ -96,6 +96,14 @@ var full_table_g = [
         type    : "text",
     },
     {
+        title   : "PAYOUT_TERM",
+        trans   : "PAYOUT_TERM",
+        name    : "payoutTerm",
+        varName : "payoutTermDisplayed",
+        width   : "100px",
+        type    : "text",
+    },
+    {
         title   : "DEATH_SA",
         trans   : "DEATH_SA",
         name    : "deathSA",
@@ -275,6 +283,14 @@ var full_table_g_1 = [
     {
         title   : "COVERAGE_TERM",
         varName : "coverageTermDisplayed",
+        width   : "100px",
+        type    : "text",
+    },
+    {
+        title   : "PAYOUT_TERM",
+        trans   : "PAYOUT_TERM",
+        name    : "payoutTerm",
+        varName : "payoutTermDisplayed",
         width   : "100px",
         type    : "text",
     },

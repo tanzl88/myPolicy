@@ -46,9 +46,10 @@
             <md-card>
                 <md-card-content>
                     <div id="reportLineChart">
-                        <div>
-                            <p class="protections_table_title card_header">{{"COVERAGE_TREND" | translate}}</p>
 
+                        <p class="protections_table_title card_header">{{"COVERAGE_TREND" | translate}}</p>
+
+                        <div ng-show="birthdayAvailable">
                             <md-select class="inline-block align-middle header" style="border-bottom-width: 0;" ng-model="chosenCat">
                                 <md-option ng-repeat="cat in viewObj.cat" value="{{$index}}" ng-click="chooseLineChart($index)">
                                     {{cat.dropdown}}

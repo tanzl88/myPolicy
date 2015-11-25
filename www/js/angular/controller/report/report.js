@@ -75,6 +75,9 @@ app.controller('ReportCtrl', function($scope,$translate,$timeout,$interval,$stat
     };
 
     //________________________________________________________________________________
+    $scope.goToProfile = function() {
+        $state.go("tabs.profile");
+    };
     $scope.initVar = function() {
         //SCROLL TO TOP
         $ionicScrollDelegate.$getByHandle('report').scrollTop();
@@ -92,7 +95,7 @@ app.controller('ReportCtrl', function($scope,$translate,$timeout,$interval,$stat
             $scope.birthdayAvailable = personalDataDbService.getUserData("birthday") === undefined ? false : true;
             if ($scope.birthdayAvailable) {
                 $scope.coverageTrendData = policyDataDbService.getCoverageTrend();
-                $scope.chooseLineChart(0);
+                $scope.chooseLineChart(6);
             }
         }
     };

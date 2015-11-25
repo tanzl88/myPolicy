@@ -31,7 +31,6 @@ app.controller('PremiumCtrl', ['$scope', '$translate', '$timeout', '$interval', 
         },100);
     };
     function getPremiumRatioData(premiumData) {
-        console.log(premiumData);
         var data = [
             {
                 value   : premiumData.protection,
@@ -57,9 +56,8 @@ app.controller('PremiumCtrl', ['$scope', '$translate', '$timeout', '$interval', 
     };
 
     $scope.initVar = function() {
-        console.log("OVERVIEW INIT VAR");
         //SCROLL TO TOP
-        $ionicScrollDelegate.$getByHandle('overview').scrollTop();
+        $ionicScrollDelegate.$getByHandle('premium').scrollTop();
 
         //CHECK CLIENT SELECTED
         $scope.credential       = credentialManager.getCredential();
@@ -67,18 +65,14 @@ app.controller('PremiumCtrl', ['$scope', '$translate', '$timeout', '$interval', 
 
         if (($scope.credential === "advisor" && $scope.clientSelected) || $scope.credential === "client") {
             $scope.currency = $translate.instant("CURRENCY");
-            //$scope.viewObj = {};
-            //$scope.viewObj.cat = policyDataService.getPremiumData();
+            $scope.payoutObj        = policyDataDbService.getPayoutData();
             $scope.premiumObj       = policyDataService.getPremiumData();
             $scope.premiumRatioData =  getPremiumRatioData($scope.premiumObj);
-            var chartOptions = doughnutChartService.getChartOptions({
-
-            });
-            drawPie($scope.premiumRatioData,chartOptions);
-
+            $scope.premiumBreakdownObj = policyDataDbService.getTotalPremium2();
 
             //CHECK BIRTHDAY BEFORE DRAW LINE LINE CHART
-            $scope.birthdayAvailable = personalDataDbService.getUserData("birthday") === undefined ? false : true;
+            $scope.birthdayAvailable = personalDataDbService.getUserData("birthday") === undefined  ? false : true;
+            $scope.incomeAvailable   = personalDataDbService.getUserData("income") === undefined    ? false : true;
 
             //DRAW LINE CHART
             if ($scope.birthdayAvailable) {
@@ -87,12 +81,7 @@ app.controller('PremiumCtrl', ['$scope', '$translate', '$timeout', '$interval', 
                 if ($("html").hasClass("tablet")) {
                     var chartOptions = lineChartService.getChartOptions({
                         scaleFontSize           : 18,
-                        xAxisFontSize           : 18,
-                        //barValueSpacing         : Math.floor(chart_width/4000 * 110),
-                        //xAxisSpaceBefore        : Math.floor(chart_width/4000 * 50),
-                        //xAxisLabelSpaceBefore   : Math.floor(chart_width/4000 * 100),
-                        //yAxisSpaceLeft          : Math.floor(chart_width/4000 * 100),
-                        //scaleLineWidth          : Math.floor(chart_width/4000 * 10),
+                        xAxisFontSize           : 18
                     });
                 } else {
                     var chartOptions = lineChartService.getChartOptions({
@@ -101,6 +90,13 @@ app.controller('PremiumCtrl', ['$scope', '$translate', '$timeout', '$interval', 
                 }
 
                 drawLineChart(premiumChartData,chartOptions);
+            }
+
+            if ($scope.incomeAvailable) {
+                var chartOptions = doughnutChartService.getChartOptions({
+
+                });
+                drawPie($scope.premiumRatioData,chartOptions);
             }
         }
     };

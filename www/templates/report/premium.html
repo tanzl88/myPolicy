@@ -1,4 +1,4 @@
-<ion-view id="overview_view" view-title="{{'PREMIUM_ANALYSIS' | translate}}">
+<ion-view id="premium_view" view-title="{{'POLICIES_ANALYSIS' | translate}}">
     <ion-nav-buttons side="secondary">
         <button class="button button-clear">
             <i class=""></i>
@@ -20,25 +20,48 @@
             <md-card>
                 <md-card-content class="">
                     <p class="card_header">{{"ANNUAL_PREMIUM_OVERVIEW" | translate}}</p>
-                    <div class="align-center">
-                        <div class="premium_infographic_text_container" style="padding-top: 5%;">
-                            <p class="new-line">{{"ANNUAL_PREMIUM" | translate}}</p>
-                            <p>{{premiumObj.total | currency:currency:0}}</p>
-                        </div>
 
-                        <img style="width: 100%;" src="img/premium.svg" />
+                    <table class="protections_table" style="margin-top: 4%; margin-bottom: 4%;">
+                        <tr>
+                            <th width="45%" style="text-align: left;">{{"CATEGORY" | translate}}</th>
+                            <th colspan="2" width="30%" style="border-left-width: 0;">{{"PREMIUM_AMT" | translate}}</th>
+                            <th width="25%" style="border-left-width: 0;">{{"NUMBER_OF_POLICIES" | translate}}</th>
+                        </tr>
+                        <tr ng-repeat="cat in premiumBreakdownObj">
+                            <td>
+                                <p class="inline-block align-middle">{{cat.title | translate}}</p>
+                            </td>
+                            <td style="border-left-width: 0; width: 10%;">
+                                <p class="amt inline-block align-middle">{{currency}}</p>
+                            </td>
+                            <td style="border-left-width: 0; width: 20%;">
+                                <p class="amt inline-block align-middle">{{cat.sum | number}}</p>
+                            </td>
+                            <td style="border-left-width: 0;">
+                                <p class="amt inline-block align-middle">{{cat.num}}</p>
+                            </td>
+                        </tr>
+                    </table>
 
-                        <div class="premium_infographic_text_container" style="padding-bottom: 5%;">
-                            <div class="inline-block" style="width: 49%;">
-                                <p class="new-line">{{"PROTECTION_POLICIES_NEW_LINE" | translate}}</p>
-                                <p>{{premiumObj.protection | currency:currency:0}}</p>
-                            </div>
-                            <div class="inline-block" style="width: 49%;">
-                                <p class="new-line">{{"SAVINGS_POLICIES_NEW_LINE" | translate}}</p>
-                                <p>{{premiumObj.savings | currency:currency:0}}</p>
-                            </div>
-                        </div>
-                    </div>
+                    <!--<div class="align-center">-->
+                        <!--<div class="premium_infographic_text_container" style="padding-top: 5%;">-->
+                            <!--<p class="new-line">{{"ANNUAL_PREMIUM" | translate}}</p>-->
+                            <!--<p>{{premiumObj.total | currency:currency:0}}</p>-->
+                        <!--</div>-->
+
+                        <!--<img style="width: 100%;" src="img/premium.svg" />-->
+
+                        <!--<div class="premium_infographic_text_container" style="padding-bottom: 5%;">-->
+                            <!--<div class="inline-block" style="width: 49%;">-->
+                                <!--<p class="new-line">{{"PROTECTION_POLICIES_NEW_LINE" | translate}}</p>-->
+                                <!--<p>{{premiumObj.protection | currency:currency:0}}</p>-->
+                            <!--</div>-->
+                            <!--<div class="inline-block" style="width: 49%;">-->
+                                <!--<p class="new-line">{{"SAVINGS_POLICIES_NEW_LINE" | translate}}</p>-->
+                                <!--<p>{{premiumObj.savings | currency:currency:0}}</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
 
                     <!--<p>Current annual premium</p>-->
                     <!--<td class="align-middle" width="50%">{{viewObj.cat[0].amt | currency:currency:0}}</td>-->
@@ -48,10 +71,13 @@
             <md-card>
                 <md-card-content>
                     <p class="card_header">{{'PREMIUM_TREND' | translate}}</p>
+
+                    <!--NO INFO CONTAINER-->
                     <div class="no_content_container align-center" ng-if="!birthdayAvailable" style="margin-top: 6%;">
                         <p class="new-line">{{"BIRTHDAY_NOT_AVAILABLE_MSG" | translate}}</p>
                         <div class="login_button" ng-click="goToProfile()">{{"SET_BIRTHDAY" | translate}}</div>
                     </div>
+
                     <canvas ng-show="birthdayAvailable" id="premiumTrendChart"></canvas>
                 </md-card-content>
             </md-card>
@@ -62,11 +88,17 @@
                 <md-card-content>
                     <p class="card_header">{{"PREMIUM_TO_INCOME_RATIO" | translate}}</p>
 
-                    <div class="doughnut_container">
+                    <!--NO INFO CONTAINER-->
+                    <div class="no_content_container align-center" ng-if="!incomeAvailable" style="margin-top: 6%;">
+                        <p class="new-line">{{"INCOME_NOT_AVAILABLE_MSG" | translate}}</p>
+                        <div class="login_button" ng-click="goToProfile()">{{"SET_INCOME" | translate}}</div>
+                    </div>
+
+                    <div ng-show="incomeAvailable" class="doughnut_container">
                         <canvas id="premium_ratio_pie"></canvas>
                     </div>
 
-                    <table class="doughnut_table">
+                    <table ng-show="incomeAvailable" class="doughnut_table">
                         <tr class="doughnut_text_container">
                             <td style="width: 10%;">
                                 <div style="background-color: #FED82F; width: 15px; height: 15px;"></div>
@@ -98,6 +130,38 @@
                             </td>
                             <td class="value" style="width: 21%;">
                                 {{premiumObj.totalRatio}}%
+                            </td>
+                        </tr>
+                    </table>
+
+                </md-card-content>
+            </md-card>
+
+
+            <md-card>
+                <md-card-content>
+                    <p class="card_header">{{"PROJECTED_CASH_VALUE" | translate}}</p>
+
+                    <!--NO INFO CONTAINER-->
+                    <div class="no_content_container align-center" ng-if="!birthdayAvailable" style="margin-top: 6%;">
+                        <p class="new-line">{{"BIRTHDAY_NOT_AVAILABLE_MSG" | translate}}</p>
+                        <div class="login_button" ng-click="goToProfile()">{{"SET_BIRTHDAY" | translate}}</div>
+                    </div>
+
+                    <table class="protections_table" style="margin-top: 4%; margin-bottom: 4%;">
+                        <tr>
+                            <th width="20%" style="text-align: left;">{{"AGE" | translate}}</th>
+                            <th width="40%" style="border-left-width: 0;">{{"SURRENDER_CASH_VALUE" | translate}}</th>
+                            <th width="40%" style="border-left-width: 0;">{{"CASH_VALUE" | translate}}</th>
+                        </tr>
+                        <tr ng-repeat="cat in payoutObj">
+                            <td ng-if="cat.age != '99999'" class="protections_table_category">{{cat.age}}</td>
+                            <td ng-if="cat.age == '99999'" class="protections_table_category">{{"UNKNOWN" | translate}}</td>
+                            <td style="border-left-width: 0;">
+                                <p class="amt inline-block align-middle">{{currency}}{{cat.surrenderAmt | number}}</p>
+                            </td>
+                            <td style="border-left-width: 0;">
+                                <p class="amt inline-block align-middle">{{currency}}{{cat.cashAmt | number}}</p>
                             </td>
                         </tr>
                     </table>

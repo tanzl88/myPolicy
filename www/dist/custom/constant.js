@@ -186,41 +186,87 @@ var overview_title_g = [
         name : "DEATH_SUM",
         type : "currency",
         col  : "deathSA",
+        chart: "lump"
     },
     {
         name : "TPD_SUM",
         type : "currency",
-        col  : "tpdSA"
+        col  : "tpdSA",
+        chart: "lump"
     },
     {
         name : "CRIT_ILL_SUM",
         type : "currency",
-        col  : "critSA"
+        col  : "critSA",
+        chart: "lump"
     },
     {
         name : "EARLY_ILL_SUM",
         type : "currency",
-        col  : "earlySA"
+        col  : "earlySA",
+        chart: "lump"
     },
     {
         name : "TERMINAL_ILL_SUM",
         type : "currency",
-        col  : "terminalSA"
+        col  : "terminalSA",
+        chart: "lump"
     },
     {
         name : "ACCIDENT_LUMP_SUM",
         type : "currency",
-        col  : "accidentDeath"
+        col  : "accidentDeath",
+        chart: "lump"
     },
     {
         name : "ACCIDENT_REIMB",
         type : "currency",
-        col  : "accidentReimb"
+        col  : "accidentReimb",
+        chart: "income"
     },
     {
         name : "HS_REIMB_SUM",
         type : "currency",
-        col  : "hospitalSA"
+        col  : "hospitalSA",
+        chart: "lump"
+    },
+    {
+        name : "HS_HOSPITAL_CASH",
+        type : "currency",
+        col  : "hospitalIncome",
+        chart: "income"
+    },
+    {
+        name : "DISABILITY_INCOME",
+        type : "currency",
+        col  : "disabledSA",
+        chart: "income"
+    },
+    {
+        name : "INCOME_PER_MONTH",
+        type : "currency",
+        col  : "retireIncome",
+        chart: "income"
+    },
+    {
+        name : "CASH_VALUE",
+        type : "currency",
+        col  : "currentValue",
+        chart: "value"
+    },
+    {
+        name : "SURRENDER_CASH_VALUE",
+        type : "currency",
+        col  : "surrenderValue",
+        chart: "value"
+    }
+];
+
+var overview_income_title_g = [
+    {
+        name : "ACCIDENT_REIMB",
+        type : "currency",
+        col  : "accidentReimb"
     },
     {
         name : "HS_HOSPITAL_CASH",
@@ -246,12 +292,10 @@ var overview_title_g = [
         name : "SURRENDER_CASH_VALUE",
         type : "currency",
         col  : "surrenderValue"
-    },
-    {
-        name : "POLICIES_NUMBER",
-        type : "number"
     }
 ];
+
+
 var premium_title_g = [
     {
         name : "TOTAL_PREMIUM",

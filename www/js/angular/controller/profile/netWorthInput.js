@@ -91,6 +91,7 @@ app.controller('netWorthInputCtrl', function($scope,$state,$http,$translate,$toa
                 if (result.status === "success") {
                     $toast.show("CLIENT_PROFILE_UPDATED");
                     personalDataDbService.init().then(function(result){
+                        $("#preview_profile_view").scope().initVar();
                         $ionicHistory.goBack();
                         loadingService.hide();
                     });

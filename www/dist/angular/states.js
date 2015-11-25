@@ -166,6 +166,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
         })
         .state('tabs.home.generateReport.export', {
             url: '/export',
+            cache: false,
             views: {
                 "home-tab@tabs": {
                     templateUrl: "export/export.html",

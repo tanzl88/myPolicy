@@ -39,7 +39,7 @@
 
         <!--USER PROFILE-->
         <div id="preview_profile" ng-if="(credential === 'advisor' && clientSelected === true) || (credential === 'client')">
-            <div class="animate-item" ng-if="personal.useAdvanced === 1">
+            <div class="animate-item">
                 <p class="section_header">{{"DEMOGRAPHIC_INFO" | translate}}</p>
             </div>
             <div class="two_cols_item">
@@ -77,12 +77,12 @@
             </div>
 
 
-            <div class="animate-item" ng-if="personal.useAdvanced === 1">
+            <div class="animate-item">
                 <div class="policyForm_divider"></div>
                 <p class="section_header">{{"REPORTS_INPUT" | translate}}</p>
             </div>
             <div class="two_cols_item">
-                <div class="inline-block align-middle">{{"SUGGESTED_AMT_CALCULATION" | translate}}</div>
+                <div class="inline-block align-middle">{{"PROTECTION_NEEDS" | translate}}</div>
                 <p class="inline-block align-middle align-center bg_color" ng-click="goTo('suggestAmtInput')" style="background-color: #D6D6D6;">{{"EDIT" | translate}}</p>
             </div>
             <div class="two_cols_item">
@@ -94,7 +94,7 @@
 
             <!--REMARKS & NOTES-->
             <div ng-if="credential === 'advisor'">
-                <div class="animate-item" ng-if="personal.useAdvanced === 1">
+                <div class="animate-item">
                     <div class="policyForm_divider"></div>
                     <p class="section_header">{{"CLIENT_NOTES" | translate}}</p>
                 </div>
@@ -103,7 +103,7 @@
                     <div class="inline-block align-middle">{{"PHONE" | translate}}</div>
                     <input class="inline-block align-middle align-center bg_color form-group" type="tel" name="phone" ng-model="personal.phone">
                 </div>
-                <!--PHONE-->
+                <!--EMAIL-->
                 <div class="two_cols_item">
                     <div class="inline-block align-middle">{{"EMAIL" | translate}}</div>
                     <input class="inline-block align-middle align-center bg_color form-group" type="email" name="email" ng-model="personal.email">

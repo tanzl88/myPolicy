@@ -37,56 +37,18 @@ app.service('policyDataService', ['$rootScope', '$q', '$http', '$translate', 'po
         getOverviewData : function() {
             var overview_array = [];
             angular.forEach(overview_title_g, function(cat,index){
-                if (cat.name === "POLICIES_NUMBER") {
-                    var amt = policyDataDbService.getPoliciesNumber();
-                } else if (cat.name === "TOTAL_PREMIUM") {
-                    var amt = policyDataDbService.getTotalPremium();
-                } else if (cat.name === "PREMIUM_TO_INCOME_RATIO") {
-                    var amt = (policyDataDbService.getTotalPremium() / personalDataDbService.getUserData("income") * 100).toFixed(0) + "%";
-                } else if (cat.name === "PROTECTION_PREMIUM_TO_INCOME_RATIO") {
-                    var amt = (policyDataDbService.getTotalPremium("protection") / personalDataDbService.getUserData("income") * 100).toFixed(0) + "%";
-                } else if (cat.name === "SAVINGS_PREMIUM_TO_INCOME_RATIO") {
-                    var amt = (policyDataDbService.getTotalPremium("savings") / personalDataDbService.getUserData("income") * 100).toFixed(0) + "%";
-                } else {
-                    var amt = policyDataDbService.getSumByColName(cat.col);
-                }
                 overview_obj = {
                     title : cat.name,
                     label : "TITLE_" + cat.name,
                     type  : cat.type,
-                    amt   : amt
+                    amt   : policyDataDbService.getSumByColName(cat.col),
+                    chart : cat.chart
                 };
                 overview_array.push(overview_obj);
             });
             return overview_array;
         },
         getPremiumData : function() {
-            //var overview_array = [];
-            //angular.forEach(premium_title_g, function(cat,index){
-            //    if (cat.name === "POLICIES_NUMBER") {
-            //        var amt = policyDataDbService.getPoliciesNumber();
-            //    } else if (cat.name === "TOTAL_PREMIUM") {
-            //        var amt = policyDataDbService.getTotalPremium();
-            //    } else if (cat.name === "PREMIUM_TO_INCOME_RATIO") {
-            //        var amt = (policyDataDbService.getTotalPremium() / personalDataDbService.getUserData("income") * 100).toFixed(0) + "%";
-            //    } else if (cat.name === "PROTECTION_PREMIUM_TO_INCOME_RATIO") {
-            //        var amt = (policyDataDbService.getTotalPremium("protection") / personalDataDbService.getUserData("income") * 100).toFixed(0) + "%";
-            //    } else if (cat.name === "SAVINGS_PREMIUM_TO_INCOME_RATIO") {
-            //        var amt = (policyDataDbService.getTotalPremium("savings") / personalDataDbService.getUserData("income") * 100).toFixed(0) + "%";
-            //    } else {
-            //        var amt = policyDataDbService.getSumByColName(cat.col);
-            //    }
-            //    overview_obj = {
-            //        title : cat.name,
-            //        label : "TITLE_" + cat.name,
-            //        type  : cat.type,
-            //        amt   : amt
-            //    };
-            //    overview_array.push(overview_obj);
-            //});
-            //return overview_array;
-
-
             var premium_array = {
                 total       : parseDbInt(policyDataDbService.getTotalPremium()),
                 income      : parseDbInt(personalDataDbService.getUserData("income")),

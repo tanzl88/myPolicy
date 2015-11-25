@@ -126,6 +126,89 @@ app.service('personalDataDbService', function($rootScope,$q,$http,$translate) {
         },
         getUserId : function() {
             return personal_g.id;
+        },
+        getNetWorthData : function() {
+            var personalObj = {};
+            personalObj.personal = angular.copy(this.getData());
+            //NULLIFY MISSING VARIABLES
+            personalObj.personal.cashAssets          = personalObj.personal.cashAssets === undefined          ? 0 : personalObj.personal.cashAssets;
+            personalObj.personal.investmentAssets    = personalObj.personal.investmentAssets === undefined    ? 0 : personalObj.personal.investmentAssets;
+            personalObj.personal.debtRepayment       = personalObj.personal.debtRepayment === undefined       ? 0 : personalObj.personal.debtRepayment;
+            personalObj.personal.income              = personalObj.personal.income === undefined              ? 0 : personalObj.personal.income;
+            personalObj.personal.expenditure         = personalObj.personal.expenditure === undefined         ? 0 : personalObj.personal.expenditure;
+            personalObj.personal.savings             = personalObj.personal.savings === undefined             ? 0 : personalObj.personal.savings;
+            personalObj.personal.otherInflow         = personalObj.personal.otherInflow === undefined         ? 0 : personalObj.personal.otherInflow;
+            //CALCULATE TOTAL
+            personalObj.personal.totalAssets         = 0;
+            personalObj.personal.totalLiabilities    = 0;
+            personalObj.personal.cashInflow          = personalObj.personal.income + personalObj.personal.otherInflow;
+            personalObj.personal.expenses            = personalObj.personal.expenditure - personalObj.personal.debtRepayment;
+            personalObj.personal.cashOutflow         = personalObj.personal.expenditure + personalObj.personal.savings;
+            personalObj.personal.netCashflow         = personalObj.personal.cashInflow - personalObj.personal.cashOutflow;
+
+            //ASSETS
+            personalObj.assetsObj = assets_g;
+            angular.forEach(personalObj.assetsObj, function(asset,index){
+                asset.amt = personalObj.personal[asset.varName] === undefined ? 0 : personalObj.personal[asset.varName];
+                personalObj.personal.totalAssets += asset.amt;
+            });
+            angular.forEach(personalObj.assetsObj, function(asset,index){
+                asset.percent = personalObj.personal.totalAssets === 0 ? 0 : (asset.amt / personalObj.personal.totalAssets * 100).toFixed(0);
+            });
+            //LIABILITIES
+            personalObj.liabilitiesObj = liabilities_g;
+            angular.forEach(personalObj.liabilitiesObj, function(liability,index) {
+                liability.amt = personalObj.personal[liability.varName] === undefined ? 0 : personalObj.personal[liability.varName];
+                personalObj.personal.totalLiabilities += liability.amt;
+            });
+            angular.forEach(personalObj.liabilitiesObj, function(liability,index) {
+                liability.percent = personalObj.personal.totalLiabilities === 0 ? 0 : (liability.amt / personalObj.personal.totalLiabilities * 100).toFixed(0);
+            });
+            //NET WORTH
+            personalObj.personal.netWorth = personalObj.personal.totalAssets - personalObj.personal.totalLiabilities;
+
+
+            //FINANCIAL RATIO
+            personalObj.ratios = angular.copy(financial_ratio_g);
+            angular.forEach(personalObj.ratios, function(ratio,index){
+                //CALCULATE CLIENT'S RATIO
+                if (personalObj.personal[ratio.denominator] === 0) {
+                    ratio.amt = 0;
+                } else {
+                    if (ratio.title === "LIQUIDITY_RATIO") {
+                        ratio.amt = (personalObj.personal[ratio.numerator] / personalObj.personal[ratio.denominator] / 12 * 100).toFixed(0);
+                    } else {
+                        ratio.amt = (personalObj.personal[ratio.numerator] / personalObj.personal[ratio.denominator] * 100).toFixed(0);
+                    }
+                }
+
+                //GENERATE SUGGEST AND STATUS
+                var suffix = ratio.title === "LIQUIDITY_RATIO" ? " mths" : "%";
+                ratio.amt = parseInt(ratio.amt);
+                if (ratio.lower !== undefined && ratio.upper !== undefined) {
+                    ratio.suggest = ratio.lower + suffix + " - " + ratio.upper + suffix;
+                    if (ratio.amt > ratio.lower && ratio.amt < ratio.upper) {
+                        ratio.pass = true;
+                        ratio.status = $translate.instant("FINANCIAL_RATIO_PASS");
+                    } else {
+                        ratio.pass = false;
+                        ratio.status = ratio.amt > ratio.upper ? $translate.instant("FINANCIAL_RATIO_EXCESS") : $translate.instant("FINANCIAL_RATIO_SHORTFALL");
+                    }
+                } else {
+                    if (ratio.lower === undefined) {
+                        ratio.suggest = "< " + ratio.upper + suffix;
+                        ratio.pass = ratio.amt < ratio.upper ? true : false;
+                        ratio.status = ratio.amt < ratio.upper ? $translate.instant("FINANCIAL_RATIO_PASS") : $translate.instant("FINANCIAL_RATIO_EXCESS");
+                    } else {
+                        ratio.suggest = "> " + ratio.lower + suffix;
+                        ratio.pass = ratio.amt > ratio.lower ? true : false;
+                        ratio.status = ratio.amt > ratio.lower ? $translate.instant("FINANCIAL_RATIO_PASS") : $translate.instant("FINANCIAL_RATIO_SHORTFALL");
+                    }
+                }
+                ratio.amt = ratio.amt + suffix;
+            });
+
+            return personalObj;
         }
     }
 });

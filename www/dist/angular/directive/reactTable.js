@@ -34,13 +34,22 @@ angular.module('reactTable', []).directive('reactTable', function(){
 			scope:{
 				data: '='
 			},
+			//controller:function($scope) {
+			//	$scope.$on("$destroy",function(){
+			//		React.unmountComponentAtNode(document.getElementById('reactFullTable1'));
+			//		React.unmountComponentAtNode(document.getElementById('reactFullTable2'));
+			//	});
+			//},
 			link:function(scope, el, attrs){
 				scope.$watchCollection('data', function(newValue, oldValue){
 					React.renderComponent(
 						MYLIST({data:newValue}),
 						el[0]
 					);
-				})
+				});
+				$(el[0]).on("$destroy",function(){
+					React.unmountComponentAtNode(el[0]);
+				});
 			}
 		}
 	});

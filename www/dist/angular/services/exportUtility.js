@@ -1,4 +1,4 @@
-app.service('exportUtility', ['$q', '$http', '$interval', '$translate', 'barChartService', 'doughnutChartService', function($q,$http,$interval,$translate,barChartService,doughnutChartService) {
+app.service('exportUtility', ['$q', '$http', '$interval', '$translate', 'barChartService', 'doughnutChartService', 'lineChartService', function($q,$http,$interval,$translate,barChartService,doughnutChartService,lineChartService) {
     //STYLING
     var marginLeft = 40;
     var marginTop = 45;
@@ -59,6 +59,41 @@ app.service('exportUtility', ['$q', '$http', '$interval', '$translate', 'barChar
                 }
             });
         },
+        drawLineChart : function(chartId,chartData,chartOptions,width,height) {
+            var initTimer;
+            initTimer = $interval(function() {
+                var ele_to_check = $("#" + chartId);
+                if (ele_to_check.length > 0) {
+                    //STYLING
+                    var chart_width = Math.floor(width);
+                    var chart_height = Math.floor(height);
+
+                    $("#" + chartId).attr("width", chart_width).attr("height", chart_height);
+                    lineChartService.drawChart(chartId, chartData, chartOptions);
+
+                    $interval.cancel(initTimer);
+                }
+            },1);
+        },
+        drawDoughnutChart2 : function(cat,index,doughnutChartOptions) {
+            var initTimer;
+            var chartId = "doughnut-export" + index
+            initTimer = $interval(function(){
+                var ele_to_check = $("#" + chartId);
+                if (ele_to_check.length > 0) {
+                    //STYLING
+                    var chart_width = 1000;
+                    $("#" + chartId).attr("width", chart_width).attr("height", chart_width);
+
+                    //POST PROCESS FOR EMTPY DATA -> DRAW ALL SHORTFALL
+                    if (cat.chartData[0].value === "" && cat.chartData[1].value === 0) {
+                        cat.chartData[1].value = 1;
+                    }
+                    var chart = doughnutChartService.drawChart(chartId, cat.chartData, doughnutChartOptions);
+                    $interval.cancel(initTimer);
+                }
+            },1);
+        },
         drawDoughnutChart : function(catObj,doughnutChartOptions) {
             var initTimer;
             initTimer = $interval(function(){
@@ -79,21 +114,36 @@ app.service('exportUtility', ['$q', '$http', '$interval', '$translate', 'barChar
                 }
             },100);
         },
-        drawDoughnutChart2 : function(cat,index,doughnutChartOptions) {
+        drawDoughnutChart : function(catObj,doughnutChartOptions) {
             var initTimer;
             initTimer = $interval(function(){
-                var ele_to_check = $("#doughnut-export" + index);
+                var ele_to_check = $(".doughnutChart-export");
+                if (ele_to_check.length > 0) {
+                    //STYLING
+                    var chart_width = 2500;
+                    $(".doughnutChart-export").attr("width",chart_width).attr("height",chart_width);
+
+                    angular.forEach(catObj,function(cat,index){
+                        //POST PROCESS FOR EMTPY DATA -> DRAW ALL SHORTFALL
+                        if (cat.chartData[0].value === 0 && cat.chartData[1].value === 0) {
+                            cat.chartData[1].value = 1;
+                        }
+                        doughnutChartService.drawChart("doughnut-export" + index, cat.chartData, doughnutChartOptions);
+                    });
+                    $interval.cancel(initTimer);
+                }
+            },100);
+        },
+        drawPieChart : function(chartData,chartOptions) {
+            var initTimer;
+            initTimer = $interval(function(){
+                var chartId = "premiumRatioPie-export";
+                var ele_to_check = $("#" + chartId);
                 if (ele_to_check.length > 0) {
                     //STYLING
                     var chart_width = 1000;
-                    $("#doughnut-export" + index).attr("width",chart_width).attr("height",chart_width);
-
-                    //POST PROCESS FOR EMTPY DATA -> DRAW ALL SHORTFALL
-                    if (cat.chartData[0].value === "" && cat.chartData[1].value === 0) {
-                        cat.chartData[1].value = 1;
-                    }
-                    doughnutChartService.drawChart("doughnut-export" + index, cat.chartData, doughnutChartOptions);
-
+                    $(ele_to_check).attr("width",chart_width).attr("height",chart_width);
+                    doughnutChartService.drawPie(chartId, chartData, chartOptions);
                     $interval.cancel(initTimer);
                 }
             },100);
@@ -115,6 +165,21 @@ app.service('exportUtility', ['$q', '$http', '$interval', '$translate', 'barChar
             //OVERVIEW TITLE
             this.setRenderFont(doc,16,"bold");
             doc.text(marginLeft, marginTop / 2 + 8, title);
+        },
+        drawChartImage : function(doc,chartId,left,top,width,height) {
+            var chartEle = document.getElementById(chartId);
+            var chart = chartEle.toDataURL("image/jpeg",0.7);
+            var chartRatio = $(chartEle).attr("width") / $(chartEle).attr("height");
+
+            if (width === null) {
+                width = height * chartRatio;
+            }
+            if (height === null) {
+                height = width / chartRatio;
+            }
+
+            doc.addImage(chart, 'JPEG', left, top, width, height);
+            $(chartEle).remove();
         }
     }
 }]);

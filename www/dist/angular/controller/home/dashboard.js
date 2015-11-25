@@ -110,6 +110,7 @@ app.controller('ClientDashboardCtrl', ['$rootScope', '$scope', '$state', '$timeo
                     spaceRight: 1,
                     animation : animateDashboard,
                     animationSteps: 50,
+                    annotateDisplay: false
                 }));
                 animateDashboard = false;
                 $interval.cancel(initTimer);
@@ -153,8 +154,11 @@ app.controller('ClientDashboardCtrl', ['$rootScope', '$scope', '$state', '$timeo
 
         $scope.doughnutTooltip.hide();
         $scope.coverageStatusTooltip.hide();
+
+        $state.go("tabs.reports.overview");
         $timeout(function(){
-            $state.go("tabs.report");
+            //HIGHLIGHT
+            $state.go("tabs.reports.report");
             $timeout(function(){
                 angular.forEach($scope.meterData[type + "P"],function(cat,index){
                     var DOM = $("#" + cat.toUpperCase() + "_ROW td");
@@ -167,7 +171,7 @@ app.controller('ClientDashboardCtrl', ['$rootScope', '$scope', '$state', '$timeo
                     },2500);
                 });
             },333);
-        },333);
+        },1);
     };
 }]);
 

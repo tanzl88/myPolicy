@@ -16,7 +16,7 @@ app.service('doughnutChartService', function($q,$http,$translate) {
         drawChart : function(chart_id,chartData,chartOptions) {
             var ctx = document.getElementById(chart_id).getContext("2d");
             var chart = new Chart(ctx).Doughnut(chartData,chartOptions);
-            ctx.stroke();
+            return chart;
         },
         drawPie : function(chart_id,chartData,chartOptions) {
             var ctx = document.getElementById(chart_id).getContext("2d");

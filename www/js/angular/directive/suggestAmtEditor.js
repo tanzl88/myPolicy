@@ -5,11 +5,11 @@ angular.module('$suggestAmtEditor', []).directive('suggestAmtEditor', function (
         require: [],
         //require: ['ngModel', 'ngData', 'ngSelectedId', 'ngSelectedValue', '?ngTitle', 'ngiItemName', 'ngItemId'],
         template: '<p class="amt inline-block align-middle" ng-click="showSuggestAmtEditor($index)" style="width: 95%;">{{cat.suggested | number}}</p>' +
-                  '<p class="amt inline-block" ng-if="cat.defaultSuggested" style="width: 4%; vertical-align: super; font-size: 0.7em;">*</p>',
+                  '<p class="amt inline-block" ng-if="cat.defaultSuggested && showAsterisk === true" style="width: 4%; vertical-align: super; font-size: 0.7em;">*</p>',
         controller: function ($scope, $element, $attrs, $ionicModal, $timeout, $parse, $state, $translate, findParentService) {
             var parentScope = findParentService.findByFunctionName($scope,"initVar");
+            $scope.showAsterisk = $attrs.showAsterisk === undefined ? true : false;
             $scope.suggestAmtEditor = {};
-
 
             $scope.showSuggestAmtEditor = function (index) {
                 //ASSIGN INDEX
@@ -29,7 +29,7 @@ angular.module('$suggestAmtEditor', []).directive('suggestAmtEditor', function (
             };
 
             $scope.$on('$destroy', function (id) {
-                console.log("KABOOOOOOM!!!!!!!!!!!!!!!!!");
+                console.log("SUGGESTED AMT EDITOR DESTROYED");
                 $scope.suggestAmtEditor.remove();
             });
 
@@ -72,17 +72,6 @@ angular.module('$suggestAmtEditor', []).directive('suggestAmtEditor', function (
                 animation: 'slide-in-up',
                 backdropClickToClose: false
             });
-        },
-        compile: function ($element, $attrs, $scope) {
-            //ASSIGN INPUT ELEMENT ATTRIBUTE
-            //var paragraph = $element.find('p');
-            //angular.forEach({
-            //    'ng-bind': $attrs.ngBindData + " | number"
-            //}, function (value, name) {
-            //    if (angular.isDefined(value)) {
-            //        paragraph.attr(name, value);
-            //    }
-            //});
         }
     };
 });

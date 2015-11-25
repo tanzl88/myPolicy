@@ -2084,6 +2084,14 @@ var jsPDF = (function(global) {
 	 *       case the image is positioned at 0x0 covering the whole PDF document
 	 *       size. Ie, to easily take screenshots of webpages saving them to PDF.
 	 */
+	
+	jsPDFAPI.destroy = function() {
+		var obj = this;
+		for (var key in obj) {
+			obj[key] = null;
+		}
+		console.log("PDF DESTROY");
+	};
 	jsPDFAPI.setOverflowHook = function (hook) {
 			this.overflowHook = hook;
 			return this;
@@ -3357,8 +3365,6 @@ var jsPDF = (function(global) {
         var marginTop = margins.top || 0;
 
         this.addPage();
-        console.log("MARGIN");
-		console.log(marginLeft);
         // setLastCellPosition(marginLeft, marginTop, undefined, undefined, -1);
         setLastCellPosition(marginLeft, marginTop, 0, 0, -1);
         //setLastCellPosition(undefined, undefined, undefined, undefined, undefined);
@@ -3371,7 +3377,6 @@ var jsPDF = (function(global) {
     };
 
     jsPDFAPI.cell = function (x, y, w, h, txt, ln, align) {
-    	// console.log(txt.textContent);
         var curCell = getLastCellPosition();
 
         // If this is not the first cell, we must change its position
@@ -3389,7 +3394,8 @@ var jsPDF = (function(global) {
                     this.cellAddPage();
 
                     var originalFontSize = this.internal.getFontSize();
-                    this.overflowHook();
+                    if (this.overflowHook !== undefined) this.overflowHook();
+                    
 					// RESTORE FONT SIZE
 					this.setFontSize(originalFontSize);
  					               
@@ -3421,13 +3427,13 @@ var jsPDF = (function(global) {
             	// // left
             	// this.rect(x, y + h, x , y);
             	// 0 1 0 0 -> 0 0, 1 0
+				
 
 				var bgColor   = breakRGBA(txt.bg_color);
 				var textColor = breakRGBA(txt.color); 
 				this.setFillColor(bgColor[0],bgColor[1],bgColor[2],undefined);
-				
 				this.setTextColor(textColor[0],textColor[1],textColor[2],undefined);
-				this.rect(x, y, w, h, 'F');
+				if (bgColor[3] !== 0) this.rect(x, y, w, h, 'F');
 
             	for (var direction in txt.border) {
             		if (txt.border[direction] !== 0) {
@@ -3455,6 +3461,15 @@ var jsPDF = (function(global) {
             		}
             	}
             // }
+			
+			if (txt.valign === "middle") {
+	            var cellHeight = h;
+	        	var lineHeight = this.internal.getLineHeight() * txt.textContent.length;
+				var verticalAdj = (cellHeight - lineHeight) / 2 - 2;				
+			} else {
+				var verticalAdj = txt.padding.top / 2;
+			}
+
             if (txt.align === 'right') {
                 if (!(txt.textContent instanceof Array)) {
                     txt.textContent = [txt.textContent];
@@ -3462,12 +3477,26 @@ var jsPDF = (function(global) {
                 for (var i = 0; i < txt.textContent.length; i++) {
                     var currentLine = txt.textContent[i];
                     var textSize = this.getStringUnitWidth(currentLine) * this.internal.getFontSize();
-                    this.text(currentLine, x + w - textSize - txt.padding.right, y + this.internal.getLineHeight()*(i+1) + txt.padding.top/2);
+                    this.text(currentLine, x + w - textSize - txt.padding.right, y + this.internal.getLineHeight()*(i+1)+ verticalAdj);
+                }
+            } else if (txt.align === 'center') {
+            	for (var i = 0; i < txt.textContent.length; i++) {
+                    var currentLine = txt.textContent[i];
+                    var textSize = this.getStringUnitWidth(currentLine) * this.internal.getFontSize();
+                    this.text(currentLine, x + (w - txt.padding.left - txt.padding.right - textSize) / 2 + txt.padding.left, y + this.internal.getLineHeight()*(i+1) + verticalAdj);
                 }
             } else {
-                this.text(txt.textContent, x + txt.padding.left, y + this.internal.getLineHeight() + txt.padding.top/2);
+            	for (var i = 0; i < txt.textContent.length; i++) {
+                    var currentLine = txt.textContent[i];
+                    var textSize = this.getStringUnitWidth(currentLine) * this.internal.getFontSize();
+                	this.text(currentLine, x + txt.padding.left, y + this.internal.getLineHeight()*(i+1) + verticalAdj);
+                }
+                
+                
+                // this.text(txt.textContent, x + txt.padding.left, y + this.internal.getLineHeight() + txt.padding.top/2);
             }
         }
+
         setLastCellPosition(x, y, w, h, ln);
         return this;
     };
@@ -3515,7 +3544,6 @@ var jsPDF = (function(global) {
      */
 
     jsPDFAPI.table = function (x,y, data, headers, config) {
-    	console.log(headers);
         if (!data) {
             throw 'No data for PDF table';
         }
@@ -3598,13 +3626,16 @@ var jsPDF = (function(global) {
             headerNames = Object.keys(data[0]);
 
         } else {
+        	var count = 0;
         	for (var key in headers) {
 				if (key === "headerName") {
 					headerNames = headers[key];
 				}
         		if (key !== "nodeName" && key!== "headerName") {
 	        		header = headers[key];
-	                headerNames.push(header.name);
+	                // headerNames.push(header.name);
+	                headerNames.push(count);
+	                count += 1;
 	                headerPrompts.push(header.prompt);
 					//ZL
 	                //columnWidths[header.name] = header.width *px2pt;
@@ -3654,10 +3685,15 @@ var jsPDF = (function(global) {
                 // tableHeaderConfigs.push([x, y, columnWidths[header], lineHeight, String(headerPrompts.length ? headerPrompts[i] : header)]);
             // }
             
-	        for (var key in headers) {
-            	var name = headers[key].name;
-                tableHeaderConfigs.push([x, y, columnWidths[name], lineHeight, headers[key]]);
+            for (var i = 0 ; i < headers.length ; i++) {
+            	var name = headers[i].name;
+            	tableHeaderConfigs.push([x, y, headers[i].width, lineHeight, headers[i]]);
             }
+            
+	        // for (var key in headers) {
+            	// var name = headers[key].name;
+                // tableHeaderConfigs.push([x, y, columnWidths[name], lineHeight, headers[key]]);
+            // }
 
             // Store the table header config
             this.setTableHeaderRow(tableHeaderConfigs);
@@ -3668,14 +3704,14 @@ var jsPDF = (function(global) {
 
         // Construct the data rows
         for (i = 0, ln = data.length; i < ln; i += 1) {
+			// console.log(data);
             var lineHeight;
             model = data[i];
             lineHeight = this.calculateLineHeight(headerNames, columnWidths, model);
             
-            for (j = 0, jln = headerNames.length; j < jln; j += 1) {
-                header = headerNames[j];
+            for (j = 0, jln = model.length; j < jln; j += 1) {
                 // ZL
-                this.cell(x, y, columnWidths[header], lineHeight, model[header], i + 2, header.align);
+                this.cell(x, y, model[j].width, lineHeight + 1, model[j], i + 2, header.align);
             }
         }
         this.lastCellPos = lastCellPos;
@@ -3691,14 +3727,15 @@ var jsPDF = (function(global) {
      */
     jsPDFAPI.calculateLineHeight = function (headerNames, columnWidths, model) {
         var header, lineHeight = 0;
-        for (var j = 0; j < headerNames.length; j++) {
-            header = headerNames[j];
-            model[header].textContent = this.splitTextToSize(String(model[header].textContent.trim()), columnWidths[header] - model[header].padding.left - model[header].padding.right);
+        
+        for (var j = 0; j < model.length; j++) {
+            model[j].textContent = this.splitTextToSize(String(model[j].textContent.trim()), model[j].width - model[j].padding.left - model[j].padding.right);
             // var h = this.internal.getLineHeight() * model[header].textContent.length + padding;
-            var h = this.internal.getLineHeight() * model[header].textContent.length + model[header].padding.top +  model[header].padding.bottom;
+            var h = this.internal.getLineHeight() * model[j].textContent.length + model[j].padding.top +  model[j].padding.bottom;
             if (h > lineHeight)
                 lineHeight = h;
         }
+        
         return lineHeight;
     };
 
@@ -4810,7 +4847,7 @@ var jsPDF = (function(global) {
 		cell,
 		l;
 		data = [];
-		headers = {};
+		headers = [];
 		headersName = [];
 		i = 0;
 		l = table.rows[0].cells.length;
@@ -4829,12 +4866,13 @@ var jsPDF = (function(global) {
 			// ZL
 			var name = cell.textContent.toLowerCase().replace(/\s+/g, '');
 			headersName.push(name);
-			headers[name] = {
+			headers.push({
 				name : name,
 				prompt : cell.textContent.replace(/\r?\n/g, ''),
 				width : (cell.clientWidth / table_with) * output_table_width,
 				textContent : cell.textContent,
 					align		: $(cell).css("text-align"),
+					valign		: $(cell).css("vertical-align"),
 					padding		: {
 									top 	: parseInt( $(cell).css("padding-top") ),
 									right 	: parseInt( $(cell).css("padding-right") ),
@@ -4855,7 +4893,7 @@ var jsPDF = (function(global) {
 				   				  },
 					bg_color	: $(cell).css("background-color"),
 					color		: $(cell).css("color"),
-			};
+			});
 
 			i++;
 		}
@@ -4871,36 +4909,38 @@ var jsPDF = (function(global) {
 
 		while (i < table.rows.length) {
 			tableRow = table.rows[i];
-			var rowData = {};
+			var rowData = [];
 			j = 0;
 
 			while (j < tableRow.cells.length) {
+				var cell = tableRow.cells[j];
 				// ZL MORE DATA ADDED TO ROW
-				// rowData[headers[j].name] = tableRow.cells[j].textContent.replace(/\r?\n/g, '');
-				rowData[headersName[j]] = {
+				rowData.push({
 					textContent : tableRow.cells[j].textContent,
+					width 		: (cell.clientWidth / table_with) * output_table_width,
 					align		: $(tableRow.cells[j]).css("text-align"),
+					valign		: $(cell).css("vertical-align"),
 					padding		: {
-									top 	: parseInt( $(tableRow.cells[j]).css("padding-top") ),
-									right 	: parseInt( $(tableRow.cells[j]).css("padding-right") ),
-									bottom 	: parseInt( $(tableRow.cells[j]).css("padding-bottom") ),
-									left 	: parseInt( $(tableRow.cells[j]).css("padding-left") )
+									top 	: parseInt( $(cell).css("padding-top") ),
+									right 	: parseInt( $(cell).css("padding-right") ),
+									bottom 	: parseInt( $(cell).css("padding-bottom") ),
+									left 	: parseInt( $(cell).css("padding-left") )
 								  },
 					border		: {	
-									top 	: parseInt( $(tableRow.cells[j]).css("border-top-width")),
-									right 	: parseInt( $(tableRow.cells[j]).css("border-right-width")),
-									bottom 	: parseInt( $(tableRow.cells[j]).css("border-bottom-width")),
-									left 	: parseInt( $(tableRow.cells[j]).css("border-left-width"))
+									top 	: parseInt( $(cell).css("border-top-width")),
+									right 	: parseInt( $(cell).css("border-right-width")),
+									bottom 	: parseInt( $(cell).css("border-bottom-width")),
+									left 	: parseInt( $(cell).css("border-left-width"))
 								  },
 				    border_color: {	
-									top 	: $(tableRow.cells[j]).css("border-top-color"),
-									right 	: $(tableRow.cells[j]).css("border-right-color"),
-									bottom 	: $(tableRow.cells[j]).css("border-bottom-color"),
-									left 	: $(tableRow.cells[j]).css("border-left-color")
+									top 	: $(cell).css("border-top-color"),
+									right 	: $(cell).css("border-right-color"),
+									bottom 	: $(cell).css("border-bottom-color"),
+									left 	: $(cell).css("border-left-color")
 				   				  },
-					bg_color	: $(tableRow.cells[j]).css("background-color"),
-					color		: $(tableRow.cells[j]).css("color"),
-				};
+					bg_color	: $(cell).css("background-color"),
+					color		: $(cell).css("color"),
+				});
 
 				j++;
 			}
@@ -6819,7 +6859,7 @@ API.splitTextToSize = function(text, maxlen, options) {
 	for (i = 0, l = paragraphs.length; i < l; i++) {
 		output = output.concat(
 			splitParagraphIntoLines(
-				paragraphs[i]
+				paragraphs[i].trim()
 				, fontUnit_maxLen
 				, newOptions
 			)

@@ -298,6 +298,9 @@ ion-list ion-item ion-option-button i {
   font-size: 2.0em;
   color: black; }
 
+md-card {
+  margin: 14px 8px !important; }
+
 md-card md-card-content {
   padding: 0 !important; }
 

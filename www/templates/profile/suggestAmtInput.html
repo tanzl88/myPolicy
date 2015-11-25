@@ -1,4 +1,4 @@
-<ion-view id="preview_profile_view" view-title="{{'SUGGESTED_AMT_CALCULATION' | translate}}">
+<ion-view id="suggest_amt_view" view-title="{{'PROTECTION_NEEDS' | translate}}">
     <ion-nav-buttons side="secondary">
         <button class="button button-clear" ng-click="submitButton()">
             <i class="ion-checkmark"></i>
@@ -27,7 +27,7 @@
             <!--NO DIFFERENTIATE TERM-->
             <div class="animate-item" >
                 <div class="policyForm_divider animate-item" ng-if="personal.differentiateRate === 0 && personal.useAdvanced === 1"></div>
-                <p class="section_header animate-item" ng-if="personal.differentiateRate === 0 && personal.useAdvanced === 1"">{{"RATE_OF_RETURN" | translate}}</p>
+                <p class="section_header animate-item" ng-if="personal.differentiateRate === 0 && personal.useAdvanced === 1">{{"RATE_OF_RETURN" | translate}}</p>
             </div>
             <div class="two_cols_item animate-item" ng-if="personal.differentiateRate === 0 && personal.useAdvanced === 1">
                 <div class="inline-block align-middle">{{"RATE_OF_RETURN" | translate}}</div>

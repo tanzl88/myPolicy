@@ -114,18 +114,18 @@ app.controller('NetworkStatusCtrl', ['$scope', '$rootScope', function($scope,$ro
     );
 }]);
 
-app.controller('AppStatusCtrl', ['$scope', '$http', function($scope,$http) {
+app.controller('AppStatusCtrl', ['$scope', '$rootScope', '$http', '$cordovaInAppBrowser', function($scope,$rootScope,$http,$cordovaInAppBrowser) {
 
     //VERSION STATUS
     if (ionic.Platform.isIOS()) {
         var platform = "iOS";
-        var version = 4;
+        var version = 5;
     } else if (ionic.Platform.isAndroid()) {
         var platform = "Android";
-        var version = 4;
+        var version = 5;
     } else {
         var platform = "Other";
-        var version = 4;
+        var version = 5;
     }
     $http.post(ctrl_url + "check_version", {platform : platform})
         .success(function(minVersion){
@@ -133,4 +133,25 @@ app.controller('AppStatusCtrl', ['$scope', '$http', function($scope,$http) {
                 $scope.needUpdate = true;
             }
         });
+
+    $scope.update = function() {
+        var iosLink = "https://itunes.apple.com/sg/app/mypolicy-by-introverts-sales/id1036065370?mt=8";
+        var androidLink = "market://details?id=com.ionicframework.mypolicy296876";
+        var link = (ionic.Platform.isIOS()) ? iosLink : androidLink;
+        var toolbar = (ionic.Platform.isIOS()) ? 'yes' : 'no';
+        var options = {
+            location: 'no',
+            toolbar: toolbar,
+            hardwareback: 'yes'
+        };
+        $cordovaInAppBrowser.open(link, '_blank', options);
+
+        if (ionic.Platform.isAndroid()) {
+            $rootScope.$on('$cordovaInAppBrowser:loadstop', function(e, event){
+                if (event.url === "market://details?id=com.ionicframework.mypolicy296876") {
+                    $cordovaInAppBrowser.close();
+                }
+            });
+        }
+    }
 }]);

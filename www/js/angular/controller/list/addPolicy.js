@@ -113,6 +113,7 @@ app.controller('AddPolicyCtrl', function($rootScope,$scope,$timeout,$state,$tran
                 retireIncome            : undefined,
                 currentCash             : undefined,
                 surrenderCash           : undefined,
+                payoutTerm              : undefined,
                 beneficiary             : undefined,
                 remarks                 : undefined
             };
@@ -155,6 +156,7 @@ app.controller('AddPolicyCtrl', function($rootScope,$scope,$timeout,$state,$tran
                 //CONVERT BOOLEAN
                 if (input.premiumTermMode  !== undefined) input.premiumTermMode  = booleanToInt(input.premiumTermMode);
                 if (input.coverageTermMode !== undefined) input.coverageTermMode = booleanToInt(input.coverageTermMode);
+                if (input.payoutTermMode !== undefined)   input.payoutTermMode   = booleanToInt(input.payoutTermMode);
 
                 $http.post(ctrl_url + "set_policy", input)
                     .success(function(result){

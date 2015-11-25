@@ -1,4 +1,4 @@
-<ion-view id="netWorth_view" view-title="{{'NET_WORTH_ANALYSIS' | translate}}">
+<ion-view id="netWorth_view" view-title="{{'NET_WORTH_CASHFLOW_ANALYSIS' | translate}}">
     <ion-nav-buttons side="secondary">
         <button class="button button-clear">
             <i class=""></i>
@@ -16,45 +16,42 @@
         </div>
 
         <div ng-if="(credential === 'advisor' && clientSelected === true) || (credential === 'client')">
-            <md-card>
-                <md-card-content>
-                    <p class="card_header">{{"KEY_FINANCIAL_RATIOS" | translate}}</p>
-                    <table class="protections_table" style="margin: 4% auto;">
-                        <tr>
-                            <th style="width: 28%;">{{"FINANCIAL_RATIO" | translate}}</th>
-                            <th style="width: 22%;">{{"CURRENT" | translate}}</th>
-                            <th style="width: 22%;">{{"SUGGESTED" | translate}}</th>
-                            <th style="width: 26%;">{{"STATUS" | translate}}</th>
-                        </tr>
-                        <tr ng-repeat="ratio in ratios">
-                            <td class="new-line protections_table_category">{{ratio.title | translate}}</td>
-                            <td>
-                                <p class="amt inline-block align-middle">{{ratio.amt}}</p>
-                            </td>
-                            <td>
-                                <p class="amt inline-block align-middle">{{ratio.suggest}}</p>
-                            </td>
-                            <td ng-class="{'excess' : ratio.pass === true, 'shortfall' : ratio.pass === false}">
-                                <p class="amt inline-block align-middle">{{ratio.status}}</p>
-                            </td>
-                        </tr>
-                    </table>
-                </md-card-content>
-            </md-card>
 
             <md-card>
                 <md-card-content>
-                    <p class="card_header">Summary of Assets and Liabilities</p>
+                    <p class="card_header">{{"NET_WORTH_ANALYSIS" | translate}}</p>
+                    <div style="margin: 4% auto;">
+                        <table class="split_diagram_table">
+                            <tr>
+                                <td width="33%" class="align-center">{{"TOTAL_ASSETS" | translate}}<br>{{personal.personal.totalAssets | currency:S$:0}}</td>
+                                <td width="34%"></td>
+                                <td width="33%" class="align-center">{{"TOTAL_LIABILITIES" | translate}}<br>{{personal.personal.totalLiabilities | currency:S$:0}}</td>
+                            </tr>
+                        </table>
+                        <img style="width: 100%;" src="img/netWorth.svg" />
+                        <table class="split_diagram_table">
+                            <tr>
+                                <td width="100%" class="align-center">{{"NET_WORTH" | translate}}<br>{{personal.personal.netWorth | currency:S$:0}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </md-card-content>
+            </md-card>
+
+
+            <md-card>
+                <md-card-content>
+                    <p class="card_header">{{"NET_WORTH_SUMMARY" | translate}}</p>
                     <div style="position: relative; margin: 5% 0%;">
                         <img id="assetInfographic" style="width: 100%;" src="img/asset.svg" />
                         <table id="assetTable">
                             <thead>
                                 <tr>
-                                    <th colspan="3" class="align-middle align-center">Total Assets: {{personal.totalAssets | currency:S$:0}}</th>
+                                    <th colspan="3" class="align-middle align-center">{{"TOTAL_ASSETS" | translate}}: {{personal.totalAssets | currency:S$:0}}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="asset in assetsObj">
+                                <tr ng-repeat="asset in personal.assetsObj">
                                     <td class="align-right align-middle percent" style="width: 33%">
                                         {{asset.percent}}%
                                     </td>
@@ -73,11 +70,11 @@
                         <table id="liabilityTable">
                             <thead>
                             <tr>
-                                <th colspan="3" class="align-middle align-center">Total Liabilities: {{personal.totalLiabilities | currency:S$:0}}</th>
+                                <th colspan="3" class="align-middle align-center">{{"TOTAL_LIABILITIES" | translate}}: {{personal.totalLiabilities | currency:S$:0}}</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="liability in liabilitiesObj">
+                            <tr ng-repeat="liability in personal.liabilitiesObj">
                                 <td class="align-right align-middle percent" style="width: 33%">
                                     {{liability.percent}}%
                                 </td>
@@ -92,6 +89,88 @@
                     </div>
                 </md-card-content>
             </md-card>
+
+
+            <md-card>
+                <md-card-content>
+                    <p class="card_header">{{"CASHFLOW_ANALYSIS" | translate}}</p>
+                    <div style="position: relative; margin: 5% 0%;">
+                        <img id="cashflowInfographic" style="width: 100%;" src="img/cashflow.svg" />
+                        <table id="cashflowTable">
+                            <tr class="content">
+                                <td width="36%" class="align-center align-middle">
+                                    <p>{{"EXPENSES" | translate}}</p>
+                                    <p>{{personal.personal.expenses | currency:S$:0}}</p>
+                                </td>
+                                <td width="28%"></td>
+                                <td width="36%" class="align-center align-middle">
+                                    <p>{{"DEBT_REPAYMENT" | translate}}</p>
+                                    <p>{{personal.personal.debtRepayment | currency:S$:0}}</p>
+                                </td>
+                            </tr>
+                            <tr class="empty"><td width="100%" colspan="3"></td></tr>
+                            <tr class="content">
+                                <td class="align-center align-middle">
+                                    <p>{{"SAVINGS" | translate}}</p>
+                                    <p>{{personal.personal.savings | currency:S$:0}}</p>
+                                </td>
+                                <td></td>
+                                <td class="align-center align-middle">
+                                    <p>{{"NET_EXPENDITURE" | translate}}</p>
+                                    <p>{{personal.personal.expenditure | currency:S$:0}}</p>
+                                </td>
+                            </tr>
+                            <tr class="empty"><td width="100%" colspan="3"></td></tr>
+                            <tr class="content">
+                                <td class="align-center align-middle">
+                                    <p>{{"CASH_INFLOW" | translate}}</p>
+                                    <p>{{personal.personal.cashInflow | currency:S$:0}}</p>
+                                </td>
+                                <td></td>
+                                <td class="align-center align-middle">
+                                    <p>{{"CASH_OUTFLOW" | translate}}</p>
+                                    <p>{{personal.personal.cashOutflow | currency:S$:0}}</p>
+                                </td>
+                            </tr>
+                            <tr class="empty"><td width="100%" colspan="3"></td></tr>
+                            <tr class="content">
+                                <td colspan="3" class="align-center align-middle">
+                                    <p>{{"NET_CASH_OUTFLOW" | translate}}</p>
+                                    <p>{{personal.personal.netCashflow | currency:S$:0}}</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </md-card-content>
+            </md-card>
+
+
+            <md-card>
+                <md-card-content>
+                    <p class="card_header">{{"KEY_FINANCIAL_RATIOS" | translate}}</p>
+                    <table class="protections_table" style="margin: 4% auto;">
+                        <tr>
+                            <th style="width: 32%;">{{"FINANCIAL_RATIO" | translate}}</th>
+                            <th style="width: 22%;">{{"CURRENT" | translate}}</th>
+                            <th style="width: 22%;">{{"SUGGESTED" | translate}}</th>
+                            <th style="width: 22%;">{{"STATUS" | translate}}</th>
+                        </tr>
+                        <tr ng-repeat="ratio in personal.ratios">
+                            <td class="new-line protections_table_category">{{ratio.title | translate}}</td>
+                            <td>
+                                <p class="amt inline-block align-middle">{{ratio.amt}}</p>
+                            </td>
+                            <td>
+                                <p class="amt inline-block align-middle">{{ratio.suggest}}</p>
+                            </td>
+                            <td ng-class="{'excess' : ratio.pass === true, 'shortfall' : ratio.pass === false}">
+                                <p class="amt inline-block align-middle">{{ratio.status}}</p>
+                            </td>
+                        </tr>
+                    </table>
+                </md-card-content>
+            </md-card>
+
         </div>
 
     </ion-content>

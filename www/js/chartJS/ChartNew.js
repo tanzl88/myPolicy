@@ -6147,16 +6147,13 @@ window.Chart = function(context) {
 		// ZL
 		// ADDED SUPPORT FOR TOUCH DEVICES
 		var start = {x:0,y:0};
-		document.body.addEventListener("touchstart", function(event) {
+		ctx.canvas.addEventListener("touchstart", function(event) {
 			if (cursorDivCreated) {
 				start.x = event.touches[0].pageX;
 				start.y = event.touches[0].pageY;
 			}
 		}, false);
-		if (isIE() < 9 && isIE() != false) document.body.attachEvent("onmousewheel", function(event) {
-			if (cursorDivCreated) document.getElementById('divCursor').style.display = 'none';
-		});
-		else document.body.addEventListener("touchmove", function(event) {
+		ctx.canvas.addEventListener("touchmove", function(event) {
 			if (cursorDivCreated) {
 				var offsetX = start.x - event.touches[0].pageX;
 				var offsetY = start.y - event.touches[0].pageY;
@@ -6166,6 +6163,10 @@ window.Chart = function(context) {
 				}
 			}
 		}, false);
+		
+		if (isIE() < 9 && isIE() != false) document.body.attachEvent("onmousewheel", function(event) {
+			if (cursorDivCreated) document.getElementById('divCursor').style.display = 'none';
+		});
 
 		function add_event_listener(type, func, chk)
 		{
