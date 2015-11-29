@@ -1,6 +1,6 @@
-app.service('loadDataDbService', ['$q', '$http', '$toast', '$translate', 'credentialManager', 'policyDataDbService', 'personalDataDbService', 'advisorDataDbService', 'clientListDbService', 'notificationDbService', 'customSuggestedDbService', 'policyDataService', 'reminderService', 'userService', 'fieldNameService', 'pushNotificationService', 'loadingService', function($q,$http,$toast,$translate,credentialManager,
+app.service('loadDataDbService', ['$q', '$http', '$toast', '$translate', 'credentialManager', 'policyDataDbService', 'personalDataDbService', 'advisorDataDbService', 'clientListDbService', 'notificationDbService', 'customSuggestedDbService', 'policyDataService', 'reminderService', 'userService', 'fieldNameService', 'pushNotificationService', 'reportTypeService', 'loadingService', function($q,$http,$toast,$translate,credentialManager,
                                           policyDataDbService,personalDataDbService,advisorDataDbService,clientListDbService,notificationDbService,customSuggestedDbService,
-                                          policyDataService,reminderService,userService,fieldNameService,pushNotificationService,loadingService) {
+                                          policyDataService,reminderService,userService,fieldNameService,pushNotificationService,reportTypeService,loadingService) {
 
     function initIonicService() {
         //IONIC USER INIT
@@ -29,7 +29,7 @@ app.service('loadDataDbService', ['$q', '$http', '$toast', '$translate', 'creden
                 if (ionic.Platform.isWebView()) window.analytics.setUserId(sdbmHash(data.data.advisor.advisorId));
 
                 credentialManager.setCredential("advisor");
-                this.setAdvisorData(data.data.advisor,data.data.clients,data.data.temp,data.data.reminders,data.data.full_table);
+                this.setAdvisorData(data.data.advisor,data.data.clients,data.data.temp,data.data.reminders,data.data.full_table,data.data.reportType);
                 initIonicService();
                 if (callback !== undefined) callback();
             } else {
@@ -62,11 +62,12 @@ app.service('loadDataDbService', ['$q', '$http', '$toast', '$translate', 'creden
             });
             return dfd.promise;
         },
-        setAdvisorData : function(advisorData,clientList,tempAccountList,reminders,full_table_fieldName) {
+        setAdvisorData : function(advisorData,clientList,tempAccountList,reminders,full_table_fieldName,reportTypes) {
             advisorDataDbService.set(advisorData);
             clientListDbService.set(clientList, tempAccountList);
             if (ionic.Platform.isWebView()) reminderService.set(reminders);
             fieldNameService.setFieldName("full_table",full_table_fieldName);
+            reportTypeService.init(reportTypes);
             $translate.refresh("en");
         }
     }

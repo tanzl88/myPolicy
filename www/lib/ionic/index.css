@@ -11,12 +11,16 @@
 .tab-item.tab-item-active {
   background-color: white; }
 
+#clients-tab .tab-item,
 #reports-tab .tab-item {
   background: #fed82f;
   margin-top: 0 !important;
   border-right-width: 0px;
-  color: #555; }
+  color: #555;
+  font-size: 1.0em;
+  max-width: none; }
 
+#clients-tab .tab-item i,
 #reports-tab .tab-item i {
   margin-top: -3px;
   line-height: 49px;
@@ -603,6 +607,12 @@ input.login_button {
   width: 100%;
   padding: 3% 5%;
   font-size: 0.9em; }
+
+#settings_list .section_header {
+  font-size: 1.0em;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0% 0% 1% 0%; }
 
 #settings_view .two_cols_item {
   margin: 1.5% 0%; }

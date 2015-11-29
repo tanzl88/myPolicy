@@ -29,7 +29,9 @@ app.controller('CreateClientAccountCtrl', ['$scope', '$http', '$ionicHistory', '
         $scope.selectedId = id;
     }
     $scope.initVar = function() {
-        getTempAccount();
+        var clients = clientListDbService.getClients();
+        console.log(clients);
+        //getTempAccount();
 
         //FOR ACTIVE / SELECTED CLIENT HIGHLIGHT
         var selectedId =  (credentialManager.getClientSelected() === true) ? credentialManager.getClientProperty("temp") : undefined;

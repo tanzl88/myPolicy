@@ -1,0 +1,22 @@
+<ion-view id="linked_clients_view" view-title="{{'MY_CLIENTS' | translate}}">
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear" ng-click="openLinkModal()">
+            <i class="ion-plus"></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="has-footer" delegate-handle="linkedClients" has-bouncing="true">
+        <ion-list>
+            <ion-item class="temp_account_item" ng-repeat="account in linkedAccounts" ng-click="selectAccount($index)">
+                <div class="temp_account_item_content" ng-class="{'selected' : selectedId === account.id}">
+                    <p>{{"ACCOUNT_NAME" | translate}} : {{account.name}}</p>
+                    <p>{{"BIRTHDAY" | translate}} : {{account.birthday.format("LL")}}</p>
+                    <i class="swipe-left-icon transform-align-middle ion-chevron-left"></i>
+                </div>
+                <ion-option-button class="button yellow" ng-click="remove($index)">
+                    <i class="ion-ios-trash-outline"></i>
+                </ion-option-button>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
+

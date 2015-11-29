@@ -119,7 +119,11 @@ app.service('personalDataDbService', function($rootScope,$q,$http,$translate) {
             }
         },
         getUserData : function(colName) {
-            return personal_g[colName];
+            if (personal_g === undefined) {
+                return undefined;
+            } else {
+                return personal_g[colName];
+            }
         },
         profileFound : function() {
             return profile_found_g;

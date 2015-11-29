@@ -1,0 +1,48 @@
+<ion-view id="change_email_view" view-title="{{'CHANGE_EMAIL' | translate}}" cache-view="false">
+    <ion-content class="login_view">
+        <div class="absolute_login_container">
+            <div class="transform-align-middle">
+                <!--<div class="login_logo_container" >-->
+                    <!--<img src="img/logo.svg" />-->
+                <!--</div>-->
+                <form name="changeEmailForm" novalidate="" ng-submit="reset(changeEmailForm)">
+                    <!--INPUT-->
+                    <div class="input_container form-group" ng-class="{ 'has-error' : changeEmailForm.oldEmail.$invalid && !changeEmailForm.oldEmail.$pristine }">
+                        <div class="icon_container">
+                            <i class="policy-user"></i>
+                        </div>
+                        <input name="oldEmail" type="email" placeholder="{{'CURRENT_EMAIL' | translate}}" class="" ng-model="signup.oldEmail" required>
+                    </div>
+                    <!--MESSAGE-->
+                    <div class="form-message" ng-messages="changeEmailForm.oldEmail.$error" ng-show="!changeEmailForm.oldEmail.$pristine" style="" role="alert">
+                        <div ng-message="required">{{"REQUIRED_ERROR" | translate}}</div>
+                    </div>
+
+
+
+                    <!--INPUT-->
+                    <div class="input_container form-group" ng-class="{ 'has-error' : changeEmailForm.newEmail.$invalid && !changeEmailForm.newEmail.$pristine }">
+                        <div class="icon_container">
+                            <i class="policy-user"></i>
+                        </div>
+                        <input name="newEmail" type="email" placeholder="{{'NEW_EMAIL' | translate}}" ng-change="checkEmailExist(changeEmailForm)"
+                               class="" ng-model="signup.email" ng-model-options="{ debounce: {'default': 300, 'blur': 0} }" required>
+                    </div>
+                    <!--MESSAGE-->
+                    <div class="form-message" ng-messages="changeEmailForm.newEmail.$error" ng-show="!changeEmailForm.newEmail.$pristine" style="" role="alert">
+                        <div ng-message="required">{{"REQUIRED_ERROR" | translate}}</div>
+                    </div>
+                    <div class="form-message" ng-show="emailExist">
+                        <div>{{"EMAIL_EXIST_ERROR" | translate}}</div>
+                    </div>
+
+
+                    <!--SUBMIT-->
+                    <input class="login_button" type="submit" value="{{'CHANGE_CAPS' | translate}}" />
+                </form>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>
+

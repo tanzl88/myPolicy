@@ -1,6 +1,6 @@
 app.controller('GenerateReportCtrl', function($scope,$rootScope,$q,$state,$translate,$toast,$timeout,
-                                              $cordovaFile,$cordovaFileOpener2,$cordovaEmailComposer,
-                                              credentialManager,loadingService,modalService,utilityService) {
+                                              $cordovaFile,$cordovaFileOpener2,$cordovaEmailComposer,$cordovaKeyboard,
+                                              credentialManager,personalDataDbService,reportTypeService,loadingService,modalService,utilityService) {
 
     // ------------ FILE UTILITY ------------
     function listDir(dirInput) {
@@ -136,40 +136,52 @@ app.controller('GenerateReportCtrl', function($scope,$rootScope,$q,$state,$trans
         if (form.$invalid) {
             form.reportName.$setDirty();
         } else {
-            var filename = form.reportName.$modelValue + ".pdf";
+            //HIDE KEYBOARD BEFORE MODAL CLOSE
+            var delay_time = utilityService.getKeyboardDelay();
 
-            if (ionic.Platform.isWebView()) {
-                //CHECK FILE EXIST
-                $cordovaFile.checkFile(fileTransferDir,filename)
-                    .then(function (file) {
-                        $toast.show("REPORT_SAME_NAME");
-                    }, function (error) {
-                        if (error.code === 1) {
-                            //EXPORT
-                            //$scope.closeModal();
-                            $scope.generateReportModal.hide();
-                            loadingService.show("GENERATING_REPORT",1);
-                            $rootScope.reportName = filename;
-                            $timeout(function(){
-                                $state.go("tabs.home.generateReport.export");
-                            },400);
-                        } else {
-                            console.log(error);
-                            $toast.show("UNKNOWN_ERROR");
-                        }
-                    });
-            } else {
-                $scope.generateReportModal.hide();
-                loadingService.show("GENERATING_REPORT",1);
-                $rootScope.reportName = filename;
-                $state.go("tabs.home.generateReport.export");
-            }
+            $timeout(function(){
+                var filename = form.reportName.$modelValue + ".pdf";
+
+                if (ionic.Platform.isWebView()) {
+                    //CHECK FILE EXIST
+                    $cordovaFile.checkFile(fileTransferDir,filename)
+                        .then(function (file) {
+                            $toast.show("REPORT_SAME_NAME");
+                        }, function (error) {
+                            if (error.code === 1) {
+                                //EXPORT
+                                $scope.reportObj.reportName = filename;
+                                $scope.hideGenerateReportModal();
+                                loadingService.show("GENERATING_REPORT",1);
+                                $rootScope.reportObj = $scope.reportObj;
+                                $timeout(function(){
+                                    $state.go("tabs.home.generateReport.export");
+                                },400);
+                            } else {
+                                console.log(error);
+                                $toast.show("UNKNOWN_ERROR");
+                            }
+                        });
+                } else {
+                    $scope.reportObj.reportName = filename;
+                    $scope.hideGenerateReportModal();
+                    loadingService.show("GENERATING_REPORT",1);
+                    $rootScope.reportObj = $scope.reportObj;
+                    $state.go("tabs.home.generateReport.export");
+                }
+            },delay_time);
         }
+    };
+
+    $scope.goToEditReportType = function() {
+        $scope.hideGenerateReportModal();
+        $state.go("tabs.home.settings.reportType");
     };
 
     // ------------ INIT VAR ------------
     $scope.initVar = function() {
         $scope.clientSelected = credentialManager.getClientSelected();
+        $scope.initModalVar();
         listDir(fileTransferDir).then(function(result){
             if (result.status === "OK") {
                 $scope.fileList = result.data;
@@ -183,12 +195,31 @@ app.controller('GenerateReportCtrl', function($scope,$rootScope,$q,$state,$trans
         });
     };
 
-
-
     // ------------- MODAL -------------
+    $scope.initModalVar = function() {
+        console.log("INIT MODAL VAR");
+        var reportName = undefined;
+        var userName   = personalDataDbService.getUserData("name");
+        if (userName !== undefined) reportName = $translate.instant("ONE_REPORT",{ name : userName});
+
+        $scope.reportObj = {
+            selectedTypeId      : 1,
+            selectedTypeValue   : "Insurance Summary",
+            reportName          : reportName
+        };
+        $scope.reportType = reportTypeService.getReportTypes();
+        $scope.reportTypeEnum = _.pluck($scope.reportType,"name");
+
+        console.log($scope.reportTypeEnum);
+    };
+    $scope.initModalVar();
+
     modalService.init("generate_report","generate_report",$scope).then(function(modal){
         $scope.generateReportModal = modal;
     });
+    $scope.hideGenerateReportModal = function() {
+        modalService.close("generate_report");
+    };
     modalService.init("remove_modal","remove_modal",$scope).then(function(modal){
         $scope.removeModal = modal;
     });

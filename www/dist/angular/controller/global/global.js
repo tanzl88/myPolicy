@@ -1,18 +1,4 @@
-app.controller('GlobalCtrl', ['$scope', '$rootScope', '$timeout', '$state', 'tutorialManager', 'credentialManager', 'loadingService', function($scope,$rootScope,$timeout,$state,tutorialManager,credentialManager,loadingService) {
-    //ORIENTATION LOCK CONTROL
-    //$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-    //    //IF LIST TAB AND CLIENT SELECTED / CLIENT -> ALLOW ORIENTATION CHANGE
-    //    //ELSE LOCK IN PORTRAIT MODE
-    //    var stateNameSplit = toState.name.split(".");
-    //    var stateName = stateNameSplit[stateNameSplit.length - 1];
-    //    if (stateName === "list" && (credentialManager.getCredential() === "client" || credentialManager.getClientSelected())) {
-    //        screen.unlockOrientation();
-    //    } else {
-    //        if (validity_test(screen.lockOrientation)) screen.lockOrientation("portrait-primary");
-    //    }
-    //});
-
-
+app.controller('GlobalCtrl', ['$scope', '$rootScope', '$timeout', '$state', '$ionicPlatform', '$ionicHistory', 'tutorialManager', function($scope,$rootScope,$timeout,$state,$ionicPlatform,$ionicHistory,tutorialManager) {
     var tutorialArray = [
         "list",
         "birthday",
@@ -51,23 +37,12 @@ app.controller('GlobalCtrl', ['$scope', '$rootScope', '$timeout', '$state', 'tut
             var stateNameSplit = states.stateName.split(".");
             var stateName = stateNameSplit[stateNameSplit.length - 1];
 
-            //LOADING SCREEN WHILE WAITING FOR VIEW TO RENDER
-            //if (stateName === "list" && !states.fromCache) {
-            //    loadingService.show("LOADING");
-            //}
-
-
             //TUTORIAL
             if (localStorage.getItem("swipe-left-tutorial") != "true" && tutorialArray.indexOf(stateName) >= 0) {
                 $timeout(function(){
                     tutorialManager.show("swipe-left-tutorial");
                 },1);
             }
-            //if (localStorage.getItem("rotate-landscape-tutorial") != "true" && stateName === "list") {
-            //    $timeout(function(){
-            //        tutorialManager.show("rotate-landscape-tutorial");
-            //    },1);
-            //}
 
             //INIT VAR
             if (stateName === "login") {
@@ -87,7 +62,6 @@ app.controller('GlobalCtrl', ['$scope', '$rootScope', '$timeout', '$state', 'tut
             if (trackViewObj[stateName] !== undefined) {
                 if (ionic.Platform.isWebView()) window.analytics.trackView(trackViewObj[stateName]);
             }
-
         }
     });
 
@@ -101,6 +75,17 @@ app.controller('GlobalCtrl', ['$scope', '$rootScope', '$timeout', '$state', 'tut
             }
         }
     });
+
+    //PREVENT BACK BUTTON TO GO BACK TO LOGIN
+    if (ionic.Platform.isAndroid()) {
+        $ionicPlatform.registerBackButtonAction(function(event) {
+            if ($ionicHistory.currentView().stateName === "tabs.home" && $ionicHistory.backView().stateName === "login") {
+
+            } else {
+                $ionicHistory.goBack();
+            }
+        }, 100);
+    }
 }]);
 
 
@@ -119,13 +104,13 @@ app.controller('AppStatusCtrl', ['$scope', '$rootScope', '$http', '$cordovaInApp
     //VERSION STATUS
     if (ionic.Platform.isIOS()) {
         var platform = "iOS";
-        var version = 5;
+        var version = 6;
     } else if (ionic.Platform.isAndroid()) {
         var platform = "Android";
-        var version = 5;
+        var version = 6;
     } else {
         var platform = "Other";
-        var version = 5;
+        var version = 6;
     }
     $http.post(ctrl_url + "check_version", {platform : platform})
         .success(function(minVersion){

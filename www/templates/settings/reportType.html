@@ -1,0 +1,22 @@
+<ion-view id="report_type_view" view-title="{{'REPORT_TYPE' | translate}}">
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear" ng-click="addReportType()">
+            <i class="ion-plus"></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="" has-bouncing="true" delegate-handle="reportTypeListScroll">
+        <ion-list>
+            <ion-item ng-repeat="report in reportType" ng-click="editReportType($index)">
+                <div>
+                    <p><b>{{report.name}}</b></p>
+                    <p>Number of pages: {{report.pages.length}}</p>
+                </div>
+                <ion-option-button class="button yellow" ng-click="remove($index)">
+                    <i class="ion-ios-trash-outline"></i>
+                </ion-option-button>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
+
+

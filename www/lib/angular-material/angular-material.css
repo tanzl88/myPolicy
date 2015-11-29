@@ -214,7 +214,9 @@ md-select, md-card, md-list, md-toolbar, ul, ol, p, h1, h2, h3, h4, h5, h6 {
 button, select, html, textarea, input {
   font-family: RobotoDraft, Roboto, 'Helvetica Neue', sans-serif; }
 
-select, button, textarea, input {
+/*select, button, textarea, input {*/
+  /*font-size: 100%; }*/
+select {
   font-size: 100%; }
 
 /* Sizes:

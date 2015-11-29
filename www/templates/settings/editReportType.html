@@ -1,0 +1,19 @@
+<ion-view id="edit_report_type_view" view-title="{{'EDIT_REPORT_TYPE' | translate}}">
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear" ng-click="reportTypeModal.show();">
+            <i class="ion-checkmark"></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="" has-bouncing="true" delegate-handle="reportTypeListScroll">
+        <ul class="list">
+            <li ng-repeat="page in pages" class="item item-checkbox">
+                <label class="checkbox checkbox-energized">
+                    <input type="checkbox" ng-model="page.checked">
+                </label>
+                <div style="white-space: normal; font-size: 0.95em;">{{page.name}}</div>
+            </li>
+        </ul>
+    </ion-content>
+</ion-view>
+
+

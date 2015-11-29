@@ -1,0 +1,38 @@
+<ion-view id="create_client_account_view" view-title="{{'MY_CLIENTS' | translate}}">
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear" ng-click="showTempAccountModal()">
+            <i class="ion-plus"></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="has-footer" delegate-handle="transferClients" has-bouncing="true">
+        <ion-list>
+            <ion-item ng-if="showTips">
+                <div style="white-space: normal; text-align: justify; padding: 4%; font-size: 0.85em; line-height: 1.3em; background-color: #FAFAFA; border-radius: 5px; border: 1px solid rgba(0,0,0,0.2);">
+                    <div>
+                        New accounts allow you to input clients' data first and then for your clients to retrieve the accounts later on.
+                        <br><br>
+                        To transfer an account to your client, slide left and click on the code button for instructions.
+                    </div>
+                    <div class="login_button" ng-click="hideTips()" style="margin: 7% 0 0 auto;">{{"DONT_SHOW_ME_AGAIN" | translate}}</div>
+                </div>
+            </ion-item>
+            <ion-item class="temp_account_item" ng-repeat="account in tempAccounts" ng-click="selectAccount($index)">
+                <div class="temp_account_item_content" ng-class="{'selected' : selectedId === account.id}">
+                    <p>{{"ACCOUNT_NAME" | translate}} : {{account.name}}</p>
+                    <p>{{"CREATED_ON" | translate}} : {{account.accountCreated.format("LL")}}</p>
+                    <i class="swipe-left-icon transform-align-middle ion-chevron-left"></i>
+                </div>
+                <ion-option-button class="button gray" ng-click="generateToken($index)">
+                    <i class="policy-code"></i>
+                </ion-option-button>
+                <ion-option-button class="button yellow" ng-click="remove($index)">
+                    <i class="ion-ios-trash-outline"></i>
+                </ion-option-button>
+            </ion-item>
+        </ion-list>
+
+
+    </ion-content>
+</ion-view>
+
+

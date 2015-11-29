@@ -103,9 +103,9 @@
                     <i class="policy-briefcase inline-block align-middle"></i>
                     <p class="inline-block align-middle">{{"MY_PROFILE" | translate}}</p>
                 </div>
-                <div class="menu_list_item" ng-click="goTo('createClientAccount')">
+                <div class="menu_list_item" ng-click="goToClients();">
                     <i class="policy-user-transfer inline-block align-middle"></i>
-                    <p class="inline-block align-middle">{{"TRANSFER_ACCOUNT" | translate}}</p>
+                    <p class="inline-block align-middle">{{"MY_CLIENTS" | translate}}</p>
                 </div>
                 <div class="menu_list_item" ng-click="goTo('reminder')">
                     <i class="policy-bell inline-block align-middle"></i>
@@ -144,10 +144,10 @@
                 <i class="policy-gear inline-block align-middle"></i>
                 <p class="inline-block align-middle">{{"SETTINGS" | translate}}</p>
             </div>
-            <div class="menu_list_item" ng-controller="LogoutCtrl" ng-click="logout()">
-                <i class="policy-logout inline-block align-middle"></i>
-                <p class="inline-block align-middle">{{"LOGOUT" | translate}}</p>
-            </div>
+            <!--<div class="menu_list_item" ng-controller="LogoutCtrl" ng-click="logout()">-->
+                <!--<i class="policy-logout inline-block align-middle"></i>-->
+                <!--<p class="inline-block align-middle">{{"LOGOUT" | translate}}</p>-->
+            <!--</div>-->
         </section>
     </ion-content>
 </ion-view>

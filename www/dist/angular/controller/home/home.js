@@ -1,4 +1,4 @@
-app.controller('HomeCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$state', '$translate', '$toast', 'loadingService', 'modalService', 'loadDataDbService', 'personalDataDbService', 'advisorDataDbService', 'policyDataService', 'clientListDbService', 'pushNotificationService', 'credentialManager', 'doughnutChartService', 'notificationDbService', 'utilityService', 'errorHandler', function($scope,$rootScope,$http,$timeout,$state,$translate,$toast,loadingService,modalService,
+app.controller('HomeCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$state', '$translate', '$toast', 'loadingService', 'modalService', '$ionicViewSwitcher', 'loadDataDbService', 'personalDataDbService', 'advisorDataDbService', 'policyDataService', 'clientListDbService', 'pushNotificationService', 'credentialManager', 'doughnutChartService', 'notificationDbService', 'utilityService', 'errorHandler', function($scope,$rootScope,$http,$timeout,$state,$translate,$toast,loadingService,modalService,$ionicViewSwitcher,
                                     loadDataDbService,personalDataDbService,advisorDataDbService,policyDataService,clientListDbService,pushNotificationService,
                                     credentialManager,doughnutChartService,notificationDbService,utilityService,errorHandler) {
 
@@ -12,25 +12,37 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$state
     $scope.goTo = function(state) {
         $state.go("tabs.home." + state);
     };
+    $scope.goToClients = function() {
+        $ionicViewSwitcher.nextDirection('forward');
+        $state.go("tabs.home.clients.linkedClients");
+    };
 
     // -------------------- CLIENT LIST --------------------
     $scope.refreshClientName = function() {
         $scope.selectedClientName = credentialManager.getClientProperty("name");
     };
     $scope.selectClient = function(index) {
-        loadingService.show("LOADING_CLIENT");
         var client = $scope.clientList[index];
-        $http.post(ctrl_url + "get_client_data", {userId : client.id})
-            .success(function(data){
-                if (data.status === "OK") {
-                    $scope.detriggerClientSearch();
-                    credentialManager.setClientSelectedObj(client);
-                    loadDataDbService.setClientData(data.data.policy,data.data.personal,data.data.advisor,data.data.notification,data.data.suggested);
-                    loadingService.hide();
-                } else {
-                    errorHandler.handleOthers(data.status);
-                }
-            });
+        clientListDbService.selectClient(client).then(function(data){
+            if (data.status === "OK") {
+                loadDataDbService.setClientData(data.data.policy,data.data.personal,data.data.advisor,data.data.notification,data.data.suggested);
+                $scope.detriggerClientSearch();
+            }
+        });
+
+        //loadingService.show("LOADING_CLIENT");
+        //var client = $scope.clientList[index];
+        //$http.post(ctrl_url + "get_client_data", {userId : client.id})
+        //    .success(function(data){
+        //        if (data.status === "OK") {
+        //            $scope.detriggerClientSearch();
+        //            credentialManager.setClientSelectedObj(client);
+        //            loadDataDbService.setClientData(data.data.policy,data.data.personal,data.data.advisor,data.data.notification,data.data.suggested);
+        //            loadingService.hide();
+        //        } else {
+        //            errorHandler.handleOthers(data.status);
+        //        }
+        //    });
     };
     $scope.toggleAddClient = function() {
         //$scope.addClientToggle = !$scope.addClientToggle;

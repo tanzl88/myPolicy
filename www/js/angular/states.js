@@ -90,6 +90,36 @@ app.config(function($stateProvider, $urlRouterProvider) {
             }
         })
 
+        //------------------------ CLIENT ------------------------
+        .state('tabs.home.clients', {
+            abstract: true,
+            url: '/clients',
+            views: {
+                "home-tab@tabs": {
+                    templateUrl: "clients/clients-tabs.html"
+                }
+            }
+        })
+        .state('tabs.home.clients.linkedClients', {
+            url: '/linkedClients',
+            views: {
+                "linkedClients-tab": {
+                    templateUrl: "clients/linkedClients.html",
+                    controller: "linkedAccountCtrl",
+                }
+            }
+        })
+        .state('tabs.home.clients.transferClients', {
+            url: '/transferClients',
+            views: {
+                "transferClients-tab": {
+                    templateUrl: "clients/transferClients.html",
+                    controller: "tempAccountCtrl",
+                }
+            }
+        })
+
+
         //------------------------ HOME ------------------------
         .state('tabs.home', {
             url: '/home',
@@ -179,8 +209,26 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/settings',
             views: {
                 "home-tab@tabs": {
-                    templateUrl: "home/settings.html",
+                    templateUrl: "settings/settings.html",
                     controller: "SettingsCtrl",
+                }
+            }
+        })
+        .state('tabs.home.settings.reportType', {
+            url: '/reportType',
+            views: {
+                "home-tab@tabs": {
+                    templateUrl: "settings/reportType.html",
+                    controller: "ReportTypeCtrl",
+                }
+            }
+        })
+        .state('tabs.home.settings.reportType.editReportType', {
+            url: '/editReportType',
+            views: {
+                "home-tab@tabs": {
+                    templateUrl: "settings/editReportType.html",
+                    controller: "EditReportTypeCtrl",
                 }
             }
         })
@@ -188,7 +236,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/customizeFieldNames',
             views: {
                 "home-tab@tabs": {
-                    templateUrl: "home/customizeFieldNames.html",
+                    templateUrl: "settings/customizeFieldNames.html",
                     controller: "CustomizeFieldNamesCtrl",
                 }
             }
@@ -197,7 +245,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/changePassword',
             views: {
                 "home-tab@tabs": {
-                    templateUrl: "home/changePassword.html",
+                    templateUrl: "settings/changePassword.html",
                     controller: "ChangePasswordCtrl",
                 }
             }

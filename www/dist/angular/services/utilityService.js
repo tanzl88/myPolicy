@@ -10,7 +10,7 @@ app.service('utilityService', ['$rootScope', '$cordovaKeyboard', function($rootS
         },
         resetForm : function(id,defaultObj) {
             var formScope = angular.element(document.getElementById(id)).scope();
-            //console.log(formScope);
+            console.log(formScope);
             for (var key in formScope) {
                 if (validity_test(formScope[key]) && formScope[key].$pristine !== undefined) {
                     //console.log(formScope);

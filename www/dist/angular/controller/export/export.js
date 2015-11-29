@@ -1,6 +1,6 @@
-app.controller('ExportCtrl', ['$scope', '$rootScope', '$q', '$translate', '$timeout', '$interval', '$ionicHistory', '$cordovaFile', '$toast', '$filter', '$translate', 'advisorDataDbService', 'personalDataDbService', 'policyDataDbService', 'reactDOMService', 'policyDataService', 'barChartService', 'lineChartService', 'doughnutChartService', 'picNotesService', 'loadingService', 'exportUtility', function($scope,$rootScope,$q,$translate,$timeout,$interval,$ionicHistory,$cordovaFile,$toast,$filter,$translate,
+app.controller('ExportCtrl', ['$scope', '$rootScope', '$q', '$translate', '$timeout', '$interval', '$ionicHistory', '$cordovaFile', '$toast', '$filter', '$translate', 'advisorDataDbService', 'personalDataDbService', 'policyDataDbService', 'reactDOMService', 'policyDataService', 'barChartService', 'lineChartService', 'doughnutChartService', 'picNotesService', 'reportTypeService', 'loadingService', 'exportUtility', function($scope,$rootScope,$q,$translate,$timeout,$interval,$ionicHistory,$cordovaFile,$toast,$filter,$translate,
                                       advisorDataDbService,personalDataDbService,policyDataDbService,reactDOMService,
-                                      policyDataService,barChartService,lineChartService,doughnutChartService,picNotesService,
+                                      policyDataService,barChartService,lineChartService,doughnutChartService,picNotesService,reportTypeService,
                                       loadingService,exportUtility) {
     var exportStartTime = Date.now();
     var exportTime  = exportStartTime;
@@ -55,12 +55,16 @@ app.controller('ExportCtrl', ['$scope', '$rootScope', '$q', '$translate', '$time
     ];
 
     $scope.initVar = function() {
-        pages = default_pages;
-        page_index = -1;
         $timeout(function(){
-            if (validity_test($rootScope.reportName)) {
-                $scope.reportName = $rootScope.reportName;
-                delete $rootScope.reportName;
+            if (validity_test($rootScope.reportObj)) {
+                var reportObj = $rootScope.reportObj;
+                delete $rootScope.reportObj;
+
+
+                $scope.reportName = reportObj.reportName;
+                pages = reportTypeService.getReportTypes()[reportObj.selectedTypeId].pages;
+                page_index = -1;
+
                 doc = new jsPDF('l','pt','a4');
                 doc.setOverflowHook(undefined);
                 nextPage();

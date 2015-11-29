@@ -1,0 +1,20 @@
+<div ng-controller="ClientsTabsCtrl">
+    <ion-nav-bar class="bar-energized" align-title="center">
+        <ion-nav-buttons side="left">
+            <button class="button button-clear" ng-click="goToHome()" >
+                <i class="ion-chevron-left"></i>
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+
+    <ion-tabs id="clients-tab" class="tabs-striped tabs-icon-left tabs-top tabs-stable">
+        <ion-tab icon="policy-link" title="{{'LINKED_CLIENTS' | translate}}" ng-click="scrollClick('linkedClients')">
+            <ion-nav-view name="linkedClients-tab"></ion-nav-view>
+        </ion-tab>
+
+        <ion-tab icon="policy-transfer-arrow" title="Linked Clients" ng-click="scrollClick('transferClients')">
+            <ion-nav-view name="transferClients-tab"></ion-nav-view>
+        </ion-tab>
+    </ion-tabs>
+</div>
+

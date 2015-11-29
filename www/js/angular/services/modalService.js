@@ -1,4 +1,4 @@
-app.service('modalService', function($q,$ionicModal) {
+app.service('modalService', function($q,$timeout,$ionicModal,$ionicScrollDelegate,utilityService) {
     //var currency_g;
     var modal = {};
 
@@ -20,6 +20,7 @@ app.service('modalService', function($q,$ionicModal) {
         open : function(modalName,modalData,callback) {
             modal[modalName].data = modalData;
             modal[modalName].show();
+            $ionicScrollDelegate.$getByHandle('generateReportScroll').resize();
             if (validity_test(callback)) callback;
         },
         close : function(modalName,callback) {

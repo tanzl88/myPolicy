@@ -1,0 +1,40 @@
+<ion-view id="settings_view" view-title="{{'SETTINGS' | translate}}">
+    <ion-content class="">
+        <div id="settings_list">
+            <p class="section_header">{{"GENERAL_SETTINGS" | translate}}</p>
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"CURRENCY_LITERAL" | translate}}</div>
+                <currency-picker class="inline-block align-middle" ng-model-name="currency"></currency-picker>
+            </div>
+            <div class="two_cols_item" ng-controller="LogoutCtrl">
+                <div class="inline-block align-middle">{{"LOGOUT" | translate}}</div>
+                <input class="inline-block align-middle align-center bg_color" type="text" value="{{'GOOD BYE' | translate}}" ng-click="logout()" readonly>
+            </div>
+
+            <div class="policyForm_divider"></div>
+            <p class="section_header">{{"REPORT_SETTINGS" | translate}}</p>
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"EDIT_REPORT_TYPE" | translate}}</div>
+                <input class="inline-block align-middle align-center bg_color" type="text" value="{{'CUSTOMIZE' | translate}}" ng-click="goTo('reportType')" readonly>
+            </div>
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"EDIT_POLICY_FIELD_NAME" | translate}}</div>
+                <input class="inline-block align-middle align-center bg_color" type="text" value="{{'CUSTOMIZE' | translate}}" ng-click="goTo('customizeFieldNames')" readonly>
+            </div>
+
+            <div class="policyForm_divider"></div>
+            <p class="section_header">{{"ACCOUNT_SETTINGS" | translate}}</p>
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"CHANGE_PASSWORD" | translate}}</div>
+                <input class="inline-block align-middle align-center bg_color" type="text" value="{{'CHANGE' | translate}}" ng-click="goTo('changePassword')" readonly>
+            </div>
+            <div class="two_cols_item">
+                <div class="inline-block align-middle">{{"CHANGE_EMAIL" | translate}}</div>
+                <input class="inline-block align-middle align-center bg_color" type="text" value="{{'CHANGE' | translate}}" ng-click="goTo('changeEmail')" readonly>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>
+
+

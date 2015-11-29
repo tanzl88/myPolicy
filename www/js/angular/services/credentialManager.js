@@ -49,7 +49,11 @@ app.service('credentialManager', function($rootScope,$toast) {
             $("#home_view").scope().refreshClientName();
         },
         getClientProperty : function(propertyName) {
-            return client_selected_obj_g[propertyName];
+            if (client_selected_obj_g === undefined) {
+                return undefined;
+            } else {
+                return client_selected_obj_g[propertyName];
+            }
         }
     }
 });
