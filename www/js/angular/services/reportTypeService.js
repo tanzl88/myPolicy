@@ -5,10 +5,10 @@ app.service('reportTypeService', function($q,$http,$translate,errorHandler) {
         "keyProtections",
         "protectionsTrend",
         "policiesAnalysis",
-        "netWorth",
         //"financialRatios",
         "fullTable",
         "needs",
+        "netWorth",
         "disclaimer"
     ];
 

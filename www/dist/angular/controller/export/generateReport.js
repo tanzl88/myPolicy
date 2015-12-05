@@ -181,7 +181,7 @@ app.controller('GenerateReportCtrl', ['$scope', '$rootScope', '$q', '$state', '$
     // ------------ INIT VAR ------------
     $scope.initVar = function() {
         $scope.clientSelected = credentialManager.getClientSelected();
-        initModalVar();
+        $scope.initModalVar();
         listDir(fileTransferDir).then(function(result){
             if (result.status === "OK") {
                 $scope.fileList = result.data;
@@ -196,7 +196,8 @@ app.controller('GenerateReportCtrl', ['$scope', '$rootScope', '$q', '$state', '$
     };
 
     // ------------- MODAL -------------
-    function initModalVar() {
+    $scope.initModalVar = function() {
+        console.log("INIT MODAL VAR");
         var reportName = undefined;
         var userName   = personalDataDbService.getUserData("name");
         if (userName !== undefined) reportName = $translate.instant("ONE_REPORT",{ name : userName});
@@ -208,8 +209,10 @@ app.controller('GenerateReportCtrl', ['$scope', '$rootScope', '$q', '$state', '$
         };
         $scope.reportType = reportTypeService.getReportTypes();
         $scope.reportTypeEnum = _.pluck($scope.reportType,"name");
-    }
-    initModalVar();
+
+        console.log($scope.reportTypeEnum);
+    };
+    $scope.initModalVar();
 
     modalService.init("generate_report","generate_report",$scope).then(function(modal){
         $scope.generateReportModal = modal;

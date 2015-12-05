@@ -566,12 +566,46 @@ input.login_button {
 #tutorial_blocker {
   top: 0; }
 
-.temp_account_view, .generate_token_view {
+#add_client_modal {
+  height: 100%; }
+
+#add_client_modal .swiper-container {
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background-color: white; }
+
+#add_client_modal form {
+  padding: 0;
+  font-size: 0.9em;
+  border-radius: 0;
+  border-width: 0;
+  background-color: transparent; }
+
+#add_client_modal .swiper-slide {
+  padding: 5%; }
+
+#add_client_modal .name-input {
+  margin-top: 3%;
+  margin-bottom: 1%; }
+
+#add_client_modal i {
+  margin-right: 1%;
+  font-size: 1.3em; }
+
+#add_client_modal .modal_footer {
+  font-size: 0.9em;
+  color: #555;
+  line-height: 1.3em;
+  margin-top: 4%; }
+
+.temp_account_view,
+.generate_token_view {
   position: absolute;
   width: 100%;
   padding: 5% 10%; }
 
-.temp_account_view form, .generate_token_view form {
+.temp_account_view form,
+.generate_token_view form {
   padding: 5%;
   background-color: white;
   border-radius: 5px;
@@ -600,8 +634,9 @@ input.login_button {
   background-color: #eaeaea;
   border-radius: 3px; }
 
-.temp_account_item p {
-  padding: 0% 2%; }
+#clients_view .policy-user-transfer {
+  font-size: 1.9em;
+  color: #777777; }
 
 #settings_list {
   width: 100%;

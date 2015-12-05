@@ -116,9 +116,10 @@ app.controller('ReportCtrl', function($scope,$translate,$timeout,$interval,$stat
     $scope.showSuggestTooltip = function(title) {
         //ANALYTICS
         if (ionic.Platform.isWebView()) window.analytics.trackEvent('User Interaction', 'Tooltip', 'Suggested explanation');
+        var useAdvanced = personalDataDbService.getUserData("useAdvanced") == 1 ? "_ADV" : "";
 
         $scope.category          = $translate.instant("REPORT_" + title);
-        $scope.suggestedCoverage = $translate.instant("REPORT_" + title + "_SUGG");
+        $scope.suggestedCoverage = $translate.instant("REPORT_" + title + "_SUGG" + useAdvanced);
         $scope.suggestTooltip.show();
     };
     modalService.init("suggestTooltip","suggestTooltip",$scope).then(function(modal){

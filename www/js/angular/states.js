@@ -26,6 +26,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: "login/retrieveAccount.html",
             controller: "RetrieveAccountCtrl",
         })
+        .state('retrieveAccountNew', {
+            url: '/retrieveAccountNew',
+            templateUrl: "login/retrieveAccountNew.html",
+            controller: "RetrieveAccountNewCtrl",
+        })
 
         //------------------------ TAB ------------------------
         .state('tabs', {
@@ -92,32 +97,41 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
         //------------------------ CLIENT ------------------------
         .state('tabs.home.clients', {
-            abstract: true,
             url: '/clients',
             views: {
                 "home-tab@tabs": {
-                    templateUrl: "clients/clients-tabs.html"
+                    templateUrl: "clients/clients.html",
+                    controller: "clientsAccountCtrl",
                 }
             }
         })
-        .state('tabs.home.clients.linkedClients', {
-            url: '/linkedClients',
-            views: {
-                "linkedClients-tab": {
-                    templateUrl: "clients/linkedClients.html",
-                    controller: "linkedAccountCtrl",
-                }
-            }
-        })
-        .state('tabs.home.clients.transferClients', {
-            url: '/transferClients',
-            views: {
-                "transferClients-tab": {
-                    templateUrl: "clients/transferClients.html",
-                    controller: "tempAccountCtrl",
-                }
-            }
-        })
+        //.state('tabs.home.clients', {
+        //    abstract: true,
+        //    url: '/clients',
+        //    views: {
+        //        "home-tab@tabs": {
+        //            templateUrl: "clients/clients-tabs.html"
+        //        }
+        //    }
+        //})
+        //.state('tabs.home.clients.linkedClients', {
+        //    url: '/linkedClients',
+        //    views: {
+        //        "linkedClients-tab": {
+        //            templateUrl: "clients/linkedClients.html",
+        //            controller: "linkedAccountCtrl",
+        //        }
+        //    }
+        //})
+        //.state('tabs.home.clients.transferClients', {
+        //    url: '/transferClients',
+        //    views: {
+        //        "transferClients-tab": {
+        //            templateUrl: "clients/transferClients.html",
+        //            controller: "tempAccountCtrl",
+        //        }
+        //    }
+        //})
 
 
         //------------------------ HOME ------------------------
@@ -254,7 +268,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/changeEmail',
             views: {
                 "home-tab@tabs": {
-                    templateUrl: "home/changeEmail.html",
+                    templateUrl: "settings/changeEmail.html",
                     controller: "ChangeEmailCtrl",
                 }
             }

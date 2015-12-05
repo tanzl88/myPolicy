@@ -7,8 +7,13 @@ angular.module('reportTypePicker', []).directive('reportTypePicker', function ()
         controller: ['$scope', '$element', '$attrs', '$ionicModal', '$timeout', '$parse', '$state', 'findParentService', 'utilityService', function ($scope, $element, $attrs, $ionicModal, $timeout, $parse, $state, findParentService, utilityService) {
             var parentScope = findParentService.findByFunctionName($scope,"initVar");
             $scope.popupPicker = {};
-            $scope.popupData = $parse($attrs.ngData)($scope);
-            $scope.popupData.push("More...");
+
+            $scope.$watch(function() {
+                return $parse($attrs.ngData)($scope);
+            }, function(value) {
+                $scope.popupData = value;
+                $scope.popupData.push("More...");
+            });
 
             // ---------------- MODAL FUNCTION ----------------
             $scope.showPopupPicker = function () {

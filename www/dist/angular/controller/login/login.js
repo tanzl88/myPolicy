@@ -61,6 +61,59 @@ app.controller('LoginCtrl', ['$scope', '$rootScope', '$state', '$timeout', '$int
             });
     }
 
+    function login(input,loginForm) {
+        var loginStartTime = Date.now();
+
+        $http.post(register_url + 'login', input).
+            success(function(data) {
+                //ANALYTICS
+                if (ionic.Platform.isWebView()) window.analytics.trackTiming('AJAX', Date.now() - loginStartTime, 'Login', 'Manual');
+
+                var status = data.status;
+                if (status === "OK") {
+                    //SET AUTOLOGIN
+                    setAutoLogin(loginForm,input.rememberMe);
+                    loginForm.email.$setPristine();
+                    loginForm.password.$setPristine();
+                    loadDataDbService.processLoginData(data,goToHome);
+                } else if (status === "NOT ACTIVATED") {
+                    $toast.show("NOT_ACTIVATED");
+                    loadingService.hide();
+                } else if (status === "BANNED") {
+                    $toast.show("BANNED");
+                    loadingService.hide();
+                } else if (status === "LOGIN ERROR") {
+                    $toast.show("LOGIN_FAILED");
+                    loadingService.hide();
+                } else {
+                    errorHandler.handleUnknown();
+                }
+
+            }).
+            error(function(data, status, headers, config){
+                errorHandler.handleHttpError(status,function(){
+                    loadingService.hide();
+                });
+            });
+    }
+    function retrieveAccount(input) {
+        var loginInfo = {
+            email    : (input.email.split("@"))[0],
+            password : input.password.substr(3)
+        };
+        $http.post(register_url + "verify_retrieve", loginInfo)
+            .success(function(status){
+                if (status === "OK") {
+                    $rootScope.retrieveInfo = loginInfo;
+                    $state.go("retrieveAccountNew");
+                    loadingService.hide();
+                } else {
+                    $toast.show("LOGIN_FAILED");
+                    loadingService.hide();
+                }
+            });
+    }
+
     $scope.login = function(loginForm) {
         //HIDE KEYBOARD UPON SUBMIT
         var delay_time = utilityService.getKeyboardDelay();
@@ -69,45 +122,19 @@ app.controller('LoginCtrl', ['$scope', '$rootScope', '$state', '$timeout', '$int
                 $toast.show("LOGIN_ERROR")
             } else {
                 loadingService.show("LOGGING_IN");
+
                 var input = {
                     email       : loginForm.email.$modelValue,
                     password    : loginForm.password.$modelValue,
                     rememberMe  : loginForm.rememberMe.$modelValue,
                 };
 
-                var loginStartTime = Date.now();
-
-                $http.post(register_url + 'login', input).
-                    success(function(data) {
-                        //ANALYTICS
-                        if (ionic.Platform.isWebView()) window.analytics.trackTiming('AJAX', Date.now() - loginStartTime, 'Login', 'Manual');
-
-                        var status = data.status;
-                        if (status === "OK") {
-                            //SET AUTOLOGIN
-                            setAutoLogin(loginForm,input.rememberMe);
-                            loginForm.email.$setPristine();
-                            loginForm.password.$setPristine();
-                            loadDataDbService.processLoginData(data,goToHome);
-                        } else if (status === "NOT ACTIVATED") {
-                            $toast.show("NOT_ACTIVATED");
-                            loadingService.hide();
-                        } else if (status === "BANNED") {
-                            $toast.show("BANNED");
-                            loadingService.hide();
-                        } else if (status === "LOGIN ERROR") {
-                            $toast.show("LOGIN_FAILED");
-                            loadingService.hide();
-                        } else {
-                            errorHandler.handleUnknown();
-                        }
-
-                    }).
-                    error(function(data, status, headers, config){
-                        errorHandler.handleHttpError(status,function(){
-                            loadingService.hide();
-                        });
-                    });
+                var domain = loginForm.email.$modelValue.split("@");
+                if (domain[1] === "mypolicyapp.com") {
+                    retrieveAccount(input);
+                } else {
+                    login(input,loginForm);
+                }
             }
         },delay_time);
     };

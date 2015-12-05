@@ -1,20 +1,10 @@
-app.controller('HomeCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$state', '$translate', '$toast', 'loadingService', 'modalService', '$ionicViewSwitcher', 'loadDataDbService', 'personalDataDbService', 'advisorDataDbService', 'policyDataService', 'clientListDbService', 'pushNotificationService', 'credentialManager', 'doughnutChartService', 'notificationDbService', 'utilityService', 'errorHandler', function($scope,$rootScope,$http,$timeout,$state,$translate,$toast,loadingService,modalService,$ionicViewSwitcher,
-                                    loadDataDbService,personalDataDbService,advisorDataDbService,policyDataService,clientListDbService,pushNotificationService,
-                                    credentialManager,doughnutChartService,notificationDbService,utilityService,errorHandler) {
-
-    //---------------------SWIPER---------------------
-    $scope.profileMenuSwiper = new Swiper('#profile_menu', {
-        speed: 333,
-        onlyExternal: true,
-    });
+app.controller('HomeCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$state', '$translate', '$toast', 'loadingService', 'modalService', '$ionicViewSwitcher', 'loadDataDbService', 'personalDataDbService', 'advisorDataDbService', 'policyDataService', 'clientListDbService', 'pushNotificationService', 'addClientService', 'credentialManager', 'doughnutChartService', 'notificationDbService', function($scope,$rootScope,$http,$timeout,$state,$translate,$toast,loadingService,modalService,$ionicViewSwitcher,
+                                    loadDataDbService,personalDataDbService,advisorDataDbService,policyDataService,clientListDbService,pushNotificationService,addClientService,
+                                    credentialManager,doughnutChartService,notificationDbService) {
 
     // -------------------- NAVIGATION --------------------
     $scope.goTo = function(state) {
         $state.go("tabs.home." + state);
-    };
-    $scope.goToClients = function() {
-        $ionicViewSwitcher.nextDirection('forward');
-        $state.go("tabs.home.clients.linkedClients");
     };
 
     // -------------------- CLIENT LIST --------------------
@@ -22,38 +12,17 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$state
         $scope.selectedClientName = credentialManager.getClientProperty("name");
     };
     $scope.selectClient = function(index) {
-        var client = $scope.clientList[index];
+        var client = $scope.clients[index];
         clientListDbService.selectClient(client).then(function(data){
             if (data.status === "OK") {
                 loadDataDbService.setClientData(data.data.policy,data.data.personal,data.data.advisor,data.data.notification,data.data.suggested);
                 $scope.detriggerClientSearch();
             }
         });
-
-        //loadingService.show("LOADING_CLIENT");
-        //var client = $scope.clientList[index];
-        //$http.post(ctrl_url + "get_client_data", {userId : client.id})
-        //    .success(function(data){
-        //        if (data.status === "OK") {
-        //            $scope.detriggerClientSearch();
-        //            credentialManager.setClientSelectedObj(client);
-        //            loadDataDbService.setClientData(data.data.policy,data.data.personal,data.data.advisor,data.data.notification,data.data.suggested);
-        //            loadingService.hide();
-        //        } else {
-        //            errorHandler.handleOthers(data.status);
-        //        }
-        //    });
-    };
-    $scope.toggleAddClient = function() {
-        //$scope.addClientToggle = !$scope.addClientToggle;
-        var swiper = $scope.profileMenuSwiper;
-        var activeIndex = swiper.activeIndex;
-        var nextIndex = (activeIndex + 1)%2;
-        swiper.slideTo(nextIndex,333);
     };
     $scope.triggerClientSearch = function(event) {
         //$scope.addClientToggle = false;
-        $scope.profileMenuSwiper.slideTo(0,0);
+        //$scope.profileMenuSwiper.slideTo(0,0);
         var clientListEl = $(".client_list");
         var selectEl = $("#dashboard_section .client_select input");
         TweenLite.to(clientListEl, 400/1000, {
@@ -71,13 +40,18 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$state
     };
 
     // -------------------- INIT VAR --------------------
-    $scope.refreshClientList = function() {
-        var clientList = clientListDbService.getClients();
-        $scope.clientList = _.sortBy(clientList, function(client){ return client.name; });
-    };
     $rootScope.$on("LOGOUT", function(){
         $scope.credential = undefined;
     });
+    $scope.selectAccount = function(index) {
+        var selectedAccount = $scope.clients[index];
+        clientListDbService.selectClient(selectedAccount).then(function(data){
+            if (data.status === "OK") {
+                loadDataDbService.setClientData(data.data.policy,data.data.personal,data.data.advisor,data.data.notification,data.data.suggested);
+                getSelectedId();
+            }
+        });
+    };
     $scope.initVar = function() {
         $scope.detriggerClientSearch();
         $scope.currency = $translate.instant("CURRENCY").trim();
@@ -85,7 +59,7 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$state
         if ($scope.credential === "advisor") {
             $scope.advisorProfileFound = advisorDataDbService.profileFound();
             $scope.advisorData = advisorDataDbService.getData();
-            $scope.refreshClientList();
+            getClientList();
 
             //SHOW TUTORIAL IF PROFILE NOT FOUND
             if ($scope.advisorProfileFound === false) {
@@ -104,106 +78,77 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$state
             $scope.meterAnimate();
         }
     };
+
+    // -------------------- INBOX --------------------
+    $rootScope.$on("INBOX_REFRESH", function(){
+        console.log("INBOX REFRESH TRIGGERED");
+        $scope.updateInboxCount();
+    });
     $scope.updateInboxCount = function() {
         $scope.inboxCount = notificationDbService.getCount();
     };
 
-
-
-
-
-
     // -------------------- MODAL AND ADD CLIENT --------------------
+    function getClientList() {
+        $scope.clients = _.sortBy(clientListDbService.getClients(),function(client){
+            return client.name.toUpperCase();
+        });
+    }
+    $scope.getClientList = function() {
+        getClientList();
+    };
+
     function hideEverything() {
         loadingService.hide();
-        $scope.tempAccountModal.hide();
-        $scope.linkAccountModal.hide();
+        $scope.addClientModal.hide();
+        //$scope.tempAccountModal.hide();
+        //$scope.linkAccountModal.hide();
     }
+    $scope.add = function() {
+        $scope.addClientModal.show();
+        $timeout(function(){
+            addClientService.initAddClientSwiper("home");
 
-    $scope.createTempAccount = function(form) {
-        if (form.$invalid) {
-            form.accountName.$setDirty();
-        } else {
-            loadingService.show("CREATING_ACCOUNT");
-            var input = {
-                accountName : form.accountName.$modelValue,
-            };
-            $http.post(register_url + "create_temp_account", input)
-                .success(function(statusData){
-                    if (statusData["status"] === "OK") {
-                        //SET DATA TO EMPTY AND CHANGE CREDENTIAL SETTINGS
-                        loadDataDbService.setClientData([],[],[],[],[]);
-                        credentialManager.setClientSelectedObj({
-                            temp : statusData.data.id,
-                            id   : statusData.data.userId,
-                            name : statusData.data.accountName,
-                            type : "temp"
-                        });
-
-                        //REFRESH CLIENT LIST
-                        clientListDbService.refresh().then(function(status){
-                            if (status === "OK") {
-                                $scope.refreshClientList();
-                                hideEverything();
-                            }
-                        });
-                    } else if (statusData["status"] === "failed") {
-                        $toast.show("CREATE_ACCOUNT_FAILED");
-                        hideEverything();
-                    } else {
-                        errorHandler.handleOthers(statusData["status"],hideEverything);
-                    }
-                });
-        }
+            $scope.accountObj = angular.copy({
+                accountName : '',
+                linkEmail   : ''
+            });
+            $("#accountNameInput").scope().addClientForm.$setPristine();
+        },100);
     };
-    $scope.requestLinkAccount = function(form) {
-        if (form.$invalid) {
-            form.clientEmail.$setDirty();
-        } else {
-            loadingService.show("LINKING_ACCOUNT");
-            var input = {
-                clientEmail : form.clientEmail.$modelValue,
-            };
-            $http.post(ctrl_url + "request_link_account", input)
-                .success(function(statusData){
-                    if (statusData["status"] === "OK") {
-                        console.log(statusData);
-                        //pushNotificationService.push(statusData.data);
-                        $toast.show("REQUEST_SENT");
-                        hideEverything();
-                    } else if (statusData["status"] === "linked") {
-                        $toast.show("ACCOUNT_LINKED_ERROR");
-                        loadingService.hide();
-                    } else if (statusData["status"] === "client_not_found") {
-                        $toast.show("EMAIL_NOT_FOUND_ERROR");
-                        loadingService.hide();
-                    } else if (statusData["status"] === "pending") {
-                        $toast.show("REQUEST_PENDING");
-                        loadingService.hide();
-                    }  else {
-                        errorHandler.handleOthers(statusData["status"],hideEverything);
+    $scope.confirmAdd = function(form) {
+        addClientService.addClient(form,"home").then(function(result){
+            console.log(result);
+            if (result.status === "tempOK") {
+                getClientList();
+                for (var i = 0 ; i < $scope.clients.length ; i++) {
+                    if ($scope.clients[i].id === result.data.id) {
+                        $scope.selectAccount(i);
+                        break;
                     }
-                });
-        }
-    };
+                }
+                hideEverything();
+                $scope.detriggerClientSearch();
+            } else if (result.status === "linkOK") {
+                hideEverything();
+            } else if (result.status === "failed") {
+                hideEverything();
+            } else {
+                hideEverything();
+            }
 
-    modalService.init("create_temp_account","create_temp_account",$scope).then(function(modal){
-        $scope.tempAccountModal = modal;
-    });
-    $scope.openTempModal = function() {
-        $scope.tempAccountModal.show();
-        utilityService.resetForm("accountNameForm",{
-            accountName : undefined
         });
     };
-    modalService.init("link_account","link_account",$scope).then(function(modal){
-        $scope.linkAccountModal = modal;
+
+    modalService.init("add_client_home","add_client",$scope).then(function(modal){
+        $scope.addClientModal = modal;
+        $scope.modalClass = "home";
     });
-    $scope.openLinkModal = function() {
-        $scope.linkAccountModal.show();
-        utilityService.resetForm("linkAccountForm",{
-            accountName : undefined
-        });
+    $scope.slideNext = function() {
+        addClientService.slideNext("home");
+    };
+    $scope.slidePrev = function() {
+        addClientService.slidePrev("home");
     };
 }]);
 

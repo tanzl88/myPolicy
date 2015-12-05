@@ -22,8 +22,11 @@
                     <p>{{"CREATED_ON" | translate}} : {{account.accountCreated.format("LL")}}</p>
                     <i class="swipe-left-icon transform-align-middle ion-chevron-left"></i>
                 </div>
+                <ion-option-button class="button gray">
+                    <i class="policy-user-edit"></i>
+                </ion-option-button>
                 <ion-option-button class="button gray" ng-click="generateToken($index)">
-                    <i class="policy-code"></i>
+                    <i class="policy-user-transfer"></i>
                 </ion-option-button>
                 <ion-option-button class="button yellow" ng-click="remove($index)">
                     <i class="ion-ios-trash-outline"></i>

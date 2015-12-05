@@ -15,36 +15,36 @@
         <section class="client_list" ng-show="credential === 'advisor'">
             <ion-scroll class="client_list_scroll">
                 <div id="profile_menu" class="swiper-container">
-                    <div class="swiper-wrapper">
+                    <!--<div class="swiper-wrapper">-->
                         <ion-list class="swiper-slide">
                             <!--ADD CLIENT-->
-                            <ion-item class="client_list_item" ng-click="toggleAddClient();">
+                            <ion-item class="client_list_item" ng-click="add();">
                                 <i class="inline-block align-middle policy-user-add" style="width: 12%;"></i>
                                 <p class="inline-block align-middle" style="width: 88%;">{{"ADD_CLIENT" | translate}}</p>
                             </ion-item>
                             <!--CLIENT LIST-->
-                            <ion-item class="client_list_item" ng-repeat="client in clientList" ng-click="selectClient($index)">
+                            <ion-item class="client_list_item" ng-repeat="client in clients" ng-click="selectClient($index)">
                                 <i ng-if="client.type === 'temp'" class="inline-block align-middle policy-transfer-arrow" style="width: 12%;"></i>
                                 <i ng-if="client.type === 'link'" class="inline-block align-middle policy-link" style="width: 12%;"></i>
                                 <p class="inline-block align-middle" style="width: 88%;">{{client.name}}</p>
                             </ion-item>
                         </ion-list>
 
-                        <ion-list class="swiper-slide">
-                            <!--ADD CLIENT-->
-                            <ion-item class="client_list_item" ng-click="toggleAddClient();">
-                                <i class="inline-block align-middle ion-android-arrow-back" style="width: 12%;"></i>
-                                <p class="inline-block align-middle" style="width: 88%;">{{"BACK" | translate}}</p>
-                            </ion-item>
-                            <ion-item class="client_list_item extra-padded" ng-click="openTempModal()">
-                                <i class="inline-block align-middle policy-transfer-arrow" style="width: 12%;"></i>
-                                <p class="inline-block align-middle" style="width: 88%;">{{"CREATE_CLIENT_ACCOUNT" | translate}}</p>
-                            </ion-item>
-                            <ion-item class="client_list_item extra-padded" ng-click="openLinkModal()">
-                                <i class="inline-block align-middle policy-link" style="width: 12%;"></i>
-                                <p class="inline-block align-middle" style="width: 88%;">{{"LINK_TO_CLIENT" | translate}}</p>
-                            </ion-item>
-                        </ion-list>
+                        <!--<ion-list class="swiper-slide">-->
+                            <!--&lt;!&ndash;ADD CLIENT&ndash;&gt;-->
+                            <!--<ion-item class="client_list_item" ng-click="toggleAddClient();">-->
+                                <!--<i class="inline-block align-middle ion-android-arrow-back" style="width: 12%;"></i>-->
+                                <!--<p class="inline-block align-middle" style="width: 88%;">{{"BACK" | translate}}</p>-->
+                            <!--</ion-item>-->
+                            <!--<ion-item class="client_list_item extra-padded" ng-click="openTempModal()">-->
+                                <!--<i class="inline-block align-middle policy-transfer-arrow" style="width: 12%;"></i>-->
+                                <!--<p class="inline-block align-middle" style="width: 88%;">{{"CREATE_CLIENT_ACCOUNT" | translate}}</p>-->
+                            <!--</ion-item>-->
+                            <!--<ion-item class="client_list_item extra-padded" ng-click="openLinkModal()">-->
+                                <!--<i class="inline-block align-middle policy-link" style="width: 12%;"></i>-->
+                                <!--<p class="inline-block align-middle" style="width: 88%;">{{"LINK_TO_CLIENT" | translate}}</p>-->
+                            <!--</ion-item>-->
+                        <!--</ion-list>-->
                     </div>
                 </div>
             </ion-scroll>
@@ -103,7 +103,7 @@
                     <i class="policy-briefcase inline-block align-middle"></i>
                     <p class="inline-block align-middle">{{"MY_PROFILE" | translate}}</p>
                 </div>
-                <div class="menu_list_item" ng-click="goToClients();">
+                <div class="menu_list_item" ng-click="goTo('clients');">
                     <i class="policy-user-transfer inline-block align-middle"></i>
                     <p class="inline-block align-middle">{{"MY_CLIENTS" | translate}}</p>
                 </div>

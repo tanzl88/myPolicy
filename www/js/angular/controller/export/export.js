@@ -41,18 +41,6 @@ app.controller('ExportCtrl', function($scope,$rootScope,$q,$translate,$timeout,$
     var ele_width = (doc_width - (marginTop * 2)) * 0.90;
     var ele_height = (doc_height - (marginTop * 2)) * 0.90;
     var doc, pages, page_index;
-    var default_pages = [
-        "cover",
-        "overview",
-        "keyProtections",
-        "protectionsTrend",
-        "policiesAnalysis",
-        "netWorth",
-        //"financialRatios",
-        "fullTable",
-        "needs",
-        "disclaimer"
-    ];
 
     $scope.initVar = function() {
         $timeout(function(){

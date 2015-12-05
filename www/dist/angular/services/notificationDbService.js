@@ -1,10 +1,25 @@
-app.service('notificationDbService', ['$rootScope', function($rootScope) {
+app.service('notificationDbService', ['$rootScope', '$http', 'errorHandler', function($rootScope,$http,errorHandler) {
     var notification_g;
     $rootScope.$on("LOGOUT", function(){
         notification_g = null;
     });
 
+
+
     return {
+        refresh : function() {
+            var thisService = this;
+            console.log("REFRESHING NOTIFICATIONS");
+            $http.get(ctrl_url + "get_notification" + "?decache=" + Date.now())
+                .success(function(statusData){
+                    if (statusData.status === "OK") {
+                        thisService.set(statusData.data);
+                        $rootScope.$broadcast("INBOX_REFRESH");
+                    } else {
+                        errorHandler.handleOthers(statusData.status);
+                    }
+                });
+        },
         get : function() {
             return notification_g;
         },

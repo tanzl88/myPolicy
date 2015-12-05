@@ -1,0 +1,31 @@
+<ion-view id="clients_view" view-title="{{'MY_CLIENTS' | translate}}">
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear" ng-click="add()">
+            <i class="ion-plus"></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="" delegate-handle="transferClients" has-bouncing="true">
+        <ion-list>
+            <ion-item class="temp_account_item" ng-repeat="account in clients">
+                <div class="temp_account_item_content" ng-class="{'selected' : selectedId === account.id}" ng-click="selectAccount($index)">
+                    <p><b>{{account.name}}</b></p>
+                    <p>{{"CREATED_ON" | translate}} : {{account.accountCreated.format("LL")}}</p>
+                    <!--<i class="swipe-left-icon transform-align-middle ion-chevron-left"></i>-->
+                    <i ng-if="account.type === 'temp'" class="swipe-left-icon transform-align-middle policy-user-transfer" ng-click="generateLogin($event,$index)"></i>
+                </div>
+                <ion-option-button ng-if="account.type === 'temp'" class="button gray" ng-click="edit($index)">
+                    <i class="policy-user-edit"></i>
+                </ion-option-button>
+                <!--<ion-option-button ng-if="account.type === 'temp'" class="button gray" ng-click="generateToken($index)">-->
+                    <!--<i class="policy-user-transfer"></i>-->
+                <!--</ion-option-button>-->
+                <ion-option-button class="button yellow" ng-click="remove($index)">
+                    <i class="ion-ios-trash-outline"></i>
+                </ion-option-button>
+            </ion-item>
+        </ion-list>
+
+
+    </ion-content>
+</ion-view>>
+

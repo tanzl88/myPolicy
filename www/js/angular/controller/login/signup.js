@@ -61,6 +61,9 @@ app.controller('SignUpCtrl', function($scope,$http,$ionicHistory,$toast,modalSer
     };
 });
 
+
+
+
 app.controller('RetrieveAccountCtrl', function($scope,$http,$toast,$ionicHistory,modalService) {
     $scope.initVar = function() {
         //NO CACHE
@@ -74,7 +77,7 @@ app.controller('RetrieveAccountCtrl', function($scope,$http,$toast,$ionicHistory
             form.advisorEmail.$setDirty();
             form.code.$setDirty();
         } else {
-            if (!$scope.emailExist) {;
+            if (!$scope.emailExist) {
                 var input = {
                     email           : form.email.$modelValue,
                     password        : form.password.$modelValue,
@@ -100,7 +103,70 @@ app.controller('RetrieveAccountCtrl', function($scope,$http,$toast,$ionicHistory
         }
     };
     $scope.checkEmailExist = function() {
-        $http.post(register_url + 'get_email_status', {email: $(".signUpEmailInput").scope().signup.email}).
+        var email = $(".signUpEmailInput").scope().retrieveForm.email.$modelValue;
+        $http.post(register_url + 'get_email_status', {email: email}).
+            success(function(result) {
+                if (result == "1") {
+                    $scope.emailExist = false;
+                } else {
+                    $scope.emailExist = true;
+                }
+            });
+    };
+
+    $scope.goToLogin = function() {
+        $ionicHistory.goBack();
+        $scope.loginMsg.hide();
+    };
+
+    //MODAL
+    modalService.init("login_msg","login_msg",$scope).then(function(modal){
+        $scope.loginMsg = modal;
+    });
+});
+
+
+app.controller('RetrieveAccountNewCtrl', function($rootScope,$scope,$http,$toast,$ionicHistory,modalService) {
+    $scope.initVar = function() {
+        //NO CACHE
+    };
+
+    var retrieveInfo = $rootScope.retrieveInfo;
+    delete $rootScope.retrieveInfo;
+
+    $scope.signUp = function(form) {
+        if (form.$invalid) {
+            form.email.$setDirty();
+            form.password.$setDirty();
+            form.confirm_password.$setDirty();
+        } else {
+            if (!$scope.emailExist) {
+                var input = {
+                    email           : form.email.$modelValue,
+                    password        : form.password.$modelValue,
+                    loginName       : retrieveInfo.email,
+                    token           : retrieveInfo.password
+                };
+                $http.post(register_url + "retrieve_account", input)
+                    .success(function(statusData){
+                        if (statusData === "OK") {
+                            $scope.type = "signup";
+                            $scope.email = form.email.$modelValue;
+                            $scope.loginMsg.show();
+                        } else if (statusData === "token_error") {
+                            $toast.show("TOKEN_ERROR");
+                        } else if (statusData === "advisor_not_found") {
+                            $toast.show("ADVISOR_NOT_FOUND_ERROR");
+                        } else {
+                            $toast.show("RETRY_ERROR");
+                        }
+                    });
+            }
+        }
+    };
+    $scope.checkEmailExist = function() {
+        var email = $(".signUpEmailInput").scope().retrieveForm.email.$modelValue;
+        $http.post(register_url + 'get_email_status', {email: email}).
             success(function(result) {
                 if (result == "1") {
                     $scope.emailExist = false;

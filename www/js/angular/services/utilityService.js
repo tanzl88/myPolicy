@@ -17,7 +17,9 @@ app.service('utilityService', function($rootScope,$cordovaKeyboard) {
                     //console.log(formScope[key]);
                     formScope[key].$setPristine();
                     angular.forEach(defaultObj, function(value,varName){
+                        console.log("RESETTING " + varName);
                         formScope[varName] = value;
+                        console.log(formScope[varName]);
                     });
                     break;
                 }

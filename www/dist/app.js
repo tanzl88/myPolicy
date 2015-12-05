@@ -26,7 +26,7 @@ app.factory('fieldNameLoader', ['$http', '$q', '$timeout', 'fieldNameService', f
 app.factory('timeoutHttpIntercept', ['$rootScope', '$q', function ($rootScope, $q) {
     return {
         'request': function(config) {
-            config.timeout = 10000;
+            config.timeout = 15000;
             return config;
         },
         //'requestError': function(rejection) {

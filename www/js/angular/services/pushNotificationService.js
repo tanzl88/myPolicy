@@ -1,10 +1,10 @@
-app.service('pushNotificationService', function ($rootScope,$http,$cordovaDevice,$cordovaPush,notificationDbService) {
+app.service('pushNotificationService', function ($rootScope,$http,$cordovaDevice,$cordovaPushV5,notificationDbService,$toast,$state) {
 
 
     return {
         init : function() {
             if (ionic.Platform.isWebView()) {
-                //console.log("INIT PUSH");
+                //INIT PARSE
                 var appId = "ypj1dTwLw4pQKOJfR4sUVnXseHTd9YiJEwCInIiI";
                 var key = "BsbeM6bIj4g856Z6ZBZkGk7MGzhjV3tT4G7FxmIn";
                 parsePlugin.initialize(appId, key, function (success) {
@@ -24,109 +24,38 @@ app.service('pushNotificationService', function ($rootScope,$http,$cordovaDevice
                     console.log(error);
                 });
 
+                //INIT PUSH PLUGIN
+                var config = {
+                    android: {
+                        senderID: "798861488666"
+                    },
+                    ios: {
+                        alert: true,
+                        badge: true,
+                        sound: false
+                    },
+                    windows: {}
+                };
+                $cordovaPushV5.initialize(config).then(function(result) {
+                    $cordovaPushV5.onNotification();
 
-                if (ionic.Platform.isIOS()) {
-                    var config = {
-                        "badge": true,
-                        "sound": true,
-                        "alert": true,
-                    };
-                } else {
-                    var config = {
-                        "senderID": "798861488666",
-                    };
-                }
+                    $rootScope.$on('$cordovaPushV5:notificationReceived', function (event,notification) {
+                        console.log(event);
+                        console.log(notification);
+                        if (notification.additionalData.foreground) {
+                            $toast.showSimple(notification.message);
+                        } else {
+                            $state.go("tabs.home.notification");
+                        }
 
-                registerPush(config);
-                $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
-                    console.log("PUSH NOTIFICATION RECEIVED");
-                    console.log(event);
-                    console.log(notification);
-                    if (ionic.Platform.isIOS()) {
-                        handleIOS(notification);
-                    } else {
-                        handleAndroid(notification);
-                    }
-                });
-            }
-
-            function registerPush(config) {
-                $cordovaPush.register(config).then(function(result) {
-                    console.log(result);
+                        if (notification.message) {
+                            notificationDbService.refresh();
+                        }
+                    });
                 }, function(err) {
                     //alert("Registration error: " + err)
                 });
             }
-            function handleIOS(notification) {
-                if (notification.alert) {
-                    notificationDbService.refresh();
-                }
-
-                if (notification.sound) {
-                    var snd = new Media(event.sound);
-                    snd.play();
-                }
-
-                if (notification.badge) {
-                    $cordovaPush.setBadgeNumber(notification.badge).then(function(result) {
-                        // Success!
-                    }, function(err) {
-                        // An error occurred. Show a message to the user
-                    });
-                }
-            }
-            function handleAndroid(notification) {
-                console.log(notification);
-                switch(notification.event) {
-                    case 'registered':
-                        //if (notification.regid.length > 0 ) {
-                        //    alert('registration ID = ' + notification.regid);
-                        //}
-                        break;
-
-                    case 'message':
-                        console.log(notification);
-                        // this is the actual push notification. its format depends on the data model from the push server
-                        //alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
-                        notificationDbService.refresh();
-                        break;
-
-                    case 'error':
-                        //alert('GCM error = ' + notification.msg);
-                        break;
-
-                    default:
-                        //alert('An unknown GCM event has occurred');
-                        break;
-                }
-            }
         }
-        //push : function(userIdArray) {
-        //    var privateKey = '499afdccf75ee8841660b0b6fff2d8823738a1a8b0223406';
-        //    var auth = btoa(privateKey + ':');
-        //    var appId = '466843af';
-        //
-        //    var pushObj = {
-        //        //production      : false,
-        //        user_ids        : userIdArray,
-        //        notification    : {
-        //                            alert   : "Hello World!"
-        //                          },
-        //    };
-        //    var req = {
-        //        method: 'POST',
-        //        url: "https://push.ionic.io/api/v1/push",
-        //        transformRequest : function(data) {
-        //            return JSON.stringify(data);
-        //        },
-        //        headers: {
-        //            'Content-Type': 'application/json',
-        //            'X-Ionic-Application-Id': appId,
-        //            'Authorization': 'basic ' + auth
-        //        },
-        //        data: pushObj
-        //    };
-        //    $http(req);
-        //}
     }
 });

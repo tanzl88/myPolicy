@@ -148,7 +148,7 @@
                         <div class="login_button" ng-click="goToProfile()">{{"SET_BIRTHDAY" | translate}}</div>
                     </div>
 
-                    <table class="protections_table" style="margin-top: 4%; margin-bottom: 4%;">
+                    <table ng-show="birthdayAvailable" class="protections_table" style="margin-top: 4%; margin-bottom: 4%;">
                         <tr>
                             <th width="20%" style="text-align: left;">{{"AGE" | translate}}</th>
                             <th width="40%" style="border-left-width: 0;">{{"SURRENDER_CASH_VALUE" | translate}}</th>

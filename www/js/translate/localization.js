@@ -104,6 +104,7 @@ var translations_en = {
     SET_INCOME : "SET INCOME",
     DONT_SHOW_ME_AGAIN : "Don't show me again",
     DEFAULT_REPORT_TYPE : "Default report type cannot be changed. Create custom report type by pressing '+' button",
+    NAME_UPDATED : "Name updated",
 
     REMINDER_NAME : "Reminder name",
     REMINDER_SET : "Reminder set",
@@ -158,7 +159,7 @@ var translations_en = {
     SELECT_NOT_SET : "Select reminders not set",
     SELECT_ALL : "Select all reminders",
     ASK_QUESTION : "Ask a question",
-    COVERAGE_TREND : "Key Protection Needs Coverage Timeline",
+    COVERAGE_TREND : "Protection Coverage Timeline",
     CAT_COVERAGE_TREND : "{{cat}} Coverage Timeline",
 
     //REPORTS
@@ -198,7 +199,7 @@ var translations_en = {
     NET_EXPENDITURE : "Net expenditure",
     EXPENDITURE_ONLY : "Expenditure",
     NET_CASHFLOW : "Net Cashflow",
-    PENSION : "Pension",
+    PENSION : "Retirement",
     DEBT_REPAYMENT : "Debt repayments",
     DEBTS : "Debts",
     SAVINGS_ONLY : "Savings",
@@ -206,15 +207,14 @@ var translations_en = {
     CAR_VALUE : "Car value",
     MORTGAGE : "Mortgage",
     AUTO_LOANS: "Auto loans",
-    STUDY_LOANS : "Study loans",
+    STUDY_LOANS : "Personal loans",
     CASH : "Cash",
     INVESTMENTS : "Investments",
     HOUSE : "House",
     CAR : "Car",
     OTHERS : "Others",
     KEY_FINANCIAL_RATIOS : "Key financial ratios",
-    KEY_NEEDS_SUMMARY_FINANCIAL_RATIO : "Key Protection Needs Summary and Financial Ratios",
-    KEY_NEEDS_SUMMARY_POLICIES_ANALYSIS : "Key Protection Needs Summary and Policies Analysis",
+    KEY_NEEDS_SUMMARY_POLICIES_ANALYSIS : "Protections Summary and Policies Analysis",
     FINANCIAL_RATIO : "Financial ratio",
     LIQUIDITY_RATIO : "Liquidity ratio",
     SOLVENCY_RATIO : "Solvency ratio",
@@ -241,8 +241,12 @@ var translations_en = {
     NO_PIC_NOTES_MSG : "No picture note found.\nPress 'camera' button to add a new picture note.",
     NO_CASE_NOTES_MSG : "No case note found.\nPress '+' button to add new case note.",
     CLIENT_NOT_SELECTED : "No client is selected.\nPlease select a client to continue.",
-    ACCOUNT_NAME_MSG : "Please enter an unique name for the account created. The name is for your own identification purpose and is not visible to your client.",
-    LINK_ACCOUNT_MSG : "Please enter client's email to be linked to your account.",
+    ACCOUNT_NAME_MSG : "Please enter an account name.",
+    LINK_ACCOUNT_MSG : "Please enter client's email.",
+    CREATE_NEW_ACCOUNT : "Create new account",
+    LINK_EXISTING_ACCOUNT : "Link to existing account",
+    CLIENT_HAVE_ACCOUNT : "My client already have an account",
+    GO_BACK : "Go back",
     REMINDER_NAME_MSG : "Please enter a reminder name.",
     REMIND_ME_AT : "Remind me at",
     SELECT_REPORT_TYPE : "Please select a report type",
@@ -266,7 +270,7 @@ var translations_en = {
     RESET_PASSWORD_MSG : "Your password has been reset. Please login with your new password.",
     SIGN_IN_AS : "Client - {{name}} selected.",
     REQUEST_SENT : "Request sent.",
-    REQUEST_PENDING : "You had sent request to link to this account earlier.",
+    REQUEST_PENDING : "You had sent request earlier.",
     ACCOUNT_LINK_SUCCESS : "You are now linked to {{name}}",
     THANKS_MAIL : "Thanks for your mail.\nWe will get in touch with\nyou as soon as possible.",
     BIRTHDAY_NOT_AVAILABLE_MSG : "This report is not available because\nuser's birthday is not found.\nSet birthday to show this report.",
@@ -365,13 +369,11 @@ var translations_en = {
     REMOVING_REMINDER : "Removing reminder",
     REMOVE_POLICY_NOT_FOUND : "Unable to remove policy because it is not found.",
     REMOVE_REMINDER_NOT_FOUND : "Unable to remove reminder because it is not found.",
-    TRANSFER_INSTRUCTION_HEADING :"Instructions to transfer account to your client",
+    TRANSFER_INSTRUCTION_HEADING :"Instructions to make this account accessible to your client.",
     TRANSFER_INSTRUCTION_NOTES :"Note: The code will expire in 24 hours.",
     TRANSFER_INSTRUCTION :  "Step 1: Get your client to download myPolicy.\n" +
-                            "Step 2: Click retrieve account at login page.\n" +
-                            "Step 3: Input email and password for the new account.\n" +
-                            "Step 4: Input advisor's email.\n" +
-                            "Step 5: Input the code below in 24 hours and submit.",
+                            "Step 2: Login with the following information.",
+
 
 
     //PROFILE
@@ -419,6 +421,7 @@ var translations_en = {
     WEBSITE : "Website",
     CLIENT_NOTES : "Client's notes",
     EDIT : "Edit",
+    EDIT_CAPS : "EDIT",
     DEPENDENCY_NEEDS : "Dependency needs",
     OTHERS : "Others",
 
@@ -436,7 +439,7 @@ var translations_en = {
     CURRENT : "Current\n",
     SUGGESTED : "Suggested\n",
     SHORTFALL : "Shortfall\n",
-    KEY_PROTECTION_TITLE : "Key Protection Needs Overview",
+    KEY_PROTECTION_TITLE : "Protections Suggested Need and Shortfall",
 
     //OVERVIEW COLUMN NAME
     POLICIES_NUMBER : "Number of\npolicies",
@@ -517,40 +520,54 @@ var translations_en = {
     GENERALLY_COVERS : "What it generally covers:",
     LEGEND_DISCLAIMER : "*The above explanations are by no means exhaustive and will vary according to different insurers' definitions, " +
                         "plan types and countries. Please consult your insurance adviser.",
+
     REPORT_ACCIDENT : "Accidental",
     REPORT_ACCIDENT_SUGG : "Suggested coverage is 2 times of annual income or 4 times the annual expenses whichever higher.",
+    REPORT_ACCIDENT_SUGG_ADV : "Suggested coverage is 2 times of annual income or 4 times the annual expenses whichever higher.",
     REPORT_ACCIDENT_IMPT : "- Covers outpatient costs due to accidental injuries. Complement hospital cover as the latter covers inpatient charges in hospital.",
     REPORT_ACCIDENT_DESC :
         "- Accidental medical expenses such as GP and specialists' consultations, scans etc" + "\n" +
         "- Disability income when unable to work due to accident" + "\n" +
         "- Lump sum for accidental death or partial payout for dismemberment",
+
     REPORT_BASIC : "Basic Hospital",
     REPORT_BASIC_SUGG : "Suggested coverage is 5 times of annual income or 10 times the annual expenses whichever higher.",
+    REPORT_BASIC_SUGG_ADV : "Suggested coverage is 5 times of annual income or 10 times the annual expenses whichever higher.",
     REPORT_BASIC_IMPT : "- Long term stay in hospitalisation may incur high medical cost.",
     REPORT_BASIC_DESC :
         "- Covers hospitalisation charges, surgical fees and day surgery (depend on plan types)",
+
     REPORT_CRIT : "Critical Illness",
     REPORT_CRIT_SUGG : "Suggested coverage is 5 times of annual income or 10 times the annual expenses whichever higher.",
+    REPORT_CRIT_SUGG_ADV : "CRITICAL ADVANCED SUGGESTED",
     REPORT_CRIT_IMPT : "- Major sum is needed for specialists' fees, expensive drugs, intensive treatments and also to cover loss of income capacity needed to support self and dependents",
     REPORT_CRIT_DESC :
         "- Critical stage of an illness such as cancer, stroke and heart disease",
+
     REPORT_DISABLED : "Disability (Total and Permanent Disability - TPD)",
     REPORT_DISABLED_SUGG : "Suggested coverage is 10 times of annual income or 20 times the annual expenses whichever higher.",
+    REPORT_DISABLED_SUGG_ADV : "DISABLED ADVANCED SUGGESTED",
     REPORT_DISABLED_IMPT : "- Permanently disabled and no longer able to work. Suffers from loss of future earning capacity. Income is needed for future living expenses as handicapped and/or support the dependents.",
     REPORT_DISABLED_DESC :
         "- Loss of use of limbs, hearing or sight" + "\n" +
         "- Inability to do daily activities",
+
     REPORT_DISABLED_INCOME : "Disability Income (Permanent or partial disability)",
     REPORT_DISABLED_INCOME_SUGG : "Suggested coverage is 75% of monthly income or stated monthly expenses whichever higher.",
+    REPORT_DISABLED_INCOME_SUGG_ADV : "Suggested coverage is 75% of monthly income or stated monthly expenses whichever higher.",
     REPORT_DISABLED_INCOME_IMPT : "- Covers future earning income to fund self or dependents as likely unable to continue to earn the same income.",
     REPORT_DISABLED_INCOME_DESC :
         "- Unable to do own occupation or occupation as a result of education, experience and training",
+
     REPORT_EARLY : "Early Illness",
     REPORT_EARLY_SUGG : "Suggested coverage is 2 times of annual income or 4 times the annual expenses whichever higher.",
+    REPORT_EARLY_SUGG_ADV : "Suggested coverage is 2 times of annual income or 4 times the annual expenses whichever higher.",
     REPORT_EARLY_IMPT : "- Covers treatment costs and possible loss of income",
     REPORT_EARLY_DESC : "- Early stages of the critical illness not covered under a critical illness cover.",
+
     REPORT_FAMILY : "Family Protection (Death)",
     REPORT_FAMILY_SUGG : "Suggested coverage is 10 times of annual income or 20 times the annual expenses whichever higher.",
+    REPORT_FAMILY_SUGG_ADV : "FAMILY ADVANCED SUGGESTED",
     REPORT_FAMILY_IMPT : "- Dependents such as young children, non working spouse or elderly may face financial difficulty upon the demise of the key working member of the family",
     REPORT_FAMILY_DESC :
         "- Lump sum payout on death of the insured",
@@ -558,7 +575,7 @@ var translations_en = {
 
     INCOME : "Annual Income",
     EXPENDITURE : "Annual Expenditure",
-    COVERAGE_BREAKDOWN : "Protection Breakdown (Sum Assured)",
+    COVERAGE_BREAKDOWN : "Current Protections",
     TOTAL_COVERAGE : "Total Coverage",
     COVERAGE : "Coverage",
 

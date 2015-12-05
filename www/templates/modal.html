@@ -25,37 +25,73 @@
     </div>
 </script>
 
-<script id="create_temp_account.html" type="text/ng-template">
+<script id="add_client.html" type="text/ng-template">
     <div class="modal" style="background-color: rgba(0,0,0,0.5)">
-        <ion-content class="temp_account_view">
-            <form class="transform-align-middle" id="accountNameForm" name="accountNameForm" novalidate="" ng-submit="createTempAccount(accountNameForm)">
+        <ion-content id="add_client_modal" class="temp_account_view {{modalClass}}">
+            <div class="swiper-container transform-align-middle" >
+                <form class="swiper-wrapper" id="addClientForm" name="addClientForm" novalidate="" ng-submit="confirmAdd(addClientForm)">
+                    <div class="swiper-slide">
+                        <b class="align-center">{{"CREATE_NEW_ACCOUNT" | translate}}</b>
+
+                        <div class="full_divider" style="margin: 4% 0% 6% 0%;"></div>
+
+                        <p>{{"ACCOUNT_NAME_MSG" | translate}}</p>
+                        <input id="accountNameInput" class="bg_color form-group align-center name-input" type="text" name="accountName" ng-model="accountObj.accountName" required
+                               ng-class="{ 'has-error' : addClientForm.accountName.$invalid && !addClientForm.accountName.$pristine }">
+                        <div class="row">
+                            <input class="col login_button" type="text" value="{{'CANCEL_CAPS' | translate}}" ng-click="addClientModal.hide();" style="margin-right: 5%;" readonly />
+                            <input class="col login_button" type="submit" value="{{'CREATE_ACCOUNT' | translate}}" />
+                        </div>
+
+                        <div class="full_divider"></div>
+
+                        <div class="align-right modal_footer" ng-click="slideNext()">
+                            <p class="inline-block align-middle" style="">{{"CLIENT_HAVE_ACCOUNT" | translate}}</p>
+                            <i class="inline-block align-middle ion-android-arrow-forward"></i>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <b class="align-center">{{"LINK_EXISTING_ACCOUNT" | translate}}</b>
+
+                        <div class="full_divider" style="margin: 4% 0% 6% 0%;"></div>
+
+                        <p>{{"LINK_ACCOUNT_MSG" | translate}}</p>
+                        <input id="linkAccountInput" class="bg_color form-group align-center name-input" type="email" name="clientEmail" ng-model="accountObj.linkEmail" required
+                               ng-class="{ 'has-error' : addClientForm.clientEmail.$invalid && !addClientForm.clientEmail.$pristine }">
+                        <div class="row">
+                            <input class="col login_button" type="text" value="{{'CANCEL_CAPS' | translate}}" ng-click="addClientModal.hide();" style="margin-right: 5%;" readonly />
+                            <input class="col login_button" type="submit" value="{{'LINK_CAPS' | translate}}" />
+                        </div>
+
+                        <div class="full_divider"></div>
+
+                        <div class="modal_footer" ng-click="slidePrev()">
+                            <i class="inline-block align-middle ion-android-arrow-back"></i>
+                            <p class="inline-block align-middle" style="">{{"GO_BACK" | translate}}</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </ion-content>
+    </div>
+</script>
+
+<script id="edit_client.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(0,0,0,0.5)">
+        <ion-content id="edit_client_modal" class="temp_account_view">
+            <form class="transform-align-middle" id="editClientForm" name="editClientForm" novalidate="" ng-submit="confirmEdit(editClientForm)">
                 <p>{{"ACCOUNT_NAME_MSG" | translate}}</p>
-                <input id="accountNameInput" class="bg_color form-group align-center" type="email" name="accountName" ng-model="accountName" required
-                       ng-class="{ 'has-error' : accountNameForm.accountName.$invalid && !accountNameForm.accountName.$pristine }">
+                <input id="editAccountNameInput" class="bg_color form-group align-center name-input" type="text" name="accountName" ng-model="editAccountName" required
+                       ng-class="{ 'has-error' : editClientForm.accountName.$invalid && !editClientForm.accountName.$pristine }">
                 <div class="row">
-                    <input class="col login_button" type="text" value="{{'CANCEL_CAPS' | translate}}" ng-click="tempAccountModal.hide();" style="margin-right: 5%;" readonly />
-                    <input class="col login_button" type="submit" value="{{'CREATE_ACCOUNT' | translate}}" />
+                    <input class="col login_button" type="text" value="{{'CANCEL_CAPS' | translate}}" ng-click="editClientModal.hide();" style="margin-right: 5%;" readonly />
+                    <input class="col login_button" type="submit" value="{{'EDIT_CAPS' | translate}}" />
                 </div>
             </form>
         </ion-content>
     </div>
 </script>
 
-<script id="link_account.html" type="text/ng-template">
-    <div class="modal" style="background-color: rgba(0,0,0,0.5)">
-        <ion-content class="temp_account_view">
-            <form class="transform-align-middle" id="linkAccountForm" name="linkAccountForm" novalidate="" ng-submit="requestLinkAccount(linkAccountForm)">
-                <p>{{"LINK_ACCOUNT_MSG" | translate}}</p>
-                <input id="linkAccountInput" class="bg_color form-group align-center" type="email" name="clientEmail" ng-model="accountName" required
-                       ng-class="{ 'has-error' : linkAccountForm.clientEmail.$invalid && !linkAccountForm.clientEmail.$pristine }">
-                <div class="row">
-                    <input class="col login_button" type="text" value="{{'CANCEL_CAPS' | translate}}" ng-click="linkAccountModal.hide()" style="margin-right: 5%;" readonly />
-                    <input class="col login_button" type="submit" value="{{'LINK_CAPS' | translate}}" />
-                </div>
-            </form>
-        </ion-content>
-    </div>
-</script>
 
 <script id="generate_report.html" type="text/ng-template">
     <div class="modal" style="background-color: rgba(0,0,0,0.5)">
@@ -121,7 +157,15 @@
             <form class="transform-align-middle" name="accountNameForm" novalidate="" ng-submit="createTempAccount(accountNameForm)">
                 <p class="heading">{{"TRANSFER_INSTRUCTION_HEADING" | translate}}</p>
                 <p class="new-line">{{"TRANSFER_INSTRUCTION" | translate}}</p>
-                <p class="code align-center">{{token}}</p>
+
+                <br>
+
+                <b>Username</b>
+                <p style="margin-bottom: 3%;">{{loginName}}</p>
+
+                <b>Password</b>
+                <p>{{password}}</p>
+
                 <p class="login_button" ng-click="generateTokenModal.hide()">{{"GOT_IT" | translate}}</p>
 
             </form>

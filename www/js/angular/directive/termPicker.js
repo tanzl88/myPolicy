@@ -66,11 +66,12 @@ angular.module('$termPicker', []).directive('termPicker', function () {
                 $ionicSlideBoxDelegate.$getByHandle("termPicker" + $attrs.name).enableSlide(false);
 
                 //HIDE KEYBOARD BEFORE MODAL SHOWN
-                var delay_time = utilityService.getKeyboardDelay();
-                var model = $parse($attrs.ngModelName)(parentScope);
-                var initValueYear = validity_test(model) ? model : 25;
-                var initValueAge  = validity_test(model) ? model : 99;
-                var mode = $parse($attrs.ngModelName + "Mode")(parentScope);
+                var delay_time      = utilityService.getKeyboardDelay();
+                var model           = $parse($attrs.ngModelName)(parentScope);
+                var defaultYear     = validity_test($attrs.defaultYear) ? parseInt($attrs.defaultYear) : 25;
+                var initValueYear   = validity_test(model) ? model : defaultYear;
+                var initValueAge    = validity_test(model) ? model : 99;
+                var mode            = $parse($attrs.ngModelName + "Mode")(parentScope);
                 $scope.pickerMode = validity_test(mode) ? mode : true;
                 if (!$scope.readOnly) {
                     $timeout(function(){
