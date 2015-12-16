@@ -68,22 +68,23 @@
                 <div class="inline-block align-middle">{{"INCOME" | translate}}</div>
                 <currency-input ng-model-name="personal.income"></currency-input>
             </div>
-            <div class="two_cols_item animate-item">
-                <div class="inline-block align-middle">{{"OTHER_CASH_INFLOW" | translate}}</div>
-                <currency-input ng-model-name="personal.otherInflow"></currency-input>
-            </div>
+            <!--<div class="two_cols_item animate-item">-->
+                <!--<div class="inline-block align-middle">{{"OTHER_CASH_INFLOW" | translate}}</div>-->
+                <!--<currency-input ng-model-name="personal.otherInflow"></currency-input>-->
+            <!--</div>-->
             <div class="two_cols_item animate-item">
                 <div class="inline-block align-middle">{{"EXPENDITURE" | translate}}</div>
-                <currency-input ng-model-name="personal.expenditure"></currency-input>
+                <currency-input ng-model-name="personal.expenditure" input-footer="expenditureFooterNetWorth"></currency-input>
+                <div id="expenditureFooterNetWorth" class="input_footer" style="display: none;">{{"EXPENDITURE_NOTES" | translate}}</div>
             </div>
             <div class="two_cols_item animate-item">
-                <div class="inline-block align-middle">{{"DEBT_REPAYMENT" | translate}}</div>
+                <div class="inline-block align-middle">{{"ANNUAL_DEBT_REPAYMENT" | translate}}</div>
                 <currency-input ng-model-name="personal.debtRepayment"></currency-input>
             </div>
-            <div class="two_cols_item animate-item">
-                <div class="inline-block align-middle">{{"SAVINGS" | translate}}</div>
-                <currency-input ng-model-name="personal.savings"></currency-input>
-            </div>
+            <!--<div class="two_cols_item animate-item">-->
+                <!--<div class="inline-block align-middle">{{"SAVINGS" | translate}}</div>-->
+                <!--<currency-input ng-model-name="personal.savings"></currency-input>-->
+            <!--</div>-->
 
             <!--INFLOW-->
             <!--<div class="animate-item">-->

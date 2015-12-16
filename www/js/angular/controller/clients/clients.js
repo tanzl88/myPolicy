@@ -1,5 +1,5 @@
 app.controller('clientsAccountCtrl', function($scope,$http,$ionicHistory,$translate,$toast,$timeout,loadingService,modalService,utilityService,addClientService,
-                                             loadDataDbService,credentialManager,clientListDbService,errorHandler) {
+                                             loadDataDbService,credentialManager,clientListDbService,errorHandler,$cordovaClipboard) {
 
     function hideEverything() {
         loadingService.hide();
@@ -159,6 +159,20 @@ app.controller('clientsAccountCtrl', function($scope,$http,$ionicHistory,$transl
                 } else {
                     errorHandler.handleOthers(statusData.status);
                 }
+            });
+    };
+    $scope.copy = function() {
+        var loginInfo = "";
+        loginInfo += $translate.instant("USERNAME") + " : " + $scope.loginName + "\n";
+        loginInfo += $translate.instant("PASSWORD") + " : " + $scope.password;
+        console.log(loginInfo);
+
+        $cordovaClipboard
+            .copy(loginInfo)
+            .then(function () {
+                $toast.show("COPY_MSG")
+            }, function () {
+                // error
             });
     };
 

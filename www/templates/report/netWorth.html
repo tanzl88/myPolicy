@@ -47,7 +47,7 @@
                         <table id="assetTable">
                             <thead>
                                 <tr>
-                                    <th colspan="3" class="align-middle align-center">{{"TOTAL_ASSETS" | translate}}: {{personal.totalAssets | currency:S$:0}}</th>
+                                    <th colspan="3" class="align-middle align-center">{{"TOTAL_ASSETS" | translate}}: {{personal.personal.totalAssets | currency:S$:0}}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -70,7 +70,7 @@
                         <table id="liabilityTable">
                             <thead>
                             <tr>
-                                <th colspan="3" class="align-middle align-center">{{"TOTAL_LIABILITIES" | translate}}: {{personal.totalLiabilities | currency:S$:0}}</th>
+                                <th colspan="3" class="align-middle align-center">{{"TOTAL_LIABILITIES" | translate}}: {{personal.personal.totalLiabilities | currency:S$:0}}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -99,48 +99,101 @@
                         <table id="cashflowTable">
                             <tr class="content">
                                 <td width="36%" class="align-center align-middle">
-                                    <p>{{"EXPENSES" | translate}}</p>
+                                    <p>{{"OTHER_EXPENSES" | translate}}</p>
                                     <p>{{personal.personal.expenses | currency:S$:0}}</p>
                                 </td>
                                 <td width="28%"></td>
                                 <td width="36%" class="align-center align-middle">
+
+                                </td>
+                            </tr>
+                            <tr class="empty"><td width="100%" colspan="3"></td></tr>
+                            <tr class="content">
+                                <td width="36%" class="align-center align-middle">
                                     <p>{{"DEBT_REPAYMENT" | translate}}</p>
                                     <p>{{personal.personal.debtRepayment | currency:S$:0}}</p>
+                                </td>
+                                <td width="28%"></td>
+                                <td width="36%" class="align-center align-middle">
+
                                 </td>
                             </tr>
                             <tr class="empty"><td width="100%" colspan="3"></td></tr>
                             <tr class="content">
                                 <td class="align-center align-middle">
-                                    <p>{{"SAVINGS" | translate}}</p>
-                                    <p>{{personal.personal.savings | currency:S$:0}}</p>
+                                    <p>{{"INSURANCE_PREMIUM" | translate}}</p>
+                                    <p>{{personal.personal.premium | currency:S$:0}}</p>
                                 </td>
                                 <td></td>
-                                <td class="align-center align-middle">
-                                    <p>{{"NET_EXPENDITURE" | translate}}</p>
-                                    <p>{{personal.personal.expenditure | currency:S$:0}}</p>
-                                </td>
                             </tr>
                             <tr class="empty"><td width="100%" colspan="3"></td></tr>
                             <tr class="content">
                                 <td class="align-center align-middle">
                                     <p>{{"CASH_INFLOW" | translate}}</p>
-                                    <p>{{personal.personal.cashInflow | currency:S$:0}}</p>
+                                    <p>{{personal.personal.income | currency:S$:0}}</p>
                                 </td>
                                 <td></td>
                                 <td class="align-center align-middle">
                                     <p>{{"CASH_OUTFLOW" | translate}}</p>
-                                    <p>{{personal.personal.cashOutflow | currency:S$:0}}</p>
+                                    <p>{{personal.personal.expenditure | currency:S$:0}}</p>
                                 </td>
                             </tr>
-                            <tr class="empty"><td width="100%" colspan="3"></td></tr>
+                            <tr class="large_empty"><td width="100%" colspan="3"></td></tr>
                             <tr class="content">
                                 <td colspan="3" class="align-center align-middle">
-                                    <p>{{"NET_CASH_OUTFLOW" | translate}}</p>
-                                    <p>{{personal.personal.netCashflow | currency:S$:0}}</p>
+                                    <p>{{"MONTHLY_SAVINGS" | translate}}</p>
+                                    <p>{{personal.personal.savings | currency:S$:0}}</p>
                                 </td>
                             </tr>
                         </table>
                     </div>
+                    <!--<div style="position: relative; margin: 5% 0%;">-->
+                        <!--<img id="cashflowInfographic" style="width: 100%;" src="img/cashflow.svg" />-->
+                        <!--<table id="cashflowTable">-->
+                            <!--<tr class="content">-->
+                                <!--<td width="36%" class="align-center align-middle">-->
+                                    <!--<p>{{"EXPENSES" | translate}}</p>-->
+                                    <!--<p>{{personal.personal.expenses | currency:S$:0}}</p>-->
+                                <!--</td>-->
+                                <!--<td width="28%"></td>-->
+                                <!--<td width="36%" class="align-center align-middle">-->
+                                    <!--<p>{{"DEBT_REPAYMENT" | translate}}</p>-->
+                                    <!--<p>{{personal.personal.debtRepayment | currency:S$:0}}</p>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <!--<tr class="empty"><td width="100%" colspan="3"></td></tr>-->
+                            <!--<tr class="content">-->
+                                <!--<td class="align-center align-middle">-->
+                                    <!--<p>{{"SAVINGS" | translate}}</p>-->
+                                    <!--<p>{{personal.personal.savings | currency:S$:0}}</p>-->
+                                <!--</td>-->
+                                <!--<td></td>-->
+                                <!--<td class="align-center align-middle">-->
+                                    <!--<p>{{"NET_EXPENDITURE" | translate}}</p>-->
+                                    <!--<p>{{personal.personal.expenditure | currency:S$:0}}</p>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <!--<tr class="empty"><td width="100%" colspan="3"></td></tr>-->
+                            <!--<tr class="content">-->
+                                <!--<td class="align-center align-middle">-->
+                                    <!--<p>{{"CASH_INFLOW" | translate}}</p>-->
+                                    <!--<p>{{personal.personal.cashInflow | currency:S$:0}}</p>-->
+                                <!--</td>-->
+                                <!--<td></td>-->
+                                <!--<td class="align-center align-middle">-->
+                                    <!--<p>{{"CASH_OUTFLOW" | translate}}</p>-->
+                                    <!--<p>{{personal.personal.cashOutflow | currency:S$:0}}</p>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <!--<tr class="empty"><td width="100%" colspan="3"></td></tr>-->
+                            <!--<tr class="content">-->
+                                <!--<td colspan="3" class="align-center align-middle">-->
+                                    <!--<p>{{"NET_CASH_OUTFLOW" | translate}}</p>-->
+                                    <!--<p>{{personal.personal.netCashflow | currency:S$:0}}</p>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                        <!--</table>-->
+                    <!--</div>-->
                 </md-card-content>
             </md-card>
 

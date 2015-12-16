@@ -73,7 +73,8 @@
             <div class="two_cols_item">
                 <div class="inline-block align-middle">{{"EXPENDITURE" | translate}}</div>
                 <p ng-if="credential !== 'advisor'" class="inline-block align-middle align-center bg_color">{{personal.expenditure | currency:currency:0}}</p>
-                <currency-input ng-if="credential === 'advisor'" ng-model-name="personal.expenditure"></currency-input>
+                <currency-input ng-if="credential === 'advisor'" ng-model-name="personal.expenditure" input-footer="expenditureFooter"></currency-input>
+                <div id="expenditureFooter" class="input_footer" style="display: none;">{{"EXPENDITURE_NOTES" | translate}}</div>
             </div>
 
 

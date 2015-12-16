@@ -424,6 +424,10 @@ var assets_g = [
         varName : "investmentAssets"
     },
     {
+        title   : "INSURANCE",
+        varName : "currentValue"
+    },
+    {
         title   : "HOUSE",
         varName : "houseValue"
     },
@@ -477,7 +481,7 @@ var financial_ratio_g = [
     {
         title : "DEBT_SERVICE_RATIO",
         numerator   : "debtRepayment",
-        denominator : "cashInflow",
+        denominator : "income",
         upper       : 35
     },
     {
@@ -496,7 +500,7 @@ var financial_ratio_g = [
     {
         title : "SAVINGS_RATIO",
         numerator   : "savings",
-        denominator : "cashInflow",
+        denominator : "income",
         lower       : 10
     }
 ];

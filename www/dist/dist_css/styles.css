@@ -10413,12 +10413,46 @@ input.login_button {
 #tutorial_blocker {
   top: 0; }
 
-.temp_account_view, .generate_token_view {
+#add_client_modal {
+  height: 100%; }
+
+#add_client_modal .swiper-container {
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background-color: white; }
+
+#add_client_modal form {
+  padding: 0;
+  font-size: 0.9em;
+  border-radius: 0;
+  border-width: 0;
+  background-color: transparent; }
+
+#add_client_modal .swiper-slide {
+  padding: 5%; }
+
+#add_client_modal .name-input {
+  margin-top: 3%;
+  margin-bottom: 1%; }
+
+#add_client_modal i {
+  margin-right: 1%;
+  font-size: 1.3em; }
+
+#add_client_modal .modal_footer {
+  font-size: 0.9em;
+  color: #555;
+  line-height: 1.3em;
+  margin-top: 4%; }
+
+.temp_account_view,
+.generate_token_view {
   position: absolute;
   width: 100%;
   padding: 5% 10%; }
 
-.temp_account_view form, .generate_token_view form {
+.temp_account_view form,
+.generate_token_view form {
   padding: 5%;
   background-color: white;
   border-radius: 5px;
@@ -10447,8 +10481,9 @@ input.login_button {
   background-color: #eaeaea;
   border-radius: 3px; }
 
-.temp_account_item p {
-  padding: 0% 2%; }
+#clients_view .policy-user-transfer {
+  font-size: 1.9em;
+  color: #777777; }
 
 #settings_list {
   width: 100%;
@@ -10909,18 +10944,29 @@ input.login_button {
   text-align: left; }
 
 #assetsTable-export th,
-#liabilitiesTable-export th,
-#cashflowTable-export th,
+#liabilitiesTable-export th {
+  padding: 12px 5px !important;
+  color: white; }
+
+#assetsTablePercent-export th,
+#liabilitiesTablePercent-export th {
+  padding: 10px 5px !important;
+  color: white; }
+
+#assetsTablePercent-export td,
+#liabilitiesTablePercent-export td {
+  padding: 23px 5px 24px 5px !important; }
+
+#assetsTable-export td,
+#liabilitiesTable-export td {
+  padding: 19px 5px 20px 5px !important; }
+
 #netWorthTotalTable-export th {
   padding: 13px 5px !important;
   color: white; }
 
-#assetsTable-export td,
-#liabilitiesTable-export td {
-  padding: 22px 5px !important; }
-
 #netWorthTotalTable-export td {
-  padding: 3px 5px !important; }
+  padding: 10px 5px !important; }
 
 #policyInfoTable-export th,
 #policyInfoTable-export td {
@@ -10977,11 +11023,15 @@ input.login_button {
   border-width: 0;
   color: black; }
 
+#cashflowTable-export th {
+  padding: 13px 5px !important;
+  color: white; }
+
 #cashflowTable-export tr.content td {
-  padding: 6px 0px; }
+  padding: 1px 0px; }
 
 #cashflowTable-export tr.empty td {
-  padding: 58px 0px; }
+  padding: 39px 0px; }
 
 #add_data {
   width: 100%;
@@ -11119,6 +11169,14 @@ table.premium_income_ratio {
 #assetTable .percent,
 #liabilityTable .percent {
   font-size: 1.3em; }
+
+.input_footer {
+  width: 50%;
+  font-size: 0.8em;
+  line-height: 1.2em;
+  margin-top: 1%;
+  margin-left: 50%;
+  color: #444; }
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1200px) {
   body {
@@ -22746,4 +22804,301 @@ Copyright (c) 2015 Daniel Eden
 .slideOutUp {
   -webkit-animation-name: slideOutUp;
   animation-name: slideOutUp;
+}
+nz-tour * {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+nz-tour.hidden #nzTour-box {
+  -webkit-transform: scale(0);
+  transform: scale(0);
+}
+nz-tour.hidden .nzTour-masks .mask {
+  opacity: 0;
+}
+nz-tour #nzTour-box-wrap {
+  position: fixed;
+  width: auto;
+  height: auto;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  display: block;
+  z-index: 999999999999;
+}
+nz-tour #nzTour-box {
+  width: 250px;
+  min-height: 69px;
+  max-height: 120px;
+  padding: 0.5em;
+  background: #fff;
+  -webkit-box-shadow: 0 6px 19px 2px rgba(0,0,0,0.14);
+  box-shadow: 0 6px 19px 2px rgba(0,0,0,0.14);
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+nz-tour #nzTour-box.dark-box {
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+}
+nz-tour #nzTour-box.dark-box #nzTour-close {
+  background: rgba(255,255,255,0.81);
+  color: #000;
+}
+nz-tour #nzTour-box.dark-box #nzTour-close:hover {
+  background: #ee342f;
+  color: #fff;
+}
+nz-tour #nzTour-box.dark-box #nzTour-step {
+  background: #fff;
+  color: rgba(0,0,0,0.8);
+}
+nz-tour #nzTour-box.dark-box #nzTour-length {
+  background: rgba(255,255,255,0.2);
+  color: #bababa;
+}
+nz-tour #nzTour-box.dark-box #nzTour-tip.left {
+  left: 5px;
+}
+nz-tour #nzTour-box.dark-box #nzTour-tip.center {
+  left: 50%;
+}
+nz-tour #nzTour-box.dark-box #nzTour-tip.right {
+  right: 5px;
+}
+nz-tour #nzTour-box.dark-box #nzTour-tip.side.center {
+  top: 50%;
+}
+nz-tour #nzTour-box.dark-box #nzTour-tip.side.top {
+  top: 5px;
+}
+nz-tour #nzTour-box.dark-box #nzTour-tip.side.bottom {
+  bottom: 5px;
+}
+nz-tour #nzTour-box.dark-box #nzTour-tip.top {
+  top: -5px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid rgba(0,0,0,0.8);
+}
+nz-tour #nzTour-box.dark-box #nzTour-tip.bottom {
+  bottom: -5px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid rgba(0,0,0,0.8);
+}
+nz-tour #nzTour-box.dark-box #nzTour-tip.side.left {
+  left: -10px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-right: 5px solid rgba(0,0,0,0.8);
+}
+nz-tour #nzTour-box.dark-box #nzTour-tip.side.right {
+  right: -10px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid rgba(0,0,0,0.8);
+}
+nz-tour #nzTour-tip {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+}
+nz-tour #nzTour-tip.hidden {
+  opacity: 0;
+}
+nz-tour #nzTour-tip.vertical.left {
+  left: 5px;
+}
+nz-tour #nzTour-tip.vertical.center {
+  left: 50%;
+}
+nz-tour #nzTour-tip.vertical.right {
+  right: 5px;
+}
+nz-tour #nzTour-tip.vertical.top {
+  top: -5px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #fff;
+}
+nz-tour #nzTour-tip.vertical.bottom {
+  bottom: -5px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #fff;
+}
+nz-tour #nzTour-tip.horizontal.top {
+  top: 5px;
+}
+nz-tour #nzTour-tip.horizontal.center {
+  top: 50%;
+}
+nz-tour #nzTour-tip.horizontal.bottom {
+  bottom: 5px;
+}
+nz-tour #nzTour-tip.horizontal.left {
+  left: -5px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-right: 5px solid #fff;
+}
+nz-tour #nzTour-tip.horizontal.right {
+  right: -5px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #fff;
+}
+nz-tour #nzTour-close {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  width: 14px;
+  height: 14px;
+  background: rgba(0,0,0,0.8);
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+  font-size: 8px;
+  color: #fff;
+  cursor: pointer;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+nz-tour #nzTour-close:hover {
+  background: #ec1d18;
+}
+nz-tour #nzTour-content {
+  width: 100%;
+  height: 100%;
+  max-height: 104px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  position: relative;
+  border-bottom: solid 32px transparent;
+  /*-webkit-box-shadow: inset 0 -20px 20px -20px rgba(0,0,0,0.2);*/
+  /*box-shadow: inset 0 -20px 20px -20px rgba(0,0,0,0.2);*/
+  padding: 0 4px;
+  font-size: 14px;
+}
+nz-tour #nzTour-step,
+nz-tour #nzTour-length {
+  width: 24px;
+  height: 24px;
+  color: #fff;
+  position: absolute;
+  bottom: 0.7em;
+  font-size: 12px;
+  font-weight: bold;
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+nz-tour #nzTour-step {
+  background: rgba(0,0,0,0.7);
+  left: 0.7em;
+  z-index: 1;
+}
+nz-tour #nzTour-length {
+  background: #ccc;
+  left: 2.2em;
+  z-index: 0;
+}
+nz-tour #nzTour-actions {
+  position: absolute;
+  bottom: 0.5em;
+  right: 0.5em;
+  height: 24px;
+}
+nz-tour #nzTour-actions button {
+  height: 100%;
+  border: none;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  font-size: 0.75em;
+  padding: 4px 7px;
+  color: #fff;
+  background-color: #868686;
+}
+nz-tour #nzTour-actions button:hover {
+  background-color: #6b6b6b;
+}
+nz-tour #nzTour-actions button[disabled] {
+  opacity: 0.2;
+}
+nz-tour #nzTour-actions button[disabled]:hover {
+  opacity: 0.2;
+}
+nz-tour #nzTour-actions button:focus,
+nz-tour #nzTour-actions button:focus:active {
+  outline: none;
+}
+nz-tour #nzTour-actions button.success {
+  background-color: #60bd68;
+}
+nz-tour #nzTour-actions button.success:hover {
+  background-color: #43a14b;
+}
+nz-tour #nzTour-actions button.danger {
+  background-color: #ec1d18;
+}
+nz-tour #nzTour-actions button.danger:hover {
+  background-color: #c01410;
+}
+nz-tour #nzTour-previous {
+  margin-right: 0.5em;
+}
+nz-tour .nzTour-masks .mask {
+  position: fixed;
+  z-index: 99999999;
+}
+nz-tour .nzTour-masks .mask.top,
+nz-tour .nzTour-masks .mask.bottom {
+  width: 100%;
+  height: 0;
+  left: 0;
+}
+nz-tour .nzTour-masks .mask.left,
+nz-tour .nzTour-masks .mask.right {
+  width: 0;
+  height: 100%;
+  top: 0;
+}
+nz-tour .nzTour-masks .mask.top {
+  top: 0;
+}
+nz-tour .nzTour-masks .mask.bottom {
+  bottom: 0;
+}
+nz-tour .nzTour-masks .mask.left {
+  left: 0;
+}
+nz-tour .nzTour-masks .mask.right {
+  right: 0;
 }

@@ -113,13 +113,19 @@ app.controller('ReportCtrl', ['$scope', '$translate', '$timeout', '$interval', '
     modalService.init("doughnutTooltip","doughnutTooltip",$scope).then(function(modal){
         $scope.doughnutTooltip = modal;
     });
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
     $scope.showSuggestTooltip = function(title) {
         //ANALYTICS
         if (ionic.Platform.isWebView()) window.analytics.trackEvent('User Interaction', 'Tooltip', 'Suggested explanation');
         var useAdvanced = personalDataDbService.getUserData("useAdvanced") == 1 ? "_ADV" : "";
 
         $scope.category          = $translate.instant("REPORT_" + title);
-        $scope.suggestedCoverage = $translate.instant("REPORT_" + title + "_SUGG" + useAdvanced);
+        var suggestedString      = $translate.instant("REPORT_" + title + "_SUGG" + useAdvanced);
+        console.log(suggestedString);
+        console.log(suggestedString.split("Suggested coverage is "));
+        $scope.suggestedCoverage = capitalizeFirstLetter((suggestedString.split("Suggested coverage is "))[1]);
         $scope.suggestTooltip.show();
     };
     modalService.init("suggestTooltip","suggestTooltip",$scope).then(function(modal){

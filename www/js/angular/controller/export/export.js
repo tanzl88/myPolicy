@@ -17,9 +17,10 @@ app.controller('ExportCtrl', function($scope,$rootScope,$q,$translate,$timeout,$
         cat.translate = $translate.instant(cat.label).replace(/\n/g," ");
     });
 
+    $scope.useAdvanced = personalDataDbService.getUserData("useAdvanced") == 1 ? "_ADV" : "";
     $scope.viewObj.cat  = policyDataService.getProtectionsData();
     $scope.viewObj.sums = policyDataDbService.getAllSum();
-    $scope.personal     = angular.copy(personalDataDbService.getNetWorthData());
+    $scope.personal     = angular.copy(policyDataService.getNetWorthData());
     $scope.fullTableObj = reactDOMService.getFullTable([full_table_g_1,full_table_g_2]);
 
 
@@ -420,12 +421,19 @@ app.controller('ExportCtrl', function($scope,$rootScope,$q,$translate,$timeout,$
 
         $q.all(promises).then(function(result){
 
-            doc.addImage(result[0].dataUrl, 'JPEG', 285, marginTopAdj + 20 + 15 + 330, 280, 280/result[0].ratio);
+            doc.addImage(result[0].dataUrl, 'JPEG', 285, marginTopAdj + 20 + 15 + 310, 280, 280/result[0].ratio);
             doc.addImage(result[1].dataUrl, 'JPEG', 0  , marginTopAdj + 15           , 280, 280/result[1].ratio);
             doc.addImage(result[2].dataUrl, 'JPEG', 285, marginTopAdj + 15           , 280, 280/result[2].ratio);
             doc.addImage(result[3].dataUrl, 'JPEG', 585, marginTopAdj + 15           , 240, 240/result[3].ratio);
 
-            exportUtility.setRenderFont(doc,13);
+            exportUtility.setRenderFont(doc,15);
+            doc.fromHTML($('#assetsTablePercent-export').get(0), 10, marginTopAdj + 5, {
+                'width': 255
+            });
+            doc.fromHTML($('#liabilitiesTablePercent-export').get(0), 295, marginTopAdj + 5, {
+                'width': 255
+            });
+            exportUtility.setRenderFont(doc,11);
             doc.fromHTML($('#assetsTable-export').get(0), 10, marginTopAdj + 5, {
                 'width': 255
             });
@@ -435,7 +443,7 @@ app.controller('ExportCtrl', function($scope,$rootScope,$q,$translate,$timeout,$
             doc.fromHTML($('#cashflowTable-export').get(0), 585, marginTopAdj + 5, {
                 'width': 240
             });
-            doc.fromHTML($('#netWorthTotalTable-export').get(0), 295, marginTopAdj + 15 + 340, {
+            doc.fromHTML($('#netWorthTotalTable-export').get(0), 295, marginTopAdj + 15 + 320, {
                 'width': 255
             });
 

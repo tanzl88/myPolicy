@@ -13,7 +13,7 @@ app.service('loadDataDbService', function($q,$http,$toast,$translate,credentialM
         processLoginData : function(data,callback) {
             if (data.credential === "client") {
                 //ANALYTICS
-                if (ionic.Platform.isWebView()) window.analytics.setUserId(sdbmHash(data.data.personal.userId));
+                if (ionic.Platform.isWebView() && data.data.personal.userId !== undefined) window.analytics.setUserId(sdbmHash(data.data.personal.userId));
 
                 credentialManager.setCredential("client");
                 credentialManager.setClientSelectedObj({

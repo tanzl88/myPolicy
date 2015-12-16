@@ -53,11 +53,12 @@
                             <p class="inline-block align-middle" style="width: 35%;">{{"PLAN_TYPE" | translate}}:</p>
                             <p class="inline-block align-middle" style="width: 62%;">{{policy.planTypeDisplayed}}</p>
                         </div>
-                        <i class="swipe-left-icon transform-align-middle ion-chevron-left"></i>
+                        <!--<i class="swipe-left-icon transform-align-middle ion-chevron-left"></i>-->
+                        <i class="swipe-left-icon transform-align-middle ion-ios-camera-outline" ng-click="goToGallery($event,$index)" style="font-size: 2.2em; color: #666666;"></i>
                     </div>
-                    <ion-option-button class="button gray" ng-click="goToGallery($index)">
-                        <i class="ion-ios-camera-outline"></i>
-                    </ion-option-button>
+                    <!--<ion-option-button class="button gray" ng-click="goToGallery($index)">-->
+                        <!--<i class="ion-ios-camera-outline"></i>-->
+                    <!--</ion-option-button>-->
                     <ion-option-button class="button yellow" ng-click="remove($index,policy.id)">
                         <i class="ion-ios-trash-outline"></i>
                     </ion-option-button>

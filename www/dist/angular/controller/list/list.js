@@ -93,7 +93,9 @@ app.controller('ListCtrl', ['$rootScope', '$scope', '$state', '$filter', '$http'
     }
 
     // ------------ GO TO GALLERY ------------
-    $scope.goToGallery = function(index) {
+    $scope.goToGallery = function(event,index) {
+        event.stopPropagation();
+
         $rootScope.policyId = $scope.policies[index].id;
         $rootScope.userId   = credentialManager.getClientProperty("id");
         $state.go("tabs.list.gallery");

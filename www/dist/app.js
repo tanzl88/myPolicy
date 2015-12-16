@@ -1,6 +1,6 @@
 var app = angular.module('myPolicy',['templates','ionic','ionic.service.core','ngIOS9UIWebViewPatch',
     'ngCordova','ngMessages','ngAnimate','pascalprecht.translate','Mac',
-    'validation.match','ngmodel.format','ngMaterial','ngDropdowns','reactTable',
+    'validation.match','ngmodel.format','ngMaterial','ngDropdowns','reactTable','nzTour',
     '$datePicker','$dateTimePicker','$countdownTimePicker','$termPicker','$currencyPicker','$currencyInput','$percentInput','$planTypePicker','$suggestAmtEditor','popupPicker','reportTypePicker',
     'ui.bootstrap-slider','ui.checkbox','toggle-switch']);
 

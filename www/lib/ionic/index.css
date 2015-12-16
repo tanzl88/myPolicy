@@ -1097,18 +1097,29 @@ input.login_button {
   text-align: left; }
 
 #assetsTable-export th,
-#liabilitiesTable-export th,
-#cashflowTable-export th,
+#liabilitiesTable-export th {
+  padding: 12px 5px !important;
+  color: white; }
+
+#assetsTablePercent-export th,
+#liabilitiesTablePercent-export th {
+  padding: 10px 5px !important;
+  color: white; }
+
+#assetsTablePercent-export td,
+#liabilitiesTablePercent-export td {
+  padding: 23px 5px 24px 5px !important; }
+
+#assetsTable-export td,
+#liabilitiesTable-export td {
+  padding: 19px 5px 20px 5px !important; }
+
 #netWorthTotalTable-export th {
   padding: 13px 5px !important;
   color: white; }
 
-#assetsTable-export td,
-#liabilitiesTable-export td {
-  padding: 22px 5px !important; }
-
 #netWorthTotalTable-export td {
-  padding: 3px 5px !important; }
+  padding: 10px 5px !important; }
 
 #policyInfoTable-export th,
 #policyInfoTable-export td {
@@ -1165,11 +1176,15 @@ input.login_button {
   border-width: 0;
   color: black; }
 
+#cashflowTable-export th {
+  padding: 13px 5px !important;
+  color: white; }
+
 #cashflowTable-export tr.content td {
-  padding: 6px 0px; }
+  padding: 1px 0px; }
 
 #cashflowTable-export tr.empty td {
-  padding: 58px 0px; }
+  padding: 39px 0px; }
 
 #add_data {
   width: 100%;
@@ -1307,3 +1322,11 @@ table.premium_income_ratio {
 #assetTable .percent,
 #liabilityTable .percent {
   font-size: 1.3em; }
+
+.input_footer {
+  width: 50%;
+  font-size: 0.8em;
+  line-height: 1.2em;
+  margin-top: 1%;
+  margin-left: 50%;
+  color: #444; }

@@ -21,6 +21,8 @@ angular.module('$currencyInput', []).directive('currencyInput', function () {
                         numberInput.focus();
                         $interval.cancel(focusTimer);
                     }
+
+                    if ($attrs.inputFooter !== undefined) $("#" + $attrs.inputFooter).show();
                 },333);
             };
 
@@ -30,6 +32,8 @@ angular.module('$currencyInput', []).directive('currencyInput', function () {
                 var roundedValue = $(numberInput).val() === "" ? undefined : parseFloat($(numberInput).val()).toFixed(decimal);
                 $(numberInput).val("");
                 $parse($attrs.ngModelName).assign(parentScope, roundedValue);
+
+                if ($attrs.inputFooter !== undefined) $("#" + $attrs.inputFooter).hide();
             };
 
             $scope.goToNext = function(event) {

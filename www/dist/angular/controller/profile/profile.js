@@ -127,9 +127,9 @@ app.controller('ProfileCtrl', ['$scope', '$state', '$http', '$translate', '$toas
             autoLoans               : parseInt($scope.personal.autoLoans),
             studyLoans              : parseInt($scope.personal.studyLoans),
             otherLiabilities        : parseInt($scope.personal.otherLiabilities),
-            otherInflow             : parseInt($scope.personal.otherInflow),
+            //otherInflow             : parseInt($scope.personal.otherInflow),
             debtRepayment           : parseInt($scope.personal.debtRepayment),
-            savings                 : parseInt($scope.personal.savings),
+            //savings                 : parseInt($scope.personal.savings),
             phone                   : $scope.personal.phone,
             email                   : $scope.personal.email,
             interest                : $scope.personal.interest

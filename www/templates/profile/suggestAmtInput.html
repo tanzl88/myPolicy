@@ -110,6 +110,10 @@
                 <p class="section_header animate-item" ng-if="personal.useAdvanced === 1">{{"OTHERS" | translate}}</p>
             </div>
             <div class="two_cols_item animate-item" ng-if="personal.useAdvanced === 1">
+                <div class="inline-block align-middle">{{"TREATMENT_COST" | translate}}</div>
+                <currency-input ng-model-name="personal.treatmentCost"></currency-input>
+            </div>
+            <div class="two_cols_item animate-item" ng-if="personal.useAdvanced === 1">
                 <div class="inline-block align-middle">{{"IMMEDIATE_CASH_NEEDS" | translate}}</div>
                 <currency-input ng-model-name="personal.immediateCash"></currency-input>
             </div>

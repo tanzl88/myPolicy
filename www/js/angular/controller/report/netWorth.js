@@ -10,22 +10,21 @@ app.controller('NetWorthCtrl', function($scope,$translate,$timeout,$interval,$to
         $scope.clientSelected   = credentialManager.getClientSelected();
 
         if (($scope.credential === "advisor" && $scope.clientSelected) || $scope.credential === "client") {
-            $scope.personal = angular.copy(personalDataDbService.getNetWorthData());
+            $scope.personal = angular.copy(policyDataService.getNetWorthData());
 
             $timeout(function(){
                 var assetWidth = window_width_g - 16;
-                //var assetHeaderRatio = 3.66/26.35;
-                //var assetCellRatio   = 7.25/26.35;
                 var assetHeaderRatio = 3.46/26.35;
-                var assetCellRatio   = 7.15/26.35;
+                var assetCellRatio   = 6.15/26.35;
                 var cashflowContentRatio = 2.18/17.64;
-                var cashflowEmptyRatio = 13.41/17.64;
+                var cashflowEmptyRatio = 8.21/17.64;
                 $("#assetTable thead tr").height(assetWidth * assetHeaderRatio);
                 $("#assetTable tbody tr").height(assetWidth * assetCellRatio);
                 $("#liabilityTable thead tr").height(assetWidth * assetHeaderRatio);
                 $("#liabilityTable tbody tr").height(assetWidth * assetCellRatio);
                 $("#cashflowTable tr.content").height(assetWidth * cashflowContentRatio);
                 $("#cashflowTable tr.empty").height(assetWidth * cashflowEmptyRatio);
+                $("#cashflowTable tr.large_empty").height(assetWidth * cashflowEmptyRatio * 1.85);
             },1);
 
 

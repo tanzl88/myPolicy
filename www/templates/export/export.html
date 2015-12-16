@@ -15,7 +15,7 @@
         <div id="overviewTable-export" class="overviewTable-export">
             <table class="protections_table" style="margin-top: 4%; margin-bottom: 4%;">
                 <tr>
-                    <th width="60%" style="text-align: left;">{{::"CATEGORY" | translate}}</th>
+                    <th width="60%" style="text-align: left;">{{::"MAIN_NEEDS" | translate}}</th>
                     <th colspan="2" width="40%" style="border-left-width: 0;">{{::"COVERAGE" | translate}}</th>
                 </tr>
                 <tr ng-repeat="cat in viewObj.overviewData.lump">
@@ -32,7 +32,7 @@
         <div id="financialInfoTable-export" class="overviewTable-export">
             <table class="protections_table" style="margin-top: 4%; margin-bottom: 4%;">
                 <tr>
-                    <th width="60%" style="text-align: left;">{{::"CATEGORY" | translate}}</th>
+                    <th width="60%" style="text-align: left;">{{::"OTHER_NEEDS" | translate}}</th>
                     <th colspan="2" class="align-center" width="40%" style="border-left-width: 0;">{{::"COVERAGE" | translate}}</th>
                 </tr>
                 <tr ng-repeat="cat in viewObj.overviewData.income">
@@ -53,7 +53,7 @@
                 </tr>
                 <tr ng-repeat="asset in personal.assetsObj">
                     <td class="align-right align-middle percent" style="width: 33%">
-                        {{::asset.percent}}%
+
                     </td>
                     <td class="align-middle" style="width: 33%"></td>
                     <td class="align-middle amt" style="width: 33%">
@@ -63,6 +63,23 @@
                 </tr>
             </table>
         </div>
+        <div id="assetsTablePercent-export" class="export-table">
+            <table id="assetTable">
+                <tr>
+                    <th colspan="3" class="align-middle align-center"></th>
+                </tr>
+                <tr ng-repeat="asset in personal.assetsObj">
+                    <td class="align-right align-middle percent" style="width: 33%">
+                        {{::asset.percent}}%
+                    </td>
+                    <td class="align-middle" style="width: 33%"></td>
+                    <td class="align-middle amt" style="width: 33%">
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+
 
         <!--LIABILITIES TABLE-->
         <div id="liabilitiesTable-export" class="export-table">
@@ -72,12 +89,28 @@
                 </tr>
                 <tr ng-repeat="liability in personal.liabilitiesObj">
                     <td class="align-right align-middle percent" style="width: 33%">
-                        {{::liability.percent}}%
+
                     </td>
                     <td class="align-middle" style="width: 33%"></td>
                     <td class="align-middle amt" style="width: 33%">
                         <p>{{::liability.title | translate}}</p>
                         <p>{{::liability.amt | currency:currency:0}}</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="liabilitiesTablePercent-export" class="export-table">
+            <table id="liabilityTable">
+                <tr>
+                    <th colspan="3" class="align-middle align-center"></th>
+                </tr>
+                <tr ng-repeat="liability in personal.liabilitiesObj">
+                    <td class="align-right align-middle percent" style="width: 33%">
+                        {{::liability.percent}}%
+                    </td>
+                    <td class="align-middle" style="width: 33%"></td>
+                    <td class="align-middle amt" style="width: 33%">
+
                     </td>
                 </tr>
             </table>
@@ -146,43 +179,85 @@
         <div id="cashflowTable-export" class="export-table">
             <table id="cashflowTable">
                 <tr>
-                    <th colspan="3" class="align-middle align-center">{{::"NET_CASHFLOW" | translate}}: {{::personal.personal.netCashflow | currency:currency:0}}</th>
+                    <th colspan="3" class="align-middle align-center">{{::"MONTHLY_SAVINGS" | translate}}: {{::personal.personal.savings | currency:currency:0}}</th>
                 </tr>
                 <tr class="content">
-                    <td width="40%" class="align-center align-middle">
-                        <p>{{::"EXPENSES" | translate}}</p>
+                    <td width="43%" class="align-center align-middle">
+                        <p>{{::"OTHER_EXPENSES" | translate}}</p>
                         <p>{{::personal.personal.expenses | currency:currency:0}}</p>
                     </td>
-                    <td width="20%"></td>
-                    <td width="40%" class="align-center align-middle">
-                        <p>{{::"DEBTS" | translate}}</p>
-                        <p>{{::personal.personal.debtRepayment | currency:currency:0}}</p>
+                    <td width="14%"></td>
+                    <td width="43%" class="align-center align-middle">
+
                     </td>
                 </tr>
                 <tr class="empty"><td width="100%" colspan="3"></td></tr>
                 <tr class="content">
-                    <td class="align-center align-middle">
-                        <p>{{::"SAVINGS_ONLY" | translate}}</p>
-                        <p>{{::personal.personal.savings | currency:currency:0}}</p>
+                    <td width="43%" class="align-center align-middle">
+                        <p>{{::"DEBT_REPAYMENT" | translate}}</p>
+                        <p>{{::personal.personal.debtRepayment | currency:currency:0}}</p>
                     </td>
-                    <td></td>
-                    <td class="align-center align-middle">
-                        <p>{{::"EXPENDITURE_ONLY" | translate}}</p>
-                        <p>{{::personal.personal.expenditure | currency:currency:0}}</p>
+                    <td width="14%"></td>
+                    <td width="43%" class="align-center align-middle">
+
                     </td>
+                </tr>
+                <tr class="empty"><td width="100%" colspan="3"></td></tr>
+                <tr class="content">
+                    <td width="43%" class="align-center align-middle">
+                        <p>{{::"INSURANCE_PREMIUM" | translate}}</p>
+                        <p>{{::personal.personal.premium | currency:currency:0}}</p>
+                    </td>
+                    <td width="14%"></td>
+                    <td width="43%" class="align-center align-middle">
                 </tr>
                 <tr class="empty"><td width="100%" colspan="3"></td></tr>
                 <tr class="content">
                     <td class="align-center align-middle">
                         <p>{{::"CASH_INFLOW" | translate}}</p>
-                        <p>{{::personal.personal.cashInflow | currency:currency:0}}</p>
+                        <p>{{::personal.personal.income | currency:currency:0}}</p>
                     </td>
                     <td></td>
                     <td class="align-center align-middle">
                         <p>{{::"CASH_OUTFLOW" | translate}}</p>
-                        <p>{{::personal.personal.cashOutflow | currency:currency:0}}</p>
+                        <p>{{::personal.personal.expenditure | currency:currency:0}}</p>
                     </td>
                 </tr>
+                <!--<tr class="content">-->
+                    <!--<td width="40%" class="align-center align-middle">-->
+                        <!--<p>{{::"EXPENSES" | translate}}</p>-->
+                        <!--<p>{{::personal.personal.expenses | currency:currency:0}}</p>-->
+                    <!--</td>-->
+                    <!--<td width="20%"></td>-->
+                    <!--<td width="40%" class="align-center align-middle">-->
+                        <!--<p>{{::"DEBTS" | translate}}</p>-->
+                        <!--<p>{{::personal.personal.debtRepayment | currency:currency:0}}</p>-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <!--<tr class="empty"><td width="100%" colspan="3"></td></tr>-->
+                <!--<tr class="content">-->
+                    <!--<td class="align-center align-middle">-->
+                        <!--<p>{{::"SAVINGS_ONLY" | translate}}</p>-->
+                        <!--<p>{{::personal.personal.savings | currency:currency:0}}</p>-->
+                    <!--</td>-->
+                    <!--<td></td>-->
+                    <!--<td class="align-center align-middle">-->
+                        <!--<p>{{::"EXPENDITURE_ONLY" | translate}}</p>-->
+                        <!--<p>{{::personal.personal.expenditure | currency:currency:0}}</p>-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <!--<tr class="empty"><td width="100%" colspan="3"></td></tr>-->
+                <!--<tr class="content">-->
+                    <!--<td class="align-center align-middle">-->
+                        <!--<p>{{::"CASH_INFLOW" | translate}}</p>-->
+                        <!--<p>{{::personal.personal.cashInflow | currency:currency:0}}</p>-->
+                    <!--</td>-->
+                    <!--<td></td>-->
+                    <!--<td class="align-center align-middle">-->
+                        <!--<p>{{::"CASH_OUTFLOW" | translate}}</p>-->
+                        <!--<p>{{::personal.personal.cashOutflow | currency:currency:0}}</p>-->
+                    <!--</td>-->
+                <!--</tr>-->
             </table>
         </div>
 
@@ -299,7 +374,7 @@
                         <p class="amt inline-block align-middle">{{::cat.amt | number}}</p>
                     </td>
                     <td class="align-right">
-                        <suggest-amt-editor ng-bind-data="cat.suggested" show-asterisk="t">
+                        <suggest-amt-editor ng-bind-data="cat.suggested" show-asterisk="false">
                         </suggest-amt-editor>
                     </td>
                     <td class="align-right" ng-class="{'excess' : cat.diff_type === 'Excess', 'shortfall' : cat.diff_type === 'Shortfall'}">
@@ -383,7 +458,7 @@
                         <td>{{::"REPORT_" + cat.title | translate}}</td>
                         <td>{{::"REPORT_" + cat.title + "_IMPT" | translate}}</td>
                         <td>{{::"REPORT_" + cat.title + "_DESC" | translate}}</td>
-                        <td>{{::"REPORT_" + cat.title + "_SUGG" | translate}}</td>
+                        <td>{{::"REPORT_" + cat.title + "_SUGG" + useAdvanced | translate}}</td>
                     </tr>
                 </tbody>
             </table>

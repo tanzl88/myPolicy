@@ -5,11 +5,9 @@ app.service('fieldNameService', function() {
             if (type === "full_table") {
                 fieldName[type] = {};
                 angular.forEach(full_table_g,function(field,index){
-                    fieldName[type][field.title] = data[field.name];
+                    if (data[field.name] !== undefined) fieldName[type][field.title] = data[field.name];
                 });
             }
-            console.log(fieldName);
-
         },
         getFieldName : function(type) {
             if (fieldName[type] === undefined) {

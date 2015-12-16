@@ -160,14 +160,16 @@
 
                 <br>
 
-                <b>Username</b>
+                <b>{{"USERNAME" | translate}}</b>
                 <p style="margin-bottom: 3%;">{{loginName}}</p>
 
-                <b>Password</b>
+                <b>{{"PASSWORD" | translate}}</b>
                 <p>{{password}}</p>
 
-                <p class="login_button" ng-click="generateTokenModal.hide()">{{"GOT_IT" | translate}}</p>
-
+                <div class="row">
+                    <input class="col login_button" type="text" value="{{'COPY' | translate}}" ng-click="copy()" style="margin-right: 5%;" readonly />
+                    <input class="col login_button" type="submit" value="{{'GOT_IT' | translate}}" ng-click="generateTokenModal.hide()" />
+                </div>
             </form>
         </ion-content>
     </div>

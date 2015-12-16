@@ -165,7 +165,8 @@ var translations_en = {
     //REPORTS
     KEY_PROTECTION : "Key Protection",
     PROTECTIONS_OVERVIEW : "Protections Overview",
-    PROTECTION_NEEDS : "Key Protection Needs",
+    PROTECTION_NEEDS : "Protection Needs Calculator",
+    TREATMENT_COST : "Treatment Cost",
     PREMIUM_ANALYSIS : "Premium Analysis",
     POLICIES_ANALYSIS : "Policies Analysis",
     PREMIUM_TO_INCOME_RATIO : "Premium To Income Ratio",
@@ -181,6 +182,8 @@ var translations_en = {
     NUMBER_OF_POLICIES : "Number of policies",
 
     //NET WORTH ANALYSIS
+    MAIN_NEEDS : "Main needs",
+    OTHER_NEEDS : "Other needs",
     ASSETS : "Assets",
     CASH_ASSETS : "Cash assets",
     INVESTMENT_ASSETS : "Investment assets",
@@ -189,11 +192,12 @@ var translations_en = {
     HOUSING_LOANS : "Housing loans",
     OTHER_LIABILITIES : "Other liabilities",
     CASHFLOW : "Cashflow",
-    CASH_INFLOW : "Cash inflow",
+    CASH_INFLOW : "Monthly Income",
     OTHER_CASH_INFLOW : "Other cash inflow",
-    CASH_OUTFLOW : "Cash outflow",
+    CASH_OUTFLOW : "Monthly Expenses",
     OTHER_CASH_OUTFLOW : "Other cash outflow",
     SAVINGS : "Annual savings",
+    OTHER_EXPENSES : "Other expenses",
     EXPENSES : "Expenses",
     NET_CASH_OUTFLOW : "Net cash outflow",
     NET_EXPENDITURE : "Net expenditure",
@@ -201,8 +205,10 @@ var translations_en = {
     NET_CASHFLOW : "Net Cashflow",
     PENSION : "Retirement",
     DEBT_REPAYMENT : "Debt repayments",
+    ANNUAL_DEBT_REPAYMENT : "Annual debt repayments",
     DEBTS : "Debts",
     SAVINGS_ONLY : "Savings",
+    MONTHLY_SAVINGS : "Monthly savings",
     HOUSE_VALUE : "House value",
     CAR_VALUE : "Car value",
     MORTGAGE : "Mortgage",
@@ -231,6 +237,7 @@ var translations_en = {
     TOTAL_LIABILITIES: "Total Liabilities",
     NET_WORTH : "Net worth",
     NET_WORTH_OVERVIEW : "Net worth overview",
+    INSURANCE : "Insurance",
 
 
     //MESSAGE
@@ -276,6 +283,8 @@ var translations_en = {
     BIRTHDAY_NOT_AVAILABLE_MSG : "This report is not available because\nuser's birthday is not found.\nSet birthday to show this report.",
     INCOME_NOT_AVAILABLE_MSG : "This report is not available because\nuser's income is not found.\nSet income to show this report.",
     DUPLICATE_NAME_FOUND : "Duplicate names found. Please enter a different name",
+    COPY_CAPS : "COPY",
+    COPY_MSG : "Login info copied to clipboard.",
 
     HOME_EDIT_PROFILE : "Edit\nprofile",
     REMINDER : "Set Reminder",
@@ -387,7 +396,7 @@ var translations_en = {
     SMOKER : "Smoker",
     INCOME : "Annual income",
     EXPENDITURE : "Annual expenditure",
-    REPORTS_INPUT : "Reports parameters",
+    REPORTS_INPUT : "Protection and Financial Health Calculator ",
     SUGGESTED_AMT_CALCULATION : "Suggested amount calculation",
     NET_WORTH_ANALYSIS : "Net Worth Analysis",
     NET_WORTH_CASHFLOW_ANALYSIS : "Net Worth / Cashflow Analysis",
@@ -424,6 +433,7 @@ var translations_en = {
     EDIT_CAPS : "EDIT",
     DEPENDENCY_NEEDS : "Dependency needs",
     OTHERS : "Others",
+    EXPENDITURE_NOTES : "This amount should include living expenses, debt repayment and insurance premium.",
 
     HOME : "Home",
     POLICY : "Policies",
@@ -444,6 +454,7 @@ var translations_en = {
     //OVERVIEW COLUMN NAME
     POLICIES_NUMBER : "Number of\npolicies",
     TOTAL_PREMIUM : "Annual premium",
+    INSURANCE_PREMIUM : "Insurance premium",
     DEATH_SUM : "Death Sum Assured",
     TPD_SUM : "TPD Sum Assured",
     CRIT_ILL_SUM : "Critical Illness Sum Assured",
@@ -514,7 +525,7 @@ var translations_en = {
     DESC_FAMILY : "Lump sum payout for the surviving dependents' future expenses upon the demise of the insured.",
 
     //REPORT LEGEND
-    SUGGEST_AMT_NOTES : "Calculations based on provided income and expenditure. Tap on figures to change.",
+    SUGGEST_AMT_NOTES : "Calculations based on provided income, expenditure and parameters from needs calculator. Tap on figures to change.",
     KEY_PROTECTION_NEEDS_EXPLAINED : "Key Protection Needs Explained",
     WHY_IMPORTANT : "Why is it important?",
     GENERALLY_COVERS : "What it generally covers:",
@@ -539,14 +550,14 @@ var translations_en = {
 
     REPORT_CRIT : "Critical Illness",
     REPORT_CRIT_SUGG : "Suggested coverage is 5 times of annual income or 10 times the annual expenses whichever higher.",
-    REPORT_CRIT_SUGG_ADV : "CRITICAL ADVANCED SUGGESTED",
+    REPORT_CRIT_SUGG_ADV : "Suggested coverage is annual personal income need x 5 years needed, adjusted for inflation adjusted rate of return (short term) + treatment cost",
     REPORT_CRIT_IMPT : "- Major sum is needed for specialists' fees, expensive drugs, intensive treatments and also to cover loss of income capacity needed to support self and dependents",
     REPORT_CRIT_DESC :
         "- Critical stage of an illness such as cancer, stroke and heart disease",
 
     REPORT_DISABLED : "Disability (Total and Permanent Disability - TPD)",
     REPORT_DISABLED_SUGG : "Suggested coverage is 10 times of annual income or 20 times the annual expenses whichever higher.",
-    REPORT_DISABLED_SUGG_ADV : "DISABLED ADVANCED SUGGESTED",
+    REPORT_DISABLED_SUGG_ADV : "Suggested coverage is annual income needs of dependend(s) x dependency years, adjusted for rate of return after inflation (based on needs calculator) + annual personal income need x years needed + immediate cash need",
     REPORT_DISABLED_IMPT : "- Permanently disabled and no longer able to work. Suffers from loss of future earning capacity. Income is needed for future living expenses as handicapped and/or support the dependents.",
     REPORT_DISABLED_DESC :
         "- Loss of use of limbs, hearing or sight" + "\n" +
@@ -567,7 +578,7 @@ var translations_en = {
 
     REPORT_FAMILY : "Family Protection (Death)",
     REPORT_FAMILY_SUGG : "Suggested coverage is 10 times of annual income or 20 times the annual expenses whichever higher.",
-    REPORT_FAMILY_SUGG_ADV : "FAMILY ADVANCED SUGGESTED",
+    REPORT_FAMILY_SUGG_ADV : "Suggested coverage is annual income needs of dependent(s) x dependency years, adjusted for rate of return after inflation (based on needs calculator) + immediate cash need",
     REPORT_FAMILY_IMPT : "- Dependents such as young children, non working spouse or elderly may face financial difficulty upon the demise of the key working member of the family",
     REPORT_FAMILY_DESC :
         "- Lump sum payout on death of the insured",
@@ -602,6 +613,7 @@ var translations_en = {
     POLICY_NUMBER : "Policy number",
     AGENCY : "Agency",
     COMPANY : "Company",
+    COMPANY_PROFILE : "Company",
     PLAN_TYPE : "Plan type",
     PLAN_NAME : "Plan name",
     START_DATE : "Start date",
@@ -611,7 +623,7 @@ var translations_en = {
     PAYMENT_MODE : "Payment method",
     PREMIUM_TERM : "Premium term",
     COVERAGE_TERM : "Coverage term",
-    PAYOUT_TERM : "Payout term",
+    PAYOUT_TERM : "Payout age",
     SUM_ASSURED_HEADER : "Sum assured (SA)",
     SUM_ASSURED : "Sum assured",
     DEATH_SA : "Death SA",

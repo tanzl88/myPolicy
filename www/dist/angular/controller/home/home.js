@@ -1,4 +1,4 @@
-app.controller('HomeCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$state', '$translate', '$toast', 'loadingService', 'modalService', '$ionicViewSwitcher', 'loadDataDbService', 'personalDataDbService', 'advisorDataDbService', 'policyDataService', 'clientListDbService', 'pushNotificationService', 'addClientService', 'credentialManager', 'doughnutChartService', 'notificationDbService', function($scope,$rootScope,$http,$timeout,$state,$translate,$toast,loadingService,modalService,$ionicViewSwitcher,
+app.controller('HomeCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$state', '$translate', '$toast', 'nzTour', 'loadingService', 'modalService', '$ionicViewSwitcher', 'loadDataDbService', 'personalDataDbService', 'advisorDataDbService', 'policyDataService', 'clientListDbService', 'pushNotificationService', 'addClientService', 'credentialManager', 'doughnutChartService', 'notificationDbService', function($scope,$rootScope,$http,$timeout,$state,$translate,$toast,nzTour,loadingService,modalService,$ionicViewSwitcher,
                                     loadDataDbService,personalDataDbService,advisorDataDbService,policyDataService,clientListDbService,pushNotificationService,addClientService,
                                     credentialManager,doughnutChartService,notificationDbService) {
 
@@ -6,6 +6,16 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$state
     $scope.goTo = function(state) {
         $state.go("tabs.home." + state);
     };
+    $scope.editAdvisorProfile = function() {
+        console.log($scope.tour);
+        if ($scope.tour !== undefined) {
+            nzTour.stop($scope.tour).then(function(success){
+                if (success) delete $scope.tour;
+            });
+        }
+        $state.go("tabs.home.editAdvisorProfile");
+    };
+
 
     // -------------------- CLIENT LIST --------------------
     $scope.refreshClientName = function() {
@@ -56,6 +66,7 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$state
         $scope.detriggerClientSearch();
         $scope.currency = $translate.instant("CURRENCY").trim();
         $scope.credential = credentialManager.getCredential();
+        $scope.notWebView = !ionic.Platform.isWebView();
         if ($scope.credential === "advisor") {
             $scope.advisorProfileFound = advisorDataDbService.profileFound();
             $scope.advisorData = advisorDataDbService.getData();
@@ -64,10 +75,16 @@ app.controller('HomeCtrl', ['$scope', '$rootScope', '$http', '$timeout', '$state
             //SHOW TUTORIAL IF PROFILE NOT FOUND
             if ($scope.advisorProfileFound === false) {
                 $timeout(function(){
-                    var blockerHeight = $("#home_view ion-content").height() * 0.4 + $("#advisorProfileClick").outerHeight(true);
-                    $("#tutorial_blocker_bottom").css("top",blockerHeight + 'px');
-                    $(".tutorial_blocker").fadeIn(700);
-                },100);
+                    $scope.tour = {
+                        config: {}, // see config
+                        steps: [{
+                            target: '#advisorProfileClick',
+                            content: $translate.instant("WELCOME_TUTORIAL"),
+                        }]
+                    };
+
+                    nzTour.start($scope.tour);
+                },333);
             } else {
                 $timeout(function(){
                     $scope.dashboardAnimate();

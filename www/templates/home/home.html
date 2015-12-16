@@ -52,19 +52,6 @@
         </section>
 
 
-        <!--TUTORIAL-->
-        <section ng-if="advisorProfileFound === false">
-            <div class="tutorial_blocker" style="height: 40%; top: 0;">
-                <div style="position: absolute; left: 7%; bottom: 10%; width: 60%; margin: auto; padding: 5%; background-color: white; border-radius: 5px;">
-                    <p>{{"WELCOME_TUTORIAL" | translate}}</p>
-                </div>
-            </div>
-            <div id="tutorial_blocker_bottom" class="tutorial_blocker" style="height: 100%; top: 45%;">
-
-            </div>
-        </section>
-
-
         <!--USER DASHBOARD-->
         <section id="dashboard_section" ng-controller="ClientDashboardCtrl" style="height: 60%;" ng-show="credential === 'client'">
             <!--<div  >-->
@@ -99,7 +86,7 @@
         <section id="menu_list" ng-class="{'client' : credential === 'client'}">
             <!--ADVISOR ONLY-->
             <div ng-show="credential === 'advisor'">
-                <div id="advisorProfileClick" class="menu_list_item" ng-click="goTo('editAdvisorProfile')">
+                <div id="advisorProfileClick" class="menu_list_item" ng-click="editAdvisorProfile()">
                     <i class="policy-briefcase inline-block align-middle"></i>
                     <p class="inline-block align-middle">{{"MY_PROFILE" | translate}}</p>
                 </div>
@@ -135,7 +122,7 @@
                     <i class="policy-question inline-block align-middle"></i>
                     <p class="inline-block align-middle">{{"ASK_QUESTION" | translate}}</p>
                 </div>
-                <div class="menu_list_item" ng-click="goTo('generateReport')">
+                <div class="menu_list_item" ng-click="goTo('generateReport')" ng-if="notWebView">
                     <i class="policy-chart inline-block align-middle"></i>
                     <p class="inline-block align-middle">{{"GENERATE_REPORT" | translate}}</p>
                 </div>

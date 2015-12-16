@@ -1,11 +1,12 @@
-app.controller('clientsAccountCtrl', ['$scope', '$http', '$ionicHistory', '$translate', '$toast', '$timeout', 'loadingService', 'modalService', 'utilityService', 'addClientService', 'loadDataDbService', 'credentialManager', 'clientListDbService', 'errorHandler', function($scope,$http,$ionicHistory,$translate,$toast,$timeout,loadingService,modalService,utilityService,addClientService,
-                                             loadDataDbService,credentialManager,clientListDbService,errorHandler) {
+app.controller('clientsAccountCtrl', ['$scope', '$http', '$ionicHistory', '$translate', '$toast', '$timeout', 'loadingService', 'modalService', 'utilityService', 'addClientService', 'loadDataDbService', 'credentialManager', 'clientListDbService', 'errorHandler', '$cordovaClipboard', function($scope,$http,$ionicHistory,$translate,$toast,$timeout,loadingService,modalService,utilityService,addClientService,
+                                             loadDataDbService,credentialManager,clientListDbService,errorHandler,$cordovaClipboard) {
 
     function hideEverything() {
         loadingService.hide();
 
         $scope.removeModal.hide();
         $scope.addClientModal.hide();
+        $scope.editClientModal.hide();
     };
     function getProfileClientList() {
         $("#home_view").scope().getClientList();
@@ -18,6 +19,18 @@ app.controller('clientsAccountCtrl', ['$scope', '$http', '$ionicHistory', '$tran
             return client.name.toUpperCase();
         });
     };
+    function refreshAllClientList(callback) {
+        clientListDbService.refresh().then(function(result){
+            if (result === "OK") {
+                //REFRESH CLIENT LIST
+                getClientList();
+                getProfileClientList();
+
+                hideEverything();
+                if (callback !== undefined) callback();
+            }
+        });
+    }
     $scope.selectAccount = function(index) {
         var selectedAccount = $scope.clients[index];
         clientListDbService.selectClient(selectedAccount).then(function(data){
@@ -72,7 +85,6 @@ app.controller('clientsAccountCtrl', ['$scope', '$http', '$ionicHistory', '$tran
     $scope.edit = function(index) {
         var selectedAccount = $scope.clients[index];
         $scope.editAccountName = selectedAccount.name;
-        console.log($scope.editAccountName);
         $scope.editId = selectedAccount.id;
         $scope.editClientModal.show();
     };
@@ -88,17 +100,13 @@ app.controller('clientsAccountCtrl', ['$scope', '$http', '$ionicHistory', '$tran
             $http.post(ctrl_url + "rename_temp_account",input)
                 .success(function(status){
                     if (status === "OK") {
-                        $toast.show("NAME_UPDATED");
-                        //REFRESH CLIENT LIST
-                        getClientList();
-                        getProfileClientList();
+                        refreshAllClientList(function(){
+                            $toast.show("NAME_UPDATED");
+                        });
                     } else if (status === "not_found") {
-                        //REFRESH CLIENT LIST
-                        getClientList();
-                        getProfileClientList();
-
-                        hideEverything();
-                        $toast.show("TEMP_ACCOUNT_NO_MATCH_ERROR");
+                        refreshAllClientList(function(){
+                            $toast.show("TEMP_ACCOUNT_NO_MATCH_ERROR");
+                        });
                     } else {
                         errorHandler.handleOthers(status);
                     }
@@ -117,35 +125,21 @@ app.controller('clientsAccountCtrl', ['$scope', '$http', '$ionicHistory', '$tran
         loadingService.show("REMOVING_ACCOUNT");
         clientListDbService.removeClient($scope.removeId).then(function(result){
             if (result === "OK") {
-                //REFRESH GLOBAL CLIENT LIST AND THEN CLIENT LIST
-                clientListDbService.refresh().then(function(result){
-                    if (result === "OK") {
-                        getClientList();
-                        getProfileClientList();
-                        //UNSET CLIENT DATA IF LOGIN ACCOUNT IS REMOVED
-                        loadDataDbService.setClientData([],[],[],[],[],[]);
-                        credentialManager.removeClientSelectedObj();
-                        hideEverything();
-                    }
+                refreshAllClientList(function(){
+                    //UNSET CLIENT DATA IF LOGIN ACCOUNT IS REMOVED
+                    loadDataDbService.setClientData([],[],[],[],[],[]);
+                    credentialManager.removeClientSelectedObj();
                 });
             } else if (result === "not_found") {
                 //REFRESH GLOBAL CLIENT LIST AND THEN CLIENT LIST
-                clientListDbService.refresh().then(function(result){
-                    if (result === "OK") {
-                        //REFRESH CLIENT LIST
-                        getClientList();
-                        getProfileClientList();
-
-                        hideEverything();
-                        $toast.show("TEMP_ACCOUNT_NO_MATCH_ERROR");
-                    }
+                refreshAllClientList(function(){
+                    $toast.show("TEMP_ACCOUNT_NO_MATCH_ERROR");
                 });
             }
         });
     };
     // ------------- GENERATE LOGIN -------------
     $scope.generateLogin = function(event,index) {
-        console.log(event);
         event.stopPropagation();
 
         var selectedAccount = $scope.clients[index];
@@ -159,19 +153,26 @@ app.controller('clientsAccountCtrl', ['$scope', '$http', '$ionicHistory', '$tran
                     $scope.password = statusData.data.password;
                     $scope.generateTokenModal.show();
                 } else if (statusData.status === "error") {
-                    clientListDbService.refresh().then(function(result){
-                        if (result === "OK") {
-                            //REFRESH CLIENT LIST
-                            getClientList();
-                            getProfileClientList();
-
-                            hideEverything();
-                            $toast.show("TEMP_ACCOUNT_NO_MATCH_ERROR");
-                        }
+                    refreshAllClientList(function(){
+                        $toast.show("TEMP_ACCOUNT_NO_MATCH_ERROR");
                     });
                 } else {
                     errorHandler.handleOthers(statusData.status);
                 }
+            });
+    };
+    $scope.copy = function() {
+        var loginInfo = "";
+        loginInfo += $translate.instant("USERNAME") + " : " + $scope.loginName + "\n";
+        loginInfo += $translate.instant("PASSWORD") + " : " + $scope.password;
+        console.log(loginInfo);
+
+        $cordovaClipboard
+            .copy(loginInfo)
+            .then(function () {
+                $toast.show("COPY_MSG")
+            }, function () {
+                // error
             });
     };
 
