@@ -209,7 +209,9 @@
                             <th style="width: 22%;">{{"STATUS" | translate}}</th>
                         </tr>
                         <tr ng-repeat="ratio in personal.ratios">
-                            <td class="new-line protections_table_category">{{ratio.title | translate}}</td>
+                            <td class="protections_table_category" style="" ng-click="showTooltip(ratio.title)">
+                                {{ratio.title | translate}}<i class="ion-information-circled doughnut-tooltip" style="margin-left: 3%;"></i>
+                            </td>
                             <td>
                                 <p class="amt inline-block align-middle">{{ratio.amt}}</p>
                             </td>

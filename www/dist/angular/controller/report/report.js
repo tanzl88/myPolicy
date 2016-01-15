@@ -123,8 +123,7 @@ app.controller('ReportCtrl', ['$scope', '$translate', '$timeout', '$interval', '
 
         $scope.category          = $translate.instant("REPORT_" + title);
         var suggestedString      = $translate.instant("REPORT_" + title + "_SUGG" + useAdvanced);
-        console.log(suggestedString);
-        console.log(suggestedString.split("Suggested coverage is "));
+
         $scope.suggestedCoverage = capitalizeFirstLetter((suggestedString.split("Suggested coverage is "))[1]);
         $scope.suggestTooltip.show();
     };

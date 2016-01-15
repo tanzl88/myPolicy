@@ -104,13 +104,13 @@ app.controller('AppStatusCtrl', function($scope,$rootScope,$http,$cordovaInAppBr
     //VERSION STATUS
     if (ionic.Platform.isIOS()) {
         var platform = "iOS";
-        var version = 6;
+        var version = 7;
     } else if (ionic.Platform.isAndroid()) {
         var platform = "Android";
-        var version = 6;
+        var version = 7;
     } else {
         var platform = "Other";
-        var version = 6;
+        var version = 7;
     }
     $http.post(ctrl_url + "check_version", {platform : platform})
         .success(function(minVersion){

@@ -200,10 +200,10 @@ app.service('policyDataService', ['$rootScope', '$q', '$http', '$translate', 'po
 
 
             //var realRateOfReturn = (rateOfReturn - inflationRate) / (1 + inflationRate);
-            var dependencyYears = personalData.dependencyYears;
-            var personalYears   = personalData.personalYears;
-            var annualDependentIncomeNeeds = personalData.dependencyIncome;
-            var annualPersonalIncomeNeeds = personalData.personalIncome;
+            var dependencyYears             = personalData.dependencyYears;
+            var personalYears               = personalData.personalYears;
+            var annualDependentIncomeNeeds  = personalData.dependencyIncome;
+            var annualPersonalIncomeNeeds   = personalData.personalIncome;
             var amt, advanced;
 
             angular.forEach(doughnut_title_g, function(cat,index){
@@ -221,10 +221,10 @@ app.service('policyDataService', ['$rootScope', '$q', '$http', '$translate', 'po
                     } else if (cat.name === "CRIT") {
                         var numberOfYears = 5;
                         if (differentiateRate == "1") {
-                            amt = calcTotalPresentValue(annual_exps,shortTermAdjRateOfReturn,numberOfYears) + treatmentCost;
+                            amt = calcTotalPresentValue(annualPersonalIncomeNeeds,shortTermAdjRateOfReturn,numberOfYears) + treatmentCost;
                             advanced = true;
                         } else {
-                            amt = calcTotalPresentValue(annual_exps,longTermAdjRateOfReturn,numberOfYears) + treatmentCost;
+                            amt = calcTotalPresentValue(annualPersonalIncomeNeeds,longTermAdjRateOfReturn,numberOfYears) + treatmentCost;
                             advanced = true;
                         }
                     } else if (cat.name === "DISABLED") {

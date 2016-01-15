@@ -272,6 +272,18 @@
         </ion-content>
     </div>
 </script>
+<script id="descTooltip.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(0,0,0,0.5)">
+        <ion-content class="temp_account_view">
+            <div class="transform-align-middle" style="background-color: white; padding: 6%; border-radius: 5px; font-size: 0.9em;">
+                <div class="align-center" style="font-weight: bold; font-size: 1.2em;">{{category}}</div>
+                <br>
+                <p class="new-line">{{categoryDesc}}</p>
+                <p class="login_button" ng-click="descTooltip.hide()">{{"GOT_IT" | translate}}</p>
+            </div>
+        </ion-content>
+    </div>
+</script>
 
 <!--TOAST-->
 <script id="toast.html" type="text/ng-template">

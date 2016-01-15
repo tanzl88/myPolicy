@@ -227,7 +227,7 @@ var translations_en = {
     DEBT_TO_ASSET_RATIO : "Debt to asset ratio",
     DEBT_SERVICE_RATIO : "Debt service ratio",
     LIQUIDITY_ASSET_TO_NET_WORTH_RATIO : "Liquidity asset to net worth ratio",
-    NET_INVESTMENT_ASSETS_TO_NET_WORTH_RATIO : "Net investment assets to net worth ratio",
+    NET_INVESTMENT_ASSETS_TO_NET_WORTH_RATIO : "Investment assets to net worth ratio",
     SAVINGS_RATIO : "Savings ratio",
     FINANCIAL_RATIO_PASS : "Healthy",
     FINANCIAL_RATIO_EXCESS : "Excess",
@@ -582,6 +582,15 @@ var translations_en = {
     REPORT_FAMILY_IMPT : "- Dependents such as young children, non working spouse or elderly may face financial difficulty upon the demise of the key working member of the family",
     REPORT_FAMILY_DESC :
         "- Lump sum payout on death of the insured",
+
+
+    REPORT_LIQUIDITY_RATIO_DESC : "Liquidity ratio represents an individual's ability to meet committed expenses when faced with an emergency like out of job.\n\nIt is used in terms of analysing existing emergency funds. It is a prescribed practice to maintain 3-6 months of expenses as your emergency fund, which means that the ideal levels of liquidity ratio range between 3 and 6.",
+    REPORT_SOLVENCY_RATIO_DESC : "Solvency ratio compares an individual's net worth against total assets accumulated.\n\nNet worth of an individual is the difference between total assets and total liabilities. Net worth is positive if the accumulated assets are worth more than the liabilities. This ratio indicates the ability of an individual to repay all his existing debts using existing assets in case of unforeseen events. > 50% is considered ideal.",
+    REPORT_DEBT_TO_ASSET_RATIO_DESC : "This ratio compares the existing liabilities over the total assets accumulated.\n\nTotal liabilities include all forms of liabilities such as home loan, car loan, outstanding credit card balance. Total assets include both liquid and illiquid assets.\n\nThis ratio indicates the % of debts committed over assets. < 50% is ideal as you will not be over-geared.",
+    REPORT_DEBT_SERVICE_RATIO_DESC : "This ratio defines how comfortable one is making monthly debt payments.\n\nThis ratio indicates the percentage of income being accounted for debt repayment. The lower the ratio, better the debt management state of an individual. < 35% is most ideal.",
+    REPORT_LIQUIDITY_ASSET_TO_NET_WORTH_RATIO_DESC : "This ratio compares liquid assets being held by an individual against the total assets accumulated. >20% is considered excessive as the liquid assets could be put into better use to generate higher returns.",
+    REPORT_NET_INVESTMENT_ASSETS_TO_NET_WORTH_RATIO_DESC : "Investible assets are all investible assets, both liquid such as stocks, mutual funds or other investments, and illiquid assets such as real estate or other such investments which require more time to convert to cash.\n\nIdeally, >50% of your assets should be in investment assets.",
+    REPORT_SAVINGS_RATIO_DESC : "This ratio compares the monthly net inflow over total cash inflows.\n\nIt will give you valuable insight on how well your finances are being managed. It also represents one's ability to achieve his/her future goals.\n\nA higher saving ratio translates to better money management skills.",
 
 
     INCOME : "Annual Income",

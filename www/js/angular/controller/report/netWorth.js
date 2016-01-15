@@ -1,5 +1,5 @@
 app.controller('NetWorthCtrl', function($scope,$translate,$timeout,$interval,$toast,$state,$ionicScrollDelegate,credentialManager,
-                                        policyDataService,policyDataDbService,personalDataDbService,barChartService,lineChartService) {
+                                        policyDataService,policyDataDbService,personalDataDbService,barChartService,lineChartService,modalService) {
 
     $scope.initVar = function() {
         //SCROLL TO TOP
@@ -30,7 +30,16 @@ app.controller('NetWorthCtrl', function($scope,$translate,$timeout,$interval,$to
 
         }
 
-
+        $scope.showTooltip = function(title) {
+            $scope.category          = $translate.instant(title);
+            //var suggestedString      = $translate.instant("REPORT_" + title + "_DESC");
+            $scope.categoryDesc      = $translate.instant("REPORT_" + title + "_DESC");
+            //$scope.suggestedCoverage = capitalizeFirstLetter((suggestedString.split("Suggested coverage is "))[1]);
+            $scope.descTooltip.show();
+        };
+        modalService.init("descTooltip","descTooltip",$scope).then(function(modal){
+            $scope.descTooltip = modal;
+        });
 
     };
 });
