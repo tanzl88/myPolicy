@@ -39,7 +39,7 @@ app.controller('TabsCtrl', ['$scope', '$state', '$timeout', '$ionicScrollDelegat
     };
 }]);
 
-app.controller('ReportTabsCtrl', ['$scope', '$state', '$timeout', '$ionicScrollDelegate', function($scope,$state,$timeout,$ionicScrollDelegate) {
+app.controller('ReportTabsCtrl', ['$scope', '$state', '$timeout', '$ionicScrollDelegate', 'credentialManager', function($scope,$state,$timeout,$ionicScrollDelegate,credentialManager) {
     $scope.goTo = function(state) {
         $state.go("tabs.reports." + state);
     };
@@ -64,10 +64,21 @@ app.controller('ReportTabsCtrl', ['$scope', '$state', '$timeout', '$ionicScrollD
                     $ionicScrollDelegate.$getByHandle(scrollObj[currentState]).scrollTop(true);
                 },100);
             } else {
-                $state.go("tabs.reports." + currentState);
-                $timeout(function(){
-                    $ionicScrollDelegate.$getByHandle(scrollObj[currentState]).scrollTop();
-                },100);
+                if (currentState === 'netWorth') {
+                    if (credentialManager.getSubscription().type === 0) {
+                        credentialManager.showUpgradeAccountModal();
+                    } else {
+                        $state.go("tabs.reports." + currentState);
+                        $timeout(function(){
+                            $ionicScrollDelegate.$getByHandle(scrollObj[currentState]).scrollTop();
+                        },100);
+                    }
+                } else {
+                    $state.go("tabs.reports." + currentState);
+                    $timeout(function(){
+                        $ionicScrollDelegate.$getByHandle(scrollObj[currentState]).scrollTop();
+                    },100);
+                }
             }
         },100);
     };

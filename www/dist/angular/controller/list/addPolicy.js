@@ -103,6 +103,8 @@ app.controller('AddPolicyCtrl', ['$rootScope', '$scope', '$timeout', '$state', '
                 payoutTerm              : undefined,
                 payoutTermMode          : undefined,
                 payoutTermDisplayed     : undefined,
+                multiplierFactor        : undefined,
+                multiplierAge           : undefined,
                 deathSA                 : undefined,
                 tpdSA                   : undefined,
                 disabledSA              : undefined,
@@ -127,6 +129,8 @@ app.controller('AddPolicyCtrl', ['$rootScope', '$scope', '$timeout', '$state', '
         //RESTORE PRISTINE
         //utilityService.resetForm
         $("#policyForm").scope().policyForm.$setPristine();
+
+        console.log($scope.policyObj);
     };
 
     // -------------------- VALIDATION --------------------

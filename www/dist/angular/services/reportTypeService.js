@@ -5,10 +5,11 @@ app.service('reportTypeService', ['$q', '$http', '$translate', 'errorHandler', f
         "keyProtections",
         "protectionsTrend",
         "policiesAnalysis",
-        //"financialRatios",
         "fullTable",
         "needs",
         "netWorth",
+        "financialRatios",
+        "financialScore",
         "disclaimer"
     ];
 
@@ -38,6 +39,26 @@ app.service('reportTypeService', ['$q', '$http', '$translate', 'errorHandler', f
             pages   : [
                 "cover",
                 "netWorth",
+                "disclaimer"
+            ]
+        },
+        {
+            name    : "Financial Ratios",
+            type    : "default",
+            pages   : [
+                "cover",
+                "financialRatios",
+                "disclaimer"
+            ]
+        },
+        {
+            name    : "Financial Score and Protection Score",
+            type    : "default",
+            pages   : [
+                "cover",
+                "financialScore",
+                "keyProtections",
+                "financialRatios",
                 "disclaimer"
             ]
         }

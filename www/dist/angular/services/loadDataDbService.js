@@ -6,7 +6,7 @@ app.service('loadDataDbService', ['$q', '$http', '$toast', '$translate', 'creden
         //IONIC USER INIT
         userService.init();
         //PUSH NOTIFICATION SERVICE INIT
-        pushNotificationService.init();
+        //pushNotificationService.init();
     }
 
     return {
@@ -29,6 +29,7 @@ app.service('loadDataDbService', ['$q', '$http', '$toast', '$translate', 'creden
                 if (ionic.Platform.isWebView()) window.analytics.setUserId(sdbmHash(data.data.advisor.advisorId));
 
                 credentialManager.setCredential("advisor");
+                credentialManager.setSubscription(data.subscription);
                 this.setAdvisorData(data.data.advisor,data.data.clients,data.data.temp,data.data.reminders,data.data.full_table,data.data.reportType);
                 initIonicService();
                 if (callback !== undefined) callback();

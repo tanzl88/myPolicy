@@ -19,6 +19,12 @@ app.service('policyDataDbService', ['$rootScope', '$q', '$http', '$translate', '
         "currentValue",
         "surrenderValue"
     ];
+    var multiplierAllowed = [
+        "deathSA",
+        "tpdSA",
+        "critSA",
+        "earlySA"
+    ];
 
 
     function parseDate(dateString) {
@@ -141,6 +147,8 @@ app.service('policyDataDbService', ['$rootScope', '$q', '$http', '$translate', '
                     payoutTerm              : parseDbInt(policy.payoutTerm),
                     payoutTermMode          : parseDbBoolean(policy.payoutTermMode),
                     payoutTermDisplayed     : getTermDisplayed(policy.payoutTermMode,parseDbInt(policy.payoutTerm)),
+                    multiplierFactor        : parseDbFloat(policy.multiplierFactor),
+                    multiplierAge           : parseDbInt(policy.multiplierAge),
                     deathSA                 : parseDbInt(policy.deathSA),
                     disabledSA              : parseDbInt(policy.disabledSA),
                     critSA                  : parseDbInt(policy.critSA),
@@ -204,18 +212,35 @@ app.service('policyDataDbService', ['$rootScope', '$q', '$http', '$translate', '
                         if (validity_test(coverage)) sum += parseInt(coverage);
                     });
                 } else {
+
+
+
                     angular.forEach(policies_g, function(policy,index){
                         var coverage = policy[colName];
                         if (validity_test(coverage)) {
+
+                            //LOGIC FOR MULTIPLIER FACTOR
+                            var multiplierFactor = 1;
+                            if (policy.planType === 0 && validity_test(policy.multiplierFactor) && validity_test(policy.multiplierAge)) {
+                                //CHECK IF IT IS DEATH, TPD, CI, EARLY
+                                if (multiplierAllowed.indexOf(colName) >= 0) {
+                                    var multiplierEndDate = birthday.clone().add(policy.multiplierAge,"y");
+                                    //IF MULTIPLIER AGE IS AFTER REFERENCE DATE
+                                    if (multiplierEndDate.isAfter(referenceMomentDate)) {
+                                        multiplierFactor = policy.multiplierFactor;
+                                    }
+                                }
+                            }
+
                             //PREMIUM TERM MODE TRUE -> BY YEARS, FALSE -> BY AGE
+                            var isWithinCoverage = true;
                             if (policy.startDate !== undefined && policy.coverageTermMode !== undefined && policy.coverageTerm !== undefined) {
                                 //IF NO BIRTHDAY IS AVAILABLE AND COVERAGE TERM CALCULATE BY AGE -> UNABLE TO CALCULATE EXPIRY DATE
                                 //DEFAULT TO ADD TO SUM
-                                if (!policy.coverageTermMode && birthday === undefined) {
-                                    sum += parseInt(coverage);
-                                } else {
-                                    var startDate = moment(policy.startDate,"LL");
+                                if (policy.coverageTermMode || birthday !== undefined) {
+                                    //CALCULATE COVERAGE END DATE BY DIFFERENT INPUT MODE
                                     //PREMIUM TERM MODE TRUE -> BY YEARS, FALSE -> BY AGE
+                                    var startDate = moment(policy.startDate,"LL");
                                     if (policy.coverageTermMode) {
                                         var coverageYear = policy.coverageTerm;
                                     } else {
@@ -224,14 +249,51 @@ app.service('policyDataDbService', ['$rootScope', '$q', '$http', '$translate', '
                                     }
                                     var coverageExpiryDate = startDate.clone().add(coverageYear,"y");
 
+                                    //IF REFERENCE DATE IS WITHIN POLICY COVERAGE PERIOD
                                     if (startDate.isBefore(referenceMomentDate) && coverageExpiryDate.isAfter(referenceMomentDate)) {
                                         //NOT EXPIRED
-                                        sum += parseInt(coverage);
+                                        isWithinCoverage = true;
+                                    } else {
+                                        isWithinCoverage = false;
                                     }
                                 }
-                            } else {
-                                sum += parseInt(coverage);
                             }
+
+                            if(isWithinCoverage) {
+                               sum += parseInt(coverage) * multiplierFactor;
+                            }
+
+
+                            //PREMIUM TERM MODE TRUE -> BY YEARS, FALSE -> BY AGE
+                            //if (policy.startDate !== undefined && policy.coverageTermMode !== undefined && policy.coverageTerm !== undefined) {
+                            //    //IF NO BIRTHDAY IS AVAILABLE AND COVERAGE TERM CALCULATE BY AGE -> UNABLE TO CALCULATE EXPIRY DATE
+                            //    //DEFAULT TO ADD TO SUM
+                            //    if (!policy.coverageTermMode && birthday === undefined) {
+                            //        sum += parseInt(coverage);
+                            //    } else {
+                            //        var startDate = moment(policy.startDate,"LL");
+                            //
+                            //
+                            //        //PREMIUM TERM MODE TRUE -> BY YEARS, FALSE -> BY AGE
+                            //        if (policy.coverageTermMode) {
+                            //            var coverageYear = policy.coverageTerm;
+                            //        } else {
+                            //            var startDateAtBirth = startDate.clone().year(birthday.year());
+                            //            var coverageYear = policy.coverageTerm - startDate.diff(startDateAtBirth,"y");
+                            //        }
+                            //        var coverageExpiryDate = startDate.clone().add(coverageYear,"y");
+                            //
+                            //
+                            //
+                            //        //IF REFERENCE DATE IS WITHIN POLICY COVERAGE PERIOD
+                            //        if (startDate.isBefore(referenceMomentDate) && coverageExpiryDate.isAfter(referenceMomentDate)) {
+                            //            //NOT EXPIRED
+                            //            sum += (parseInt(coverage) * multiplierFactor);
+                            //        }
+                            //    }
+                            //} else {
+                            //    sum += parseInt(coverage);
+                            //}
                         }
                     });
                 }
@@ -428,6 +490,7 @@ app.service('policyDataDbService', ['$rootScope', '$q', '$http', '$translate', '
                     premium : this.getTotalPremium(undefined,incrementBirthday)
                 });
 
+                //SPECIAL DATA POINT FOR CURRENT AGE
                 if (age >= i && age < i + 5) {
                     var nowObj = {
                         year    : thisYearBirthday.year(),

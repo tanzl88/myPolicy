@@ -229,6 +229,19 @@
         </ion-content>
     </div>
 </script>
+<script id="dashboardRatioDoughnutTooltip.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(0,0,0,0.5)">
+        <ion-content class="temp_account_view">
+            <div class="transform-align-middle" style="background-color: white; padding: 6%; border-radius: 5px; font-size: 0.9em;">
+                <div class="align-center" style="font-weight: bold; font-size: 1.2em;">{{"YOUR_FINANCIAL_SCORE" | translate}}</div>
+                <br>
+                <p>{{dashboardRatioDoughnutTooltip}}</p>
+                <p class="login_button inline-block align-middle" ng-click="ratioDoughnutTooltip.hide()" style="width: 40%;">{{"GOT_IT" | translate}}</p>
+                <p class="login_button inline-block align-middle" ng-click="goToRatio()" style="width: 58%;">{{"FIND_OUT_MORE" | translate}}</p>
+            </div>
+        </ion-content>
+    </div>
+</script>
 <script id="coverageStatusTooltip.html" type="text/ng-template">
     <div class="modal" style="background-color: rgba(0,0,0,0.5)">
         <ion-content class="temp_account_view">
@@ -239,6 +252,20 @@
                 <div ng-repeat="need in coverageStatusNeeds" style="padding-left: 3%; padding-top: 1%;">- {{need | translate}}</div>
                 <p class="login_button inline-block align-middle" ng-click="coverageStatusTooltip.hide()" style="width: 40%;">{{"GOT_IT" | translate}}</p>
                 <p class="login_button inline-block align-middle" ng-click="goToReport(highlightType)" style="width: 58%;">{{"FIND_OUT_MORE" | translate}}</p>
+            </div>
+        </ion-content>
+    </div>
+</script>
+<script id="ratioTooltip.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(0,0,0,0.5)">
+        <ion-content class="temp_account_view">
+            <div class="transform-align-middle" style="background-color: white; padding: 6%; border-radius: 5px; font-size: 0.9em;">
+                <div class="align-center" style="font-weight: bold; font-size: 1.2em;">{{"YOUR_FINANCIAL_STATUS" | translate}}</div>
+                <br>
+                <p style="padding-bottom: 2%;">{{coverageStatus}}</p>
+                <div ng-repeat="need in coverageStatusNeeds" style="padding-left: 3%; padding-top: 1%;">- {{need | translate}}</div>
+                <p class="login_button inline-block align-middle" ng-click="ratioTooltip.hide()" style="width: 40%;">{{"GOT_IT" | translate}}</p>
+                <p class="login_button inline-block align-middle" ng-click="goToRatio(highlightType)" style="width: 58%;">{{"FIND_OUT_MORE" | translate}}</p>
             </div>
         </ion-content>
     </div>
@@ -280,6 +307,17 @@
                 <br>
                 <p class="new-line">{{categoryDesc}}</p>
                 <p class="login_button" ng-click="descTooltip.hide()">{{"GOT_IT" | translate}}</p>
+            </div>
+        </ion-content>
+    </div>
+</script>
+<script id="upgrade_account.html" type="text/ng-template">
+    <div class="modal" style="background-color: rgba(0,0,0,0.5)">
+        <ion-content class="temp_account_view">
+            <div class="transform-align-middle" style="background-color: white; padding: 6%; border-radius: 5px; font-size: 0.9em;">
+                <div class="" style="">{{"UPGRADE_ACCOUNT_MSG" | translate}}</div>
+                <p class="login_button inline-block align-middle" ng-click="hide()" style="width: 40%;">{{"GOT_IT" | translate}}</p>
+                <p class="login_button inline-block align-middle" ng-click="goToUpgradeAccount()" style="width: 58%;">{{"FIND_OUT_MORE" | translate}}</p>
             </div>
         </ion-content>
     </div>

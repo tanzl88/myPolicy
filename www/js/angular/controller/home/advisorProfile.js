@@ -1,5 +1,5 @@
 app.controller('EditAdvisorProfileCtrl', function($scope,$q,$http,$timeout,$toast,$ionicHistory,$toast,$translate,$cordovaFile,
-                                                  picNotesService,advisorDataDbService,loadingService,modalService,errorHandler) {
+                                                  picNotesService,advisorDataDbService,loadingService,modalService,errorHandler,credentialManager) {
     var logo_container = $("#company_logo_container");
     $(logo_container).height($(logo_container).width());
 
@@ -128,15 +128,18 @@ app.controller('EditAdvisorProfileCtrl', function($scope,$q,$http,$timeout,$toas
 
     var allowUploadType = ["jpg","jpeg","png"];
     $scope.gallery = function() {
-        window.imagePicker.getPictures(
-            function(results) {
-                for (var i = 0; i < results.length; i++) {
-                    var imageUrl = ((typeof results[i] === "object") && (results[i] !== null)) ? "file://" + results[i]["original"] : results[i];
-                    console.log(imageUrl);
-                    var split = imageUrl.split(".");
-                    var filetype = split[split.length - 1];
-                    //IF FILETYPE CORRECT, ELSE FILETYPE ERROR
-                    if (allowUploadType.indexOf(filetype) >= 0) {
+        if (credentialManager.getSubscription().type === 0) {
+            credentialManager.showUpgradeAccountModal();
+        } else {
+            window.imagePicker.getPictures(
+                function(results) {
+                    for (var i = 0; i < results.length; i++) {
+                        var imageUrl = ((typeof results[i] === "object") && (results[i] !== null)) ? "file://" + results[i]["original"] : results[i];
+                        console.log(imageUrl);
+                        var split = imageUrl.split(".");
+                        var filetype = split[split.length - 1];
+                        //IF FILETYPE CORRECT, ELSE FILETYPE ERROR
+                        if (allowUploadType.indexOf(filetype) >= 0) {
                             check_pic_dimension(imageUrl,500).then(function(dimensionOK){
                                 if (dimensionOK === false) {
                                     $toast.show("PIC_DIMENSION_ERROR");
@@ -147,22 +150,23 @@ app.controller('EditAdvisorProfileCtrl', function($scope,$q,$http,$timeout,$toas
                                     upload_pic(dimensionOK);
                                 }
                             });
-                    } else {
-                        $toast.show("PIC_TYPE_ERROR");
-                    }
+                        } else {
+                            $toast.show("PIC_TYPE_ERROR");
+                        }
 
+                    }
+                }, function (error) {
+                    console.log('Error: ' + error);
+                }, {
+                    maximumImagesCount: 1,
+                    //width   : 1500,
+                    //height  : 1500,
+                    quality : 50,
+                    title   : "From gallery",
+                    message : "Select an image to upload"
                 }
-            }, function (error) {
-                console.log('Error: ' + error);
-            }, {
-                maximumImagesCount: 1,
-                //width   : 1500,
-                //height  : 1500,
-                quality : 50,
-                title   : "From gallery",
-                message : "Select an image to upload"
-            }
-        );
+            );
+        }
     };
 
     // --------------- REMOVAL ---------------

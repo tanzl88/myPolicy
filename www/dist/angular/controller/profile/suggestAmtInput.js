@@ -39,9 +39,13 @@ app.controller('SuggestAmtInputCtrl', ['$scope', '$state', '$http', '$translate'
 
     //-------------------- TOGGLE --------------------
     $scope.changeUseAdvanced = function() {
-        $scope.personal.useAdvanced = $scope.personal.useAdvanced === undefined ? 1 : ($scope.personal.useAdvanced + 1)%advanced_enum_g.length;
-        $scope.personal.useAdvancedDisplayed = advanced_enum_g[$scope.personal.useAdvanced];
-        $ionicScrollDelegate.$getByHandle('suggestAmtScroll').scrollTop(true);
+        if (credentialManager.getSubscription().type === 0) {
+            credentialManager.showUpgradeAccountModal();
+        } else {
+            $scope.personal.useAdvanced = $scope.personal.useAdvanced === undefined ? 1 : ($scope.personal.useAdvanced + 1)%advanced_enum_g.length;
+            $scope.personal.useAdvancedDisplayed = advanced_enum_g[$scope.personal.useAdvanced];
+            $ionicScrollDelegate.$getByHandle('suggestAmtScroll').scrollTop(true);
+        }
     };
 
     //-------------------- RATE --------------------

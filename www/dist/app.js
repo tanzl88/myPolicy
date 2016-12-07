@@ -83,12 +83,12 @@ app.config(['$httpProvider', function ($httpProvider) {
 app.config(['$ionicConfigProvider', function ($ionicConfigProvider) {
     $ionicConfigProvider.backButton.previousTitleText(false).text('');
     $ionicConfigProvider.views.forwardCache(true);
-    //$ionicConfigProvider.scrolling.jsScrolling(false);
+    $ionicConfigProvider.scrolling.jsScrolling(true);
     $ionicConfigProvider.navBar.positionPrimaryButtons("left");
 }]);
 
 
-app.run(['$rootScope', '$ionicPlatform', '$state', '$cordovaNetwork', 'currencyService', function ($rootScope,$ionicPlatform,$state,$cordovaNetwork,currencyService) {
+app.run(['$rootScope', '$ionicPlatform', '$state', '$cordovaNetwork', '$cordovaSplashscreen', 'currencyService', 'storeService', function ($rootScope,$ionicPlatform,$state,$cordovaNetwork,$cordovaSplashscreen,currencyService,storeService) {
     $ionicPlatform.ready(function () {
         //KEYBOARD
         if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -110,12 +110,18 @@ app.run(['$rootScope', '$ionicPlatform', '$state', '$cordovaNetwork', 'currencyS
         var currencyIndex = localStorage.getItem("currency");
         if (validity_test(currencyIndex)) currencyService.setCurrency(currencyIndex);
 
+        //IN APP PURCHASE
+        storeService.init();
+
         //iOS STATUS BAR & STYLING
         if (window.StatusBar) {
             //StatusBar.styleDefault();
             //StatusBar.backgroundColorByHexString("#FED82F");
         }
         ionic.Platform.fullScreen(false,true);
+
+        //SPLASHSCREEN
+        $cordovaSplashscreen.hide();
 
         // MODIFY FILE PATH
         if (ionic.Platform.isAndroid()) {

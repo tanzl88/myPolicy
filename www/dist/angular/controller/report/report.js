@@ -45,7 +45,7 @@ app.controller('ReportCtrl', ['$scope', '$translate', '$timeout', '$interval', '
         }
         //$ionicScrollDelegate.$getByHandle('report').scrollBy(0,$("#reportLineChart").offset().top,true);
         drawLineChart(coverageChartData,chartOptions);
-    }
+    };
     function drawLineChart(chartData,chartOptions) {
         var initTimer;
         initTimer = $interval(function() {
@@ -60,7 +60,7 @@ app.controller('ReportCtrl', ['$scope', '$translate', '$timeout', '$interval', '
                 $interval.cancel(initTimer);
             }
         },100);
-    }
+    };
     var chartOptions = doughnutChartService.getChartOptions({
 
     });

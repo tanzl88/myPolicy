@@ -31,6 +31,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: "login/retrieveAccountNew.html",
             controller: "RetrieveAccountNewCtrl",
         })
+        .state('upgradeAccount', {
+            url: '/upgradeAccount',
+            templateUrl: "login/upgradeAccount.html",
+            controller: "UpgradeAccountCtrl",
+        })
 
         //------------------------ TAB ------------------------
         .state('tabs', {

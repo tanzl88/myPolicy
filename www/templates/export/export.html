@@ -285,10 +285,12 @@
         <div id="financialRatioTable-export" class="overviewTable-export">
             <table class="protections_table" style="margin: 4% auto;">
                 <tr>
-                    <th style="width: 32%;">{{::"FINANCIAL_RATIO" | translate}}</th>
-                    <th class="align-center" style="width: 22%;">{{::"CURRENT" | translate}}</th>
-                    <th class="align-center" style="width: 22%;">{{::"SUGGESTED" | translate}}</th>
-                    <th class="align-center" style="width: 22%;">{{::"STATUS" | translate}}</th>
+                    <th style="width: 6%;">{{::"FINANCIAL_RATIO" | translate}}</th>
+                    <th class="align-center" style="width: 5%;">{{::"CURRENT" | translate}}</th>
+                    <th class="align-center" style="width: 5%;">{{::"SUGGESTED" | translate}}</th>
+                    <th class="align-center" style="width: 5%;">{{::"STATUS" | translate}}</th>
+                    <th class="align-center" style="width: 11%;">{{::"HOW_TO_CALCULATE" | translate}}</th>
+                    <th class="align-center" style="width: 70%;">{{::"WHAT_IT_MEANS" | translate}}</th>
                 </tr>
                 <tr ng-repeat="ratio in personal.ratios">
                     <td class="new-line protections_table_category">{{::ratio.title | translate}}</td>
@@ -300,6 +302,12 @@
                     </td>
                     <td class="align-right" ng-class="{'excess' : ratio.pass === true, 'shortfall' : ratio.pass === false}">
                         <p class="amt inline-block align-middle">{{::ratio.status}}</p>
+                    </td>
+                    <td class="">
+                        <p class="amt inline-block align-middle">{{::ratio.formula}}</p>
+                    </td>
+                    <td class="">
+                        <p class="amt inline-block align-middle new-line">{{::ratio.desc}}</p>
                     </td>
                 </tr>
             </table>
@@ -473,6 +481,72 @@
                 </tr>
             </table>
         </div>
+
+        <!--DASHBOARD DONUTS-->
+        <div class="">
+            <div class="doughnut_container">
+                <canvas id="client-doughnut-export" class="client-doughnut-export"></canvas>
+                <div class="percent_container" class="align-center">
+                </div>
+            </div>
+            <div id="dashboard-coverage-number-export">
+                <table id="dashboard_coverage_number" class="dashboard-number-export">
+                    <tr>
+                        <td class="align-middle">
+                        </td>
+                        <td class="align-middle">
+                            <p class="new-line">{{"NOT_COVERED" | translate}}</p>
+                        </td>
+
+                        <td class="align-middle">
+                        </td>
+                        <td class="align-middle">
+                            <p class="new-line">{{"PARTIALLY_COVERED" | translate}}</p>
+                        </td>
+
+                        <td class="align-middle">
+                        </td>
+                        <td class="align-middle">
+                            <p class="new-line">{{"FULLY_COVERED" | translate}}</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div id="protection_score_export"><table><tr><td class="align-center"><p>{{meterData.percent}}</p></td></tr></table></div>
+        <div id="protection_score_text_export"><table><tr><td class="align-center"><p>{{"PROTECTION_SCORE" | translate}}</p></td></tr></table></div>
+        <div class="">
+            <div class="doughnut_container">
+                <canvas id="client-ratio-doughnut-export" class="client-doughnut-export"></canvas>
+                <div class="percent_container" class="align-center">
+                </div>
+            </div>
+            <div id="dashboard-ratio-number-export">
+                <table id="dashboard_ratio_number" class="dashboard-number-export">
+                    <tr>
+                        <td class="align-middle">
+                        </td>
+                        <td class="align-middle">
+                            <p class="new-line">{{"FINANCIAL_RATIO_SHORTFALL" | translate}}</p>
+                        </td>
+
+                        <td class="align-middle">
+                        </td>
+                        <td class="align-middle">
+                            <p class="new-line">{{"FINANCIAL_RATIO_PASS" | translate}}</p>
+                        </td>
+
+                        <td class="align-middle">
+                        </td>
+                        <td class="align-middle">
+                            <p class="new-line">{{"FINANCIAL_RATIO_EXCESS" | translate}}</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div id="financial_score_export"><table><tr><td class="align-center"><p>{{ratioPercent}}</p></td></tr></table></div>
+        <div id="financial_score_text_export"><table><tr><td class="align-center"><p>{{"FINANCIAL_SCORE" | translate}}</p></td></tr></table></div>
 
     </ion-content>
 </ion-view>

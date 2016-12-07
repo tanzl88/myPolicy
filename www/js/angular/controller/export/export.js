@@ -21,14 +21,18 @@ app.controller('ExportCtrl', function($scope,$rootScope,$q,$translate,$timeout,$
     $scope.viewObj.cat  = policyDataService.getProtectionsData();
     $scope.viewObj.sums = policyDataDbService.getAllSum();
     $scope.personal     = angular.copy(policyDataService.getNetWorthData());
+    angular.forEach($scope.personal.ratios,function(ratio,index){
+        ratio.formula = $translate.instant("REPORT_" + ratio.title + "_CALC");
+        ratio.desc = $translate.instant("REPORT_" + ratio.title + "_DESC_EXPORT");
+    });
+
     $scope.fullTableObj = reactDOMService.getFullTable([full_table_g_1,full_table_g_2]);
-
-
     $scope.payoutObj    = policyDataDbService.getPayoutData();
-    $scope.premiumObj   = policyDataService.getPremiumData();
     $scope.premiumBreakdownObj = policyDataDbService.getTotalPremium2();
-
-
+    $scope.premiumObj   = policyDataService.getPremiumData();
+    $scope.meterData = policyDataService.getMeterData();
+    $scope.ratioMeterData = policyDataService.getRatioMeterData();
+    $scope.ratioPercent = $scope.ratioMeterData.score.toFixed(0);
 
     var ratio = 1.4142857143;
 
@@ -84,6 +88,7 @@ app.controller('ExportCtrl', function($scope,$rootScope,$q,$translate,$timeout,$
                 render[page_name]();
             } catch(e) {
                 console.log("ERROR FOUND WHEN GENERATING REPORT");
+                console.log(e);
                 $toast.show("GENERATE_REPORT_ERROR");
                 reportComplete(false);
             }
@@ -93,7 +98,7 @@ app.controller('ExportCtrl', function($scope,$rootScope,$q,$translate,$timeout,$
 
     function reportComplete(refresh) {
         if (refresh) $("#report_list_view").scope().initVar();
-        $ionicHistory.goBack();
+            $ionicHistory.goBack();
         $timeout(function(){
             loadingService.hide();
             //ANALYTICS
@@ -529,7 +534,7 @@ app.controller('ExportCtrl', function($scope,$rootScope,$q,$translate,$timeout,$
         //FINANCIAL RATIOS TABLE
         exportUtility.setRenderFont(doc,10);
         doc.fromHTML($('#financialRatioTable-export').get(0), marginLeftLess, marginTopAdj + 5, {
-            'width': 380
+            'width': 810
         });
 
         nextPage();
@@ -552,6 +557,76 @@ app.controller('ExportCtrl', function($scope,$rootScope,$q,$translate,$timeout,$
         //DISCLAIMER
         exportUtility.setRenderFont(doc,10);
         doc.text(marginLeft - 10, marginTop + 500 + 30, $translate.instant("LEGEND_DISCLAIMER"));
+
+        nextPage();
+    };
+
+    // ------------------------ DASHBOARD ------------------------
+    render.financialScore = function() {
+        doc.addPage();
+
+        $(".client-doughnut-export").attr("width",1000).attr("height",1000);
+
+        //LEGEND TITLE
+        exportUtility.renderHeading(doc,$translate.instant("FINANCIAL_PROTECTION_SCORE"));
+
+        //DRAW CHART
+        doughnutChartService.drawChart("client-doughnut-export", $scope.meterData.chartData, doughnutChartService.getChartOptions({
+            percentageInnerCutout: 60,
+            spaceTop: 1,
+            spaceBottom: 1,
+            spaceLeft: 1,
+            spaceRight: 1,
+            animation : false,
+            annotateDisplay: false
+        }));
+        doughnutChartService.drawChart("client-ratio-doughnut-export", $scope.ratioMeterData.chartData, doughnutChartService.getChartOptions({
+            percentageInnerCutout: 60,
+            spaceTop: 1,
+            spaceBottom: 1,
+            spaceLeft: 1,
+            spaceRight: 1,
+            animation : false,
+            annotateDisplay: false
+        }));
+
+        //CHART
+        var doughnut_width = doc_width / 2 * 0.8;
+        exportUtility.drawChartImage(doc, "client-doughnut-export", marginLeftLess + 20, marginTopAdj + 50, doughnut_width, doughnut_width);
+        exportUtility.drawChartImage(doc, "client-ratio-doughnut-export", marginLeftLess + 20 + doc_width / 2, marginTopAdj + 50, doughnut_width, doughnut_width);
+
+        //TABLE
+        doc.fromHTML($('#dashboard-coverage-number-export').get(0), marginLeftLess + 20 + 10, marginTopAdj + 50 + doughnut_width + 10, {
+            'width': doughnut_width
+        });
+        doc.fromHTML($('#dashboard-ratio-number-export').get(0), marginLeftLess + 20 + 10 + (doc_width / 2), marginTopAdj + 50 + doughnut_width + 10, {
+            'width': doughnut_width
+        });
+
+        //CHART TEXT
+        exportUtility.setRenderFont(doc,65,"bold");
+        doc.fromHTML($('#protection_score_export').get(0), marginLeftLess + 20, marginTopAdj + 50 + doughnut_width / 2 - 90, {
+            'width': doughnut_width
+        });
+        doc.fromHTML($('#financial_score_export').get(0), marginLeftLess + 20 + (doc_width / 2), marginTopAdj + 50 + doughnut_width / 2 - 90, {
+            'width': doughnut_width
+        });
+        exportUtility.setRenderFont(doc,25);
+        doc.fromHTML($('#protection_score_text_export').get(0), marginLeftLess + 20, marginTopAdj + 50 + doughnut_width / 2 - 10, {
+            'width': doughnut_width
+        });
+        doc.fromHTML($('#financial_score_text_export').get(0), marginLeftLess + 20 + (doc_width / 2), marginTopAdj + 50 + doughnut_width / 2 - 10, {
+            'width': doughnut_width
+        });
+
+        //TEXT
+        exportUtility.setRenderFont(doc,30,"bold",[80,80,80]);
+        doc.text(marginLeft + 30,                           marginTopAdj + 50 + doughnut_width + 50, $scope.meterData.notCover + "");
+        doc.text(marginLeft + 30 + doughnut_width / 3,      marginTopAdj + 50 + doughnut_width + 50, $scope.meterData.partiallyCover + "");
+        doc.text(marginLeft + 30 + doughnut_width / 3 * 2,  marginTopAdj + 50 + doughnut_width + 50, $scope.meterData.fullyCover + "");
+        doc.text(marginLeft + 30 + doc_width / 2,                           marginTopAdj + 50 + doughnut_width + 50, $scope.ratioMeterData.shortfall + "");
+        doc.text(marginLeft + 30 + doc_width / 2 + doughnut_width / 3,      marginTopAdj + 50 + doughnut_width + 50, $scope.ratioMeterData.healthy + "");
+        doc.text(marginLeft + 30 + doc_width / 2 + doughnut_width / 3 * 2,  marginTopAdj + 50 + doughnut_width + 50, $scope.ratioMeterData.excess + "");
 
         nextPage();
     };

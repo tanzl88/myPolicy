@@ -1,0 +1,196 @@
+<ion-view id="upgrade_account_view" view-title="{{'UPGRADE_ACCOUNT' | translate}}" cache-view="false">
+    <ion-content has-bouncing="true" >
+        <div class="container">
+            <table class="align-center">
+                <tr class="type">
+                    <td style="width: 38%;"></td>
+                    <td style="width: 20%; vertical-align: top;">
+                        <p>Free</p>
+                    </td>
+                    <td style="width: 1%;"></td>
+                    <td style="width: 20%;" ng-click="upgradeAccount('silver_subscription')">
+                        <p>Silver</p>
+                        <div class="yellow_button">S$2.99</div>
+                    </td>
+                    <td style="width: 1%;"></td>
+                    <td style="width: 20%;" ng-click="upgradeAccount('gold_subscription')">
+                        <p>Gold</p>
+                        <div class="yellow_button">S$5.99</div>
+                    </td>
+                </tr>
+
+
+                <!--CLIENTS-->
+                <tr class="subtitle">
+                    <td>Clients</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Number of client accounts</td>
+                    <td>Up to 50 clients</td>
+                    <td></td>
+                    <td>Not limited</td>
+                    <td></td>
+                    <td>Not limited</td>
+                </tr>
+                <tr>
+                    <td>Picture notes</td>
+                    <td>&#10007</td>
+                    <td></td>
+                    <td>Up to 100 pictures</td>
+                    <td></td>
+                    <td>Not limited</td>
+                </tr>
+                <tr class="spacing">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+
+
+                <!--REMINDER-->
+                <tr class="subtitle">
+                    <td>Reminders</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Maturity reminders</td>
+                    <td>&#10007</td>
+                    <td></td>
+                    <td>&#10003</td>
+                    <td></td>
+                    <td>&#10003</td>
+                </tr>
+                <tr>
+                    <td>Payment reminders</td>
+                    <td>&#10007</td>
+                    <td></td>
+                    <td>&#10003</td>
+                    <td></td>
+                    <td>&#10003</td>
+                </tr>
+                <tr>
+                    <td>Birthday reminders</td>
+                    <td>&#10007</td>
+                    <td></td>
+                    <td>&#10007</td>
+                    <td></td>
+                    <td>&#10003</td>
+                </tr>
+                <tr>
+                    <td>Review reminders</td>
+                    <td>&#10007</td>
+                    <td></td>
+                    <td>&#10007</td>
+                    <td></td>
+                    <td>&#10003</td>
+                </tr>
+                <tr class="spacing">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+
+                <!--REPORTS-->
+                <tr class="subtitle">
+                    <td>Reports</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Advanced financial calculation</td>
+                    <td>&#10007</td>
+                    <td></td>
+                    <td>&#10003</td>
+                    <td></td>
+                    <td>&#10003</td>
+                </tr>
+                <tr>
+                    <td>Financial ratios report</td>
+                    <td>&#10007</td>
+                    <td></td>
+                    <td>&#10003</td>
+                    <td></td>
+                    <td>&#10003</td>
+                </tr>
+                <tr class="spacing">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+
+
+                <!--PDF GENERATION-->
+                <tr class="subtitle">
+                    <td>Generate PDF</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Generate pdf report</td>
+                    <td>&#10007</td>
+                    <td></td>
+                    <td>&#10003</td>
+                    <td></td>
+                    <td>&#10003</td>
+                </tr>
+                <tr>
+                    <td>Customisable company logo</td>
+                    <td>&#10007</td>
+                    <td></td>
+                    <td>&#10003</td>
+                    <td></td>
+                    <td>&#10003</td>
+                </tr>
+                <tr>
+                    <td>Customisable field name</td>
+                    <td>&#10007</td>
+                    <td></td>
+                    <td>&#10007</td>
+                    <td></td>
+                    <td>&#10003</td>
+                </tr>
+
+
+                <tr class="upgrade">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td ng-click="upgradeAccount('silver_subscription')">
+                        <div class="yellow_button">Upgrade to silver for S$2.99</div>
+                    </td>
+                    <td></td>
+                    <td ng-click="upgradeAccount('gold_subscription')">
+                        <div class="yellow_button">Upgrade to gold for S$5.99</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </ion-content>
+</ion-view>

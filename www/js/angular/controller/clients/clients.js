@@ -47,16 +47,21 @@ app.controller('clientsAccountCtrl', function($scope,$http,$ionicHistory,$transl
 
     // ------------- ADD -------------
     $scope.add = function() {
-        $scope.addClientModal.show();
-        $timeout(function(){
-            addClientService.initAddClientSwiper("client");
+        if ($scope.clients.length >= 50 && credentialManager.getSubscription().type === 0) {
+            credentialManager.showUpgradeAccountModal();
+        } else {
+            $scope.addClientModal.show();
+            $timeout(function(){
+                addClientService.initAddClientSwiper("client");
 
-            $scope.accountObj = angular.copy({
-                accountName : '',
-                linkEmail   : ''
-            });
-            $("#accountNameInput").scope().addClientForm.$setPristine();
-        },100);
+                $scope.accountObj = angular.copy({
+                    accountName : '',
+                    linkEmail   : ''
+                });
+                $("#accountNameInput").scope().addClientForm.$setPristine();
+            },100);
+        }
+
     };
     $scope.confirmAdd = function(form) {
         addClientService.addClient(form,"client").then(function(result){

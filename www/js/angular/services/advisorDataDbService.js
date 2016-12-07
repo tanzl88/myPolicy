@@ -25,12 +25,11 @@ app.service('advisorDataDbService', function($rootScope,$q,$http,$translate,erro
 
     return {
         init : function() {
-            var thisService = this;
             var dfd = $q.defer();
             $http.get(ctrl_url + "get_advisor_profile" + "?decache=" + Date.now())
                 .success(function(statusData){
                     if (statusData.status === "OK") {
-                        advisor_g = thisService.processAdvisorProfile(statusData.data);
+                        //advisor_g = thisService.processAdvisorProfile(statusData.data);
                         dfd.resolve("OK");
                     } else {
                         errorHandler.handleOthers(statusData.status);

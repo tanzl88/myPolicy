@@ -128,6 +128,24 @@
             <!------------------------SUM ASSURED-------------------------->
             <section>
                 <p class="section_header">{{"SUM_ASSURED_HEADER" | translate}}</p>
+                <div class="two_cols_item" ng-show="policyObj.planType == '0'">
+                    <div class="inline-block align-middle new-line">{{"MULTIPLIER_FACTOR" | translate}}</div>
+                    <input class="inline-block align-middle align-center bg_color"
+                           type="number"
+                           name="multiplierFactor"
+                           ng-click="selectAll($event)"
+                           ng-model="policyObj.multiplierFactor"
+                           ng-keydown="goToNext($event)">
+                </div>
+                <div class="two_cols_item" ng-show="policyObj.planType == '0'">
+                    <div class="inline-block align-middle new-line">{{"MULTIPLIER_FACTOR_AGE" | translate}}</div>
+                    <input class="inline-block align-middle align-center bg_color"
+                           type="number"
+                           name="multiplierAge"
+                           ng-click="selectAll($event)"
+                           ng-model="policyObj.multiplierAge"
+                           ng-keydown="goToNext($event)">
+                </div>
                 <div class="two_cols_item">
                     <div class="inline-block align-middle new-line">{{"DEATH_SA" | translate}}</div>
                     <currency-input ng-model-name="policyObj.deathSA"></currency-input>

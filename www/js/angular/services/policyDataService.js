@@ -145,6 +145,51 @@ app.service('policyDataService', function($rootScope,$q,$http,$translate,policyD
             };
             return result;
         },
+        getRatioMeterData : function() {
+            var data = this.getNetWorthData().ratios;
+            var totalScore  = 0;
+            var count       = 0;
+            var shortfall   = 0;
+            var shortfallP  = [];
+            var healthy     = 0;
+            var healthyP    = [];
+            var excess      = 0;
+            var excessP     = [];
+
+            angular.forEach(data,function(ratio,index){
+                console.log(ratio);
+                if (ratio.status === "Healthy") {
+                    healthy += 1;
+                    healthyP.push(ratio.title);
+                } else if (ratio.status === "Excess") {
+                    excess += 1;
+                    excessP.push(ratio.title);
+                } else {
+                    shortfall += 1;
+                    shortfallP.push(ratio.title);
+                }
+
+                totalScore += ratio.score;
+                count += 1;
+            });
+
+            var averageScore = totalScore / count;
+            var shortfallScore = 100 - averageScore;
+            var chartData = getChartData(averageScore,shortfallScore);
+
+            var result = {
+                score       : averageScore,
+                chartData   : chartData,
+                shortfall   : shortfall,
+                shortfallP  : shortfallP,
+                healthy     : healthy,
+                healthyP    : healthyP,
+                excess      : excess,
+                excessP     : excessP
+            };
+            console.log(result);
+            return result;
+        },
         calcProtectionsChartData : function(data_array) {
             angular.forEach(data_array, function(cat,index){
                 var amt = cat.amt;
@@ -344,19 +389,23 @@ app.service('policyDataService', function($rootScope,$q,$http,$translate,policyD
                     if (ratio.amt > ratio.lower && ratio.amt < ratio.upper) {
                         ratio.pass = true;
                         ratio.status = $translate.instant("FINANCIAL_RATIO_PASS");
+                        ratio.score = 100;
                     } else {
                         ratio.pass = false;
+                        ratio.score = ratio.amt > ratio.upper ? Math.min(( Math.max((ratio.upper + ratio.lower) - ratio.amt,0) / (ratio.upper - ratio.lower)),100)  : ratio.amt / ratio.lower * 100;
                         ratio.status = ratio.amt > ratio.upper ? $translate.instant("FINANCIAL_RATIO_EXCESS") : $translate.instant("FINANCIAL_RATIO_SHORTFALL");
                     }
                 } else {
                     if (ratio.lower === undefined) {
                         ratio.suggest = "< " + ratio.upper + suffix;
                         ratio.pass = ratio.amt < ratio.upper ? true : false;
-                        ratio.status = ratio.amt < ratio.upper ? $translate.instant("FINANCIAL_RATIO_PASS") : $translate.instant("FINANCIAL_RATIO_EXCESS");
+                        ratio.score = ratio.pass ? 100 : Math.min( Math.max((ratio.upper * 2 - ratio.amt),0) / ratio.upper * 100,100);
+                        ratio.status = ratio.pass ? $translate.instant("FINANCIAL_RATIO_PASS") : $translate.instant("FINANCIAL_RATIO_EXCESS");
                     } else {
                         ratio.suggest = "> " + ratio.lower + suffix;
                         ratio.pass = ratio.amt > ratio.lower ? true : false;
-                        ratio.status = ratio.amt > ratio.lower ? $translate.instant("FINANCIAL_RATIO_PASS") : $translate.instant("FINANCIAL_RATIO_SHORTFALL");
+                        ratio.score = ratio.pass ? 100 : ratio.amt / ratio.lower * 100;
+                        ratio.status = ratio.pass ? $translate.instant("FINANCIAL_RATIO_PASS") : $translate.instant("FINANCIAL_RATIO_SHORTFALL");
                     }
                 }
                 if (isNaN(ratio.amt) || !validity_test(ratio.amt)) ratio.amt = 0;

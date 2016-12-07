@@ -5,8 +5,12 @@
                  style="height: 40%; background-image: url('img/dashboard_bg.jpg'); background-size: cover;">
             <div ng-controller="AdvisorDashboardCtrl" ng-show="advisorProfileFound === true" class="transform-align-middle">
                 <p class="greet">Hi {{advisorData.name}},<br><br>Who would you like<br>to advise today?</p>
+                <!--<div ng-if="accountType !== 'Client'" id="client_picker" class="relative" ng-class="{'selected' : model.selectedClientId}"-->
+                     <!--popup-picker ng-click="showPopupPicker()" show-search-bar="true" ng-model-data="clientList" ng-model-id="model.selectedClientId" ng-model-value="model.selectedClient">-->
+                <!--<div class="client_select" client-picker ng-click="showClientPicker()" show-search-bar="true" ng-model-data="clients" ng-model-id="model.selectedClientId" ng-model-value="model.selectedClient">-->
+                    <!--<input id="selectedClientInput" type="text" placeholder="{{'SELECT_CLIENT' | translate}}" ng-model="selectedClientName" readonly>-->
                 <div class="client_select" ng-click="triggerClientSearch($event); $event.stopPropagation();">
-                    <input id="selectedClientInput" type="text" placeholder="{{'SELECT_CLIENT' | translate}}" ng-model="selectedClientName" readonly>
+                    <input id="selectedClientInput" type="text" placeholder="{{'SELECT_CLIENT' | translate}}" ng-model="selectedClient.name" ng-change="changeClient()">
                 </div>
             </div>
         </section>
@@ -23,28 +27,12 @@
                                 <p class="inline-block align-middle" style="width: 88%;">{{"ADD_CLIENT" | translate}}</p>
                             </ion-item>
                             <!--CLIENT LIST-->
-                            <ion-item class="client_list_item" ng-repeat="client in clients" ng-click="selectClient($index)">
+                            <ion-item class="client_list_item" ng-repeat="client in clients | filter:selectedClient" ng-click="selectClient('{{client.id}}')">
                                 <i ng-if="client.type === 'temp'" class="inline-block align-middle policy-transfer-arrow" style="width: 12%;"></i>
                                 <i ng-if="client.type === 'link'" class="inline-block align-middle policy-link" style="width: 12%;"></i>
                                 <p class="inline-block align-middle" style="width: 88%;">{{client.name}}</p>
                             </ion-item>
                         </ion-list>
-
-                        <!--<ion-list class="swiper-slide">-->
-                            <!--&lt;!&ndash;ADD CLIENT&ndash;&gt;-->
-                            <!--<ion-item class="client_list_item" ng-click="toggleAddClient();">-->
-                                <!--<i class="inline-block align-middle ion-android-arrow-back" style="width: 12%;"></i>-->
-                                <!--<p class="inline-block align-middle" style="width: 88%;">{{"BACK" | translate}}</p>-->
-                            <!--</ion-item>-->
-                            <!--<ion-item class="client_list_item extra-padded" ng-click="openTempModal()">-->
-                                <!--<i class="inline-block align-middle policy-transfer-arrow" style="width: 12%;"></i>-->
-                                <!--<p class="inline-block align-middle" style="width: 88%;">{{"CREATE_CLIENT_ACCOUNT" | translate}}</p>-->
-                            <!--</ion-item>-->
-                            <!--<ion-item class="client_list_item extra-padded" ng-click="openLinkModal()">-->
-                                <!--<i class="inline-block align-middle policy-link" style="width: 12%;"></i>-->
-                                <!--<p class="inline-block align-middle" style="width: 88%;">{{"LINK_TO_CLIENT" | translate}}</p>-->
-                            <!--</ion-item>-->
-                        <!--</ion-list>-->
                     </div>
                 </div>
             </ion-scroll>
@@ -53,34 +41,66 @@
 
 
         <!--USER DASHBOARD-->
-        <section id="dashboard_section" ng-controller="ClientDashboardCtrl" style="height: 60%;" ng-show="credential === 'client'">
-            <!--<div  >-->
-                <div class="transform-align-middle">
-                    <div class="doughnut_container" ng-click="showDoughnutTooltip()">
-                        <canvas id="client-doughnut"></canvas>
-                        <div id="percent_container" class="align-center">
-                            <!--<i class="ion-information-circled dashboard-tooltip" ng-click=""></i>-->
-                            <b id="percentAnimate" class="align-center">{{percentAnimate}}</b>
-                            <p>{{"SCORE" | translate}}</p>
+        <section id="dashboard_section" class="swiper-container" ng-controller="ClientDashboardCtrl" style="height: 60%;" ng-show="credential === 'client'">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="transform-align-middle">
+                        <div class="doughnut_container">
+                            <i class="doughnut_arrow ion-chevron-right transform-align-middle" style="right: -15%;" ng-click="dashboardSwiper.slideNext()"></i>
+                            <canvas id="client-doughnut" ng-click="showDoughnutTooltip()"></canvas>
+                            <div class="percent_container" class="align-center" ng-click="showDoughnutTooltip()">
+                                <!--<i class="ion-information-circled dashboard-tooltip" ng-click=""></i>-->
+                                <p id="percentAnimate" class="align-center">{{percentAnimate}}</p>
+                                <p class="new-line">{{"PROTECTION_SCORE" | translate}}</p>
+                            </div>
                         </div>
-
-                    </div>
-                    <div id="dashboard_coverage_number" class="row">
-                        <div class="col align-center" ng-click="showCoverageStatusTooltip('notCover')">
-                            <p class="inline-block align-middle">{{meterData.notCover}}</p>
-                            <p class="inline-block align-middle new-line">{{"NOT_COVERED" | translate}}</p>
-                        </div>
-                        <div class="col align-center" ng-click="showCoverageStatusTooltip('partiallyCover')">
-                            <p class="inline-block align-middle">{{meterData.partiallyCover}}</p>
-                            <p class="inline-block align-middle new-line">{{"PARTIALLY_COVERED" | translate}}</p>
-                        </div>
-                        <div class="col align-center" ng-click="showCoverageStatusTooltip('fullyCover')">
-                            <p class="inline-block align-middle">{{meterData.fullyCover}}</p>
-                            <p class="inline-block align-middle new-line">{{"FULLY_COVERED" | translate}}</p>
+                        <div id="dashboard_coverage_number" class="row">
+                            <div class="col align-center" ng-click="showCoverageStatusTooltip('notCover')">
+                                <p class="inline-block align-middle">{{meterData.notCover}}</p>
+                                <p class="inline-block align-middle new-line">{{"NOT_COVERED" | translate}}</p>
+                            </div>
+                            <div class="col align-center" ng-click="showCoverageStatusTooltip('partiallyCover')">
+                                <p class="inline-block align-middle">{{meterData.partiallyCover}}</p>
+                                <p class="inline-block align-middle new-line">{{"PARTIALLY_COVERED" | translate}}</p>
+                            </div>
+                            <div class="col align-center" ng-click="showCoverageStatusTooltip('fullyCover')">
+                                <p class="inline-block align-middle">{{meterData.fullyCover}}</p>
+                                <p class="inline-block align-middle new-line">{{"FULLY_COVERED" | translate}}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            <!--</div>-->
+
+
+                <div class="swiper-slide">
+                    <div class="transform-align-middle">
+                        <div class="doughnut_container">
+                            <i class="doughnut_arrow ion-chevron-left transform-align-middle" style="left: -15%;" ng-click="dashboardSwiper.slidePrev()"></i>
+                            <canvas id="client-ratio-doughnut" ng-click="showRatioDoughnutTooltip()"></canvas>
+                            <div class="percent_container" class="align-center" ng-click="showRatioDoughnutTooltip()">
+                                <!--<i class="ion-information-circled dashboard-tooltip" ng-click=""></i>-->
+                                <p id="ratioPercentAnimate" class="align-center">{{ratioPercent}}</p>
+                                <p class="new-line">{{"FINANCIAL_SCORE" | translate}}</p>
+                            </div>
+                        </div>
+                        <div id="dashboard_coverage_number" class="row">
+                            <div class="col align-center" ng-click="showRatioTooltip('shortfall')">
+                                <p class="inline-block align-middle">{{ratioMeterData.shortfall}}</p>
+                                <p class="inline-block align-middle new-line">{{"FINANCIAL_RATIO_SHORTFALL" | translate}}</p>
+                            </div>
+                            <div class="col align-center" ng-click="showRatioTooltip('healthy')">
+                                <p class="inline-block align-middle">{{ratioMeterData.healthy}}</p>
+                                <p class="inline-block align-middle new-line">{{"FINANCIAL_RATIO_PASS" | translate}}</p>
+                            </div>
+                            <div class="col align-center" ng-click="showRatioTooltip('excess')">
+                                <p class="inline-block align-middle">{{ratioMeterData.excess}}</p>
+                                <p class="inline-block align-middle new-line">{{"FINANCIAL_RATIO_EXCESS" | translate}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </section>
 
         <section id="menu_list" ng-class="{'client' : credential === 'client'}">
@@ -98,7 +118,7 @@
                     <i class="policy-bell inline-block align-middle"></i>
                     <p class="inline-block align-middle">{{"REMINDER" | translate}}</p>
                 </div>
-                <div class="menu_list_item" ng-click="goTo('generateReport')">
+                <div class="menu_list_item" ng-click="goToReport()">
                     <i class="policy-chart inline-block align-middle"></i>
                     <p class="inline-block align-middle">{{"GENERATE_REPORT" | translate}}</p>
                 </div>

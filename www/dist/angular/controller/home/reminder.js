@@ -1,4 +1,4 @@
-app.controller('ReminderCtrl', ['$scope', '$translate', '$timeout', '$http', '$toast', 'modalService', 'reminderService', 'clientListDbService', 'localNotificationService', 'loadingService', function($scope,$translate,$timeout,$http,$toast,modalService,reminderService,clientListDbService,localNotificationService,loadingService) {
+app.controller('ReminderCtrl', ['$scope', '$translate', '$timeout', '$http', '$toast', 'modalService', 'reminderService', 'clientListDbService', 'localNotificationService', 'loadingService', 'credentialManager', function($scope,$translate,$timeout,$http,$toast,modalService,reminderService,clientListDbService,localNotificationService,loadingService,credentialManager) {
     $scope.showDateTimePicker = {};
     $scope.showCountdownTimePicker = {};
     $scope.initVar = function() {
@@ -99,6 +99,7 @@ app.controller('ReminderCtrl', ['$scope', '$translate', '$timeout', '$http', '$t
             dataName    : "birthdays",
             pickerName  : "annual",
             modalName   : "birthdayModal",
+            disallow    : [0,1],
             dataSource  : function() {
                 $scope.birthdays = reminderService.getBirthday();
             },
@@ -109,6 +110,7 @@ app.controller('ReminderCtrl', ['$scope', '$translate', '$timeout', '$http', '$t
             dataName    : "maturityData",
             pickerName  : "maturity",
             modalName   : "maturityModal",
+            disallow    : [0],
             dataSource  : function() {
                 loadingService.show("LOADING");
                 reminderService.getMaturity().then(function(data){
@@ -123,6 +125,7 @@ app.controller('ReminderCtrl', ['$scope', '$translate', '$timeout', '$http', '$t
             dataName    : "reviews",
             pickerName  : "oneTime",
             modalName   : "reviewModal",
+            disallow    : [0,1],
             dataSource  : function() {
                 $scope.reviews = reminderService.getReview();
             },
@@ -133,6 +136,7 @@ app.controller('ReminderCtrl', ['$scope', '$translate', '$timeout', '$http', '$t
             dataName    : "paymentData",
             pickerName  : "oneTime",
             modalName   : "paymentModal",
+            disallow    : [0],
             dataSource  : function() {
                 reminderService.getPayment().then(function(data){
                     $scope.paymentData = data;
@@ -150,8 +154,13 @@ app.controller('ReminderCtrl', ['$scope', '$translate', '$timeout', '$http', '$t
     $scope.openReminderModal = function(type) {
         $scope.toggleReminderMenu();
         var reminderModal = $scope.reminderModal[type];
-        reminderModal.dataSource();
-        $scope[reminderModal.modalName].show();
+
+        if (reminderModal.disallow.indexOf(credentialManager.getSubscription().type) >= 0) {
+            credentialManager.showUpgradeAccountModal();
+        } else {
+            reminderModal.dataSource();
+            $scope[reminderModal.modalName].show();
+        }
     };
     $scope.reminderItemClick = function(type,index) {
         var reminderModal = $scope.reminderModal[type];

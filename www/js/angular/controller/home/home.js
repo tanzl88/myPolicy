@@ -6,6 +6,13 @@ app.controller('HomeCtrl', function($scope,$rootScope,$http,$timeout,$state,$tra
     $scope.goTo = function(state) {
         $state.go("tabs.home." + state);
     };
+    $scope.goToReport = function() {
+        if (credentialManager.getSubscription().type === 0) {
+            credentialManager.showUpgradeAccountModal();
+        } else {
+            $state.go("tabs.home.generateReport");
+        }
+    };
     $scope.editAdvisorProfile = function() {
         console.log($scope.tour);
         if ($scope.tour !== undefined) {
@@ -19,10 +26,15 @@ app.controller('HomeCtrl', function($scope,$rootScope,$http,$timeout,$state,$tra
 
     // -------------------- CLIENT LIST --------------------
     $scope.refreshClientName = function() {
-        $scope.selectedClientName = credentialManager.getClientProperty("name");
+        console.log("REFRESH CLIENT NAME TO : " + credentialManager.getClientProperty("name"));
+        $scope.selectedClient.name = credentialManager.getClientProperty("name");
+        //$scope.selectedClientName = credentialManager.getClientProperty("name");
     };
-    $scope.selectClient = function(index) {
-        var client = $scope.clients[index];
+    $scope.selectClient = function(clientId) {
+        //var client = $scope.clients[index];
+        var client = _.filter($scope.clients, function(client,index) {
+            return client.id === clientId;
+        })[0];
         clientListDbService.selectClient(client).then(function(data){
             if (data.status === "OK") {
                 loadDataDbService.setClientData(data.data.policy,data.data.personal,data.data.advisor,data.data.notification,data.data.suggested);
@@ -39,6 +51,11 @@ app.controller('HomeCtrl', function($scope,$rootScope,$http,$timeout,$state,$tra
             height : "60%",
             ease : Power3.easeIn
         });
+
+        $timeout(function(){
+            $("#selectedClientInput")[0].setSelectionRange(0, 99999);
+        },1);
+
     };
     $scope.detriggerClientSearch = function() {
         var clientListEl = $(".client_list");
@@ -62,11 +79,16 @@ app.controller('HomeCtrl', function($scope,$rootScope,$http,$timeout,$state,$tra
             }
         });
     };
+    $scope.changeClient = function() {
+        //$scope.selectedClientName = $("#selectedClientInput").val();
+    };
     $scope.initVar = function() {
         $scope.detriggerClientSearch();
         $scope.currency = $translate.instant("CURRENCY").trim();
         $scope.credential = credentialManager.getCredential();
         $scope.notWebView = !ionic.Platform.isWebView();
+        $scope.selectedClient = {};
+
         if ($scope.credential === "advisor") {
             $scope.advisorProfileFound = advisorDataDbService.profileFound();
             $scope.advisorData = advisorDataDbService.getData();
@@ -122,16 +144,20 @@ app.controller('HomeCtrl', function($scope,$rootScope,$http,$timeout,$state,$tra
         //$scope.linkAccountModal.hide();
     }
     $scope.add = function() {
-        $scope.addClientModal.show();
-        $timeout(function(){
-            addClientService.initAddClientSwiper("home");
+        if ($scope.clients.length >= 50 && credentialManager.getSubscription().type === 0) {
+            credentialManager.showUpgradeAccountModal();
+        } else {
+            $scope.addClientModal.show();
+            $timeout(function(){
+                addClientService.initAddClientSwiper("home");
 
-            $scope.accountObj = angular.copy({
-                accountName : '',
-                linkEmail   : ''
-            });
-            $("#accountNameInput").scope().addClientForm.$setPristine();
-        },100);
+                $scope.accountObj = angular.copy({
+                    accountName : '',
+                    linkEmail   : ''
+                });
+                $("#accountNameInput").scope().addClientForm.$setPristine();
+            },100);
+        }
     };
     $scope.confirmAdd = function(form) {
         addClientService.addClient(form,"home").then(function(result){

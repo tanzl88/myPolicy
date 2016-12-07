@@ -1,10 +1,18 @@
-app.controller('SettingsCtrl', ['$scope', '$translate', '$state', function($scope,$translate,$state) {
+app.controller('SettingsCtrl', ['$scope', '$translate', '$state', 'credentialManager', function($scope,$translate,$state,credentialManager) {
     $scope.initVar = function() {
         $scope.currency = currency_label_g;
     };
 
     $scope.goTo = function(stateName) {
-        $state.go("tabs.home.settings." + stateName);
+        if (stateName === 'reportType' || stateName === 'customizeFieldNames') {
+            if (credentialManager.getSubscription().type === 0 || credentialManager.getSubscription().type === 1) {
+                credentialManager.showUpgradeAccountModal();
+            } else {
+                $state.go("tabs.home.settings." + stateName);
+            }
+        } else {
+            $state.go("tabs.home.settings." + stateName);
+        }
     };
 }]);
 

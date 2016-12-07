@@ -96,9 +96,13 @@ app.controller('ListCtrl', ['$rootScope', '$scope', '$state', '$filter', '$http'
     $scope.goToGallery = function(event,index) {
         event.stopPropagation();
 
-        $rootScope.policyId = $scope.policies[index].id;
-        $rootScope.userId   = credentialManager.getClientProperty("id");
-        $state.go("tabs.list.gallery");
+        if (credentialManager.getSubscription().type === 0) {
+            credentialManager.showUpgradeAccountModal();
+        } else {
+            $rootScope.policyId = $scope.policies[index].id;
+            $rootScope.userId   = credentialManager.getClientProperty("id");
+            $state.go("tabs.list.gallery");
+        }
     };
 
     //// ------------ ROTATE PORTRAIT ------------

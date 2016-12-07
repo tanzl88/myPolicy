@@ -8,6 +8,7 @@ angular.module('popupPicker', []).directive('popupPicker', function () {
             var parentScope = findParentService.findByFunctionName($scope,"initVar");
             $scope.popupPicker = {};
             $scope.popupData = $parse($attrs.ngData)($scope);
+            console.log($scope.popupData);
 
             // ---------------- MODAL FUNCTION ----------------
             $scope.showPopupPicker = function () {
